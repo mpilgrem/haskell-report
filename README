@@ -1,3 +1,15 @@
+This is a fork of the repository for the Haskell 2010 Report. The original is
+preserved in locked branch `master`.
+
+The purpose of the fork is to explore the creation of a 'Haskell 2024 Report': a
+report that corresponds to the Haskell 2010 Report, if the GHC language
+extensions in the `GHC2024` language edition were part of the language.
+
+The document does not claim to be a definition of the languages Haskell 98 or
+Haskell 2010.
+
+--------------------------------------------------------------------------------
+
 Haskell Report README
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -33,7 +45,7 @@ The following are also required for building the tools:
 
 The HTML version additionally requires
 
-  - tex4ht (e.g. install 'tex4ht' on a Debian or Ubuntu system, or 
+  - tex4ht (e.g. install 'tex4ht' on a Debian or Ubuntu system, or
             'tetex-tex4ht' on a Fedora system)
 
 Building the report
@@ -53,7 +65,7 @@ Then you should be able to say
 This will create:
 
    - PDF version: report/haskell.pdf
-   
+
    - HTML version: report/ht/haskell.html
      (NB. requires report/ht/*.{html,png,css})
 
@@ -65,14 +77,12 @@ SOURCE FILES
 
     report/		The Language and Libraries Reports (now together
 			in a single document)
-    
+
     tools/		Tools needed to build the Reports
 		    	(cd into here and type make)
-    
+
     Makefile		Build a distribution of the Reports
 
 
 .verb files
 ~~~~~~~~~~~
-
-
