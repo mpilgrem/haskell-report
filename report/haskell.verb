@@ -366,6 +366,13 @@
 % Macros for Haddock output
 \usepackage{haddock}
 
+% TeX4ht workaround: LaTeX's \partokencontext setting sends tex4ht's table code
+% into an infinite loop. Fixed upstream 2025-12-14; MiKTeX's tex4ht.sty is from
+% 2023-10-04, so we apply the fix here:
+%
+% See https://github.com/MiKTeX/miktex/issues/1731
+\ifdefined\partokencontext \partokencontext=0 \fi
+
 \begin{document}
 
 \input{iso-chars}
