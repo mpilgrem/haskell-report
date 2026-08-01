@@ -135,13 +135,12 @@ sub grokForIndexEntries { # in $_
     local($save_line);
     local($goodies,@goodie);
 
-    $* = 1;
     $save_line = $_;	# restore at the end
     $_ = $SaveForIndexing;
 
     # rm comments and blank lines
     s/--.*//g;
-    s/^\s*\n//g;
+    s/^\s*\n//gm;
 
 #print STDERR "to index: $SaveForIndexing\n";
 
@@ -149,7 +148,7 @@ sub grokForIndexEntries { # in $_
     s/,\s*\n/,/g;
 
     # now, we are deeply interested in type signatures
-    while (/^\s*([a-z\(].*)::/) {
+    while (/^\s*([a-z\(].*)::/m) {
     	$goodies = $1;
 	$goodies =~ s/[ \t]//g;
 	# ADR Hack:
@@ -161,20 +160,20 @@ sub grokForIndexEntries { # in $_
 	    push(@indexentries, split(/\s*,\s*/,$goodies));
 #print STDERR "goodies: $goodies ;; @indexentries\n";
 	}
-	s/^\s*[a-z\(].*:://;
+	s/^\s*[a-z\(].*:://m;
     }
 
     # we are modestly interested in other things
     # record exact index entries in specialentries; otherwise indexentries
 
-    while (/^\s*(module|interface|import)\s+([A-Z][A-Za-z0-9_']*)(\s*)/) {
+    while (/^\s*(module|interface|import)\s+([A-Z][A-Za-z0-9_']*)(\s*)/m) {
     	local($before) = $1; local($thing) = $2; local($after) = $3;
 
 	push(@specialentries, "$thing\@\@{\\tt  $thing} (module)");
-	s/^\s*$before\s+$thing$after//;
+	s/^\s*$before\s+$thing$after//m;
     }
 
-    while (/^\s*infix.?\s+[0-9]\s+(.*)/) {
+    while (/^\s*infix.?\s+[0-9]\s+(.*)/m) {
     	$goodies = $1;
 	$goodies =~ s/[ \t]//g;
 	# convert to magic form required for printing
@@ -185,10 +184,10 @@ sub grokForIndexEntries { # in $_
 	    push(@indexentries, $g);
 	}
 #print STDERR "goodies: $goodies ;; @indexentries\n";
-	s/^\s*infix.*//;
+	s/^\s*infix.*//m;
     }
 
-    while (/^\s*class\s+(.*)\s+([A-Z][A-Za-z0-9_']*)\s+[a-z]\s+where\s*$/) {
+    while (/^\s*class\s+(.*)\s+([A-Z][A-Za-z0-9_']*)\s+[a-z]\s+where\s*$/m) {
     	local($context) = $1; local($class) = $2;
 
         push(@specialentries, "$class\@\@{\\tt  $class} (class)");
@@ -201,10 +200,10 @@ sub grokForIndexEntries { # in $_
 		push(@specialentries, "$g\@\@{\\tt  $g} (class)!superclass of {\\tt $class}");
 	    }
 	}
-	s/^\s*class//;
+	s/^\s*class//m;
     }
 
-    while (/^\s*instance\s+(.*)\s+where\s*$/) {
+    while (/^\s*instance\s+(.*)\s+where\s*$/m) {
 	local($stuff) = $1;
 	local($class); local($ty);
 
@@ -222,21 +221,21 @@ sub grokForIndexEntries { # in $_
 	} else {
 	    print STDERR "!!! didn't grok instance: $stuff\n";
 	}
-	s/^\s*instance\s+//;
+	s/^\s*instance\s+//m;
     }
 
-    while (/^\s*data\s+([A-Z][A-Za-z0-9_']*)(\s*)/) {
+    while (/^\s*data\s+([A-Z][A-Za-z0-9_']*)(\s*)/m) {
 	local($tycon) = $1;
 
 	push(@specialentries, "$tycon\@\@{\\tt  $tycon} (datatype)");
-	s/^\s*data\s+//;
+	s/^\s*data\s+//m;
     }
 
-    while (/^\s*type\s+([A-Z][A-Za-z0-9_']*)(\s*)/) {
+    while (/^\s*type\s+([A-Z][A-Za-z0-9_']*)(\s*)/m) {
 	local($tysyn) = $1;
 
 	push(@specialentries, "$tysyn\@\@{\\tt  $tysyn} (type synonym)");
-	s/^\s*type\s+//;
+	s/^\s*type\s+//m;
     }
 
 
