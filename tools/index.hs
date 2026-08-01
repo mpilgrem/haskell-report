@@ -94,7 +94,7 @@ expandLink r _ (t,'#':l') = expandRef r t l'
 expandLink _ _ (l,l') = error ("Bad link: " ++ l ++ l' ++ "\n")
 
 trySig :: Refs -> String -> String -> String -> String -> String
-trySig r txt v rest n =
+trySig r txt v rest _n =
    let c = parseClass rest
        n = mangleTycon c
        f = lookup n r in
