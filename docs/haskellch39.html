@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>39 System.Environment</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch40.html" >next</a>] [<a 
+href="haskellch38.html" >prev</a>] [<a 
+href="haskellch38.html#tailhaskellch38.html" >prev-tail</a>] [<a 
+href="#tailhaskellch39.html">tail</a>] [<a 
+href="haskellpa2.html#haskellch39.html" >up</a>] </p></div>
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;39</span><br /><a 
+ id="x47-32500039"></a><span 
+class="pcrr8t-">System.Environment</span></h2>
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-466">
+module&#x00A0;System.Environment&#x00A0;(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;getArgs,&#x00A0;&#x00A0;getProgName,&#x00A0;&#x00A0;getEnv
+&#x00A0;&#x00A0;)&#x00A0;where
+</pre>
+     <p class="noindent"></blockquote>
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-638" class="tabular" 
+ 
+><colgroup id="TBL-638-1g"><col 
+id="TBL-638-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-638-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-638-1-1"  
+class="td11"><span 
+class="pcrb8t-">getArgs</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;IO</span><span 
+class="pcrb8t-">&#x00A0;[String] </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Computation <span 
+class="pcrr8t-">getArgs</span><a 
+ id="dx47-325001"></a> returns a list of the program&#8217;s command line arguments (not including the
+     program name).
+     </dl>
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-639" class="tabular" 
+ 
+><colgroup id="TBL-639-1g"><col 
+id="TBL-639-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-639-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-639-1-1"  
+class="td11"><span 
+class="pcrb8t-">getProgName</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;IO</span><span 
+class="pcrb8t-">&#x00A0;String </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Computation <span 
+class="pcrr8t-">getProgName</span><a 
+ id="dx47-325002"></a> returns the name of the program as it was invoked.
+     <p class="noindent"> However, this is hard-to-impossible to implement on some non-Unix OSes, so instead, for maximum
+     portability, we just return the leafname of the program as invoked. Even then there are some differences
+     between platforms: on Windows, for example, a program invoked as foo is probably really <span 
+class="pcrr8t-">FOO.EXE</span>,
+     and that is what <span 
+class="pcrr8t-">getProgName</span><a 
+ id="dx47-325003"></a> will return.
+     </dl>
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-640" class="tabular" 
+ 
+><colgroup id="TBL-640-1g"><col 
+id="TBL-640-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-640-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-640-1-1"  
+class="td11"><span 
+class="pcrb8t-">getEnv</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;String</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;IO</span><span 
+class="pcrb8t-">&#x00A0;String </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Computation <span 
+class="pcrr8t-">getEnv</span><a 
+ id="dx47-325004"></a><span 
+class="pcrr8t-">var </span>returns the value of the environment variable <span 
+class="pcrr8t-">var</span>.
+     <p class="noindent"> This computation may fail with:
+         <ul class="itemize1">
+         <li class="itemize">
+         <p class="noindent"> <span 
+class="pcrr8t-">System.IO.Error.isDoesNotExistError </span>if the environment variable does not exist.
+         </li></ul>
+     </dl>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch40.html" >next</a>] [<a 
+href="haskellch38.html" >prev</a>] [<a 
+href="haskellch38.html#tailhaskellch38.html" >prev-tail</a>] [<a 
+href="haskellch39.html" >front</a>] [<a 
+href="haskellpa2.html#haskellch39.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellch39.html"></a>  
+</body></html> 

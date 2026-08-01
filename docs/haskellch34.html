@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>34 Foreign.Marshal.Utils</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch35.html" >next</a>] [<a 
+href="haskellch33.html" >prev</a>] [<a 
+href="haskellch33.html#tailhaskellch33.html" >prev-tail</a>] [<a 
+href="#tailhaskellch34.html">tail</a>] [<a 
+href="haskellpa2.html#haskellch34.html" >up</a>] </p></div>
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;34</span><br /><a 
+ id="x42-30600034"></a><span 
+class="pcrr8t-">Foreign.Marshal.Utils</span></h2>
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-447">
+module&#x00A0;Foreign.Marshal.Utils&#x00A0;(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;with,&#x00A0;&#x00A0;new,&#x00A0;&#x00A0;fromBool,&#x00A0;&#x00A0;toBool,&#x00A0;&#x00A0;maybeNew,&#x00A0;&#x00A0;maybeWith,&#x00A0;&#x00A0;maybePeek,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;withMany,&#x00A0;&#x00A0;copyBytes,&#x00A0;&#x00A0;moveBytes
+&#x00A0;&#x00A0;)&#x00A0;where
+</pre>
+     <p class="noindent"></blockquote>
+<h3 class="sectionHead"><span class="titlemark">34.1    </span> <a 
+ id="x42-30700034.1"></a>General marshalling utilities </h3>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">34.1.1    </span> <a 
+ id="x42-30800034.1.1"></a>Combined allocation and marshalling </h4>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-569" class="tabular" 
+ 
+><colgroup id="TBL-569-1g"><col 
+id="TBL-569-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-569-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-569-1-1"  
+class="td11"><span 
+class="pcrb8t-">with</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Storable</span><span 
+class="pcrb8t-">&#x00A0;a</span><span 
+class="pcrb8t-">&#x00A0;=&gt;</span><span 
+class="pcrb8t-">&#x00A0;a</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;(Ptr</span><span 
+class="pcrb8t-">&#x00A0;a</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;IO</span><span 
+class="pcrb8t-">&#x00A0;b)</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;IO</span><span 
+class="pcrb8t-">&#x00A0;b </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     <span 
+class="pcrr8t-">with</span><span 
+class="pcrr8t-">&#x00A0;val</span><span 
+class="pcrr8t-">&#x00A0;f </span>executes the computation <span 
+class="pcrr8t-">f</span>, passing as argument a pointer to a temporarily allocated
+     block of memory into which <span 
+class="pcrr8t-">val </span>has been marshalled (the combination of <span 
+class="pcrr8t-">alloca</span><a 
+ id="dx42-308001"></a> and <span 
+class="pcrr8t-">poke</span><a 
+ id="dx42-308002"></a>).
+     <p class="noindent"> The memory is freed when <span 
+class="pcrr8t-">f </span>terminates (either normally or via an exception), so the pointer passed
+     to <span 
+class="pcrr8t-">f </span>must <span 
+class="ptmri8t-">not </span>be used after this.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-570" class="tabular" 
+ 
+><colgroup id="TBL-570-1g"><col 
+id="TBL-570-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-570-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-570-1-1"  
+class="td11"><span 
+class="pcrb8t-">new</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Storable</span><span 
+class="pcrb8t-">&#x00A0;a</span><span 
+class="pcrb8t-">&#x00A0;=&gt;</span><span 
+class="pcrb8t-">&#x00A0;a</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;IO</span><span 
+class="pcrb8t-">&#x00A0;(Ptr</span><span 
+class="pcrb8t-">&#x00A0;a) </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Allocate a block of memory and marshal a value into it (the combination of <span 
+class="pcrr8t-">malloc</span><a 
+ id="dx42-308003"></a> and <span 
+class="pcrr8t-">poke</span><a 
+ id="dx42-308004"></a>). The
+     size  of  the  area  allocated  is  determined  by  the  <span 
+class="pcrr8t-">Foreign.Storable.sizeOf </span>method  from  the
+     instance of <span 
+class="pcrr8t-">Storable</span><a 
+ id="dx42-308005"></a> for the appropriate type.
+       <p class="noindent">     The     memory     may     be     deallocated     using     <span 
+class="pcrr8t-">Foreign.Marshal.Alloc.free  </span>or
+     <span 
+class="pcrr8t-">Foreign.Marshal.Alloc.finalizerFree </span>when no longer required.
+     </dl>
+                                                                                   
+
+                                                                                   
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">34.1.2    </span> <a 
+ id="x42-30900034.1.2"></a>Marshalling of Boolean values (non-zero corresponds to <span 
+class="pcrr8t-">True</span>) </h4>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-571" class="tabular" 
+ 
+><colgroup id="TBL-571-1g"><col 
+id="TBL-571-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-571-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-571-1-1"  
+class="td11"><span 
+class="pcrb8t-">fromBool</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Num</span><span 
+class="pcrb8t-">&#x00A0;a</span><span 
+class="pcrb8t-">&#x00A0;=&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;a </span></td></tr></table>                                            </div> <dd class="haddockdesc">
+     Convert a Haskell <span 
+class="pcrr8t-">Bool</span><a 
+ id="dx42-309001"></a> to its numeric representation
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-572" class="tabular" 
+ 
+><colgroup id="TBL-572-1g"><col 
+id="TBL-572-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-572-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-572-1-1"  
+class="td11"><span 
+class="pcrb8t-">toBool</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Num</span><span 
+class="pcrb8t-">&#x00A0;a</span><span 
+class="pcrb8t-">&#x00A0;=&gt;</span><span 
+class="pcrb8t-">&#x00A0;a</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td></tr></table>                                              </div> <dd class="haddockdesc">
+     Convert a Boolean in numeric representation to a Haskell value
+     </dl>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">34.1.3    </span> <a 
+ id="x42-31000034.1.3"></a>Marshalling of Maybe values </h4>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-573" class="tabular" 
+ 
+><colgroup id="TBL-573-1g"><col 
+id="TBL-573-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-573-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-573-1-1"  
+class="td11"><span 
+class="pcrb8t-">maybeNew</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;(a</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;IO</span><span 
+class="pcrb8t-">&#x00A0;(Ptr</span><span 
+class="pcrb8t-">&#x00A0;a))</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Maybe</span><span 
+class="pcrb8t-">&#x00A0;a</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;IO</span><span 
+class="pcrb8t-">&#x00A0;(Ptr</span><span 
+class="pcrb8t-">&#x00A0;a) </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Allocate storage and marshal a storable value wrapped into a <span 
+class="pcrr8t-">Maybe</span><a 
+ id="dx42-310001"></a>
+         <ul class="itemize1">
+         <li class="itemize">
+         <p class="noindent"> the <span 
+class="pcrr8t-">nullPtr</span><a 
+ id="dx42-310002"></a> is used to represent <span 
+class="pcrr8t-">Nothing</span><a 
+ id="dx42-310003"></a>
+         </li></ul>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-574" class="tabular" 
+ 
+><colgroup id="TBL-574-1g"><col 
+id="TBL-574-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-574-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-574-1-1"  
+class="td11"><span 
+class="pcrb8t-">maybeWith</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;(a</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;(Ptr</span><span 
+class="pcrb8t-">&#x00A0;b</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;IO</span><span 
+class="pcrb8t-">&#x00A0;c)</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;IO</span><span 
+class="pcrb8t-">&#x00A0;c)       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-574-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-574-2-1"  
+class="td11"><span 
+class="pcrb8t-">&#x00A0;</span><span 
+class="pcrb8t-">&#x00A0;</span><span 
+class="pcrb8t-">&#x00A0;</span><span 
+class="pcrb8t-">&#x00A0;</span><span 
+class="pcrb8t-">&#x00A0;</span><span 
+class="pcrb8t-">&#x00A0;</span><span 
+class="pcrb8t-">&#x00A0;</span><span 
+class="pcrb8t-">&#x00A0;</span><span 
+class="pcrb8t-">&#x00A0;</span><span 
+class="pcrb8t-">&#x00A0;</span><span 
+class="pcrb8t-">&#x00A0;</span><span 
+class="pcrb8t-">&#x00A0;</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Maybe</span><span 
+class="pcrb8t-">&#x00A0;a</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;(Ptr</span><span 
+class="pcrb8t-">&#x00A0;b</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;IO</span><span 
+class="pcrb8t-">&#x00A0;c)</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;IO</span><span 
+class="pcrb8t-">&#x00A0;c </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Converts  a  <span 
+class="pcrr8t-">withXXX </span>combinator  into  one  marshalling  a  value  wrapped  into  a  <span 
+class="pcrr8t-">Maybe</span><a 
+ id="dx42-310004"></a>,  using
+     <span 
+class="pcrr8t-">nullPtr</span><a 
+ id="dx42-310005"></a> to represent <span 
+class="pcrr8t-">Nothing</span><a 
+ id="dx42-310006"></a>.
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-575" class="tabular" 
+ 
+><colgroup id="TBL-575-1g"><col 
+id="TBL-575-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-575-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-575-1-1"  
+class="td11"><span 
+class="pcrb8t-">maybePeek</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;(Ptr</span><span 
+class="pcrb8t-">&#x00A0;a</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;IO</span><span 
+class="pcrb8t-">&#x00A0;b)</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Ptr</span><span 
+class="pcrb8t-">&#x00A0;a</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;IO</span><span 
+class="pcrb8t-">&#x00A0;(Maybe</span><span 
+class="pcrb8t-">&#x00A0;b) </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Convert a peek combinator into a one returning <span 
+class="pcrr8t-">Nothing</span><a 
+ id="dx42-310007"></a> if applied to a <span 
+class="pcrr8t-">nullPtr</span><a 
+ id="dx42-310008"></a>
+     </dl>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">34.1.4    </span> <a 
+ id="x42-31100034.1.4"></a>Marshalling lists of storable objects </h4>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-576" class="tabular" 
+ 
+><colgroup id="TBL-576-1g"><col 
+id="TBL-576-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-576-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-576-1-1"  
+class="td11"><span 
+class="pcrb8t-">withMany</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;(a</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;(b</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;res)</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;res)</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;[a]</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;([b]</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;res)</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;res </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Replicates a <span 
+class="pcrr8t-">withXXX </span>combinator over a list of objects, yielding a list of marshalled objects
+     </dl>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">34.1.5    </span> <a 
+ id="x42-31200034.1.5"></a>Haskellish interface to memcpy and memmove </h4>
+<p class="noindent"> (argument order: destination, source)
+ <p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-577" class="tabular" 
+ 
+><colgroup id="TBL-577-1g"><col 
+id="TBL-577-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-577-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-577-1-1"  
+class="td11"><span 
+class="pcrb8t-">copyBytes</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Ptr</span><span 
+class="pcrb8t-">&#x00A0;a</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Ptr</span><span 
+class="pcrb8t-">&#x00A0;a</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Int</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;IO</span><span 
+class="pcrb8t-">&#x00A0;() </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Copies the given number of bytes from the second area (source) into the first (destination); the copied
+     areas may <span 
+class="ptmri8t-">not </span>overlap
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-578" class="tabular" 
+ 
+><colgroup id="TBL-578-1g"><col 
+id="TBL-578-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-578-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-578-1-1"  
+class="td11"><span 
+class="pcrb8t-">moveBytes</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Ptr</span><span 
+class="pcrb8t-">&#x00A0;a</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Ptr</span><span 
+class="pcrb8t-">&#x00A0;a</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Int</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;IO</span><span 
+class="pcrb8t-">&#x00A0;() </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Copies the given number of bytes from the second area (source) into the first (destination); the copied
+     areas <span 
+class="ptmri8t-">may </span>overlap
+     </dl>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch35.html" >next</a>] [<a 
+href="haskellch33.html" >prev</a>] [<a 
+href="haskellch33.html#tailhaskellch33.html" >prev-tail</a>] [<a 
+href="haskellch34.html" >front</a>] [<a 
+href="haskellpa2.html#haskellch34.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellch34.html"></a>    
+</body></html> 

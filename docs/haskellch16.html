@@ -1,0 +1,1086 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>16 Data.Char</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch17.html" >next</a>] [<a 
+href="haskellch15.html" >prev</a>] [<a 
+href="haskellch15.html#tailhaskellch15.html" >prev-tail</a>] [<a 
+href="#tailhaskellch16.html">tail</a>] [<a 
+href="haskellpa2.html#haskellch16.html" >up</a>] </p></div>
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;16</span><br /><a 
+ id="x24-21600016"></a><span 
+class="pcrr8t-">Data.Char</span></h2>
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-383">
+module&#x00A0;Data.Char&#x00A0;(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Char,&#x00A0;&#x00A0;String,&#x00A0;&#x00A0;isControl,&#x00A0;&#x00A0;isSpace,&#x00A0;&#x00A0;isLower,&#x00A0;&#x00A0;isUpper,&#x00A0;&#x00A0;isAlpha,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;isAlphaNum,&#x00A0;&#x00A0;isPrint,&#x00A0;&#x00A0;isDigit,&#x00A0;&#x00A0;isOctDigit,&#x00A0;&#x00A0;isHexDigit,&#x00A0;&#x00A0;isLetter,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;isMark,&#x00A0;&#x00A0;isNumber,&#x00A0;&#x00A0;isPunctuation,&#x00A0;&#x00A0;isSymbol,&#x00A0;&#x00A0;isSeparator,&#x00A0;&#x00A0;isAscii,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;isLatin1,&#x00A0;&#x00A0;isAsciiUpper,&#x00A0;&#x00A0;isAsciiLower,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;GeneralCategory(UppercaseLetter,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;LowercaseLetter,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;TitlecaseLetter,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;ModifierLetter,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;OtherLetter,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;NonSpacingMark,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;SpacingCombiningMark,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;EnclosingMark,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;DecimalNumber,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;LetterNumber,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;OtherNumber,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;ConnectorPunctuation,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;DashPunctuation,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;OpenPunctuation,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;ClosePunctuation,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;InitialQuote,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;FinalQuote,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;OtherPunctuation,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;MathSymbol,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;CurrencySymbol,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;ModifierSymbol,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;OtherSymbol,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Space,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;LineSeparator,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;ParagraphSeparator,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Control,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Format,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Surrogate,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;PrivateUse,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;NotAssigned),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;generalCategory,&#x00A0;&#x00A0;toUpper,&#x00A0;&#x00A0;toLower,&#x00A0;&#x00A0;toTitle,&#x00A0;&#x00A0;digitToInt,&#x00A0;&#x00A0;intToDigit,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;ord,&#x00A0;&#x00A0;chr,&#x00A0;&#x00A0;showLitChar,&#x00A0;&#x00A0;lexLitChar,&#x00A0;&#x00A0;readLitChar
+&#x00A0;&#x00A0;)&#x00A0;where
+</pre>
+     <p class="noindent"></blockquote>
+<h3 class="sectionHead"><span class="titlemark">16.1    </span> <a 
+ id="x24-21700016.1"></a>Characters and strings </h3>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-197" class="tabular" 
+ 
+><colgroup id="TBL-197-1g"><col 
+id="TBL-197-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-197-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-197-1-1"  
+class="td11"><span 
+class="pcrb8t-">data</span><span 
+class="pcrb8t-">&#x00A0;Char </span></td></tr></table>                                                                    </div> <dd class="haddockdesc">
+     The character type <span 
+class="pcrr8t-">Char</span><a 
+ id="dx24-217001"></a> is an enumeration whose values represent Unicode (or equivalently ISO/IEC
+     10646)  characters  (see  <a 
+href="http://www.unicode.org/" class="url" ><span 
+class="pcrr8t-">http://www.unicode.org/</span></a> for  details).  This  set  extends  the  ISO
+     8859-1  (Latin-1)  character  set  (the  first  256  charachers),  which  is  itself  an  extension  of  the  ASCII
+     character set (the first 128 characters). A character literal in Haskell has type <span 
+class="pcrr8t-">Char</span><a 
+ id="dx24-217002"></a>.
+      <p class="noindent">   To   convert   a   <span 
+class="pcrr8t-">Char</span><a 
+ id="dx24-217003"></a> to   or   from   the   corresponding   <span 
+class="pcrr8t-">Int</span><a 
+ id="dx24-217004"></a> value   defined   by   Unicode,   use
+     <span 
+class="pcrr8t-">Prelude.toEnum </span>and  <span 
+class="pcrr8t-">Prelude.fromEnum </span>from  the  <span 
+class="pcrr8t-">Prelude.Enum </span>class  respectively  (or
+     equivalently <span 
+class="pcrr8t-">ord </span>and <span 
+class="pcrr8t-">chr</span>).
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-198" class="tabular" 
+ 
+><colgroup id="TBL-198-1g"><col 
+id="TBL-198-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-198-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-198-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance</span><span 
+class="pcrb8t-">&#x00A0;Bounded</span><span 
+class="pcrb8t-">&#x00A0;Char </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-198-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-198-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance</span><span 
+class="pcrb8t-">&#x00A0;Enum</span><span 
+class="pcrb8t-">&#x00A0;Char</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-198-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-198-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance</span><span 
+class="pcrb8t-">&#x00A0;Eq</span><span 
+class="pcrb8t-">&#x00A0;Char       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-198-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-198-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance</span><span 
+class="pcrb8t-">&#x00A0;Ord</span><span 
+class="pcrb8t-">&#x00A0;Char      </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-198-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-198-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance</span><span 
+class="pcrb8t-">&#x00A0;Read</span><span 
+class="pcrb8t-">&#x00A0;Char     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-198-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-198-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance</span><span 
+class="pcrb8t-">&#x00A0;Show</span><span 
+class="pcrb8t-">&#x00A0;Char     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-198-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-198-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance</span><span 
+class="pcrb8t-">&#x00A0;Ix</span><span 
+class="pcrb8t-">&#x00A0;Char       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-198-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-198-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance</span><span 
+class="pcrb8t-">&#x00A0;Storable</span><span 
+class="pcrb8t-">&#x00A0;Char </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-199" class="tabular" 
+ 
+><colgroup id="TBL-199-1g"><col 
+id="TBL-199-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-199-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-199-1-1"  
+class="td11"><span 
+class="pcrb8t-">type</span><span 
+class="pcrb8t-">&#x00A0;String</span><span 
+class="pcrb8t-">&#x00A0;=</span><span 
+class="pcrb8t-">&#x00A0;[Char] </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     A <span 
+class="pcrr8t-">String</span><a 
+ id="dx24-217005"></a> is a list of characters. String constants in Haskell are values of type <span 
+class="pcrr8t-">String</span><a 
+ id="dx24-217006"></a>.
+     </dl>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">16.2    </span> <a 
+ id="x24-21800016.2"></a>Character classification </h3>
+<p class="noindent"> Unicode characters are divided into letters, numbers, marks, punctuation, symbols, separators (including spaces) and
+others (including control characters).
+ <p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-200" class="tabular" 
+ 
+><colgroup id="TBL-200-1g"><col 
+id="TBL-200-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-200-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-200-1-1"  
+class="td11"><span 
+class="pcrb8t-">isControl</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td></tr></table>                                                 </div> <dd class="haddockdesc">
+     Selects control characters, which are the non-printing characters of the Latin-1 subset of Unicode.
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-201" class="tabular" 
+ 
+><colgroup id="TBL-201-1g"><col 
+id="TBL-201-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-201-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-201-1-1"  
+class="td11"><span 
+class="pcrb8t-">isSpace</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Returns <span 
+class="pcrr8t-">True</span><a 
+ id="dx24-218001"></a> for any Unicode space character, and the control characters <span 
+class="pcrr8t-">\t</span>, <span 
+class="pcrr8t-">\n</span>, <span 
+class="pcrr8t-">\r</span>, <span 
+class="pcrr8t-">\f</span>, <span 
+class="pcrr8t-">\v</span>.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-202" class="tabular" 
+ 
+><colgroup id="TBL-202-1g"><col 
+id="TBL-202-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-202-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-202-1-1"  
+class="td11"><span 
+class="pcrb8t-">isLower</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td></tr></table>                                                    </div> <dd class="haddockdesc">
+     Selects lower-case alphabetic Unicode characters (letters).
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-203" class="tabular" 
+ 
+><colgroup id="TBL-203-1g"><col 
+id="TBL-203-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-203-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-203-1-1"  
+class="td11"><span 
+class="pcrb8t-">isUpper</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Selects upper-case or title-case alphabetic Unicode characters (letters). Title case is used by a small
+     number of letter ligatures like the single-character form of <span 
+class="ptmri8t-">Lj</span>.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-204" class="tabular" 
+ 
+><colgroup id="TBL-204-1g"><col 
+id="TBL-204-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-204-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-204-1-1"  
+class="td11"><span 
+class="pcrb8t-">isAlpha</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Selects  alphabetic  Unicode  characters  (lower-case,  upper-case  and  title-case  letters,  plus  letters  of
+     caseless scripts and modifiers letters). This function is equivalent to <span 
+class="pcrr8t-">Data.Char.isLetter</span>.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-205" class="tabular" 
+ 
+><colgroup id="TBL-205-1g"><col 
+id="TBL-205-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-205-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-205-1-1"  
+class="td11"><span 
+class="pcrb8t-">isAlphaNum</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Selects alphabetic or numeric digit Unicode characters.
+     <p class="noindent"> Note that numeric digits outside the ASCII range are selected by this function but not by <span 
+class="pcrr8t-">isDigit</span><a 
+ id="dx24-218002"></a>.
+     Such digits may be part of identifiers but are not used by the printer and reader to represent numbers.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-206" class="tabular" 
+ 
+><colgroup id="TBL-206-1g"><col 
+id="TBL-206-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-206-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-206-1-1"  
+class="td11"><span 
+class="pcrb8t-">isPrint</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td></tr></table>                                                    </div> <dd class="haddockdesc">
+     Selects printable Unicode characters (letters, numbers, marks, punctuation, symbols and spaces).
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-207" class="tabular" 
+ 
+><colgroup id="TBL-207-1g"><col 
+id="TBL-207-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-207-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-207-1-1"  
+class="td11"><span 
+class="pcrb8t-">isDigit</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Selects ASCII digits, i.e. <span 
+class="pcrr8t-">&#8217;0&#8217;</span>..<span 
+class="pcrr8t-">&#8217;9&#8217;</span>.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-208" class="tabular" 
+ 
+><colgroup id="TBL-208-1g"><col 
+id="TBL-208-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-208-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-208-1-1"  
+class="td11"><span 
+class="pcrb8t-">isOctDigit</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Selects ASCII octal digits, i.e. <span 
+class="pcrr8t-">&#8217;0&#8217;</span>..<span 
+class="pcrr8t-">&#8217;7&#8217;</span>.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-209" class="tabular" 
+ 
+><colgroup id="TBL-209-1g"><col 
+id="TBL-209-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-209-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-209-1-1"  
+class="td11"><span 
+class="pcrb8t-">isHexDigit</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Selects ASCII hexadecimal digits, i.e. <span 
+class="pcrr8t-">&#8217;0&#8217;</span>..<span 
+class="pcrr8t-">&#8217;9&#8217;</span>, <span 
+class="pcrr8t-">&#8217;a&#8217;</span>..<span 
+class="pcrr8t-">&#8217;f&#8217;</span>, <span 
+class="pcrr8t-">&#8217;A&#8217;</span>..<span 
+class="pcrr8t-">&#8217;F&#8217;</span>.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-210" class="tabular" 
+ 
+><colgroup id="TBL-210-1g"><col 
+id="TBL-210-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-210-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-210-1-1"  
+class="td11"><span 
+class="pcrb8t-">isLetter</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td></tr></table>                                                   </div> <dd class="haddockdesc">
+     Selects  alphabetic  Unicode  characters  (lower-case,  upper-case  and  title-case  letters,  plus  letters  of
+     caseless scripts and modifiers letters). This function is equivalent to <span 
+class="pcrr8t-">Data.Char.isAlpha</span>.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-211" class="tabular" 
+ 
+><colgroup id="TBL-211-1g"><col 
+id="TBL-211-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-211-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-211-1-1"  
+class="td11"><span 
+class="pcrb8t-">isMark</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td></tr></table>                                                     </div> <dd class="haddockdesc">
+     Selects Unicode mark characters, e.g. accents and the like, which combine with preceding letters.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-212" class="tabular" 
+ 
+><colgroup id="TBL-212-1g"><col 
+id="TBL-212-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-212-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-212-1-1"  
+class="td11"><span 
+class="pcrb8t-">isNumber</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td></tr></table>                                                   </div> <dd class="haddockdesc">
+     Selects Unicode numeric characters, including digits from various scripts, Roman numerals, etc.
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-213" class="tabular" 
+ 
+><colgroup id="TBL-213-1g"><col 
+id="TBL-213-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-213-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-213-1-1"  
+class="td11"><span 
+class="pcrb8t-">isPunctuation</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td></tr></table>                                             </div> <dd class="haddockdesc">
+     Selects Unicode punctuation characters, including various kinds of connectors, brackets and quotes.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-214" class="tabular" 
+ 
+><colgroup id="TBL-214-1g"><col 
+id="TBL-214-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-214-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-214-1-1"  
+class="td11"><span 
+class="pcrb8t-">isSymbol</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Selects Unicode symbol characters, including mathematical and currency symbols.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-215" class="tabular" 
+ 
+><colgroup id="TBL-215-1g"><col 
+id="TBL-215-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-215-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-215-1-1"  
+class="td11"><span 
+class="pcrb8t-">isSeparator</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Selects Unicode space and separator characters.
+     </dl>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">16.2.1    </span> <a 
+ id="x24-21900016.2.1"></a>Subranges </h4>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-216" class="tabular" 
+ 
+><colgroup id="TBL-216-1g"><col 
+id="TBL-216-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-216-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-216-1-1"  
+class="td11"><span 
+class="pcrb8t-">isAscii</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td></tr></table>                                                    </div> <dd class="haddockdesc">
+     Selects the first 128 characters of the Unicode character set, corresponding to the ASCII character set.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-217" class="tabular" 
+ 
+><colgroup id="TBL-217-1g"><col 
+id="TBL-217-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-217-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-217-1-1"  
+class="td11"><span 
+class="pcrb8t-">isLatin1</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td></tr></table>                                                   </div> <dd class="haddockdesc">
+     Selects the first 256 characters of the Unicode character set, corresponding to the ISO 8859-1 (Latin-1)
+     character set.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-218" class="tabular" 
+ 
+><colgroup id="TBL-218-1g"><col 
+id="TBL-218-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-218-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-218-1-1"  
+class="td11"><span 
+class="pcrb8t-">isAsciiUpper</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Selects ASCII upper-case letters, i.e. characters satisfying both <span 
+class="pcrr8t-">isAscii</span><a 
+ id="dx24-219001"></a> and <span 
+class="pcrr8t-">isUpper</span><a 
+ id="dx24-219002"></a>.
+     </dl>
+                                                                                   
+
+                                                                                   
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-219" class="tabular" 
+ 
+><colgroup id="TBL-219-1g"><col 
+id="TBL-219-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-219-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-219-1-1"  
+class="td11"><span 
+class="pcrb8t-">isAsciiLower</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Bool </span></td></tr></table>                                              </div> <dd class="haddockdesc">
+     Selects ASCII lower-case letters, i.e. characters satisfying both <span 
+class="pcrr8t-">isAscii</span><a 
+ id="dx24-219003"></a> and <span 
+class="pcrr8t-">isLower</span><a 
+ id="dx24-219004"></a>.
+     </dl>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">16.2.2    </span> <a 
+ id="x24-22000016.2.2"></a>Unicode general categories </h4>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-220" class="tabular" 
+ 
+><colgroup id="TBL-220-1g"><col 
+id="TBL-220-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-220-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-220-1-1"  
+class="td11"><span 
+class="pcrb8t-">data</span><span 
+class="pcrb8t-">&#x00A0;GeneralCategory </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     <!--tex4ht:inline--><div class="tabular"><table id="TBL-221" class="tabulary" 
+ 
+><colgroup id="TBL-221-1g"><col 
+id="TBL-221-1" /><col 
+id="TBL-221-2" /><col 
+id="TBL-221-3" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-221-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-1-1"  
+class="td11"> <span 
+class="pcrb8t-">= </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-1-2"  
+class="td11"> <span 
+class="pcrb8t-">UppercaseLetter      </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-1-3"  
+class="td11"> Lu: Letter, Uppercase                  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-2-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-2-2"  
+class="td11"> <span 
+class="pcrb8t-">LowercaseLetter      </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-2-3"  
+class="td11"> Ll: Letter, Lowercase                  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-3-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-3-2"  
+class="td11"> <span 
+class="pcrb8t-">TitlecaseLetter      </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-3-3"  
+class="td11"> Lt: Letter, Titlecase                     </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-4-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-4-2"  
+class="td11"> <span 
+class="pcrb8t-">ModifierLetter       </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-4-3"  
+class="td11"> Lm: Letter, Modifier                   </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-5-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-5-2"  
+class="td11"> <span 
+class="pcrb8t-">OtherLetter          </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-5-3"  
+class="td11"> Lo: Letter, Other                         </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-6-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-6-2"  
+class="td11"> <span 
+class="pcrb8t-">NonSpacingMark       </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-6-3"  
+class="td11"> Mn: Mark, Non-Spacing             </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-7-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-7-2"  
+class="td11"> <span 
+class="pcrb8t-">SpacingCombiningMark </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-7-3"  
+class="td11"> Mc: Mark, Spacing Combining  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-8-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-8-2"  
+class="td11"> <span 
+class="pcrb8t-">EnclosingMark        </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-8-3"  
+class="td11"> Me: Mark, Enclosing                  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-9-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-9-2"  
+class="td11"> <span 
+class="pcrb8t-">DecimalNumber        </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-9-3"  
+class="td11"> Nd: Number, Decimal                 </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-10-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-10-2"  
+class="td11"> <span 
+class="pcrb8t-">LetterNumber         </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-10-3"  
+class="td11"> Nl: Number, Letter                      </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-11-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-11-2"  
+class="td11"> <span 
+class="pcrb8t-">OtherNumber          </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-11-3"  
+class="td11"> No: Number, Other                     </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-12-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-12-2"  
+class="td11"> <span 
+class="pcrb8t-">ConnectorPunctuation </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-12-3"  
+class="td11"> Pc: Punctuation, Connector         </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-13-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-13-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-13-2"  
+class="td11"> <span 
+class="pcrb8t-">DashPunctuation      </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-13-3"  
+class="td11"> Pd: Punctuation, Dash                 </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-14-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-14-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-14-2"  
+class="td11"> <span 
+class="pcrb8t-">OpenPunctuation      </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-14-3"  
+class="td11"> Ps: Punctuation, Open                 </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-15-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-15-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-15-2"  
+class="td11"> <span 
+class="pcrb8t-">ClosePunctuation     </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-15-3"  
+class="td11"> Pe: Punctuation, Close                </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-16-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-16-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-16-2"  
+class="td11"> <span 
+class="pcrb8t-">InitialQuote         </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-16-3"  
+class="td11"> Pi: Punctuation, Initial quote      </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-17-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-17-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-17-2"  
+class="td11"> <span 
+class="pcrb8t-">FinalQuote           </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-17-3"  
+class="td11"> Pf: Punctuation, Final quote        </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-18-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-18-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-18-2"  
+class="td11"> <span 
+class="pcrb8t-">OtherPunctuation     </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-18-3"  
+class="td11"> Po: Punctuation, Other                </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-19-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-19-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-19-2"  
+class="td11"> <span 
+class="pcrb8t-">MathSymbol           </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-19-3"  
+class="td11"> Sm: Symbol, Math                      </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-20-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-20-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-20-2"  
+class="td11"> <span 
+class="pcrb8t-">CurrencySymbol       </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-20-3"  
+class="td11"> Sc: Symbol, Currency                 </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-21-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-21-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-21-2"  
+class="td11"> <span 
+class="pcrb8t-">ModifierSymbol       </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-21-3"  
+class="td11"> Sk: Symbol, Modifier                  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-22-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-22-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-22-2"  
+class="td11"> <span 
+class="pcrb8t-">OtherSymbol          </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-22-3"  
+class="td11"> So: Symbol, Other                       </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-23-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-23-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-23-2"  
+class="td11"> <span 
+class="pcrb8t-">Space                </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-23-3"  
+class="td11"> Zs: Separator, Space                    </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-24-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-24-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-24-2"  
+class="td11"> <span 
+class="pcrb8t-">LineSeparator        </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-24-3"  
+class="td11"> Zl: Separator, Line                      </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-25-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-25-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-25-2"  
+class="td11"> <span 
+class="pcrb8t-">ParagraphSeparator   </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-25-3"  
+class="td11"> Zp: Separator, Paragraph             </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-26-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-26-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-26-2"  
+class="td11"> <span 
+class="pcrb8t-">Control              </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-26-3"  
+class="td11"> Cc: Other, Control                       </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-27-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-27-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-27-2"  
+class="td11"> <span 
+class="pcrb8t-">Format               </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-27-3"  
+class="td11"> Cf: Other, Format                        </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-28-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-28-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-28-2"  
+class="td11"> <span 
+class="pcrb8t-">Surrogate            </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-28-3"  
+class="td11"> Cs: Other, Surrogate                    </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-29-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-29-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-29-2"  
+class="td11"> <span 
+class="pcrb8t-">PrivateUse           </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-29-3"  
+class="td11"> Co: Other, Private Use                </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-30-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-30-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-221-30-2"  
+class="td11"> <span 
+class="pcrb8t-">NotAssigned          </span></td><td  style="white-space:normal; text-align:left;" id="TBL-221-30-3"  
+class="td11"> Cn: Other, Not Assigned             </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-221-31-"><td  style="white-space:nowrap; text-align:left;" id="TBL-221-31-1"  
+class="td11">   </td></tr></table>                                                                   </div>
+     <p class="noindent"> Unicode General Categories (column 2 of the UnicodeData table) in the order they are listed in the Unicode
+     standard.
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-222" class="tabular" 
+ 
+><colgroup id="TBL-222-1g"><col 
+id="TBL-222-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-222-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-222-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance</span><span 
+class="pcrb8t-">&#x00A0;Bounded</span><span 
+class="pcrb8t-">&#x00A0;GeneralCategory </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-222-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-222-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance</span><span 
+class="pcrb8t-">&#x00A0;Enum</span><span 
+class="pcrb8t-">&#x00A0;GeneralCategory     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-222-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-222-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance</span><span 
+class="pcrb8t-">&#x00A0;Eq</span><span 
+class="pcrb8t-">&#x00A0;GeneralCategory       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-222-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-222-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance</span><span 
+class="pcrb8t-">&#x00A0;Ord</span><span 
+class="pcrb8t-">&#x00A0;GeneralCategory      </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-222-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-222-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance</span><span 
+class="pcrb8t-">&#x00A0;Read</span><span 
+class="pcrb8t-">&#x00A0;GeneralCategory     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-222-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-222-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance</span><span 
+class="pcrb8t-">&#x00A0;Show</span><span 
+class="pcrb8t-">&#x00A0;GeneralCategory     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-222-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-222-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance</span><span 
+class="pcrb8t-">&#x00A0;Ix</span><span 
+class="pcrb8t-">&#x00A0;GeneralCategory       </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-223" class="tabular" 
+ 
+><colgroup id="TBL-223-1g"><col 
+id="TBL-223-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-223-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-223-1-1"  
+class="td11"><span 
+class="pcrb8t-">generalCategory</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;GeneralCategory </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     The Unicode general category of the character.
+     </dl>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">16.3    </span> <a 
+ id="x24-22100016.3"></a>Case conversion </h3>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-224" class="tabular" 
+ 
+><colgroup id="TBL-224-1g"><col 
+id="TBL-224-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-224-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-224-1-1"  
+class="td11"><span 
+class="pcrb8t-">toUpper</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Char </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Convert  a  letter  to  the  corresponding  upper-case  letter,  if  any.  Any  other  character  is  returned
+     unchanged.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-225" class="tabular" 
+ 
+><colgroup id="TBL-225-1g"><col 
+id="TBL-225-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-225-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-225-1-1"  
+class="td11"><span 
+class="pcrb8t-">toLower</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Char </span></td></tr></table>                                                    </div> <dd class="haddockdesc">
+     Convert  a  letter  to  the  corresponding  lower-case  letter,  if  any.  Any  other  character  is  returned
+     unchanged.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-226" class="tabular" 
+ 
+><colgroup id="TBL-226-1g"><col 
+id="TBL-226-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-226-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-226-1-1"  
+class="td11"><span 
+class="pcrb8t-">toTitle</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Char </span></td></tr></table>                                                    </div> <dd class="haddockdesc">
+     Convert  a  letter  to  the  corresponding  title-case  or  upper-case  letter,  if  any.  (Title  case  differs  from
+     upper case only for a small number of ligature letters.) Any other character is returned unchanged.
+     </dl>
+                                                                                   
+
+                                                                                   
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">16.4    </span> <a 
+ id="x24-22200016.4"></a>Single digit characters </h3>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-227" class="tabular" 
+ 
+><colgroup id="TBL-227-1g"><col 
+id="TBL-227-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-227-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-227-1-1"  
+class="td11"><span 
+class="pcrb8t-">digitToInt</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Int </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Convert  a  single  digit  <span 
+class="pcrr8t-">Char</span><a 
+ id="dx24-222001"></a> to  the  corresponding  <span 
+class="pcrr8t-">Int</span><a 
+ id="dx24-222002"></a>.  This  function  fails  unless  its  argument
+     satisfies <span 
+class="pcrr8t-">isHexDigit</span><a 
+ id="dx24-222003"></a>, but recognises both upper and lower-case hexadecimal digits (i.e. <span 
+class="pcrr8t-">&#8217;0&#8217;</span>..<span 
+class="pcrr8t-">&#8217;9&#8217;</span>,
+     <span 
+class="pcrr8t-">&#8217;a&#8217;</span>..<span 
+class="pcrr8t-">&#8217;f&#8217;</span>, <span 
+class="pcrr8t-">&#8217;A&#8217;</span>..<span 
+class="pcrr8t-">&#8217;F&#8217;</span>).
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-228" class="tabular" 
+ 
+><colgroup id="TBL-228-1g"><col 
+id="TBL-228-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-228-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-228-1-1"  
+class="td11"><span 
+class="pcrb8t-">intToDigit</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Int</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Char </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Convert an <span 
+class="pcrr8t-">Int</span><a 
+ id="dx24-222004"></a> in the range <span 
+class="pcrr8t-">0</span>..<span 
+class="pcrr8t-">15 </span>to the corresponding single digit <span 
+class="pcrr8t-">Char</span><a 
+ id="dx24-222005"></a>. This function fails on other
+     inputs, and generates lower-case hexadecimal digits.
+     </dl>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">16.5    </span> <a 
+ id="x24-22300016.5"></a>Numeric representations </h3>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-229" class="tabular" 
+ 
+><colgroup id="TBL-229-1g"><col 
+id="TBL-229-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-229-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-229-1-1"  
+class="td11"><span 
+class="pcrb8t-">ord</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Int </span></td></tr></table>                                                         </div> <dd class="haddockdesc">
+     The <span 
+class="pcrr8t-">Prelude.fromEnum </span>method restricted to the type <span 
+class="pcrr8t-">Data.Char.Char</span>.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-230" class="tabular" 
+ 
+><colgroup id="TBL-230-1g"><col 
+id="TBL-230-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-230-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-230-1-1"  
+class="td11"><span 
+class="pcrb8t-">chr</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Int</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;Char </span></td></tr></table>                                                         </div> <dd class="haddockdesc">
+     The <span 
+class="pcrr8t-">Prelude.toEnum </span>method restricted to the type <span 
+class="pcrr8t-">Data.Char.Char</span>.
+     </dl>
+                                                                                   
+
+                                                                                   
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">16.6    </span> <a 
+ id="x24-22400016.6"></a>String representations </h3>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-231" class="tabular" 
+ 
+><colgroup id="TBL-231-1g"><col 
+id="TBL-231-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-231-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-231-1-1"  
+class="td11"><span 
+class="pcrb8t-">showLitChar</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;Char</span><span 
+class="pcrb8t-">&#x00A0;-&gt;</span><span 
+class="pcrb8t-">&#x00A0;ShowS </span></td></tr></table>                                              </div> <dd class="haddockdesc">
+     Convert a character to a string using only printable characters, using Haskell source-language escape
+     conventions. For example:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-384">
+&#x00A0;showLitChar&#x00A0;&#8217;\n&#8217;&#x00A0;s&#x00A0;&#x00A0;=&#x00A0;&#x00A0;"\\n"&#x00A0;++&#x00A0;s
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-232" class="tabular" 
+ 
+><colgroup id="TBL-232-1g"><col 
+id="TBL-232-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-232-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-232-1-1"  
+class="td11"><span 
+class="pcrb8t-">lexLitChar</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;ReadS</span><span 
+class="pcrb8t-">&#x00A0;String </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Read a string representation of a character, using Haskell source-language escape conventions. For
+     example:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-385">
+&#x00A0;lexLitChar&#x00A0;&#x00A0;"\\nHello"&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[("\\n",&#x00A0;"Hello")]
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-233" class="tabular" 
+ 
+><colgroup id="TBL-233-1g"><col 
+id="TBL-233-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-233-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-233-1-1"  
+class="td11"><span 
+class="pcrb8t-">readLitChar</span><span 
+class="pcrb8t-">&#x00A0;::</span><span 
+class="pcrb8t-">&#x00A0;ReadS</span><span 
+class="pcrb8t-">&#x00A0;Char </span></td></tr></table>                                                 </div> <dd class="haddockdesc">
+     Read a string representation of a character, using Haskell source-language escape conventions, and
+     convert it to the character that it encodes. For example:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-386">
+&#x00A0;readLitChar&#x00A0;"\\nHello"&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[(&#8217;\n&#8217;,&#x00A0;"Hello")]
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch17.html" >next</a>] [<a 
+href="haskellch15.html" >prev</a>] [<a 
+href="haskellch15.html#tailhaskellch15.html" >prev-tail</a>] [<a 
+href="haskellch16.html" >front</a>] [<a 
+href="haskellpa2.html#haskellch16.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellch16.html"></a>   
+</body> </html> 

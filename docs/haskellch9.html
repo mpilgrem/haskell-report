@@ -1,0 +1,2518 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>9 Standard Prelude</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 7--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch10.html" >next</a>] [<a 
+href="haskellch8.html" >prev</a>] [<a 
+href="haskellch8.html#tailhaskellch8.html" >prev-tail</a>] [<a 
+href="#tailhaskellch9.html">tail</a>] [<a 
+href="haskellpa1.html#haskellch9.html" >up</a>] </p></div>
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;9</span><br /><a 
+ id="x16-1750009"></a>Standard Prelude</h2>
+<p class="noindent"> In this chapter the entire Haskell Prelude is given. It constitutes a <span 
+class="ptmri8t-">specification </span>for the Prelude. Many of the
+definitions are written with clarity rather than efficiency in mind, and it is not required that the specification be
+implemented as shown here.
+ <p class="noindent"> The default method definitions, given with <span 
+class="pcrr8t-">class</span> declarations, constitute a specification <span 
+class="ptmri8t-">only </span>of the default
+method. They do not constitute a specification of the meaning of the method in all instances. To take one
+particular example, the default method for <span 
+class="pcrr8t-">enumFrom</span> in class <span 
+class="pcrr8t-">Enum</span> will not work properly for types
+whose range exceeds that of <span 
+class="pcrr8t-">Int</span> (because <span 
+class="pcrr8t-">fromEnum</span> cannot map all values in the type to distinct <span 
+class="pcrr8t-">Int</span>
+values).
+ <p class="noindent"> The Prelude shown here is organized into a root module, <span 
+class="pcrr8t-">Prelude</span>, and three sub-modules, <span 
+class="pcrr8t-">PreludeList</span>,
+<span 
+class="pcrr8t-">PreludeText</span>, and <span 
+class="pcrr8t-">PreludeIO</span>. This structure is purely presentational. An implementation is not required to use
+this organisation for the Prelude, nor are these three modules available for import separately. Only the exports of
+module <span 
+class="pcrr8t-">Prelude</span> are significant.
+ <p class="noindent"> Some of these modules import Library modules, such as <span 
+class="pcrr8t-">Data.Char</span>, <span 
+class="pcrr8t-">Control.Monad</span>, <span 
+class="pcrr8t-">System.IO</span>, and
+<span 
+class="pcrr8t-">Numeric</span>. These modules are described fully in Part&#x00A0;<a 
+href="haskellpa2.html#x20-199000II">II<!--tex4ht:ref: libraries --></a>. These imports are not, of course, part of the specification of
+the <span 
+class="pcrr8t-">Prelude</span>. That is, an implementation is free to import more, or less, of the Library modules, as it
+pleases.
+ <p class="noindent"> Primitives that are not definable in Haskell, indicated by names starting with &#8220;<span 
+class="pcrr8t-">prim</span>&#8221;, are defined in a system
+dependent manner in module <span 
+class="pcrr8t-">PreludeBuiltin</span> and are not shown here. Instance declarations that simply bind
+primitives to class methods are omitted. Some of the more verbose instances with obvious functionality have been left
+out for the sake of brevity.
+ <p class="noindent"> Declarations for special types such as <span 
+class="pcrr8t-">Integer</span>, or <span 
+class="pcrr8t-">()</span> are included in the Prelude for completeness even though
+the declaration may be incomplete or syntactically invalid. An ellipsis &#8220;<span 
+class="pcrr8t-">...</span>&#8221; is often used in places where the
+remainder of a definition cannot be given in Haskell.
+ <p class="noindent"> To reduce the occurrence of unexpected ambiguity errors, and to improve efficiency, a number of
+commonly-used functions over lists use the <span 
+class="pcrr8t-">Int</span> type rather than using a more general numeric type, such as
+<span 
+class="pcrr8t-">Integral</span><span 
+class="pcrr8t-">&#x00A0;a</span> or <span 
+class="pcrr8t-">Num</span><span 
+class="pcrr8t-">&#x00A0;a</span>. These functions are: <span 
+class="pcrr8t-">take</span>, <span 
+class="pcrr8t-">drop</span>, <span 
+class="pcrr8t-">!!</span>, <span 
+class="pcrr8t-">length</span>, <span 
+class="pcrr8t-">splitAt</span>, and <span 
+class="pcrr8t-">replicate</span>. The
+more general versions are given in the <span 
+class="pcrr8t-">Data.List</span> library, with the prefix &#8220;<span 
+class="pcrr8t-">generic</span>&#8221;; for example
+<span 
+class="pcrr8t-">genericLength</span>.
+                                                                                   
+
+                                                                                   
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-160">
+module&#x00A0;Prelude&#x00A0;(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;module&#x00A0;PreludeList,&#x00A0;module&#x00A0;PreludeText,&#x00A0;module&#x00A0;PreludeIO,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Bool(False,&#x00A0;True),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Maybe(Nothing,&#x00A0;Just),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Either(Left,&#x00A0;Right),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Ordering(LT,&#x00A0;EQ,&#x00A0;GT),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Char,&#x00A0;String,&#x00A0;Int,&#x00A0;Integer,&#x00A0;Float,&#x00A0;Double,&#x00A0;Rational,&#x00A0;IO,
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175001"></a><a 
+ id="dx16-175002"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-161">
+--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;These&#x00A0;built-in&#x00A0;types&#x00A0;are&#x00A0;defined&#x00A0;in&#x00A0;the&#x00A0;Prelude,&#x00A0;but
+--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;are&#x00A0;denoted&#x00A0;by&#x00A0;built-in&#x00A0;syntax,&#x00A0;and&#x00A0;cannot&#x00A0;legally
+--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;appear&#x00A0;in&#x00A0;an&#x00A0;export&#x00A0;list.
+--&#x00A0;&#x00A0;List&#x00A0;type:&#x00A0;[]((:),&#x00A0;[])
+--&#x00A0;&#x00A0;Tuple&#x00A0;types:&#x00A0;(,)((,)),&#x00A0;(,,)((,,)),&#x00A0;etc.
+--&#x00A0;&#x00A0;Trivial&#x00A0;type:&#x00A0;()(())
+--&#x00A0;&#x00A0;Functions:&#x00A0;(-&gt;)
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Eq((==),&#x00A0;(/=)),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Ord(compare,&#x00A0;(&lt;),&#x00A0;(&lt;=),&#x00A0;(&gt;=),&#x00A0;(&gt;),&#x00A0;max,&#x00A0;min),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Enum(succ,&#x00A0;pred,&#x00A0;toEnum,&#x00A0;fromEnum,&#x00A0;enumFrom,&#x00A0;enumFromThen,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFromTo,&#x00A0;enumFromThenTo),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Bounded(minBound,&#x00A0;maxBound),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Num((+),&#x00A0;(-),&#x00A0;(*),&#x00A0;negate,&#x00A0;abs,&#x00A0;signum,&#x00A0;fromInteger),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Real(toRational),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Integral(quot,&#x00A0;rem,&#x00A0;div,&#x00A0;mod,&#x00A0;quotRem,&#x00A0;divMod,&#x00A0;toInteger),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Fractional((/),&#x00A0;recip,&#x00A0;fromRational),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Floating(pi,&#x00A0;exp,&#x00A0;log,&#x00A0;sqrt,&#x00A0;(**),&#x00A0;logBase,&#x00A0;sin,&#x00A0;cos,&#x00A0;tan,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;asin,&#x00A0;acos,&#x00A0;atan,&#x00A0;sinh,&#x00A0;cosh,&#x00A0;tanh,&#x00A0;asinh,&#x00A0;acosh,&#x00A0;atanh),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;RealFrac(properFraction,&#x00A0;truncate,&#x00A0;round,&#x00A0;ceiling,&#x00A0;floor),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;RealFloat(floatRadix,&#x00A0;floatDigits,&#x00A0;floatRange,&#x00A0;decodeFloat,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;encodeFloat,&#x00A0;exponent,&#x00A0;significand,&#x00A0;scaleFloat,&#x00A0;isNaN,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;isInfinite,&#x00A0;isDenormalized,&#x00A0;isIEEE,&#x00A0;isNegativeZero,&#x00A0;atan2),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Monad((&gt;&gt;=),&#x00A0;(&gt;&gt;),&#x00A0;return,&#x00A0;fail),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Functor(fmap),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;mapM,&#x00A0;mapM_,&#x00A0;sequence,&#x00A0;sequence_,&#x00A0;(=&lt;&lt;),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;maybe,&#x00A0;either,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(&amp;&amp;),&#x00A0;(||),&#x00A0;not,&#x00A0;otherwise,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;subtract,&#x00A0;even,&#x00A0;odd,&#x00A0;gcd,&#x00A0;lcm,&#x00A0;(^),&#x00A0;(^^),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fromIntegral,&#x00A0;realToFrac,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fst,&#x00A0;snd,&#x00A0;curry,&#x00A0;uncurry,&#x00A0;id,&#x00A0;const,&#x00A0;(.),&#x00A0;flip,&#x00A0;($),&#x00A0;until,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;asTypeOf,&#x00A0;error,&#x00A0;undefined,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;seq,&#x00A0;($!)
+&#x00A0;&#x00A0;)&#x00A0;where
+</pre>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-162">
+import&#x00A0;PreludeBuiltin&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Contains&#x00A0;all&#x00A0;&#8216;prim&#8217;&#x00A0;values
+import&#x00A0;UnicodePrims(&#x00A0;primUnicodeMaxChar&#x00A0;)&#x00A0;&#x00A0;--&#x00A0;Unicode&#x00A0;primitives
+import&#x00A0;PreludeList
+import&#x00A0;PreludeText
+import&#x00A0;PreludeIO
+import&#x00A0;Data.Ratio(&#x00A0;Rational&#x00A0;)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175003"></a><a 
+ id="dx16-175004"></a><a 
+ id="dx16-175005"></a><a 
+ id="dx16-175006"></a><a 
+ id="dx16-175007"></a><a 
+ id="dx16-175008"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-163">
+infixr&#x00A0;9&#x00A0;&#x00A0;.
+infixr&#x00A0;8&#x00A0;&#x00A0;^,&#x00A0;^^,&#x00A0;**
+infixl&#x00A0;7&#x00A0;&#x00A0;*,&#x00A0;/,&#x00A0;&#8216;quot&#8216;,&#x00A0;&#8216;rem&#8216;,&#x00A0;&#8216;div&#8216;,&#x00A0;&#8216;mod&#8216;
+infixl&#x00A0;6&#x00A0;&#x00A0;+,&#x00A0;-
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175009"></a><a 
+ id="dx16-175010"></a><a 
+ id="dx16-175011"></a><a 
+ id="dx16-175012"></a><a 
+ id="dx16-175013"></a><a 
+ id="dx16-175014"></a><a 
+ id="dx16-175015"></a><a 
+ id="dx16-175016"></a><a 
+ id="dx16-175017"></a><a 
+ id="dx16-175018"></a><a 
+ id="dx16-175019"></a><a 
+ id="dx16-175020"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-164">
+--&#x00A0;The&#x00A0;(:)&#x00A0;operator&#x00A0;is&#x00A0;built-in&#x00A0;syntax,&#x00A0;and&#x00A0;cannot&#x00A0;legally&#x00A0;be&#x00A0;given
+--&#x00A0;a&#x00A0;fixity&#x00A0;declaration;&#x00A0;but&#x00A0;its&#x00A0;fixity&#x00A0;is&#x00A0;given&#x00A0;by:
+--&#x00A0;&#x00A0;&#x00A0;infixr&#x00A0;5&#x00A0;&#x00A0;:
+
+infix&#x00A0;&#x00A0;4&#x00A0;&#x00A0;==,&#x00A0;/=,&#x00A0;&lt;,&#x00A0;&lt;=,&#x00A0;&gt;=,&#x00A0;&gt;
+infixr&#x00A0;3&#x00A0;&#x00A0;&amp;&amp;
+infixr&#x00A0;2&#x00A0;&#x00A0;||
+infixl&#x00A0;1&#x00A0;&#x00A0;&gt;&gt;,&#x00A0;&gt;&gt;=
+infixr&#x00A0;1&#x00A0;&#x00A0;=&lt;&lt;
+infixr&#x00A0;0&#x00A0;&#x00A0;$,&#x00A0;$!,&#x00A0;&#8216;seq&#8216;
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175021"></a><a 
+ id="dx16-175022"></a><a 
+ id="dx16-175023"></a><a 
+ id="dx16-175024"></a><a 
+ id="dx16-175025"></a><a 
+ id="dx16-175026"></a><a 
+ id="dx16-175027"></a><a 
+ id="dx16-175028"></a><a 
+ id="dx16-175029"></a><a 
+ id="dx16-175030"></a><a 
+ id="dx16-175031"></a><a 
+ id="dx16-175032"></a><a 
+ id="dx16-175033"></a><a 
+ id="dx16-175034"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-165">
+--&#x00A0;Standard&#x00A0;types,&#x00A0;classes,&#x00A0;instances&#x00A0;and&#x00A0;related&#x00A0;functions
+
+--&#x00A0;Equality&#x00A0;and&#x00A0;Ordered&#x00A0;classes
+
+class&#x00A0;&#x00A0;Eq&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(==),&#x00A0;(/=)&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;Bool
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Minimal&#x00A0;complete&#x00A0;definition:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(==)&#x00A0;or&#x00A0;(/=)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;x&#x00A0;/=&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;not&#x00A0;(x&#x00A0;==&#x00A0;y)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;x&#x00A0;==&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;not&#x00A0;(x&#x00A0;/=&#x00A0;y)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175035"></a><a 
+ id="dx16-175036"></a><a 
+ id="dx16-175037"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-166">
+class&#x00A0;&#x00A0;(Eq&#x00A0;a)&#x00A0;=&gt;&#x00A0;Ord&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;compare&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;Ordering
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(&lt;),&#x00A0;(&lt;=),&#x00A0;(&gt;=),&#x00A0;(&gt;)&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;Bool
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;max,&#x00A0;min&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Minimal&#x00A0;complete&#x00A0;definition:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(&lt;=)&#x00A0;or&#x00A0;compare
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Using&#x00A0;compare&#x00A0;can&#x00A0;be&#x00A0;more&#x00A0;efficient&#x00A0;for&#x00A0;complex&#x00A0;types.
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;compare&#x00A0;x&#x00A0;y
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;x&#x00A0;==&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;EQ
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;x&#x00A0;&lt;=&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;LT
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;=&#x00A0;&#x00A0;GT
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;x&#x00A0;&lt;=&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;compare&#x00A0;x&#x00A0;y&#x00A0;/=&#x00A0;GT
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;x&#x00A0;&lt;&#x00A0;&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;compare&#x00A0;x&#x00A0;y&#x00A0;==&#x00A0;LT
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;x&#x00A0;&gt;=&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;compare&#x00A0;x&#x00A0;y&#x00A0;/=&#x00A0;LT
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;x&#x00A0;&gt;&#x00A0;&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;compare&#x00A0;x&#x00A0;y&#x00A0;==&#x00A0;GT
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175038"></a><a 
+ id="dx16-175039"></a><a 
+ id="dx16-175040"></a><a 
+ id="dx16-175041"></a><a 
+ id="dx16-175042"></a><a 
+ id="dx16-175043"></a><a 
+ id="dx16-175044"></a><a 
+ id="dx16-175045"></a><a 
+ id="dx16-175046"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-167">
+--&#x00A0;note&#x00A0;that&#x00A0;(min&#x00A0;x&#x00A0;y,&#x00A0;max&#x00A0;x&#x00A0;y)&#x00A0;=&#x00A0;(x,y)&#x00A0;or&#x00A0;(y,x)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;max&#x00A0;x&#x00A0;y
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;x&#x00A0;&lt;=&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;y
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;=&#x00A0;&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;min&#x00A0;x&#x00A0;y
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;x&#x00A0;&lt;=&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;=&#x00A0;&#x00A0;y
+</pre>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-168">
+--&#x00A0;Enumeration&#x00A0;and&#x00A0;Bounded&#x00A0;classes
+
+class&#x00A0;&#x00A0;Enum&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;succ,&#x00A0;pred&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;toEnum&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Int&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fromEnum&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;Int
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFrom&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;[a]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;[n..]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFromThen&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;[a]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;[n,n&#8217;..]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFromTo&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;[a]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;[n..m]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFromThenTo&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;[a]&#x00A0;&#x00A0;&#x00A0;--&#x00A0;[n,n&#8217;..m]
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Minimal&#x00A0;complete&#x00A0;definition:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;toEnum,&#x00A0;fromEnum
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;NOTE:&#x00A0;these&#x00A0;default&#x00A0;methods&#x00A0;only&#x00A0;make&#x00A0;sense&#x00A0;for&#x00A0;types
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;that&#x00A0;map&#x00A0;injectively&#x00A0;into&#x00A0;Int&#x00A0;using&#x00A0;fromEnum
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;and&#x00A0;toEnum.
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;succ&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;toEnum&#x00A0;.&#x00A0;(+1)&#x00A0;.&#x00A0;fromEnum
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;pred&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;toEnum&#x00A0;.&#x00A0;(subtract&#x00A0;1)&#x00A0;.&#x00A0;fromEnum
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFrom&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;map&#x00A0;toEnum&#x00A0;[fromEnum&#x00A0;x&#x00A0;..]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFromTo&#x00A0;x&#x00A0;y&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;map&#x00A0;toEnum&#x00A0;[fromEnum&#x00A0;x&#x00A0;..&#x00A0;fromEnum&#x00A0;y]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFromThen&#x00A0;x&#x00A0;y&#x00A0;=&#x00A0;&#x00A0;map&#x00A0;toEnum&#x00A0;[fromEnum&#x00A0;x,&#x00A0;fromEnum&#x00A0;y&#x00A0;..]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFromThenTo&#x00A0;x&#x00A0;y&#x00A0;z&#x00A0;=
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;map&#x00A0;toEnum&#x00A0;[fromEnum&#x00A0;x,&#x00A0;fromEnum&#x00A0;y&#x00A0;..&#x00A0;fromEnum&#x00A0;z]
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175047"></a><a 
+ id="dx16-175048"></a><a 
+ id="dx16-175049"></a><a 
+ id="dx16-175050"></a><a 
+ id="dx16-175051"></a><a 
+ id="dx16-175052"></a><a 
+ id="dx16-175053"></a><a 
+ id="dx16-175054"></a><a 
+ id="dx16-175055"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-169">
+class&#x00A0;&#x00A0;Bounded&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;minBound&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;maxBound&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175056"></a><a 
+ id="dx16-175057"></a><a 
+ id="dx16-175058"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-170">
+--&#x00A0;Numeric&#x00A0;classes
+
+class&#x00A0;&#x00A0;(Eq&#x00A0;a,&#x00A0;Show&#x00A0;a)&#x00A0;=&gt;&#x00A0;Num&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(+),&#x00A0;(-),&#x00A0;(*)&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;negate&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;abs,&#x00A0;signum&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fromInteger&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Integer&#x00A0;-&gt;&#x00A0;a
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Minimal&#x00A0;complete&#x00A0;definition:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;All,&#x00A0;except&#x00A0;negate&#x00A0;or&#x00A0;(-)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;x&#x00A0;-&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x&#x00A0;+&#x00A0;negate&#x00A0;y
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;negate&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;0&#x00A0;-&#x00A0;x
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175059"></a><a 
+ id="dx16-175060"></a><a 
+ id="dx16-175061"></a><a 
+ id="dx16-175062"></a><a 
+ id="dx16-175063"></a><a 
+ id="dx16-175064"></a><a 
+ id="dx16-175065"></a><a 
+ id="dx16-175066"></a><a 
+ id="dx16-175067"></a><a 
+ id="dx16-175068"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-171">
+class&#x00A0;&#x00A0;(Num&#x00A0;a,&#x00A0;Ord&#x00A0;a)&#x00A0;=&gt;&#x00A0;Real&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;toRational&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;&#x00A0;a&#x00A0;-&gt;&#x00A0;Rational
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175069"></a><a 
+ id="dx16-175070"></a><a 
+ id="dx16-175071"></a><a 
+ id="dx16-175072"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-172">
+class&#x00A0;&#x00A0;(Real&#x00A0;a,&#x00A0;Enum&#x00A0;a)&#x00A0;=&gt;&#x00A0;Integral&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;quot,&#x00A0;rem&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;div,&#x00A0;mod&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;quotRem,&#x00A0;divMod&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;(a,a)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;toInteger&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;Integer
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Minimal&#x00A0;complete&#x00A0;definition:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;quotRem,&#x00A0;toInteger
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;n&#x00A0;&#8216;quot&#8216;&#x00A0;d&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;q&#x00A0;&#x00A0;where&#x00A0;(q,r)&#x00A0;=&#x00A0;quotRem&#x00A0;n&#x00A0;d
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;n&#x00A0;&#8216;rem&#8216;&#x00A0;d&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;r&#x00A0;&#x00A0;where&#x00A0;(q,r)&#x00A0;=&#x00A0;quotRem&#x00A0;n&#x00A0;d
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;n&#x00A0;&#8216;div&#8216;&#x00A0;d&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;q&#x00A0;&#x00A0;where&#x00A0;(q,r)&#x00A0;=&#x00A0;divMod&#x00A0;n&#x00A0;d
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;n&#x00A0;&#8216;mod&#8216;&#x00A0;d&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;r&#x00A0;&#x00A0;where&#x00A0;(q,r)&#x00A0;=&#x00A0;divMod&#x00A0;n&#x00A0;d
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;divMod&#x00A0;n&#x00A0;d&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;if&#x00A0;signum&#x00A0;r&#x00A0;==&#x00A0;-&#x00A0;signum&#x00A0;d&#x00A0;then&#x00A0;(q-1,&#x00A0;r+d)&#x00A0;else&#x00A0;qr
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;qr@(q,r)&#x00A0;=&#x00A0;quotRem&#x00A0;n&#x00A0;d
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175073"></a><a 
+ id="dx16-175074"></a><a 
+ id="dx16-175075"></a><a 
+ id="dx16-175076"></a><a 
+ id="dx16-175077"></a><a 
+ id="dx16-175078"></a><a 
+ id="dx16-175079"></a><a 
+ id="dx16-175080"></a><a 
+ id="dx16-175081"></a><a 
+ id="dx16-175082"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-173">
+class&#x00A0;&#x00A0;(Num&#x00A0;a)&#x00A0;=&gt;&#x00A0;Fractional&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(/)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;recip&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fromRational&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Rational&#x00A0;-&gt;&#x00A0;a
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Minimal&#x00A0;complete&#x00A0;definition:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;fromRational&#x00A0;and&#x00A0;(recip&#x00A0;or&#x00A0;(/))
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;recip&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;1&#x00A0;/&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;x&#x00A0;/&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x&#x00A0;*&#x00A0;recip&#x00A0;y
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175083"></a><a 
+ id="dx16-175084"></a><a 
+ id="dx16-175085"></a><a 
+ id="dx16-175086"></a><a 
+ id="dx16-175087"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-174">
+class&#x00A0;&#x00A0;(Fractional&#x00A0;a)&#x00A0;=&gt;&#x00A0;Floating&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;pi&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;exp,&#x00A0;log,&#x00A0;sqrt&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(**),&#x00A0;logBase&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;sin,&#x00A0;cos,&#x00A0;tan&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;asin,&#x00A0;acos,&#x00A0;atan&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;sinh,&#x00A0;cosh,&#x00A0;tanh&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;asinh,&#x00A0;acosh,&#x00A0;atanh&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Minimal&#x00A0;complete&#x00A0;definition:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;pi,&#x00A0;exp,&#x00A0;log,&#x00A0;sin,&#x00A0;cos,&#x00A0;sinh,&#x00A0;cosh
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;asin,&#x00A0;acos,&#x00A0;atan
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;asinh,&#x00A0;acosh,&#x00A0;atanh
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;x&#x00A0;**&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;exp&#x00A0;(log&#x00A0;x&#x00A0;*&#x00A0;y)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;logBase&#x00A0;x&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;log&#x00A0;y&#x00A0;/&#x00A0;log&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;sqrt&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x&#x00A0;**&#x00A0;0.5
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;tan&#x00A0;&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;sin&#x00A0;&#x00A0;x&#x00A0;/&#x00A0;cos&#x00A0;&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;tanh&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;sinh&#x00A0;x&#x00A0;/&#x00A0;cosh&#x00A0;x
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175088"></a><a 
+ id="dx16-175089"></a><a 
+ id="dx16-175090"></a><a 
+ id="dx16-175091"></a><a 
+ id="dx16-175092"></a><a 
+ id="dx16-175093"></a><a 
+ id="dx16-175094"></a><a 
+ id="dx16-175095"></a><a 
+ id="dx16-175096"></a><a 
+ id="dx16-175097"></a><a 
+ id="dx16-175098"></a><a 
+ id="dx16-175099"></a><a 
+ id="dx16-175100"></a><a 
+ id="dx16-175101"></a><a 
+ id="dx16-175102"></a><a 
+ id="dx16-175103"></a><a 
+ id="dx16-175104"></a><a 
+ id="dx16-175105"></a><a 
+ id="dx16-175106"></a><a 
+ id="dx16-175107"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-175">
+class&#x00A0;&#x00A0;(Real&#x00A0;a,&#x00A0;Fractional&#x00A0;a)&#x00A0;=&gt;&#x00A0;RealFrac&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;properFraction&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Integral&#x00A0;b)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;(b,a)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;truncate,&#x00A0;round&#x00A0;&#x00A0;::&#x00A0;(Integral&#x00A0;b)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;ceiling,&#x00A0;floor&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Integral&#x00A0;b)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Minimal&#x00A0;complete&#x00A0;definition:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;properFraction
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;truncate&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;m&#x00A0;&#x00A0;where&#x00A0;(m,_)&#x00A0;=&#x00A0;properFraction&#x00A0;x
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;round&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;let&#x00A0;(n,r)&#x00A0;=&#x00A0;properFraction&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;m&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;if&#x00A0;r&#x00A0;&lt;&#x00A0;0&#x00A0;then&#x00A0;n&#x00A0;-&#x00A0;1&#x00A0;else&#x00A0;n&#x00A0;+&#x00A0;1
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;in&#x00A0;case&#x00A0;signum&#x00A0;(abs&#x00A0;r&#x00A0;-&#x00A0;0.5)&#x00A0;of
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;-1&#x00A0;-&gt;&#x00A0;n
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;0&#x00A0;&#x00A0;-&gt;&#x00A0;if&#x00A0;even&#x00A0;n&#x00A0;then&#x00A0;n&#x00A0;else&#x00A0;m
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;1&#x00A0;&#x00A0;-&gt;&#x00A0;m
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;ceiling&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;if&#x00A0;r&#x00A0;&gt;&#x00A0;0&#x00A0;then&#x00A0;n&#x00A0;+&#x00A0;1&#x00A0;else&#x00A0;n
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;(n,r)&#x00A0;=&#x00A0;properFraction&#x00A0;x
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;floor&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;if&#x00A0;r&#x00A0;&lt;&#x00A0;0&#x00A0;then&#x00A0;n&#x00A0;-&#x00A0;1&#x00A0;else&#x00A0;n
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;(n,r)&#x00A0;=&#x00A0;properFraction&#x00A0;x
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175108"></a><a 
+ id="dx16-175109"></a><a 
+ id="dx16-175110"></a><a 
+ id="dx16-175111"></a><a 
+ id="dx16-175112"></a><a 
+ id="dx16-175113"></a><a 
+ id="dx16-175114"></a><a 
+ id="dx16-175115"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-176">
+class&#x00A0;&#x00A0;(RealFrac&#x00A0;a,&#x00A0;Floating&#x00A0;a)&#x00A0;=&gt;&#x00A0;RealFloat&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;floatRadix&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;Integer
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;floatDigits&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;Int
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;floatRange&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;(Int,Int)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;decodeFloat&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;(Integer,Int)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;encodeFloat&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Integer&#x00A0;-&gt;&#x00A0;Int&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;exponent&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;Int
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;significand&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;scaleFloat&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Int&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;isNaN,&#x00A0;isInfinite,&#x00A0;isDenormalized,&#x00A0;isNegativeZero,&#x00A0;isIEEE
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;Bool
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;atan2&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Minimal&#x00A0;complete&#x00A0;definition:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;All&#x00A0;except&#x00A0;exponent,&#x00A0;significand,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;scaleFloat,&#x00A0;atan2
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;exponent&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;if&#x00A0;m&#x00A0;==&#x00A0;0&#x00A0;then&#x00A0;0&#x00A0;else&#x00A0;n&#x00A0;+&#x00A0;floatDigits&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;(m,n)&#x00A0;=&#x00A0;decodeFloat&#x00A0;x
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;significand&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;encodeFloat&#x00A0;m&#x00A0;(-&#x00A0;floatDigits&#x00A0;x)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;(m,_)&#x00A0;=&#x00A0;decodeFloat&#x00A0;x
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;scaleFloat&#x00A0;k&#x00A0;x&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;encodeFloat&#x00A0;m&#x00A0;(n+k)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;(m,n)&#x00A0;=&#x00A0;decodeFloat&#x00A0;x
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;atan2&#x00A0;y&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;x&gt;0&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;atan&#x00A0;(y/x)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;x==0&#x00A0;&amp;&amp;&#x00A0;y&gt;0&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;pi/2
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;x&lt;0&#x00A0;&#x00A0;&amp;&amp;&#x00A0;y&gt;0&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;pi&#x00A0;+&#x00A0;atan&#x00A0;(y/x)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|(x&lt;=0&#x00A0;&amp;&amp;&#x00A0;y&lt;0)&#x00A0;&#x00A0;||
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(x&lt;0&#x00A0;&amp;&amp;&#x00A0;isNegativeZero&#x00A0;y)&#x00A0;||
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(isNegativeZero&#x00A0;x&#x00A0;&amp;&amp;&#x00A0;isNegativeZero&#x00A0;y)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;-atan2&#x00A0;(-y)&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;y==0&#x00A0;&amp;&amp;&#x00A0;(x&lt;0&#x00A0;||&#x00A0;isNegativeZero&#x00A0;x)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;pi&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;must&#x00A0;be&#x00A0;after&#x00A0;the&#x00A0;previous&#x00A0;test&#x00A0;on&#x00A0;zero&#x00A0;y
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;x==0&#x00A0;&amp;&amp;&#x00A0;y==0&#x00A0;&#x00A0;=&#x00A0;&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;must&#x00A0;be&#x00A0;after&#x00A0;the&#x00A0;other&#x00A0;double&#x00A0;zero&#x00A0;tests
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x&#x00A0;+&#x00A0;y&#x00A0;--&#x00A0;x&#x00A0;or&#x00A0;y&#x00A0;is&#x00A0;a&#x00A0;NaN,&#x00A0;return&#x00A0;a&#x00A0;NaN&#x00A0;(via&#x00A0;+)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175116"></a><a 
+ id="dx16-175117"></a><a 
+ id="dx16-175118"></a><a 
+ id="dx16-175119"></a><a 
+ id="dx16-175120"></a><a 
+ id="dx16-175121"></a><a 
+ id="dx16-175122"></a><a 
+ id="dx16-175123"></a><a 
+ id="dx16-175124"></a><a 
+ id="dx16-175125"></a><a 
+ id="dx16-175126"></a><a 
+ id="dx16-175127"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-177">
+--&#x00A0;Numeric&#x00A0;functions
+
+subtract&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Num&#x00A0;a)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+subtract&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;flip&#x00A0;(-)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175128"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-178">
+even,&#x00A0;odd&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Integral&#x00A0;a)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;Bool
+even&#x00A0;n&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;n&#x00A0;&#8216;rem&#8216;&#x00A0;2&#x00A0;==&#x00A0;0
+odd&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;not&#x00A0;.&#x00A0;even
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175129"></a><a 
+ id="dx16-175130"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-179">
+gcd&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Integral&#x00A0;a)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+gcd&#x00A0;0&#x00A0;0&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;error&#x00A0;"Prelude.gcd:&#x00A0;gcd&#x00A0;0&#x00A0;0&#x00A0;is&#x00A0;undefined"
+gcd&#x00A0;x&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;gcd&#8217;&#x00A0;(abs&#x00A0;x)&#x00A0;(abs&#x00A0;y)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;gcd&#8217;&#x00A0;x&#x00A0;0&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;gcd&#8217;&#x00A0;x&#x00A0;y&#x00A0;&#x00A0;=&#x00A0;&#x00A0;gcd&#8217;&#x00A0;y&#x00A0;(x&#x00A0;&#8216;rem&#8216;&#x00A0;y)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175131"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-180">
+lcm&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Integral&#x00A0;a)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+lcm&#x00A0;_&#x00A0;0&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;0
+lcm&#x00A0;0&#x00A0;_&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;0
+lcm&#x00A0;x&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;abs&#x00A0;((x&#x00A0;&#8216;quot&#8216;&#x00A0;(gcd&#x00A0;x&#x00A0;y))&#x00A0;*&#x00A0;y)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175132"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-181">
+(^)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Num&#x00A0;a,&#x00A0;Integral&#x00A0;b)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;a
+x&#x00A0;^&#x00A0;0&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;1
+x&#x00A0;^&#x00A0;n&#x00A0;|&#x00A0;n&#x00A0;&gt;&#x00A0;0&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;f&#x00A0;x&#x00A0;(n-1)&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;f&#x00A0;_&#x00A0;0&#x00A0;y&#x00A0;=&#x00A0;y
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;f&#x00A0;x&#x00A0;n&#x00A0;y&#x00A0;=&#x00A0;g&#x00A0;x&#x00A0;n&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;g&#x00A0;x&#x00A0;n&#x00A0;|&#x00A0;even&#x00A0;n&#x00A0;&#x00A0;=&#x00A0;g&#x00A0;(x*x)&#x00A0;(n&#x00A0;&#8216;quot&#8216;&#x00A0;2)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;=&#x00A0;f&#x00A0;x&#x00A0;(n-1)&#x00A0;(x*y)
+_&#x00A0;^&#x00A0;_&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;error&#x00A0;"Prelude.^:&#x00A0;negative&#x00A0;exponent"
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175133"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-182">
+(^^)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Fractional&#x00A0;a,&#x00A0;Integral&#x00A0;b)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;a
+x&#x00A0;^^&#x00A0;n&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;if&#x00A0;n&#x00A0;&gt;=&#x00A0;0&#x00A0;then&#x00A0;x^n&#x00A0;else&#x00A0;recip&#x00A0;(x^(-n))
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175134"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-183">
+fromIntegral&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Integral&#x00A0;a,&#x00A0;Num&#x00A0;b)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b
+fromIntegral&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;fromInteger&#x00A0;.&#x00A0;toInteger
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175135"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-184">
+realToFrac&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Real&#x00A0;a,&#x00A0;Fractional&#x00A0;b)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b
+realToFrac&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;fromRational&#x00A0;.&#x00A0;toRational
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175136"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-185">
+--&#x00A0;Monadic&#x00A0;classes
+
+class&#x00A0;&#x00A0;Functor&#x00A0;f&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fmap&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;b)&#x00A0;-&gt;&#x00A0;f&#x00A0;a&#x00A0;-&gt;&#x00A0;f&#x00A0;b
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175137"></a><a 
+ id="dx16-175138"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-186">
+class&#x00A0;&#x00A0;Monad&#x00A0;m&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(&gt;&gt;=)&#x00A0;&#x00A0;::&#x00A0;m&#x00A0;a&#x00A0;-&gt;&#x00A0;(a&#x00A0;-&gt;&#x00A0;m&#x00A0;b)&#x00A0;-&gt;&#x00A0;m&#x00A0;b
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(&gt;&gt;)&#x00A0;&#x00A0;&#x00A0;::&#x00A0;m&#x00A0;a&#x00A0;-&gt;&#x00A0;m&#x00A0;b&#x00A0;-&gt;&#x00A0;m&#x00A0;b
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;return&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;m&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fail&#x00A0;&#x00A0;&#x00A0;::&#x00A0;String&#x00A0;-&gt;&#x00A0;m&#x00A0;a
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Minimal&#x00A0;complete&#x00A0;definition:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(&gt;&gt;=),&#x00A0;return
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;m&#x00A0;&gt;&gt;&#x00A0;k&#x00A0;&#x00A0;=&#x00A0;&#x00A0;m&#x00A0;&gt;&gt;=&#x00A0;\_&#x00A0;-&gt;&#x00A0;k
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fail&#x00A0;s&#x00A0;&#x00A0;=&#x00A0;error&#x00A0;s
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175139"></a><a 
+ id="dx16-175140"></a><a 
+ id="dx16-175141"></a><a 
+ id="dx16-175142"></a><a 
+ id="dx16-175143"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-187">
+sequence&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Monad&#x00A0;m&#x00A0;=&gt;&#x00A0;[m&#x00A0;a]&#x00A0;-&gt;&#x00A0;m&#x00A0;[a]
+sequence&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;foldr&#x00A0;mcons&#x00A0;(return&#x00A0;[])
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;mcons&#x00A0;p&#x00A0;q&#x00A0;=&#x00A0;p&#x00A0;&gt;&gt;=&#x00A0;\x&#x00A0;-&gt;&#x00A0;q&#x00A0;&gt;&gt;=&#x00A0;\y&#x00A0;-&gt;&#x00A0;return&#x00A0;(x:y)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175144"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-188">
+sequence_&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Monad&#x00A0;m&#x00A0;=&gt;&#x00A0;[m&#x00A0;a]&#x00A0;-&gt;&#x00A0;m&#x00A0;()
+sequence_&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;foldr&#x00A0;(&gt;&gt;)&#x00A0;(return&#x00A0;())
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175145"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-189">
+--&#x00A0;The&#x00A0;xxxM&#x00A0;functions&#x00A0;take&#x00A0;list&#x00A0;arguments,&#x00A0;but&#x00A0;lift&#x00A0;the&#x00A0;function&#x00A0;or
+--&#x00A0;list&#x00A0;element&#x00A0;to&#x00A0;a&#x00A0;monad&#x00A0;type
+mapM&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Monad&#x00A0;m&#x00A0;=&gt;&#x00A0;(a&#x00A0;-&gt;&#x00A0;m&#x00A0;b)&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;m&#x00A0;[b]
+mapM&#x00A0;f&#x00A0;as&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;sequence&#x00A0;(map&#x00A0;f&#x00A0;as)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175146"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-190">
+mapM_&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Monad&#x00A0;m&#x00A0;=&gt;&#x00A0;(a&#x00A0;-&gt;&#x00A0;m&#x00A0;b)&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;m&#x00A0;()
+mapM_&#x00A0;f&#x00A0;as&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;sequence_&#x00A0;(map&#x00A0;f&#x00A0;as)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175147"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-191">
+(=&lt;&lt;)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Monad&#x00A0;m&#x00A0;=&gt;&#x00A0;(a&#x00A0;-&gt;&#x00A0;m&#x00A0;b)&#x00A0;-&gt;&#x00A0;m&#x00A0;a&#x00A0;-&gt;&#x00A0;m&#x00A0;b
+f&#x00A0;=&lt;&lt;&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x&#x00A0;&gt;&gt;=&#x00A0;f
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175148"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-192">
+--&#x00A0;Trivial&#x00A0;type
+
+data&#x00A0;&#x00A0;()&#x00A0;&#x00A0;=&#x00A0;&#x00A0;()&#x00A0;&#x00A0;deriving&#x00A0;(Eq,&#x00A0;Ord,&#x00A0;Enum,&#x00A0;Bounded)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Not&#x00A0;legal&#x00A0;Haskell;&#x00A0;for&#x00A0;illustration&#x00A0;only
+</pre>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-193">
+--&#x00A0;Function&#x00A0;type
+
+--&#x00A0;identity&#x00A0;function
+id&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+id&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175149"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-194">
+--&#x00A0;constant&#x00A0;function
+const&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;a
+const&#x00A0;x&#x00A0;_&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175150"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-195">
+--&#x00A0;function&#x00A0;composition
+(.)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(b&#x00A0;-&gt;&#x00A0;c)&#x00A0;-&gt;&#x00A0;(a&#x00A0;-&gt;&#x00A0;b)&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;c
+f&#x00A0;.&#x00A0;g&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;\&#x00A0;x&#x00A0;-&gt;&#x00A0;f&#x00A0;(g&#x00A0;x)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175151"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-196">
+--&#x00A0;flip&#x00A0;f&#x00A0;&#x00A0;takes&#x00A0;its&#x00A0;(first)&#x00A0;two&#x00A0;arguments&#x00A0;in&#x00A0;the&#x00A0;reverse&#x00A0;order&#x00A0;of&#x00A0;f.
+flip&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;c)&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;c
+flip&#x00A0;f&#x00A0;x&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;f&#x00A0;y&#x00A0;x
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175152"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-197">
+seq&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;b
+seq&#x00A0;=&#x00A0;...&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Primitive
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175153"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-198">
+--&#x00A0;right-associating&#x00A0;infix&#x00A0;application&#x00A0;operators
+--&#x00A0;(useful&#x00A0;in&#x00A0;continuation-passing&#x00A0;style)
+($),&#x00A0;($!)&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;b)&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b
+f&#x00A0;$&#x00A0;&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;f&#x00A0;x
+f&#x00A0;$!&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x&#x00A0;&#8216;seq&#8216;&#x00A0;f&#x00A0;x
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175154"></a><a 
+ id="dx16-175155"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-199">
+--&#x00A0;Boolean&#x00A0;type
+
+data&#x00A0;&#x00A0;Bool&#x00A0;&#x00A0;=&#x00A0;&#x00A0;False&#x00A0;|&#x00A0;True&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;deriving&#x00A0;(Eq,&#x00A0;Ord,&#x00A0;Enum,&#x00A0;Read,&#x00A0;Show,&#x00A0;Bounded)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175156"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-200">
+--&#x00A0;Boolean&#x00A0;functions
+
+(&amp;&amp;),&#x00A0;(||)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Bool&#x00A0;-&gt;&#x00A0;Bool&#x00A0;-&gt;&#x00A0;Bool
+True&#x00A0;&#x00A0;&amp;&amp;&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x
+False&#x00A0;&amp;&amp;&#x00A0;_&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;False
+True&#x00A0;&#x00A0;||&#x00A0;_&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;True
+False&#x00A0;||&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175157"></a><a 
+ id="dx16-175158"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-201">
+not&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Bool&#x00A0;-&gt;&#x00A0;Bool
+not&#x00A0;True&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;False
+not&#x00A0;False&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;True
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175159"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-202">
+otherwise&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Bool
+otherwise&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;True
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175160"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-203">
+--&#x00A0;Character&#x00A0;type
+
+data&#x00A0;Char&#x00A0;=&#x00A0;...&#x00A0;&#8217;a&#8217;&#x00A0;|&#x00A0;&#8217;b&#8217;&#x00A0;...&#x00A0;--&#x00A0;Unicode&#x00A0;values
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175161"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-204">
+instance&#x00A0;&#x00A0;Eq&#x00A0;Char&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;c&#x00A0;==&#x00A0;c&#8217;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;fromEnum&#x00A0;c&#x00A0;==&#x00A0;fromEnum&#x00A0;c&#8217;
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175162"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-205">
+instance&#x00A0;&#x00A0;Ord&#x00A0;Char&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;c&#x00A0;&lt;=&#x00A0;c&#8217;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;fromEnum&#x00A0;c&#x00A0;&lt;=&#x00A0;fromEnum&#x00A0;c&#8217;
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175163"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-206">
+instance&#x00A0;&#x00A0;Enum&#x00A0;Char&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;toEnum&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;primIntToChar
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fromEnum&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;primCharToInt
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFrom&#x00A0;c&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;map&#x00A0;toEnum&#x00A0;[fromEnum&#x00A0;c&#x00A0;..&#x00A0;fromEnum&#x00A0;(maxBound::Char)]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFromThen&#x00A0;c&#x00A0;c&#8217;&#x00A0;=&#x00A0;map&#x00A0;toEnum&#x00A0;[fromEnum&#x00A0;c,&#x00A0;fromEnum&#x00A0;c&#8217;&#x00A0;..&#x00A0;fromEnum&#x00A0;lastChar]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;lastChar&#x00A0;::&#x00A0;Char
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;lastChar&#x00A0;|&#x00A0;c&#8217;&#x00A0;&lt;&#x00A0;c&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;minBound
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;=&#x00A0;maxBound
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175164"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-207">
+instance&#x00A0;&#x00A0;Bounded&#x00A0;Char&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;minBound&#x00A0;&#x00A0;=&#x00A0;&#x00A0;&#8217;\0&#8217;
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;maxBound&#x00A0;&#x00A0;=&#x00A0;&#x00A0;primUnicodeMaxChar
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175165"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-208">
+type&#x00A0;&#x00A0;String&#x00A0;=&#x00A0;[Char]
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175166"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-209">
+--&#x00A0;Maybe&#x00A0;type
+
+data&#x00A0;&#x00A0;Maybe&#x00A0;a&#x00A0;&#x00A0;=&#x00A0;&#x00A0;Nothing&#x00A0;|&#x00A0;Just&#x00A0;a&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;deriving&#x00A0;(Eq,&#x00A0;Ord,&#x00A0;Read,&#x00A0;Show)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175167"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-210">
+maybe&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;b&#x00A0;-&gt;&#x00A0;(a&#x00A0;-&gt;&#x00A0;b)&#x00A0;-&gt;&#x00A0;Maybe&#x00A0;a&#x00A0;-&gt;&#x00A0;b
+maybe&#x00A0;n&#x00A0;f&#x00A0;Nothing&#x00A0;&#x00A0;=&#x00A0;&#x00A0;n
+maybe&#x00A0;n&#x00A0;f&#x00A0;(Just&#x00A0;x)&#x00A0;=&#x00A0;&#x00A0;f&#x00A0;x
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175168"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-211">
+instance&#x00A0;&#x00A0;Functor&#x00A0;Maybe&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fmap&#x00A0;f&#x00A0;Nothing&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;Nothing
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fmap&#x00A0;f&#x00A0;(Just&#x00A0;x)&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;Just&#x00A0;(f&#x00A0;x)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175169"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-212">
+instance&#x00A0;&#x00A0;Monad&#x00A0;Maybe&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(Just&#x00A0;x)&#x00A0;&gt;&gt;=&#x00A0;k&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;k&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Nothing&#x00A0;&#x00A0;&gt;&gt;=&#x00A0;k&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;Nothing
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;return&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;Just
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fail&#x00A0;s&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;Nothing
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175170"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-213">
+--&#x00A0;Either&#x00A0;type
+
+data&#x00A0;&#x00A0;Either&#x00A0;a&#x00A0;b&#x00A0;&#x00A0;=&#x00A0;&#x00A0;Left&#x00A0;a&#x00A0;|&#x00A0;Right&#x00A0;b&#x00A0;&#x00A0;&#x00A0;deriving&#x00A0;(Eq,&#x00A0;Ord,&#x00A0;Read,&#x00A0;Show)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175171"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-214">
+either&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;c)&#x00A0;-&gt;&#x00A0;(b&#x00A0;-&gt;&#x00A0;c)&#x00A0;-&gt;&#x00A0;Either&#x00A0;a&#x00A0;b&#x00A0;-&gt;&#x00A0;c
+either&#x00A0;f&#x00A0;g&#x00A0;(Left&#x00A0;x)&#x00A0;&#x00A0;=&#x00A0;&#x00A0;f&#x00A0;x
+either&#x00A0;f&#x00A0;g&#x00A0;(Right&#x00A0;y)&#x00A0;=&#x00A0;&#x00A0;g&#x00A0;y
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175172"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-215">
+--&#x00A0;IO&#x00A0;type
+
+data&#x00A0;IO&#x00A0;a&#x00A0;=&#x00A0;...&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;abstract
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175173"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-216">
+instance&#x00A0;&#x00A0;Functor&#x00A0;IO&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;fmap&#x00A0;f&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x&#x00A0;&gt;&gt;=&#x00A0;(return&#x00A0;.&#x00A0;f)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175174"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-217">
+instance&#x00A0;Monad&#x00A0;IO&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;(&gt;&gt;=)&#x00A0;&#x00A0;=&#x00A0;...
+&#x00A0;&#x00A0;&#x00A0;return&#x00A0;=&#x00A0;...
+&#x00A0;&#x00A0;&#x00A0;fail&#x00A0;s&#x00A0;=&#x00A0;ioError&#x00A0;(userError&#x00A0;s)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175175"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-218">
+--&#x00A0;Ordering&#x00A0;type
+
+data&#x00A0;&#x00A0;Ordering&#x00A0;&#x00A0;=&#x00A0;&#x00A0;LT&#x00A0;|&#x00A0;EQ&#x00A0;|&#x00A0;GT
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;deriving&#x00A0;(Eq,&#x00A0;Ord,&#x00A0;Enum,&#x00A0;Read,&#x00A0;Show,&#x00A0;Bounded)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175176"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-219">
+--&#x00A0;Standard&#x00A0;numeric&#x00A0;types.&#x00A0;&#x00A0;The&#x00A0;data&#x00A0;declarations&#x00A0;for&#x00A0;these&#x00A0;types&#x00A0;cannot
+--&#x00A0;be&#x00A0;expressed&#x00A0;directly&#x00A0;in&#x00A0;Haskell&#x00A0;since&#x00A0;the&#x00A0;constructor&#x00A0;lists&#x00A0;would&#x00A0;be
+--&#x00A0;far&#x00A0;too&#x00A0;large.
+
+data&#x00A0;&#x00A0;Int&#x00A0;&#x00A0;=&#x00A0;&#x00A0;minBound&#x00A0;...&#x00A0;-1&#x00A0;|&#x00A0;0&#x00A0;|&#x00A0;1&#x00A0;...&#x00A0;maxBound
+instance&#x00A0;&#x00A0;Eq&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Int&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Ord&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Int&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Num&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Int&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Real&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Int&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Integral&#x00A0;Int&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Enum&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Int&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Bounded&#x00A0;&#x00A0;Int&#x00A0;&#x00A0;where&#x00A0;...
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175177"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-220">
+data&#x00A0;&#x00A0;Integer&#x00A0;&#x00A0;=&#x00A0;&#x00A0;...&#x00A0;-1&#x00A0;|&#x00A0;0&#x00A0;|&#x00A0;1&#x00A0;...
+instance&#x00A0;&#x00A0;Eq&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Integer&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Ord&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Integer&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Num&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Integer&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Real&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Integer&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Integral&#x00A0;Integer&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Enum&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Integer&#x00A0;&#x00A0;where&#x00A0;...
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175178"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-221">
+data&#x00A0;&#x00A0;Float
+instance&#x00A0;&#x00A0;Eq&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Float&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Ord&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Float&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Num&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Float&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Real&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Float&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Fractional&#x00A0;Float&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Floating&#x00A0;&#x00A0;&#x00A0;Float&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;RealFrac&#x00A0;&#x00A0;&#x00A0;Float&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;RealFloat&#x00A0;&#x00A0;Float&#x00A0;&#x00A0;where&#x00A0;...
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175179"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-222">
+data&#x00A0;&#x00A0;Double
+instance&#x00A0;&#x00A0;Eq&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Double&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Ord&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Double&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Num&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Double&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Real&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Double&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Fractional&#x00A0;Double&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Floating&#x00A0;&#x00A0;&#x00A0;Double&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;RealFrac&#x00A0;&#x00A0;&#x00A0;Double&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;RealFloat&#x00A0;&#x00A0;Double&#x00A0;&#x00A0;where&#x00A0;...
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175180"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-223">
+--&#x00A0;The&#x00A0;Enum&#x00A0;instances&#x00A0;for&#x00A0;Floats&#x00A0;and&#x00A0;Doubles&#x00A0;are&#x00A0;slightly&#x00A0;unusual.
+--&#x00A0;The&#x00A0;&#8216;toEnum&#8217;&#x00A0;function&#x00A0;truncates&#x00A0;numbers&#x00A0;to&#x00A0;Int.&#x00A0;&#x00A0;The&#x00A0;definitions
+--&#x00A0;of&#x00A0;enumFrom&#x00A0;and&#x00A0;enumFromThen&#x00A0;allow&#x00A0;floats&#x00A0;to&#x00A0;be&#x00A0;used&#x00A0;in&#x00A0;arithmetic
+--&#x00A0;series:&#x00A0;[0,0.1&#x00A0;..&#x00A0;0.95].&#x00A0;&#x00A0;However,&#x00A0;roundoff&#x00A0;errors&#x00A0;make&#x00A0;these&#x00A0;somewhat
+--&#x00A0;dubious.&#x00A0;&#x00A0;This&#x00A0;example&#x00A0;may&#x00A0;have&#x00A0;either&#x00A0;10&#x00A0;or&#x00A0;11&#x00A0;elements,&#x00A0;depending&#x00A0;on
+--&#x00A0;how&#x00A0;0.1&#x00A0;is&#x00A0;represented.
+
+instance&#x00A0;&#x00A0;Enum&#x00A0;Float&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;succ&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x+1
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;pred&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x-1
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;toEnum&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;fromIntegral
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fromEnum&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;fromInteger&#x00A0;.&#x00A0;truncate&#x00A0;&#x00A0;&#x00A0;--&#x00A0;may&#x00A0;overflow
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFrom&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;numericEnumFrom
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFromThen&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;numericEnumFromThen
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFromTo&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;numericEnumFromTo
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFromThenTo&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;numericEnumFromThenTo
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175181"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-224">
+instance&#x00A0;&#x00A0;Enum&#x00A0;Double&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;succ&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x+1
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;pred&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x-1
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;toEnum&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;fromIntegral
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fromEnum&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;fromInteger&#x00A0;.&#x00A0;truncate&#x00A0;&#x00A0;&#x00A0;--&#x00A0;may&#x00A0;overflow
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFrom&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;numericEnumFrom
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFromThen&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;numericEnumFromThen
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFromTo&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;numericEnumFromTo
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFromThenTo&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;numericEnumFromThenTo
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175182"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-225">
+numericEnumFrom&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Fractional&#x00A0;a)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;[a]
+numericEnumFromThen&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Fractional&#x00A0;a)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;[a]
+numericEnumFromTo&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Fractional&#x00A0;a,&#x00A0;Ord&#x00A0;a)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;[a]
+numericEnumFromThenTo&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Fractional&#x00A0;a,&#x00A0;Ord&#x00A0;a)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;[a]
+numericEnumFrom&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;iterate&#x00A0;(+1)
+numericEnumFromThen&#x00A0;n&#x00A0;m&#x00A0;=&#x00A0;&#x00A0;iterate&#x00A0;(+(m-n))&#x00A0;n
+numericEnumFromTo&#x00A0;n&#x00A0;m&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;takeWhile&#x00A0;(&lt;=&#x00A0;m+1/2)&#x00A0;(numericEnumFrom&#x00A0;n)
+numericEnumFromThenTo&#x00A0;n&#x00A0;n&#8217;&#x00A0;m&#x00A0;=&#x00A0;takeWhile&#x00A0;p&#x00A0;(numericEnumFromThen&#x00A0;n&#x00A0;n&#8217;)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;p&#x00A0;|&#x00A0;n&#8217;&#x00A0;&gt;=&#x00A0;n&#x00A0;&#x00A0;&#x00A0;=&#x00A0;(&lt;=&#x00A0;m&#x00A0;+&#x00A0;(n&#8217;-n)/2)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;=&#x00A0;(&gt;=&#x00A0;m&#x00A0;+&#x00A0;(n&#8217;-n)/2)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175183"></a><a 
+ id="dx16-175184"></a><a 
+ id="dx16-175185"></a><a 
+ id="dx16-175186"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-226">
+--&#x00A0;Lists
+
+data&#x00A0;&#x00A0;[a]&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[]&#x00A0;|&#x00A0;a&#x00A0;:&#x00A0;[a]&#x00A0;&#x00A0;deriving&#x00A0;(Eq,&#x00A0;Ord)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Not&#x00A0;legal&#x00A0;Haskell;&#x00A0;for&#x00A0;illustration&#x00A0;only
+</pre>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-227">
+instance&#x00A0;Functor&#x00A0;[]&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fmap&#x00A0;=&#x00A0;map
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175187"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-228">
+instance&#x00A0;&#x00A0;Monad&#x00A0;[]&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;m&#x00A0;&gt;&gt;=&#x00A0;k&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;concat&#x00A0;(map&#x00A0;k&#x00A0;m)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;return&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;[x]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fail&#x00A0;s&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;[]
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175188"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-229">
+--&#x00A0;Tuples
+
+data&#x00A0;&#x00A0;(a,b)&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;(a,b)&#x00A0;&#x00A0;&#x00A0;&#x00A0;deriving&#x00A0;(Eq,&#x00A0;Ord,&#x00A0;Bounded)
+data&#x00A0;&#x00A0;(a,b,c)&#x00A0;=&#x00A0;&#x00A0;(a,b,c)&#x00A0;&#x00A0;deriving&#x00A0;(Eq,&#x00A0;Ord,&#x00A0;Bounded)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Not&#x00A0;legal&#x00A0;Haskell;&#x00A0;for&#x00A0;illustration&#x00A0;only
+</pre>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-230">
+--&#x00A0;component&#x00A0;projections&#x00A0;for&#x00A0;pairs:
+--&#x00A0;(NB:&#x00A0;not&#x00A0;provided&#x00A0;for&#x00A0;triples,&#x00A0;quadruples,&#x00A0;etc.)
+fst&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a,b)&#x00A0;-&gt;&#x00A0;a
+fst&#x00A0;(x,y)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175189"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-231">
+snd&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a,b)&#x00A0;-&gt;&#x00A0;b
+snd&#x00A0;(x,y)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;y
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175190"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-232">
+--&#x00A0;curry&#x00A0;converts&#x00A0;an&#x00A0;uncurried&#x00A0;function&#x00A0;to&#x00A0;a&#x00A0;curried&#x00A0;function;
+--&#x00A0;uncurry&#x00A0;converts&#x00A0;a&#x00A0;curried&#x00A0;function&#x00A0;to&#x00A0;a&#x00A0;function&#x00A0;on&#x00A0;pairs.
+curry&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;((a,&#x00A0;b)&#x00A0;-&gt;&#x00A0;c)&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;c
+curry&#x00A0;f&#x00A0;x&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;f&#x00A0;(x,&#x00A0;y)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175191"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-233">
+uncurry&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;c)&#x00A0;-&gt;&#x00A0;((a,&#x00A0;b)&#x00A0;-&gt;&#x00A0;c)
+uncurry&#x00A0;f&#x00A0;p&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;f&#x00A0;(fst&#x00A0;p)&#x00A0;(snd&#x00A0;p)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175192"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-234">
+--&#x00A0;Misc&#x00A0;functions
+
+--&#x00A0;until&#x00A0;p&#x00A0;f&#x00A0;&#x00A0;yields&#x00A0;the&#x00A0;result&#x00A0;of&#x00A0;applying&#x00A0;f&#x00A0;until&#x00A0;p&#x00A0;holds.
+until&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;Bool)&#x00A0;-&gt;&#x00A0;(a&#x00A0;-&gt;&#x00A0;a)&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+until&#x00A0;p&#x00A0;f&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;p&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;=&#x00A0;&#x00A0;until&#x00A0;p&#x00A0;f&#x00A0;(f&#x00A0;x)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175193"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-235">
+--&#x00A0;asTypeOf&#x00A0;is&#x00A0;a&#x00A0;type-restricted&#x00A0;version&#x00A0;of&#x00A0;const.&#x00A0;&#x00A0;It&#x00A0;is&#x00A0;usually&#x00A0;used
+--&#x00A0;as&#x00A0;an&#x00A0;infix&#x00A0;operator,&#x00A0;and&#x00A0;its&#x00A0;typing&#x00A0;forces&#x00A0;its&#x00A0;first&#x00A0;argument
+--&#x00A0;(which&#x00A0;is&#x00A0;usually&#x00A0;overloaded)&#x00A0;to&#x00A0;have&#x00A0;the&#x00A0;same&#x00A0;type&#x00A0;as&#x00A0;the&#x00A0;second.
+asTypeOf&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+asTypeOf&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;const
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175194"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-236">
+--&#x00A0;error&#x00A0;stops&#x00A0;execution&#x00A0;and&#x00A0;displays&#x00A0;an&#x00A0;error&#x00A0;message
+
+error&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;String&#x00A0;-&gt;&#x00A0;a
+error&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;primError
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175195"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-237">
+--&#x00A0;It&#x00A0;is&#x00A0;expected&#x00A0;that&#x00A0;compilers&#x00A0;will&#x00A0;recognize&#x00A0;this&#x00A0;and&#x00A0;insert&#x00A0;error
+--&#x00A0;messages&#x00A0;that&#x00A0;are&#x00A0;more&#x00A0;appropriate&#x00A0;to&#x00A0;the&#x00A0;context&#x00A0;in&#x00A0;which&#x00A0;undefined
+--&#x00A0;appears.
+
+undefined&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a
+undefined&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;error&#x00A0;"Prelude.undefined"
+</pre>
+<p class="noindent"> <a 
+ id="dx16-175196"></a>
+                                                                                   
+
+                                                                                   
+<h3 class="sectionHead"><span class="titlemark">9.1    </span> <a 
+ id="x16-1760009.1"></a>Prelude <span 
+class="pcrr8t-">PreludeList</span></h3>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-238">
+--&#x00A0;Standard&#x00A0;list&#x00A0;functions
+
+module&#x00A0;PreludeList&#x00A0;(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;map,&#x00A0;(++),&#x00A0;filter,&#x00A0;concat,&#x00A0;concatMap,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;head,&#x00A0;last,&#x00A0;tail,&#x00A0;init,&#x00A0;null,&#x00A0;length,&#x00A0;(!!),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;foldl,&#x00A0;foldl1,&#x00A0;scanl,&#x00A0;scanl1,&#x00A0;foldr,&#x00A0;foldr1,&#x00A0;scanr,&#x00A0;scanr1,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;iterate,&#x00A0;repeat,&#x00A0;replicate,&#x00A0;cycle,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;take,&#x00A0;drop,&#x00A0;splitAt,&#x00A0;takeWhile,&#x00A0;dropWhile,&#x00A0;span,&#x00A0;break,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;lines,&#x00A0;words,&#x00A0;unlines,&#x00A0;unwords,&#x00A0;reverse,&#x00A0;and,&#x00A0;or,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;any,&#x00A0;all,&#x00A0;elem,&#x00A0;notElem,&#x00A0;lookup,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;sum,&#x00A0;product,&#x00A0;maximum,&#x00A0;minimum,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;zip,&#x00A0;zip3,&#x00A0;zipWith,&#x00A0;zipWith3,&#x00A0;unzip,&#x00A0;unzip3)
+&#x00A0;&#x00A0;where
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176001"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-239">
+import&#x00A0;qualified&#x00A0;Data.Char(isSpace)
+</pre>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-240">
+infixl&#x00A0;9&#x00A0;&#x00A0;!!
+infixr&#x00A0;5&#x00A0;&#x00A0;++
+infix&#x00A0;&#x00A0;4&#x00A0;&#x00A0;&#8216;elem&#8216;,&#x00A0;&#8216;notElem&#8216;
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176002"></a><a 
+ id="dx16-176003"></a><a 
+ id="dx16-176004"></a><a 
+ id="dx16-176005"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-241">
+--&#x00A0;Map&#x00A0;and&#x00A0;append
+map&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;b)&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[b]
+map&#x00A0;f&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;[]
+map&#x00A0;f&#x00A0;(x:xs)&#x00A0;=&#x00A0;f&#x00A0;x&#x00A0;:&#x00A0;map&#x00A0;f&#x00A0;xs
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176006"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-242">
+(++)&#x00A0;::&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[a]
+[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;++&#x00A0;ys&#x00A0;=&#x00A0;ys
+(x:xs)&#x00A0;++&#x00A0;ys&#x00A0;=&#x00A0;x&#x00A0;:&#x00A0;(xs&#x00A0;++&#x00A0;ys)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176007"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-243">
+filter&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;Bool)&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[a]
+filter&#x00A0;p&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;[]
+filter&#x00A0;p&#x00A0;(x:xs)&#x00A0;|&#x00A0;p&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;x&#x00A0;:&#x00A0;filter&#x00A0;p&#x00A0;xs
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;=&#x00A0;filter&#x00A0;p&#x00A0;xs
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176008"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-244">
+concat&#x00A0;::&#x00A0;[[a]]&#x00A0;-&gt;&#x00A0;[a]
+concat&#x00A0;xss&#x00A0;=&#x00A0;foldr&#x00A0;(++)&#x00A0;[]&#x00A0;xss
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176009"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-245">
+concatMap&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;[b])&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[b]
+concatMap&#x00A0;f&#x00A0;=&#x00A0;concat&#x00A0;.&#x00A0;map&#x00A0;f
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176010"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-246">
+--&#x00A0;head&#x00A0;and&#x00A0;tail&#x00A0;extract&#x00A0;the&#x00A0;first&#x00A0;element&#x00A0;and&#x00A0;remaining&#x00A0;elements,
+--&#x00A0;respectively,&#x00A0;of&#x00A0;a&#x00A0;list,&#x00A0;which&#x00A0;must&#x00A0;be&#x00A0;non-empty.&#x00A0;&#x00A0;last&#x00A0;and&#x00A0;init
+--&#x00A0;are&#x00A0;the&#x00A0;dual&#x00A0;functions&#x00A0;working&#x00A0;from&#x00A0;the&#x00A0;end&#x00A0;of&#x00A0;a&#x00A0;finite&#x00A0;list,
+--&#x00A0;rather&#x00A0;than&#x00A0;the&#x00A0;beginning.
+
+head&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[a]&#x00A0;-&gt;&#x00A0;a
+head&#x00A0;(x:_)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x
+head&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;error&#x00A0;"Prelude.head:&#x00A0;empty&#x00A0;list"
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176011"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-247">
+tail&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[a]
+tail&#x00A0;(_:xs)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;xs
+tail&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;error&#x00A0;"Prelude.tail:&#x00A0;empty&#x00A0;list"
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176012"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-248">
+last&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[a]&#x00A0;-&gt;&#x00A0;a
+last&#x00A0;[x]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x
+last&#x00A0;(_:xs)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;last&#x00A0;xs
+last&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;error&#x00A0;"Prelude.last:&#x00A0;empty&#x00A0;list"
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176013"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-249">
+init&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[a]
+init&#x00A0;[x]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[]
+init&#x00A0;(x:xs)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x&#x00A0;:&#x00A0;init&#x00A0;xs
+init&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;error&#x00A0;"Prelude.init:&#x00A0;empty&#x00A0;list"
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176014"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-250">
+null&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[a]&#x00A0;-&gt;&#x00A0;Bool
+null&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;True
+null&#x00A0;(_:_)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;False
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176015"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-251">
+--&#x00A0;length&#x00A0;returns&#x00A0;the&#x00A0;length&#x00A0;of&#x00A0;a&#x00A0;finite&#x00A0;list&#x00A0;as&#x00A0;an&#x00A0;Int.
+length&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[a]&#x00A0;-&gt;&#x00A0;Int
+length&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;0
+length&#x00A0;(_:l)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;1&#x00A0;+&#x00A0;length&#x00A0;l
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176016"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-252">
+--&#x00A0;List&#x00A0;index&#x00A0;(subscript)&#x00A0;operator,&#x00A0;0-origin
+(!!)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[a]&#x00A0;-&gt;&#x00A0;Int&#x00A0;-&gt;&#x00A0;a
+xs&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;!!&#x00A0;n&#x00A0;|&#x00A0;n&#x00A0;&lt;&#x00A0;0&#x00A0;=&#x00A0;&#x00A0;error&#x00A0;"Prelude.!!:&#x00A0;negative&#x00A0;index"
+[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;!!&#x00A0;_&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;error&#x00A0;"Prelude.!!:&#x00A0;index&#x00A0;too&#x00A0;large"
+(x:_)&#x00A0;&#x00A0;!!&#x00A0;0&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x
+(_:xs)&#x00A0;!!&#x00A0;n&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;xs&#x00A0;!!&#x00A0;(n-1)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176017"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-253">
+--&#x00A0;foldl,&#x00A0;applied&#x00A0;to&#x00A0;a&#x00A0;binary&#x00A0;operator,&#x00A0;a&#x00A0;starting&#x00A0;value&#x00A0;(typically&#x00A0;the
+--&#x00A0;left-identity&#x00A0;of&#x00A0;the&#x00A0;operator),&#x00A0;and&#x00A0;a&#x00A0;list,&#x00A0;reduces&#x00A0;the&#x00A0;list&#x00A0;using
+--&#x00A0;the&#x00A0;binary&#x00A0;operator,&#x00A0;from&#x00A0;left&#x00A0;to&#x00A0;right:
+--&#x00A0;&#x00A0;foldl&#x00A0;f&#x00A0;z&#x00A0;[x1,&#x00A0;x2,&#x00A0;...,&#x00A0;xn]&#x00A0;==&#x00A0;(...((z&#x00A0;&#8216;f&#8216;&#x00A0;x1)&#x00A0;&#8216;f&#8216;&#x00A0;x2)&#x00A0;&#8216;f&#8216;...)&#x00A0;&#8216;f&#8216;&#x00A0;xn
+--&#x00A0;foldl1&#x00A0;is&#x00A0;a&#x00A0;variant&#x00A0;that&#x00A0;has&#x00A0;no&#x00A0;starting&#x00A0;value&#x00A0;argument,&#x00A0;and&#x00A0;&#x00A0;thus&#x00A0;must
+--&#x00A0;be&#x00A0;applied&#x00A0;to&#x00A0;non-empty&#x00A0;lists.&#x00A0;&#x00A0;scanl&#x00A0;is&#x00A0;similar&#x00A0;to&#x00A0;foldl,&#x00A0;but&#x00A0;returns
+--&#x00A0;a&#x00A0;list&#x00A0;of&#x00A0;successive&#x00A0;reduced&#x00A0;values&#x00A0;from&#x00A0;the&#x00A0;left:
+--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;scanl&#x00A0;f&#x00A0;z&#x00A0;[x1,&#x00A0;x2,&#x00A0;...]&#x00A0;==&#x00A0;[z,&#x00A0;z&#x00A0;&#8216;f&#8216;&#x00A0;x1,&#x00A0;(z&#x00A0;&#8216;f&#8216;&#x00A0;x1)&#x00A0;&#8216;f&#8216;&#x00A0;x2,&#x00A0;...]
+--&#x00A0;Note&#x00A0;that&#x00A0;&#x00A0;last&#x00A0;(scanl&#x00A0;f&#x00A0;z&#x00A0;xs)&#x00A0;==&#x00A0;foldl&#x00A0;f&#x00A0;z&#x00A0;xs.
+--&#x00A0;scanl1&#x00A0;is&#x00A0;similar,&#x00A0;again&#x00A0;without&#x00A0;the&#x00A0;starting&#x00A0;element:
+--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;scanl1&#x00A0;f&#x00A0;[x1,&#x00A0;x2,&#x00A0;...]&#x00A0;==&#x00A0;[x1,&#x00A0;x1&#x00A0;&#8216;f&#8216;&#x00A0;x2,&#x00A0;...]
+
+foldl&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;a)&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;[b]&#x00A0;-&gt;&#x00A0;a
+foldl&#x00A0;f&#x00A0;z&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;z
+foldl&#x00A0;f&#x00A0;z&#x00A0;(x:xs)&#x00A0;=&#x00A0;&#x00A0;foldl&#x00A0;f&#x00A0;(f&#x00A0;z&#x00A0;x)&#x00A0;xs
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176018"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-254">
+foldl1&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a)&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;a
+foldl1&#x00A0;f&#x00A0;(x:xs)&#x00A0;&#x00A0;=&#x00A0;&#x00A0;foldl&#x00A0;f&#x00A0;x&#x00A0;xs
+foldl1&#x00A0;_&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;error&#x00A0;"Prelude.foldl1:&#x00A0;empty&#x00A0;list"
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176019"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-255">
+scanl&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;a)&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;[b]&#x00A0;-&gt;&#x00A0;[a]
+scanl&#x00A0;f&#x00A0;q&#x00A0;xs&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;q&#x00A0;:&#x00A0;(case&#x00A0;xs&#x00A0;of
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;-&gt;&#x00A0;[]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;x:xs&#x00A0;-&gt;&#x00A0;scanl&#x00A0;f&#x00A0;(f&#x00A0;q&#x00A0;x)&#x00A0;xs)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176020"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-256">
+scanl1&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a)&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[a]
+scanl1&#x00A0;f&#x00A0;(x:xs)&#x00A0;&#x00A0;=&#x00A0;&#x00A0;scanl&#x00A0;f&#x00A0;x&#x00A0;xs
+scanl1&#x00A0;_&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[]
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176021"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-257">
+--&#x00A0;foldr,&#x00A0;foldr1,&#x00A0;scanr,&#x00A0;and&#x00A0;scanr1&#x00A0;are&#x00A0;the&#x00A0;right-to-left&#x00A0;duals&#x00A0;of&#x00A0;the
+--&#x00A0;above&#x00A0;functions.
+
+foldr&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;b)&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;b
+foldr&#x00A0;f&#x00A0;z&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;z
+foldr&#x00A0;f&#x00A0;z&#x00A0;(x:xs)&#x00A0;=&#x00A0;&#x00A0;f&#x00A0;x&#x00A0;(foldr&#x00A0;f&#x00A0;z&#x00A0;xs)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176022"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-258">
+foldr1&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a)&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;a
+foldr1&#x00A0;f&#x00A0;[x]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x
+foldr1&#x00A0;f&#x00A0;(x:xs)&#x00A0;&#x00A0;=&#x00A0;&#x00A0;f&#x00A0;x&#x00A0;(foldr1&#x00A0;f&#x00A0;xs)
+foldr1&#x00A0;_&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;error&#x00A0;"Prelude.foldr1:&#x00A0;empty&#x00A0;list"
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176023"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-259">
+scanr&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;b)&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[b]
+scanr&#x00A0;f&#x00A0;q0&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[q0]
+scanr&#x00A0;f&#x00A0;q0&#x00A0;(x:xs)&#x00A0;=&#x00A0;&#x00A0;f&#x00A0;x&#x00A0;q&#x00A0;:&#x00A0;qs
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;qs@(q:_)&#x00A0;=&#x00A0;scanr&#x00A0;f&#x00A0;q0&#x00A0;xs&#x00A0;
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176024"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-260">
+scanr1&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a)&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[a]
+scanr1&#x00A0;f&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[]
+scanr1&#x00A0;f&#x00A0;[x]&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[x]
+scanr1&#x00A0;f&#x00A0;(x:xs)&#x00A0;=&#x00A0;&#x00A0;f&#x00A0;x&#x00A0;q&#x00A0;:&#x00A0;qs
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;qs@(q:_)&#x00A0;=&#x00A0;scanr1&#x00A0;f&#x00A0;xs&#x00A0;
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176025"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-261">
+--&#x00A0;iterate&#x00A0;f&#x00A0;x&#x00A0;returns&#x00A0;an&#x00A0;infinite&#x00A0;list&#x00A0;of&#x00A0;repeated&#x00A0;applications&#x00A0;of&#x00A0;f&#x00A0;to&#x00A0;x:
+--&#x00A0;iterate&#x00A0;f&#x00A0;x&#x00A0;==&#x00A0;[x,&#x00A0;f&#x00A0;x,&#x00A0;f&#x00A0;(f&#x00A0;x),&#x00A0;...]
+iterate&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;a)&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;[a]
+iterate&#x00A0;f&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x&#x00A0;:&#x00A0;iterate&#x00A0;f&#x00A0;(f&#x00A0;x)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176026"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-262">
+--&#x00A0;repeat&#x00A0;x&#x00A0;is&#x00A0;an&#x00A0;infinite&#x00A0;list,&#x00A0;with&#x00A0;x&#x00A0;the&#x00A0;value&#x00A0;of&#x00A0;every&#x00A0;element.
+repeat&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;[a]
+repeat&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;xs&#x00A0;where&#x00A0;xs&#x00A0;=&#x00A0;x:xs
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176027"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-263">
+--&#x00A0;replicate&#x00A0;n&#x00A0;x&#x00A0;is&#x00A0;a&#x00A0;list&#x00A0;of&#x00A0;length&#x00A0;n&#x00A0;with&#x00A0;x&#x00A0;the&#x00A0;value&#x00A0;of&#x00A0;every&#x00A0;element
+replicate&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Int&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;[a]
+replicate&#x00A0;n&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;take&#x00A0;n&#x00A0;(repeat&#x00A0;x)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176028"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-264">
+--&#x00A0;cycle&#x00A0;ties&#x00A0;a&#x00A0;finite&#x00A0;list&#x00A0;into&#x00A0;a&#x00A0;circular&#x00A0;one,&#x00A0;or&#x00A0;equivalently,
+--&#x00A0;the&#x00A0;infinite&#x00A0;repetition&#x00A0;of&#x00A0;the&#x00A0;original&#x00A0;list.&#x00A0;&#x00A0;It&#x00A0;is&#x00A0;the&#x00A0;identity
+--&#x00A0;on&#x00A0;infinite&#x00A0;lists.
+
+cycle&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[a]
+cycle&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;error&#x00A0;"Prelude.cycle:&#x00A0;empty&#x00A0;list"
+cycle&#x00A0;xs&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;xs&#8217;&#x00A0;where&#x00A0;xs&#8217;&#x00A0;=&#x00A0;xs&#x00A0;++&#x00A0;xs&#8217;
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176029"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-265">
+--&#x00A0;take&#x00A0;n,&#x00A0;applied&#x00A0;to&#x00A0;a&#x00A0;list&#x00A0;xs,&#x00A0;returns&#x00A0;the&#x00A0;prefix&#x00A0;of&#x00A0;xs&#x00A0;of&#x00A0;length&#x00A0;n,
+--&#x00A0;or&#x00A0;xs&#x00A0;itself&#x00A0;if&#x00A0;n&#x00A0;&gt;&#x00A0;length&#x00A0;xs.&#x00A0;&#x00A0;drop&#x00A0;n&#x00A0;xs&#x00A0;returns&#x00A0;the&#x00A0;suffix&#x00A0;of&#x00A0;xs
+--&#x00A0;after&#x00A0;the&#x00A0;first&#x00A0;n&#x00A0;elements,&#x00A0;or&#x00A0;[]&#x00A0;if&#x00A0;n&#x00A0;&gt;&#x00A0;length&#x00A0;xs.&#x00A0;&#x00A0;splitAt&#x00A0;n&#x00A0;xs
+--&#x00A0;is&#x00A0;equivalent&#x00A0;to&#x00A0;(take&#x00A0;n&#x00A0;xs,&#x00A0;drop&#x00A0;n&#x00A0;xs).
+
+take&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Int&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[a]
+take&#x00A0;n&#x00A0;_&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;n&#x00A0;&lt;=&#x00A0;0&#x00A0;=&#x00A0;&#x00A0;[]
+take&#x00A0;_&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[]
+take&#x00A0;n&#x00A0;(x:xs)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x&#x00A0;:&#x00A0;take&#x00A0;(n-1)&#x00A0;xs
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176030"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-266">
+drop&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Int&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[a]
+drop&#x00A0;n&#x00A0;xs&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;n&#x00A0;&lt;=&#x00A0;0&#x00A0;=&#x00A0;&#x00A0;xs
+drop&#x00A0;_&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[]
+drop&#x00A0;n&#x00A0;(_:xs)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;drop&#x00A0;(n-1)&#x00A0;xs
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176031"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-267">
+splitAt&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Int&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;([a],[a])
+splitAt&#x00A0;n&#x00A0;xs&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;(take&#x00A0;n&#x00A0;xs,&#x00A0;drop&#x00A0;n&#x00A0;xs)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176032"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-268">
+--&#x00A0;takeWhile,&#x00A0;applied&#x00A0;to&#x00A0;a&#x00A0;predicate&#x00A0;p&#x00A0;and&#x00A0;a&#x00A0;list&#x00A0;xs,&#x00A0;returns&#x00A0;the&#x00A0;longest
+--&#x00A0;prefix&#x00A0;(possibly&#x00A0;empty)&#x00A0;of&#x00A0;xs&#x00A0;of&#x00A0;elements&#x00A0;that&#x00A0;satisfy&#x00A0;p.&#x00A0;&#x00A0;dropWhile&#x00A0;p&#x00A0;xs
+--&#x00A0;returns&#x00A0;the&#x00A0;remaining&#x00A0;suffix.&#x00A0;&#x00A0;span&#x00A0;p&#x00A0;xs&#x00A0;is&#x00A0;equivalent&#x00A0;to
+--&#x00A0;(takeWhile&#x00A0;p&#x00A0;xs,&#x00A0;dropWhile&#x00A0;p&#x00A0;xs),&#x00A0;while&#x00A0;break&#x00A0;p&#x00A0;uses&#x00A0;the&#x00A0;negation&#x00A0;of&#x00A0;p.
+
+takeWhile&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;Bool)&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[a]
+takeWhile&#x00A0;p&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[]
+takeWhile&#x00A0;p&#x00A0;(x:xs)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;p&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x&#x00A0;:&#x00A0;takeWhile&#x00A0;p&#x00A0;xs
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;=&#x00A0;&#x00A0;[]
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176033"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-269">
+dropWhile&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;Bool)&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[a]
+dropWhile&#x00A0;p&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[]
+dropWhile&#x00A0;p&#x00A0;xs@(x:xs&#8217;)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;p&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;dropWhile&#x00A0;p&#x00A0;xs&#8217;
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;=&#x00A0;&#x00A0;xs
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176034"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-270">
+span,&#x00A0;break&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;Bool)&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;([a],[a])
+span&#x00A0;p&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;([],[])
+span&#x00A0;p&#x00A0;xs@(x:xs&#8217;)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;p&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;(x:ys,zs)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;=&#x00A0;&#x00A0;([],xs)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;(ys,zs)&#x00A0;=&#x00A0;span&#x00A0;p&#x00A0;xs&#8217;
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176035"></a><a 
+ id="dx16-176036"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-271">
+break&#x00A0;p&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;span&#x00A0;(not&#x00A0;.&#x00A0;p)
+</pre>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-272">
+--&#x00A0;lines&#x00A0;breaks&#x00A0;a&#x00A0;string&#x00A0;up&#x00A0;into&#x00A0;a&#x00A0;list&#x00A0;of&#x00A0;strings&#x00A0;at&#x00A0;newline&#x00A0;characters.
+--&#x00A0;The&#x00A0;resulting&#x00A0;strings&#x00A0;do&#x00A0;not&#x00A0;contain&#x00A0;newlines.&#x00A0;&#x00A0;Similary,&#x00A0;words
+--&#x00A0;breaks&#x00A0;a&#x00A0;string&#x00A0;up&#x00A0;into&#x00A0;a&#x00A0;list&#x00A0;of&#x00A0;words,&#x00A0;which&#x00A0;were&#x00A0;delimited&#x00A0;by
+--&#x00A0;white&#x00A0;space.&#x00A0;&#x00A0;unlines&#x00A0;and&#x00A0;unwords&#x00A0;are&#x00A0;the&#x00A0;inverse&#x00A0;operations.
+--&#x00A0;unlines&#x00A0;joins&#x00A0;lines&#x00A0;with&#x00A0;terminating&#x00A0;newlines,&#x00A0;and&#x00A0;unwords&#x00A0;joins
+--&#x00A0;words&#x00A0;with&#x00A0;separating&#x00A0;spaces.
+
+lines&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;String&#x00A0;-&gt;&#x00A0;[String]
+lines&#x00A0;""&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[]
+lines&#x00A0;s&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;let&#x00A0;(l,&#x00A0;s&#8217;)&#x00A0;=&#x00A0;break&#x00A0;(==&#x00A0;&#8217;\n&#8217;)&#x00A0;s
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;in&#x00A0;&#x00A0;l&#x00A0;:&#x00A0;case&#x00A0;s&#8217;&#x00A0;of
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;-&gt;&#x00A0;[]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(_:s&#8217;&#8217;)&#x00A0;-&gt;&#x00A0;lines&#x00A0;s&#8217;&#8217;
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176037"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-273">
+words&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;String&#x00A0;-&gt;&#x00A0;[String]
+words&#x00A0;s&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;case&#x00A0;dropWhile&#x00A0;Char.isSpace&#x00A0;s&#x00A0;of
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;""&#x00A0;-&gt;&#x00A0;[]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;s&#8217;&#x00A0;-&gt;&#x00A0;w&#x00A0;:&#x00A0;words&#x00A0;s&#8217;&#8217;
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;(w,&#x00A0;s&#8217;&#8217;)&#x00A0;=&#x00A0;break&#x00A0;Char.isSpace&#x00A0;s&#8217;
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176038"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-274">
+unlines&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[String]&#x00A0;-&gt;&#x00A0;String
+unlines&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;concatMap&#x00A0;(++&#x00A0;"\n")
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176039"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-275">
+unwords&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[String]&#x00A0;-&gt;&#x00A0;String
+unwords&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;""
+unwords&#x00A0;ws&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;foldr1&#x00A0;(\w&#x00A0;s&#x00A0;-&gt;&#x00A0;w&#x00A0;++&#x00A0;&#8217;&#x00A0;&#8217;:s)&#x00A0;ws
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176040"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-276">
+--&#x00A0;reverse&#x00A0;xs&#x00A0;returns&#x00A0;the&#x00A0;elements&#x00A0;of&#x00A0;xs&#x00A0;in&#x00A0;reverse&#x00A0;order.&#x00A0;&#x00A0;xs&#x00A0;must&#x00A0;be&#x00A0;finite.
+reverse&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[a]
+reverse&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;foldl&#x00A0;(flip&#x00A0;(:))&#x00A0;[]
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176041"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-277">
+--&#x00A0;and&#x00A0;returns&#x00A0;the&#x00A0;conjunction&#x00A0;of&#x00A0;a&#x00A0;Boolean&#x00A0;list.&#x00A0;&#x00A0;For&#x00A0;the&#x00A0;result&#x00A0;to&#x00A0;be
+--&#x00A0;True,&#x00A0;the&#x00A0;list&#x00A0;must&#x00A0;be&#x00A0;finite;&#x00A0;False,&#x00A0;however,&#x00A0;results&#x00A0;from&#x00A0;a&#x00A0;False
+--&#x00A0;value&#x00A0;at&#x00A0;a&#x00A0;finite&#x00A0;index&#x00A0;of&#x00A0;a&#x00A0;finite&#x00A0;or&#x00A0;infinite&#x00A0;list.&#x00A0;&#x00A0;or&#x00A0;is&#x00A0;the
+--&#x00A0;disjunctive&#x00A0;dual&#x00A0;of&#x00A0;and.
+and,&#x00A0;or&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[Bool]&#x00A0;-&gt;&#x00A0;Bool
+and&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;foldr&#x00A0;(&amp;&amp;)&#x00A0;True
+or&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;foldr&#x00A0;(||)&#x00A0;False
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176042"></a><a 
+ id="dx16-176043"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-278">
+--&#x00A0;Applied&#x00A0;to&#x00A0;a&#x00A0;predicate&#x00A0;and&#x00A0;a&#x00A0;list,&#x00A0;any&#x00A0;determines&#x00A0;if&#x00A0;any&#x00A0;element
+--&#x00A0;of&#x00A0;the&#x00A0;list&#x00A0;satisfies&#x00A0;the&#x00A0;predicate.&#x00A0;&#x00A0;Similarly,&#x00A0;for&#x00A0;all.
+any,&#x00A0;all&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;Bool)&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;Bool
+any&#x00A0;p&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;or&#x00A0;.&#x00A0;map&#x00A0;p
+all&#x00A0;p&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;and&#x00A0;.&#x00A0;map&#x00A0;p
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176044"></a><a 
+ id="dx16-176045"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-279">
+--&#x00A0;elem&#x00A0;is&#x00A0;the&#x00A0;list&#x00A0;membership&#x00A0;predicate,&#x00A0;usually&#x00A0;written&#x00A0;in&#x00A0;infix&#x00A0;form,
+--&#x00A0;e.g.,&#x00A0;x&#x00A0;&#8216;elem&#8216;&#x00A0;xs.&#x00A0;&#x00A0;notElem&#x00A0;is&#x00A0;the&#x00A0;negation.
+elem,&#x00A0;notElem&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Eq&#x00A0;a)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;Bool
+elem&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;any&#x00A0;(==&#x00A0;x)
+notElem&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;all&#x00A0;(/=&#x00A0;x)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176046"></a><a 
+ id="dx16-176047"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-280">
+--&#x00A0;lookup&#x00A0;key&#x00A0;assocs&#x00A0;looks&#x00A0;up&#x00A0;a&#x00A0;key&#x00A0;in&#x00A0;an&#x00A0;association&#x00A0;list.
+lookup&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Eq&#x00A0;a)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;[(a,b)]&#x00A0;-&gt;&#x00A0;Maybe&#x00A0;b
+lookup&#x00A0;key&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;Nothing
+lookup&#x00A0;key&#x00A0;((x,y):xys)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;key&#x00A0;==&#x00A0;x&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;Just&#x00A0;y
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;&#x00A0;=&#x00A0;&#x00A0;lookup&#x00A0;key&#x00A0;xys
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176048"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-281">
+--&#x00A0;sum&#x00A0;and&#x00A0;product&#x00A0;compute&#x00A0;the&#x00A0;sum&#x00A0;or&#x00A0;product&#x00A0;of&#x00A0;a&#x00A0;finite&#x00A0;list&#x00A0;of&#x00A0;numbers.
+sum,&#x00A0;product&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Num&#x00A0;a)&#x00A0;=&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;a
+sum&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;foldl&#x00A0;(+)&#x00A0;0
+product&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;foldl&#x00A0;(*)&#x00A0;1
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176049"></a><a 
+ id="dx16-176050"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-282">
+--&#x00A0;maximum&#x00A0;and&#x00A0;minimum&#x00A0;return&#x00A0;the&#x00A0;maximum&#x00A0;or&#x00A0;minimum&#x00A0;value&#x00A0;from&#x00A0;a&#x00A0;list,
+--&#x00A0;which&#x00A0;must&#x00A0;be&#x00A0;non-empty,&#x00A0;finite,&#x00A0;and&#x00A0;of&#x00A0;an&#x00A0;ordered&#x00A0;type.
+maximum,&#x00A0;minimum&#x00A0;::&#x00A0;(Ord&#x00A0;a)&#x00A0;=&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;a
+maximum&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;error&#x00A0;"Prelude.maximum:&#x00A0;empty&#x00A0;list"
+maximum&#x00A0;xs&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;foldl1&#x00A0;max&#x00A0;xs
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176051"></a><a 
+ id="dx16-176052"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-283">
+minimum&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;error&#x00A0;"Prelude.minimum:&#x00A0;empty&#x00A0;list"
+minimum&#x00A0;xs&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;foldl1&#x00A0;min&#x00A0;xs
+</pre>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-284">
+--&#x00A0;zip&#x00A0;takes&#x00A0;two&#x00A0;lists&#x00A0;and&#x00A0;returns&#x00A0;a&#x00A0;list&#x00A0;of&#x00A0;corresponding&#x00A0;pairs.&#x00A0;&#x00A0;If&#x00A0;one
+--&#x00A0;input&#x00A0;list&#x00A0;is&#x00A0;short,&#x00A0;excess&#x00A0;elements&#x00A0;of&#x00A0;the&#x00A0;longer&#x00A0;list&#x00A0;are&#x00A0;discarded.
+--&#x00A0;zip3&#x00A0;takes&#x00A0;three&#x00A0;lists&#x00A0;and&#x00A0;returns&#x00A0;a&#x00A0;list&#x00A0;of&#x00A0;triples.&#x00A0;&#x00A0;Zips&#x00A0;for&#x00A0;larger
+--&#x00A0;tuples&#x00A0;are&#x00A0;in&#x00A0;the&#x00A0;List&#x00A0;library
+
+zip&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[b]&#x00A0;-&gt;&#x00A0;[(a,b)]
+zip&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;zipWith&#x00A0;(,)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176053"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-285">
+zip3&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[b]&#x00A0;-&gt;&#x00A0;[c]&#x00A0;-&gt;&#x00A0;[(a,b,c)]
+zip3&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;zipWith3&#x00A0;(,,)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176054"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-286">
+--&#x00A0;The&#x00A0;zipWith&#x00A0;family&#x00A0;generalises&#x00A0;the&#x00A0;zip&#x00A0;family&#x00A0;by&#x00A0;zipping&#x00A0;with&#x00A0;the
+--&#x00A0;function&#x00A0;given&#x00A0;as&#x00A0;the&#x00A0;first&#x00A0;argument,&#x00A0;instead&#x00A0;of&#x00A0;a&#x00A0;tupling&#x00A0;function.
+--&#x00A0;For&#x00A0;example,&#x00A0;zipWith&#x00A0;(+)&#x00A0;is&#x00A0;applied&#x00A0;to&#x00A0;two&#x00A0;lists&#x00A0;to&#x00A0;produce&#x00A0;the&#x00A0;list
+--&#x00A0;of&#x00A0;corresponding&#x00A0;sums.
+
+zipWith&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a-&gt;b-&gt;c)&#x00A0;-&gt;&#x00A0;[a]-&gt;[b]-&gt;[c]
+zipWith&#x00A0;z&#x00A0;(a:as)&#x00A0;(b:bs)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;z&#x00A0;a&#x00A0;b&#x00A0;:&#x00A0;zipWith&#x00A0;z&#x00A0;as&#x00A0;bs
+zipWith&#x00A0;_&#x00A0;_&#x00A0;_&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[]
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176055"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-287">
+zipWith3&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a-&gt;b-&gt;c-&gt;d)&#x00A0;-&gt;&#x00A0;[a]-&gt;[b]-&gt;[c]-&gt;[d]
+zipWith3&#x00A0;z&#x00A0;(a:as)&#x00A0;(b:bs)&#x00A0;(c:cs)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;z&#x00A0;a&#x00A0;b&#x00A0;c&#x00A0;:&#x00A0;zipWith3&#x00A0;z&#x00A0;as&#x00A0;bs&#x00A0;cs
+zipWith3&#x00A0;_&#x00A0;_&#x00A0;_&#x00A0;_&#x00A0;=&#x00A0;&#x00A0;[]
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176056"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-288">
+--&#x00A0;unzip&#x00A0;transforms&#x00A0;a&#x00A0;list&#x00A0;of&#x00A0;pairs&#x00A0;into&#x00A0;a&#x00A0;pair&#x00A0;of&#x00A0;lists.
+
+unzip&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[(a,b)]&#x00A0;-&gt;&#x00A0;([a],[b])
+unzip&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;foldr&#x00A0;(\(a,b)&#x00A0;~(as,bs)&#x00A0;-&gt;&#x00A0;(a:as,b:bs))&#x00A0;([],[])
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176057"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-289">
+unzip3&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[(a,b,c)]&#x00A0;-&gt;&#x00A0;([a],[b],[c])
+unzip3&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;foldr&#x00A0;(\(a,b,c)&#x00A0;~(as,bs,cs)&#x00A0;-&gt;&#x00A0;(a:as,b:bs,c:cs))
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;([],[],[])
+</pre>
+<p class="noindent"> <a 
+ id="dx16-176058"></a>
+                                                                                   
+
+                                                                                   
+<h3 class="sectionHead"><span class="titlemark">9.2    </span> <a 
+ id="x16-1770009.2"></a>Prelude <span 
+class="pcrr8t-">PreludeText</span></h3>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-290">
+module&#x00A0;PreludeText&#x00A0;(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;ReadS,&#x00A0;ShowS,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Read(readsPrec,&#x00A0;readList),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Show(showsPrec,&#x00A0;show,&#x00A0;showList),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;reads,&#x00A0;shows,&#x00A0;read,&#x00A0;lex,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showChar,&#x00A0;showString,&#x00A0;readParen,&#x00A0;showParen&#x00A0;)&#x00A0;where
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177001"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-291">
+--&#x00A0;The&#x00A0;instances&#x00A0;of&#x00A0;Read&#x00A0;and&#x00A0;Show&#x00A0;for
+--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Bool,&#x00A0;Maybe,&#x00A0;Either,&#x00A0;Ordering
+--&#x00A0;are&#x00A0;done&#x00A0;via&#x00A0;"deriving"&#x00A0;clauses&#x00A0;in&#x00A0;Prelude.hs
+
+import&#x00A0;Data.Char(isSpace,&#x00A0;isAlpha,&#x00A0;isDigit,&#x00A0;isAlphaNum,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;showLitChar,&#x00A0;readLitChar,&#x00A0;lexLitChar)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177002"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-292">
+import&#x00A0;Numeric(showSigned,&#x00A0;showInt,&#x00A0;readSigned,&#x00A0;readDec,&#x00A0;showFloat,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;readFloat,&#x00A0;lexDigits)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177003"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-293">
+type&#x00A0;&#x00A0;ReadS&#x00A0;a&#x00A0;&#x00A0;=&#x00A0;String&#x00A0;-&gt;&#x00A0;[(a,String)]
+type&#x00A0;&#x00A0;ShowS&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;String&#x00A0;-&gt;&#x00A0;String
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177004"></a><a 
+ id="dx16-177005"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-294">
+class&#x00A0;&#x00A0;Read&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;readsPrec&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Int&#x00A0;-&gt;&#x00A0;ReadS&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;readList&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;ReadS&#x00A0;[a]
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Minimal&#x00A0;complete&#x00A0;definition:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;readsPrec
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;readList&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;readParen&#x00A0;False&#x00A0;(\r&#x00A0;-&gt;&#x00A0;[pr&#x00A0;|&#x00A0;("[",s)&#x00A0;&#x00A0;&lt;-&#x00A0;lex&#x00A0;r,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;pr&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&lt;-&#x00A0;readl&#x00A0;s])
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;readl&#x00A0;&#x00A0;s&#x00A0;=&#x00A0;[([],t)&#x00A0;&#x00A0;&#x00A0;|&#x00A0;("]",t)&#x00A0;&#x00A0;&lt;-&#x00A0;lex&#x00A0;s]&#x00A0;++
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;[(x:xs,u)&#x00A0;|&#x00A0;(x,t)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&lt;-&#x00A0;reads&#x00A0;s,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(xs,u)&#x00A0;&#x00A0;&#x00A0;&lt;-&#x00A0;readl&#8217;&#x00A0;t]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;readl&#8217;&#x00A0;s&#x00A0;=&#x00A0;[([],t)&#x00A0;&#x00A0;&#x00A0;|&#x00A0;("]",t)&#x00A0;&#x00A0;&lt;-&#x00A0;lex&#x00A0;s]&#x00A0;++
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;[(x:xs,v)&#x00A0;|&#x00A0;(",",t)&#x00A0;&#x00A0;&lt;-&#x00A0;lex&#x00A0;s,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(x,u)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&lt;-&#x00A0;reads&#x00A0;t,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(xs,v)&#x00A0;&#x00A0;&#x00A0;&lt;-&#x00A0;readl&#8217;&#x00A0;u]
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177006"></a><a 
+ id="dx16-177007"></a><a 
+ id="dx16-177008"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-295">
+class&#x00A0;&#x00A0;Show&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showsPrec&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Int&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;ShowS
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;show&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;String
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showList&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[a]&#x00A0;-&gt;&#x00A0;ShowS
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Mimimal&#x00A0;complete&#x00A0;definition:
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;show&#x00A0;or&#x00A0;showsPrec
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showsPrec&#x00A0;_&#x00A0;x&#x00A0;s&#x00A0;&#x00A0;&#x00A0;=&#x00A0;show&#x00A0;x&#x00A0;++&#x00A0;s
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;show&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;showsPrec&#x00A0;0&#x00A0;x&#x00A0;""
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showList&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;showString&#x00A0;"[]"
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showList&#x00A0;(x:xs)&#x00A0;&#x00A0;&#x00A0;=&#x00A0;showChar&#x00A0;&#8217;[&#8217;&#x00A0;.&#x00A0;shows&#x00A0;x&#x00A0;.&#x00A0;showl&#x00A0;xs
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;showl&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;showChar&#x00A0;&#8217;]&#8217;
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;showl&#x00A0;(x:xs)&#x00A0;=&#x00A0;showChar&#x00A0;&#8217;,&#8217;&#x00A0;.&#x00A0;shows&#x00A0;x&#x00A0;.
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;showl&#x00A0;xs
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177009"></a><a 
+ id="dx16-177010"></a><a 
+ id="dx16-177011"></a><a 
+ id="dx16-177012"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-296">
+reads&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Read&#x00A0;a)&#x00A0;=&gt;&#x00A0;ReadS&#x00A0;a
+reads&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;readsPrec&#x00A0;0
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177013"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-297">
+shows&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Show&#x00A0;a)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;ShowS
+shows&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;showsPrec&#x00A0;0
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177014"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-298">
+read&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Read&#x00A0;a)&#x00A0;=&gt;&#x00A0;String&#x00A0;-&gt;&#x00A0;a
+read&#x00A0;s&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;case&#x00A0;[x&#x00A0;|&#x00A0;(x,t)&#x00A0;&lt;-&#x00A0;reads&#x00A0;s,&#x00A0;("","")&#x00A0;&lt;-&#x00A0;lex&#x00A0;t]&#x00A0;of
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;[x]&#x00A0;-&gt;&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;[]&#x00A0;&#x00A0;-&gt;&#x00A0;error&#x00A0;"Prelude.read:&#x00A0;no&#x00A0;parse"
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;_&#x00A0;&#x00A0;&#x00A0;-&gt;&#x00A0;error&#x00A0;"Prelude.read:&#x00A0;ambiguous&#x00A0;parse"
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177015"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-299">
+showChar&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Char&#x00A0;-&gt;&#x00A0;ShowS
+showChar&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;(:)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177016"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-300">
+showString&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;String&#x00A0;-&gt;&#x00A0;ShowS
+showString&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;(++)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177017"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-301">
+showParen&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Bool&#x00A0;-&gt;&#x00A0;ShowS&#x00A0;-&gt;&#x00A0;ShowS
+showParen&#x00A0;b&#x00A0;p&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;if&#x00A0;b&#x00A0;then&#x00A0;showChar&#x00A0;&#8217;(&#8217;&#x00A0;.&#x00A0;p&#x00A0;.&#x00A0;showChar&#x00A0;&#8217;)&#8217;&#x00A0;else&#x00A0;p
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177018"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-302">
+readParen&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Bool&#x00A0;-&gt;&#x00A0;ReadS&#x00A0;a&#x00A0;-&gt;&#x00A0;ReadS&#x00A0;a
+readParen&#x00A0;b&#x00A0;g&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;if&#x00A0;b&#x00A0;then&#x00A0;mandatory&#x00A0;else&#x00A0;optional
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;optional&#x00A0;r&#x00A0;&#x00A0;=&#x00A0;g&#x00A0;r&#x00A0;++&#x00A0;mandatory&#x00A0;r
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;mandatory&#x00A0;r&#x00A0;=&#x00A0;[(x,u)&#x00A0;|&#x00A0;("(",s)&#x00A0;&lt;-&#x00A0;lex&#x00A0;r,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(x,t)&#x00A0;&#x00A0;&#x00A0;&lt;-&#x00A0;optional&#x00A0;s,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(")",u)&#x00A0;&lt;-&#x00A0;lex&#x00A0;t&#x00A0;&#x00A0;&#x00A0;&#x00A0;]
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177019"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-303">
+--&#x00A0;This&#x00A0;lexer&#x00A0;is&#x00A0;not&#x00A0;completely&#x00A0;faithful&#x00A0;to&#x00A0;the&#x00A0;Haskell&#x00A0;lexical&#x00A0;syntax.
+--&#x00A0;Current&#x00A0;limitations:
+--&#x00A0;&#x00A0;&#x00A0;&#x00A0;Qualified&#x00A0;names&#x00A0;are&#x00A0;not&#x00A0;handled&#x00A0;properly
+--&#x00A0;&#x00A0;&#x00A0;&#x00A0;Octal&#x00A0;and&#x00A0;hexidecimal&#x00A0;numerics&#x00A0;are&#x00A0;not&#x00A0;recognized&#x00A0;as&#x00A0;a&#x00A0;single&#x00A0;token
+--&#x00A0;&#x00A0;&#x00A0;&#x00A0;Comments&#x00A0;are&#x00A0;not&#x00A0;treated&#x00A0;properly
+
+lex&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;ReadS&#x00A0;String
+lex&#x00A0;""&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[("","")]
+lex&#x00A0;(c:s)
+&#x00A0;&#x00A0;&#x00A0;|&#x00A0;isSpace&#x00A0;c&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;lex&#x00A0;(dropWhile&#x00A0;isSpace&#x00A0;s)
+lex&#x00A0;(&#8217;\&#8217;&#8217;:s)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[(&#8217;\&#8217;&#8217;:ch++"&#8217;",&#x00A0;t)&#x00A0;|&#x00A0;(ch,&#8217;\&#8217;&#8217;:t)&#x00A0;&#x00A0;&lt;-&#x00A0;lexLitChar&#x00A0;s,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;ch&#x00A0;/=&#x00A0;"&#8217;"&#x00A0;]
+lex&#x00A0;(&#8217;"&#8217;:s)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[(&#8217;"&#8217;:str,&#x00A0;t)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;(str,t)&#x00A0;&lt;-&#x00A0;lexString&#x00A0;s]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;lexString&#x00A0;(&#8217;"&#8217;:s)&#x00A0;=&#x00A0;[("\"",s)]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;lexString&#x00A0;s&#x00A0;=&#x00A0;[(ch++str,&#x00A0;u)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;(ch,t)&#x00A0;&#x00A0;&lt;-&#x00A0;lexStrItem&#x00A0;s,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(str,u)&#x00A0;&lt;-&#x00A0;lexString&#x00A0;t&#x00A0;&#x00A0;]
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;lexStrItem&#x00A0;(&#8217;\\&#8217;:&#8217;&amp;&#8217;:s)&#x00A0;=&#x00A0;&#x00A0;[("\\&amp;",s)]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;lexStrItem&#x00A0;(&#8217;\\&#8217;:c:s)&#x00A0;|&#x00A0;isSpace&#x00A0;c
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[("\\&amp;",t)&#x00A0;|
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#8217;\\&#8217;:t&#x00A0;&lt;-
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;[dropWhile&#x00A0;isSpace&#x00A0;s]]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;lexStrItem&#x00A0;s&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;lexLitChar&#x00A0;s
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177020"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-304">
+lex&#x00A0;(c:s)&#x00A0;|&#x00A0;isSingle&#x00A0;c&#x00A0;=&#x00A0;[([c],s)]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;isSym&#x00A0;c&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;[(c:sym,t)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;(sym,t)&#x00A0;&lt;-&#x00A0;[span&#x00A0;isSym&#x00A0;s]]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;isAlpha&#x00A0;c&#x00A0;&#x00A0;=&#x00A0;[(c:nam,t)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;(nam,t)&#x00A0;&lt;-&#x00A0;[span&#x00A0;isIdChar&#x00A0;s]]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;isDigit&#x00A0;c&#x00A0;&#x00A0;=&#x00A0;[(c:ds++fe,t)&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;(ds,s)&#x00A0;&#x00A0;&lt;-&#x00A0;[span&#x00A0;isDigit&#x00A0;s],
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(fe,t)&#x00A0;&#x00A0;&lt;-&#x00A0;lexFracExp&#x00A0;s&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;&#x00A0;=&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;bad&#x00A0;character
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;isSingle&#x00A0;c&#x00A0;=&#x00A0;&#x00A0;c&#x00A0;&#8216;elem&#8216;&#x00A0;",;()[]{}_&#8216;"
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;isSym&#x00A0;c&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;c&#x00A0;&#8216;elem&#8216;&#x00A0;"!@#$%&amp;*+./&lt;=&gt;?\\^|:-~"
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;isIdChar&#x00A0;c&#x00A0;=&#x00A0;&#x00A0;isAlphaNum&#x00A0;c&#x00A0;||&#x00A0;c&#x00A0;&#8216;elem&#8216;&#x00A0;"_&#8217;"
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;lexFracExp&#x00A0;(&#8217;.&#8217;:c:cs)&#x00A0;|&#x00A0;isDigit&#x00A0;c
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;[(&#8217;.&#8217;:ds++e,u)&#x00A0;|&#x00A0;(ds,t)&#x00A0;&lt;-&#x00A0;lexDigits&#x00A0;(c:cs),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(e,u)&#x00A0;&#x00A0;&lt;-&#x00A0;lexExp&#x00A0;t]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;lexFracExp&#x00A0;s&#x00A0;&#x00A0;=&#x00A0;lexExp&#x00A0;s
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;lexExp&#x00A0;(e:s)&#x00A0;|&#x00A0;e&#x00A0;&#8216;elem&#8216;&#x00A0;"eE"
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;[(e:c:ds,u)&#x00A0;|&#x00A0;(c:t)&#x00A0;&#x00A0;&lt;-&#x00A0;[s],&#x00A0;c&#x00A0;&#8216;elem&#8216;&#x00A0;"+-",
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(ds,u)&#x00A0;&lt;-&#x00A0;lexDigits&#x00A0;t]&#x00A0;++
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;[(e:ds,t)&#x00A0;&#x00A0;&#x00A0;|&#x00A0;(ds,t)&#x00A0;&lt;-&#x00A0;lexDigits&#x00A0;s]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;lexExp&#x00A0;s&#x00A0;=&#x00A0;[("",s)]
+</pre>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-305">
+instance&#x00A0;&#x00A0;Show&#x00A0;Int&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showsPrec&#x00A0;n&#x00A0;=&#x00A0;showsPrec&#x00A0;n&#x00A0;.&#x00A0;toInteger
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Converting&#x00A0;to&#x00A0;Integer&#x00A0;avoids
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;possible&#x00A0;difficulty&#x00A0;with&#x00A0;minInt
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177021"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-306">
+instance&#x00A0;&#x00A0;Read&#x00A0;Int&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;readsPrec&#x00A0;p&#x00A0;r&#x00A0;=&#x00A0;[(fromInteger&#x00A0;i,&#x00A0;t)&#x00A0;|&#x00A0;(i,t)&#x00A0;&lt;-&#x00A0;readsPrec&#x00A0;p&#x00A0;r]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Reading&#x00A0;at&#x00A0;the&#x00A0;Integer&#x00A0;type&#x00A0;avoids
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;possible&#x00A0;difficulty&#x00A0;with&#x00A0;minInt
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177022"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-307">
+instance&#x00A0;&#x00A0;Show&#x00A0;Integer&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showsPrec&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;showSigned&#x00A0;showInt
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177023"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-308">
+instance&#x00A0;&#x00A0;Read&#x00A0;Integer&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;readsPrec&#x00A0;p&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;readSigned&#x00A0;readDec
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177024"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-309">
+instance&#x00A0;&#x00A0;Show&#x00A0;Float&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showsPrec&#x00A0;p&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;showFloat
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177025"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-310">
+instance&#x00A0;&#x00A0;Read&#x00A0;Float&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;readsPrec&#x00A0;p&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;readSigned&#x00A0;readFloat
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177026"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-311">
+instance&#x00A0;&#x00A0;Show&#x00A0;Double&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showsPrec&#x00A0;p&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;showFloat
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177027"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-312">
+instance&#x00A0;&#x00A0;Read&#x00A0;Double&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;readsPrec&#x00A0;p&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;readSigned&#x00A0;readFloat
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177028"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-313">
+instance&#x00A0;&#x00A0;Show&#x00A0;()&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showsPrec&#x00A0;p&#x00A0;()&#x00A0;=&#x00A0;showString&#x00A0;"()"
+</pre>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-314">
+instance&#x00A0;Read&#x00A0;()&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;readsPrec&#x00A0;p&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;readParen&#x00A0;False
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(\r&#x00A0;-&gt;&#x00A0;[((),t)&#x00A0;|&#x00A0;("(",s)&#x00A0;&lt;-&#x00A0;lex&#x00A0;r,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(")",t)&#x00A0;&lt;-&#x00A0;lex&#x00A0;s&#x00A0;]&#x00A0;)
+instance&#x00A0;&#x00A0;Show&#x00A0;Char&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showsPrec&#x00A0;p&#x00A0;&#8217;\&#8217;&#8217;&#x00A0;=&#x00A0;showString&#x00A0;"&#8217;\\&#8217;&#8217;"
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showsPrec&#x00A0;p&#x00A0;c&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;showChar&#x00A0;&#8217;\&#8217;&#8217;&#x00A0;.&#x00A0;showLitChar&#x00A0;c&#x00A0;.&#x00A0;showChar&#x00A0;&#8217;\&#8217;&#8217;
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showList&#x00A0;cs&#x00A0;=&#x00A0;showChar&#x00A0;&#8217;"&#8217;&#x00A0;.&#x00A0;showl&#x00A0;cs
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;showl&#x00A0;""&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;showChar&#x00A0;&#8217;"&#8217;
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;showl&#x00A0;(&#8217;"&#8217;:cs)&#x00A0;=&#x00A0;showString&#x00A0;"\\\""&#x00A0;.&#x00A0;showl&#x00A0;cs
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;showl&#x00A0;(c:cs)&#x00A0;&#x00A0;&#x00A0;=&#x00A0;showLitChar&#x00A0;c&#x00A0;.&#x00A0;showl&#x00A0;cs
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177029"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-315">
+instance&#x00A0;&#x00A0;Read&#x00A0;Char&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;readsPrec&#x00A0;p&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;readParen&#x00A0;False
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(\r&#x00A0;-&gt;&#x00A0;[(c,t)&#x00A0;|&#x00A0;(&#8217;\&#8217;&#8217;:s,t)&lt;-&#x00A0;lex&#x00A0;r,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(c,"\&#8217;")&#x00A0;&#x00A0;&lt;-&#x00A0;readLitChar&#x00A0;s])
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;readList&#x00A0;=&#x00A0;readParen&#x00A0;False&#x00A0;(\r&#x00A0;-&gt;&#x00A0;[(l,t)&#x00A0;|&#x00A0;(&#8217;"&#8217;:s,&#x00A0;t)&#x00A0;&lt;-&#x00A0;lex&#x00A0;r,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(l,_)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&lt;-&#x00A0;readl&#x00A0;s&#x00A0;])
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;readl&#x00A0;(&#8217;"&#8217;:s)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;[("",s)]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;readl&#x00A0;(&#8217;\\&#8217;:&#8217;&amp;&#8217;:s)&#x00A0;=&#x00A0;readl&#x00A0;s
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;readl&#x00A0;s&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;[(c:cs,u)&#x00A0;|&#x00A0;(c&#x00A0;,t)&#x00A0;&lt;-&#x00A0;readLitChar&#x00A0;s,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(cs,u)&#x00A0;&lt;-&#x00A0;readl&#x00A0;t&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;]
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177030"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-316">
+instance&#x00A0;&#x00A0;(Show&#x00A0;a)&#x00A0;=&gt;&#x00A0;Show&#x00A0;[a]&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showsPrec&#x00A0;p&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;showList
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177031"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-317">
+instance&#x00A0;&#x00A0;(Read&#x00A0;a)&#x00A0;=&gt;&#x00A0;Read&#x00A0;[a]&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;readsPrec&#x00A0;p&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;readList
+</pre>
+<p class="noindent"> <a 
+ id="dx16-177032"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-318">
+--&#x00A0;Tuples
+
+instance&#x00A0;&#x00A0;(Show&#x00A0;a,&#x00A0;Show&#x00A0;b)&#x00A0;=&gt;&#x00A0;Show&#x00A0;(a,b)&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showsPrec&#x00A0;p&#x00A0;(x,y)&#x00A0;=&#x00A0;showChar&#x00A0;&#8217;(&#8217;&#x00A0;.&#x00A0;shows&#x00A0;x&#x00A0;.&#x00A0;showChar&#x00A0;&#8217;,&#8217;&#x00A0;.
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;shows&#x00A0;y&#x00A0;.&#x00A0;showChar&#x00A0;&#8217;)&#8217;
+</pre>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-319">
+instance&#x00A0;&#x00A0;(Read&#x00A0;a,&#x00A0;Read&#x00A0;b)&#x00A0;=&gt;&#x00A0;Read&#x00A0;(a,b)&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;readsPrec&#x00A0;p&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;readParen&#x00A0;False
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(\r&#x00A0;-&gt;&#x00A0;[((x,y),&#x00A0;w)&#x00A0;|&#x00A0;("(",s)&#x00A0;&lt;-&#x00A0;lex&#x00A0;r,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(x,t)&#x00A0;&#x00A0;&#x00A0;&lt;-&#x00A0;reads&#x00A0;s,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(",",u)&#x00A0;&lt;-&#x00A0;lex&#x00A0;t,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(y,v)&#x00A0;&#x00A0;&#x00A0;&lt;-&#x00A0;reads&#x00A0;u,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(")",w)&#x00A0;&lt;-&#x00A0;lex&#x00A0;v&#x00A0;]&#x00A0;)
+</pre>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-320">
+--&#x00A0;Other&#x00A0;tuples&#x00A0;have&#x00A0;similar&#x00A0;Read&#x00A0;and&#x00A0;Show&#x00A0;instances
+
+
+</pre>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+                                                                                   
+
+                                                                                   
+<h3 class="sectionHead"><span class="titlemark">9.3    </span> <a 
+ id="x16-1780009.3"></a>Prelude <span 
+class="pcrr8t-">PreludeIO</span></h3>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-321">
+module&#x00A0;PreludeIO&#x00A0;(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;FilePath,&#x00A0;IOError,&#x00A0;ioError,&#x00A0;userError,&#x00A0;catch,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;putChar,&#x00A0;putStr,&#x00A0;putStrLn,&#x00A0;print,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;getChar,&#x00A0;getLine,&#x00A0;getContents,&#x00A0;interact,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;readFile,&#x00A0;writeFile,&#x00A0;appendFile,&#x00A0;readIO,&#x00A0;readLn
+&#x00A0;&#x00A0;)&#x00A0;where
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178001"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-322">
+import&#x00A0;PreludeBuiltin
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178002"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-323">
+type&#x00A0;&#x00A0;FilePath&#x00A0;=&#x00A0;String
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178003"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-324">
+data&#x00A0;IOError&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;The&#x00A0;internals&#x00A0;of&#x00A0;this&#x00A0;type&#x00A0;are&#x00A0;system&#x00A0;dependent
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178004"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-325">
+instance&#x00A0;&#x00A0;Show&#x00A0;IOError&#x00A0;&#x00A0;where&#x00A0;...
+instance&#x00A0;&#x00A0;Eq&#x00A0;IOError&#x00A0;&#x00A0;where&#x00A0;...
+</pre>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-326">
+ioError&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;&#x00A0;IOError&#x00A0;-&gt;&#x00A0;IO&#x00A0;a
+ioError&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;&#x00A0;primIOError
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178005"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-327">
+userError&#x00A0;&#x00A0;::&#x00A0;&#x00A0;String&#x00A0;-&gt;&#x00A0;IOError
+userError&#x00A0;&#x00A0;=&#x00A0;&#x00A0;&#x00A0;primUserError
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178006"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-328">
+catch&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;&#x00A0;IO&#x00A0;a&#x00A0;-&gt;&#x00A0;(IOError&#x00A0;-&gt;&#x00A0;IO&#x00A0;a)&#x00A0;-&gt;&#x00A0;IO&#x00A0;a
+catch&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;&#x00A0;primCatch
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178007"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-329">
+putChar&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Char&#x00A0;-&gt;&#x00A0;IO&#x00A0;()
+putChar&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;primPutChar
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178008"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-330">
+putStr&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;String&#x00A0;-&gt;&#x00A0;IO&#x00A0;()
+putStr&#x00A0;s&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;mapM_&#x00A0;putChar&#x00A0;s
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178009"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-331">
+putStrLn&#x00A0;&#x00A0;&#x00A0;::&#x00A0;String&#x00A0;-&gt;&#x00A0;IO&#x00A0;()
+putStrLn&#x00A0;s&#x00A0;=&#x00A0;&#x00A0;do&#x00A0;putStr&#x00A0;s
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;putStr&#x00A0;"\n"
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178010"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-332">
+print&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Show&#x00A0;a&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;IO&#x00A0;()
+print&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;putStrLn&#x00A0;(show&#x00A0;x)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178011"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-333">
+getChar&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;IO&#x00A0;Char
+getChar&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;primGetChar
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178012"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-334">
+getLine&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;IO&#x00A0;String
+getLine&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;do&#x00A0;c&#x00A0;&lt;-&#x00A0;getChar
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;if&#x00A0;c&#x00A0;==&#x00A0;&#8217;\n&#8217;&#x00A0;then&#x00A0;return&#x00A0;""&#x00A0;else
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;do&#x00A0;s&#x00A0;&lt;-&#x00A0;getLine
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;return&#x00A0;(c:s)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178013"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-335">
+getContents&#x00A0;::&#x00A0;IO&#x00A0;String
+getContents&#x00A0;=&#x00A0;&#x00A0;primGetContents
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178014"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-336">
+interact&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;&#x00A0;(String&#x00A0;-&gt;&#x00A0;String)&#x00A0;-&gt;&#x00A0;IO&#x00A0;()
+--&#x00A0;The&#x00A0;hSetBuffering&#x00A0;ensures&#x00A0;the&#x00A0;expected&#x00A0;interactive&#x00A0;behaviour
+interact&#x00A0;f&#x00A0;&#x00A0;=&#x00A0;&#x00A0;do&#x00A0;hSetBuffering&#x00A0;stdin&#x00A0;&#x00A0;NoBuffering
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;hSetBuffering&#x00A0;stdout&#x00A0;NoBuffering
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;s&#x00A0;&lt;-&#x00A0;getContents
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;putStr&#x00A0;(f&#x00A0;s)
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178015"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-337">
+readFile&#x00A0;&#x00A0;&#x00A0;::&#x00A0;FilePath&#x00A0;-&gt;&#x00A0;IO&#x00A0;String
+readFile&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;primReadFile
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178016"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-338">
+writeFile&#x00A0;&#x00A0;::&#x00A0;FilePath&#x00A0;-&gt;&#x00A0;String&#x00A0;-&gt;&#x00A0;IO&#x00A0;()
+writeFile&#x00A0;&#x00A0;=&#x00A0;&#x00A0;primWriteFile
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178017"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-339">
+appendFile&#x00A0;::&#x00A0;FilePath&#x00A0;-&gt;&#x00A0;String&#x00A0;-&gt;&#x00A0;IO&#x00A0;()
+appendFile&#x00A0;=&#x00A0;&#x00A0;primAppendFile
+
+&#x00A0;&#x00A0;--&#x00A0;raises&#x00A0;an&#x00A0;exception&#x00A0;instead&#x00A0;of&#x00A0;an&#x00A0;error
+readIO&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Read&#x00A0;a&#x00A0;=&gt;&#x00A0;String&#x00A0;-&gt;&#x00A0;IO&#x00A0;a
+readIO&#x00A0;s&#x00A0;=&#x00A0;&#x00A0;case&#x00A0;[x&#x00A0;|&#x00A0;(x,t)&#x00A0;&lt;-&#x00A0;reads&#x00A0;s,&#x00A0;("","")&#x00A0;&lt;-&#x00A0;lex&#x00A0;t]&#x00A0;of
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;[x]&#x00A0;-&gt;&#x00A0;return&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;[]&#x00A0;&#x00A0;-&gt;&#x00A0;ioError&#x00A0;(userError&#x00A0;"Prelude.readIO:&#x00A0;no&#x00A0;parse")
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;_&#x00A0;&#x00A0;&#x00A0;-&gt;&#x00A0;ioError&#x00A0;(userError&#x00A0;"Prelude.readIO:&#x00A0;ambiguous&#x00A0;parse")
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178018"></a><a 
+ id="dx16-178019"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-340">
+readLn&#x00A0;::&#x00A0;Read&#x00A0;a&#x00A0;=&gt;&#x00A0;IO&#x00A0;a
+readLn&#x00A0;=&#x00A0;&#x00A0;do&#x00A0;l&#x00A0;&lt;-&#x00A0;getLine
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;r&#x00A0;&lt;-&#x00A0;readIO&#x00A0;l
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;return&#x00A0;r
+</pre>
+<p class="noindent"> <a 
+ id="dx16-178020"></a>
+                                                                                   
+
+                                                                                   
+                                                                                   
+
+                                                                                   
+<!--l. 6--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch10.html" >next</a>] [<a 
+href="haskellch8.html" >prev</a>] [<a 
+href="haskellch8.html#tailhaskellch8.html" >prev-tail</a>] [<a 
+href="haskellch9.html" >front</a>] [<a 
+href="haskellpa1.html#haskellch9.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellch9.html"></a>   
+</body></html> 
