@@ -10,6 +10,29 @@ Haskell 2010.
 
 --------------------------------------------------------------------------------
 
+Building the PDF and HTML report on Windows
+===========================================
+
+The MSYS2 project provides the `make` and `flex` tools, and
+[Stack](https://docs.haskellstack.org/en/stable/) provides an MSYS2 environment.
+
+Command:
+~~~text
+stack exec -- pacman --sync --needed make flex
+~~~
+
+The [MiKTex project](https://miktex.org/) provides a TeX distribution for
+Windows.
+
+The `make` tool can then be used by commanding:
+~~~text
+stack exec -- make
+~~~
+
+There is an important `README` file in the `report` directory.
+
+--------------------------------------------------------------------------------
+
 Haskell Report README
 ~~~~~~~~~~~~~~~~~~~~~
 
