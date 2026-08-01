@@ -1,5 +1,5 @@
-eval "exec perl -S $0 $*"
-     if $running_under_some_random_shell;
+#!/usr/bin/env perl
+
 #
 # $Header: /home/cvs/root/haskell-report/tools/splitAndIndexPgm,v 1.3 2002/12/03 10:27:22 ross Exp $
 #
