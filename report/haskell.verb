@@ -11,7 +11,7 @@
 
 % allegedly produces nicer spacing, see
 %     http://stackoverflow.com/questions/414179/what-are-the-relative-merits-of-pdflatex
-% However, it didn't seem to make any difference for me other than 
+% However, it didn't seem to make any difference for me other than
 % make pdflatex slower:
 %\usepackage{microtype}
 
@@ -87,7 +87,7 @@
 \newcommand{\ei}{\end{itemize}}
 \newcommand{\struthack}[1]{\rule{0pt}{#1}}
 \newcommand{\inputHS}[1]{{\small \input{#1}}}
-% Use smaller font 
+% Use smaller font
 
 \newcommand{\ToDo}[1]{}
 %\newcommand{\ToDo}[1]{({\bf $\spadesuit$ ToDo:} {\em #1})}
@@ -139,7 +139,7 @@
 \begin{lrbox}{\fmbox}%
 \begin{minipage}{415pt}%
 \vspace{1 ex}
-#1  
+#1
 \end{minipage}%
 \vspace{1 ex}%
 \end{lrbox}%
@@ -318,7 +318,7 @@
 \newcommand{\qualcomb}[2]{#1\ @,@\ #2}
 \newcommand{\genguard}[1]{\ #1\ }
 \newcommand{\caseexpr}[2]{@case@\ #1\ @of@\ @{@\ #2\ @}@}
-\newcommand{\simplecaseexpr}[5]{@case@\ #1\ @of@\ @{@\ #2\ @->@\ #3;\ #4\ @->@\ #5\ @}@} 
+\newcommand{\simplecaseexpr}[5]{@case@\ #1\ @of@\ @{@\ #2\ @->@\ #3;\ #4\ @->@\ #5\ @}@}
 \newcommand{\iteexpr}[3]{@if@\ #1\ @then@\ #2\ @else@\ #3}
 \newcommand{\itexpr}[2]{@if@\ #1\ @then@\ #2}
 \newcommand{\gpat}[2]{#1\ @|@\ #2}
@@ -421,7 +421,7 @@ The authors and publisher intend this Report to belong to the entire Haskell
 community, and grant permission to copy and distribute it for any
 purpose, provided that it is reproduced in its
 entirety, including this Notice. Modified versions of this Report may
-also be copied and distributed for any 
+also be copied and distributed for any
 purpose,
 provided that the modified version is clearly presented as such, and
 that it does not claim to be a definition of the language Haskell 2010.
@@ -492,7 +492,7 @@ that it does not claim to be a definition of the language Haskell 2010.
 \input{libs/Foreign-Marshal}
 \input{libs/Foreign-Marshal-Alloc}
 \input{libs/Foreign-Marshal-Array}
-\input{libs/Foreign-Marshal-Error} 
+\input{libs/Foreign-Marshal-Error}
 \input{libs/Foreign-Marshal-Utils}
 \input{libs/Foreign-Ptr}
 \input{libs/Foreign-StablePtr}
@@ -519,6 +519,6 @@ that it does not claim to be a definition of the language Haskell 2010.
 
 \end{document}
 
-% Local Variables: 
+% Local Variables:
 % mode: latex
 % End:

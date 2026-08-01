@@ -32,7 +32,7 @@
 %% \end{quote}
 
 \noindent
-In this chapter, 
+In this chapter,
 we describe the low-level lexical structure of \Haskell{}.
 Most of the details may be skipped in a first reading of
 the report.
@@ -67,7 +67,7 @@ distinction clear.
 
 \Haskell{} uses the Unicode \cite{unicode} character set.
 \index{Unicode character set}
-However, source 
+However, source
 programs are currently biased toward the ASCII character set
 \index{ASCII character set} used in earlier versions of \Haskell{}.
 
@@ -80,7 +80,7 @@ programs are currently biased toward the ASCII character set
 % identifiers and any other place in the program.
 
 This syntax depends on properties of the Unicode characters as defined
-by the Unicode consortium. 
+by the Unicode consortium.
 \Haskell{} compilers are expected to make use of
 new versions of Unicode as they are made available.
 
@@ -96,12 +96,12 @@ satisfying the "lexeme" production is read.
 \index{maximal munch rule}
 % using a context-independent deterministic lexical analysis
 % (i.e.~no lookahead beyond the current character is required).
-% Not so -- consider the input "F. 9. 0o 0x 9.0e+f", which 
-% should lex as "F . 9 . 0 o 0 x 9.0 e + f" but that needs up 
-% to 2 additional characters of lookahead.  
+% Not so -- consider the input "F. 9. 0o 0x 9.0e+f", which
+% should lex as "F . 9 . 0 o 0 x 9.0 e + f" but that needs up
+% to 2 additional characters of lookahead.
 So, although @case@ is a reserved word, @cases@ is not.
 Similarly, although @=@ is reserved, @==@ and @~=@ are
-not.  
+not.
 
 Any kind of "whitespace" is also a proper delimiter for lexemes.
 
@@ -119,8 +119,8 @@ For example, ``@-->@'' or ``@|--@'' do {\em not} begin
 a comment, because both of these are legal lexemes; however ``@--foo@''
 does start a comment.
 
-A nested comment\index{comment!nested} begins with ``@{-@'' 
-and ends with ``@-}@''.  No legal lexeme starts with ``@{-@''; 
+A nested comment\index{comment!nested} begins with ``@{-@''
+and ends with ``@-}@''.  No legal lexeme starts with ``@{-@'';
 hence, for example, ``@{---@'' starts a nested comment despite the trailing dashes.
 
 The comment itself is not lexically analysed.  Instead, the first
@@ -146,7 +146,7 @@ comment in that code will interfere with the nested comments.
 
 @@@
 varid	-> (small \{small | large | digit | @'@ \})_{\langle{}reservedid\rangle{}}
-conid		-> large \{small | large | digit | @'@ \} 
+conid		-> large \{small | large | digit | @'@ \}
 reservedid -> @case@ | @class@ | @data@ | @default@ | @deriving@ | @do@ | @else@
 	| \hprime{@foreign@} | @if@ | @import@ | @in@ | @infix@ | @infixl@
         | @infixr@ | @instance@ | @let@ | @module@ | @newtype@ | @of@
@@ -180,9 +180,9 @@ reservedop	-> @..@ | @:@ | @::@ | @=@ | @\@ | @|@ | @<-@ | @->@ | \verb+@@+ | @~
 \indexsyn{consym}%
 \indexsyn{reservedop}%
 
-{\em Operator symbols} \index{operator} 
+{\em Operator symbols} \index{operator}
 are formed from one or more symbol characters, as
-defined above, and are lexically distinguished into two namespaces 
+defined above, and are lexically distinguished into two namespaces
 (Section~\ref{namespaces}):
 \begin{itemize}
 \item An operator symbol starting with a colon is a constructor.
@@ -197,9 +197,9 @@ infix, although each infix operator can be used in a {\em
 section}\index{section} to yield partially applied operators (see
 Section~\ref{sections}).
 All of the standard infix operators are just
-predefined symbols and may be rebound.  
+predefined symbols and may be rebound.
 
-In the remainder of the report six different kinds of 
+In the remainder of the report six different kinds of
 names\index{namespaces} will be used:
 
 @@@
@@ -257,7 +257,7 @@ This                       	    & Lexes as this                       \\
 @F.@                                & @F .@ (two tokens)                     \\
 \hline\eto\]
 The qualifier does not change the syntactic treatment of a name;
-for example, @Prelude.+@ is an infix operator with the same fixity as the 
+for example, @Prelude.+@ is an infix operator with the same fixity as the
 definition of @+@ in the Prelude (Section~\ref{fixity}).
 
 
@@ -306,9 +306,9 @@ char    ->  @'@ (graphic_{\langle{}@'@ | @\@\rangle{}} | space | escape_{\langle
 string  ->  @"@ \{graphic_{\langle{}@"@  | @\@\rangle{}} | space | escape | gap\} @"@
 escape  ->  @\@ ( charesc | ascii | decimal | @o@ octal | @x@ hexadecimal )
 charesc -> @a@ | @b@ | @f@ | @n@ | @r@ | @t@ | @v@ | @\@ | @"@ | @'@ | @&@
-ascii   -> @^@cntrl | @NUL@ | @SOH@ | @STX@ | @ETX@ | @EOT@ | @ENQ@ | @ACK@ 
-       | @BEL@ | @BS@ | @HT@ | @LF@ | @VT@ | @FF@ | @CR@ | @SO@ | @SI@ | @DLE@ 
-       | @DC1@ | @DC2@ | @DC3@ | @DC4@ | @NAK@ | @SYN@ | @ETB@ | @CAN@ 
+ascii   -> @^@cntrl | @NUL@ | @SOH@ | @STX@ | @ETX@ | @EOT@ | @ENQ@ | @ACK@
+       | @BEL@ | @BS@ | @HT@ | @LF@ | @VT@ | @FF@ | @CR@ | @SO@ | @SI@ | @DLE@
+       | @DC1@ | @DC2@ | @DC3@ | @DC4@ | @NAK@ | @SYN@ | @ETB@ | @CAN@
        | @EM@ | @SUB@ | @ESC@ | @FS@ | @GS@ | @RS@ | @US@ | @SP@ | @DEL@
 cntrl   -> ascLarge | @@ | @[@ | @\@ | @]@ | @^@ | @_@
 gap     ->  @\@ whitechar \{whitechar\} @\@
@@ -347,7 +347,7 @@ control characters such as @\^X@, are also provided.
 Numeric escapes such as @\137@ are used to designate the character
 with decimal representation 137; octal
 (e.g.~@\o137@) and hexadecimal (e.g.~@\x37@) representations are also
-allowed.  
+allowed.
 % Numeric escapes that are out-of-range of the Unicode standard
 % (16 bits) are an error.
 
@@ -406,11 +406,11 @@ For each subsequent line, if it contains only whitespace or is
 indented more, then the previous item is continued (nothing is
 inserted); if it is indented the same amount, then a new item begins
 (a semicolon is inserted); and if it is indented less, then the
-layout list ends (a close brace is inserted).  If the indentation of the 
-non-brace lexeme immediately following a @where@, @let@, @do@ or @of@ is less 
-than or equal to the current indentation level, then instead of starting 
-a layout, an empty list ``@{}@'' is inserted, and layout processing 
-occurs for the current level (i.e. insert a semicolon or close brace). 
+layout list ends (a close brace is inserted).  If the indentation of the
+non-brace lexeme immediately following a @where@, @let@, @do@ or @of@ is less
+than or equal to the current indentation level, then instead of starting
+a layout, an empty list ``@{}@'' is inserted, and layout processing
+occurs for the current level (i.e. insert a semicolon or close brace).
 A close brace is
 also inserted whenever the syntactic category containing the
 layout list ends; that is, if an illegal lexeme is encountered at
@@ -419,7 +419,7 @@ The layout rule matches only those open braces that it has
 inserted; an explicit open brace must be matched by
 an explicit close brace.  Within these explicit open braces,
 {\em no} layout processing is performed for constructs outside the
-braces, even if a line is 
+braces, even if a line is
 indented to the left of an earlier implicit open brace.
 
 Section~\ref{layout} gives a more precise definition of the layout rules.
@@ -428,7 +428,7 @@ Given these rules, a single newline may actually terminate several
 layout lists.  Also, these rules permit:
 \bprog
 @
-f x = let a = 1; b = 2 
+f x = let a = 1; b = 2
           g y = exp2
        in exp1
 @
@@ -450,7 +450,7 @@ because of the column 0 indentation of the end-of-file token.
 \begin{outlineenv}\small
 @
 module AStack( Stack, push, pop, top, size ) where
-data Stack a = Empty 
+data Stack a = Empty
              | MkStack a (Stack a)
 
 push :: a -> Stack a -> Stack a
@@ -475,7 +475,7 @@ top (MkStack x s) = x                     -- (top Empty) is an error
 \begin{outlineenv}\small
 @
 module AStack( Stack, push, pop, top, size ) where
-{data Stack a = Empty 
+{data Stack a = Empty
              | MkStack a (Stack a)
 
 ;push :: a -> Stack a -> Stack a
@@ -504,7 +504,6 @@ module AStack( Stack, push, pop, top, size ) where
 
 %**~footer
 
-% Local Variables: 
+% Local Variables:
 % mode: latex
 % End:
-

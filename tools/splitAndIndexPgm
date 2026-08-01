@@ -87,7 +87,7 @@ sub newState {
 sub printIndexEntries { # also re-sets $indexentries, specialentries
 
     local($i,$raw,$processed);
-    
+
     &grokForIndexEntries();	# in $SaveForIndexing; results in @indexentries, @specialentries
 
     foreach $i (@indexentries) {
@@ -207,10 +207,10 @@ sub grokForIndexEntries { # in $_
     while (/^\s*instance\s+(.*)\s+where\s*$/) {
 	local($stuff) = $1;
 	local($class); local($ty);
-	
+
 	# toss context
 	$stuff =~ s/\(.*\)\s*=>//;
-	
+
 	if ($stuff =~ /([A-Z][A-Za-z0-9_']*)\s*\(([A-Z][A-Za-z0-9_',]*)\s+[ a-z]+\)/) {
 	    # instance Foo(Bar x y z) where
 	    $class = $1; $ty = $2;

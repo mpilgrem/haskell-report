@@ -4,15 +4,15 @@
 %**<title>The Haskell 98 Report: Modules</title>
 %*section 5
 %**~header
-\section{Modules} 
-\label{modules} 
+\section{Modules}
+\label{modules}
 \index{module}
 
 A module defines a collection of values, datatypes, type synonyms,
 classes, etc.~(see Chapter~\ref{declarations}), in an environment created
 by a set of {\em imports} (resources brought into scope from other modules).
 It {\em exports} some of these resources, making them available to
-other modules.  
+other modules.
 We use the term {\em entity}\index{entity} to refer to
 a value, type, or class defined in, imported into, or perhaps
 exported from a module.
@@ -38,7 +38,7 @@ bodies\footnote{There are two minor exceptions to this statement.
 First, @default@ declarations scope over a single module (Section~\ref{default-decls}).
 Second, Rule 2 of the monomorphism restriction (Section~\ref{sect:monomorphism-restriction})
 is affected by module boundaries.
-}.  
+}.
 For example, here is a three-module program:
 \bprog
 @
@@ -93,7 +93,7 @@ all modules by default (see Section~\ref{standard-prelude}), plus a
 set of standard library modules that may be imported as required
 (see Part~\ref{libraries}).
 
-\subsection{Module Structure} 
+\subsection{Module Structure}
 \label{module-implementations}
 
 A module defines a mutually
@@ -116,15 +116,15 @@ topdecls     -> topdecl_1 @;@ ... @;@ topdecl_n 	& (n>=1)
 \indexsyn{impdecls}%
 \indexsyn{topdecls}%
 
-A module 
+A module
 begins with a header: the keyword
 @module@, the module name, and a list of entities (enclosed in round
 parentheses) to be exported.  The header is followed by a possibly-empty
 list of @import@ declarations ("impdecls", Section~\ref{import}) that specify modules to be imported,
-optionally restricting the imported bindings.  
+optionally restricting the imported bindings.
 This is followed by a possibly-empty list of top-level declarations ("topdecls", Chapter~\ref{declarations}).
 
-An abbreviated form of module, consisting only 
+An abbreviated form of module, consisting only
 of\index{abbreviated module}
 the module body, is permitted.  If this is used, the header is assumed to be
 `@module Main(main) where@'.
@@ -162,34 +162,34 @@ A value, field name, or class method, whether declared in
 the module body or imported,
 may be named by giving the name of the value as a "qvarid", which must be in scope.
 Operators should be enclosed in parentheses to turn them into
-"qvarid"s.  
+"qvarid"s.
 
 \item
 An algebraic datatype "T"
 \index{algebraic datatype}
 declared by a @data@ or @newtype@ declaration may be named in one of
-three ways: 
+three ways:
 \begin{itemize}
 \item
 The form "T" names the type {\em but not the constructors or field names}.
 The ability to export a type without its constructors allows the
 construction of abstract datatypes (see Section~\ref{abstract-types}).
 \item
-The form $T@(@c_1@,@\ldots@,@c_n@)@$, 
-names the type and some or all of its constructors and field names.  
+The form $T@(@c_1@,@\ldots@,@c_n@)@$,
+names the type and some or all of its constructors and field names.
 % Restriction removed March 02:
-% The subordinate names $c_i$ must not contain duplicates.  
+% The subordinate names $c_i$ must not contain duplicates.
 \item
-The abbreviated form "T@(..)@" names the type 
+The abbreviated form "T@(..)@" names the type
 and all its constructors and field names that are currently in scope
 (whether qualified or not).
 \end{itemize}
-In all cases, the (possibly-qualified) type constructor "T" must be in scope. 
+In all cases, the (possibly-qualified) type constructor "T" must be in scope.
 The constructor and field names $c_i$ in the second form are unqualified;
 one of these subordinate names is legal if and only if (a) it names a constructor
 or field of "T", and (b) the constructor or field
 is in scope in the module body {\em regardless of whether it is in scope
-under a qualified or unqualified name}. For example, the following is 
+under a qualified or unqualified name}. For example, the following is
 legal
 \bprog
 @
@@ -214,7 +214,7 @@ declared in a @class@ declaration may be named in one of three ways:
 The form "C" names the class {\em but not the class methods}.
 \item
 The form $C@(@f_1@,@\ldots@,@f_n@)@$, names the class and some or all
-of its methods.  
+of its methods.
 % Restriction removed March 02:
 % The subordinate names $f_i$ must not contain duplicates.
 \item
@@ -223,7 +223,7 @@ that are in scope (whether qualified or not).
 \end{itemize}
 In all cases, "C" must be in scope.  In the second form,
 one of the (unqualified) subordinate names $f_i$ is legal if and only if (a) it names a
-class method of "C", and (b) the class method 
+class method of "C", and (b) the class method
 is in scope in the module body regardless of whether it is in scope
 under a qualified or unqualified name.
 
@@ -241,11 +241,11 @@ For example:
 @
 \eprog
 Here the module @Queue@ uses the module name @Stack@ in its export
-list to abbreviate all the entities imported from @Stack@.  
+list to abbreviate all the entities imported from @Stack@.
 
 A module can name its own local definitions in its export
 list using its own name in the ``@module M@'' syntax, because a local
-declaration brings into scope both a qualified and unqualified name (Section~\ref{qualifiers}). 
+declaration brings into scope both a qualified and unqualified name (Section~\ref{qualifiers}).
 For example:
 \bprog
 @
@@ -257,18 +257,18 @@ For example:
 Here module @Mod1@ exports all local definitions as well as those
 imported from @Mod2@ but not those imported from @Mod3@.
 
-It is an error to use @module M@ in an export list unless @M@ is 
-the module bearing the export list, or @M@ is imported by at 
+It is an error to use @module M@ in an export list unless @M@ is
+the module bearing the export list, or @M@ is imported by at
 least one import declaration (qualified or unqualified).
 \end{enumerate}
 Exports lists are cumulative: the set of entities exported by an export
 list is the union of the entities exported by the individual items of the list.
 
-It makes no difference to an importing module how an entity was 
+It makes no difference to an importing module how an entity was
 exported.  For example, a field name @f@ from data type @T@ may be exported individually
 (@f@, item (1) above); or as an explicitly-named member of its data type (@T(f)@, item (2));
 or as an implicitly-named member (@T(..)@, item(2)); or by exporting an entire
-module (@module M@, item (5)).  
+module (@module M@, item (5)).
 
 The {\em unqualified} names of the entities exported by a module must all be distinct
 (within their respective namespace).  For example
@@ -280,7 +280,7 @@ The {\em unqualified} names of the entities exported by a module must all be dis
   g = f True
 @
 \eprog
-There are no name clashes within module @A@ itself, 
+There are no name clashes within module @A@ itself,
 but there are name clashes in the export list between @C.g@ and @g@
 (assuming @C.g@ and @g@ are different entities -- remember, modules
 can import each other recursively), and between @module B@ and @C.f@
@@ -316,14 +316,14 @@ The entities exported by a module may be brought into scope in
 another module with
 an @import@
 declaration at the beginning
-of the module.  
+of the module.
 The @import@ declaration names the module to be
 imported
 and optionally specifies the entities to be imported.
-A single module may be imported by more than one @import@ declaration.  
+A single module may be imported by more than one @import@ declaration.
 Imported names serve as top level declarations: they scope over
 the entire body of the module but may  be shadowed by local
-non-top-level bindings.  
+non-top-level bindings.
 
 The effect of multiple @import@ declarations is strictly
 cumulative: an entity is in scope if it is imported by any of the @import@
@@ -355,7 +355,7 @@ The list may be empty, in which case nothing except the instances is
 imported.
 
 \item
-Entities can be excluded by 
+Entities can be excluded by
 using the form @hiding(@"import_1 @,@ ... @,@ import_n"
 @)@,\index{hiding} which
 specifies that all entities exported by the named module should
@@ -368,13 +368,13 @@ associated type.  Thus, in
 @
 \eprog
 any constructor, class, or type named @C@ is excluded.  In contrast,
-using @C@ in an import list names only a class or type.  
+using @C@ in an import list names only a class or type.
 
 It is an error to hide an entity that is not, in fact, exported by
 the imported module.
 
 \item
-Finally, if "impspec" is omitted then 
+Finally, if "impspec" is omitted then
 all the entities exported by the specified module are imported.
 \end{enumerate}
 
@@ -389,7 +389,7 @@ qualified {\em and} unqualified name of the entity is brought into scope.
 Section~\ref{qualifiers} describes qualified names in more detail.
 
 The qualifier on the imported name is either the name of the imported module,
-or the local alias given in the @as@ clause (Section~\ref{as-clause}) 
+or the local alias given in the @as@ clause (Section~\ref{as-clause})
 on the @import@ statement.
 Hence, {\em the qualifier is not necessarily the name of the module in which the
 entity was originally declared}.
@@ -427,7 +427,7 @@ For example, in
 entities must be referenced using `@C.@' as a qualifier instead of
 `@VeryLongModuleName.@'.  This also allows a different module to be substituted
 for @VeryLongModuleName@ without changing the qualifiers used for the imported module.
-It is legal for more than one module in scope to 
+It is legal for more than one module in scope to
 use the same qualifier, provided that all names can still be resolved unambiguously.
 For example:
 \bprog
@@ -533,7 +533,7 @@ illegal to write
 always brings into scope the qualified name of the imported entity (Section~\ref{import}).
 This allows a qualified
 import to be replaced with an unqualified one without forcing changes
-in the references to the imported names.  
+in the references to the imported names.
 \end{itemize}
 
 
@@ -543,7 +543,7 @@ If a module contains a bound occurrence of a name, such as @f@ or @A.f@,
 it must be possible unambiguously to resolve which entity is thereby referred to;
 that is, there must be only one binding for @f@ or @A.f@ respectively.
 
-It is {\em not} an error for there to exist names that cannot be so 
+It is {\em not} an error for there to exist names that cannot be so
 resolved, provided that the program does not mention those names.  For example:
 \bprog
 @
@@ -551,13 +551,13 @@ resolved, provided that the program does not mention those names.  For example:
     import B
     import C
     tup = (b, c, d, x)
-  
+
   module B( d, b, x, y ) where
     import D
     x = ...
     y = ...
     b = ...
-  
+
   module C( d, c, x, y ) where
     import D
     x = ...
@@ -568,16 +568,16 @@ resolved, provided that the program does not mention those names.  For example:
     d = ...
 @
 \eprog
-Consider the definition of @tup@.  
+Consider the definition of @tup@.
 \begin{itemize}
 \item The references to @b@ and @c@
 can be unambiguously resolved to @b@ declared in @B@, and @c@ declared in
-@C@ respectively.  
+@C@ respectively.
 \item The reference to @d@ is unambiguously resolved to
 @d@ declared in @D@.  In this case the same entity is brought into scope by two routes
 (the import of @B@ and the import of @C@), and can be referred to in @A@ by the names
 @d@, @B.d@, and @C.d@.
-\item The reference to @x@ is ambiguous: it could mean @x@ declared in @B@, or @x@ 
+\item The reference to @x@ is ambiguous: it could mean @x@ declared in @B@, or @x@
 declared in @C@.  The ambiguity could be fixed by replacing the reference to @x@ by
 @B.x@ or @C.x@.
 \item There is no reference to @y@, so it is not erroneous that distinct entities called
@@ -630,7 +630,7 @@ not even be explicitly exported: the following program is valid even though
   module M1(x) where
     data T = T
     x = T
-  
+
   module M2 where
     import M1(x)
     y = x
@@ -668,9 +668,9 @@ functions, called the ``Standard Prelude.''  In
 \Haskell{}, the Prelude is contained in the
 module @Prelude@.\indexmodule{Prelude} There are also
 many predefined library modules, which provide less frequently used
-functions and types.  For example, complex numbers, arrays, 
+functions and types.  For example, complex numbers, arrays,
 and most of the input/output are all part of the standard
-libraries.    These are 
+libraries.    These are
 defined in Part~\ref{libraries}.
 Separating
 libraries from the Prelude has the advantage of reducing the size and
@@ -708,11 +708,11 @@ implementation only gives a scheme.
 Chapter~\ref{stdprelude} defines the module @Prelude@ using
 several other modules: @PreludeList@, @PreludeIO@, and so on.
 These modules are {\em not} part of Haskell, and they cannot be imported
-separately.  They are simply 
+separately.  They are simply
 there to help explain the structure of the @Prelude@ module; they
 should be considered part of its implementation, not part of the language
 definition.
- 
+
 \subsubsection{Shadowing Prelude Names}
 \label{std-prel-shadowing}
 
@@ -723,7 +723,7 @@ that makes this nonstandard usage explicit.  For example:
 \bprog
 @
   module A( null, nonNull ) where
-    import Prelude hiding( null ) 
+    import Prelude hiding( null )
     null, nonNull :: Int -> Bool
     null    x = x == 0
     nonNull x = not (null x)
@@ -755,7 +755,7 @@ affect the meaning of these special constructs.  For example, in
 \eprog
 the explicit @import Prelude()@ declaration prevents the automatic
 import of @Prelude@, while the declaration @import MyPrelude@ brings the
-non-standard prelude into scope.  
+non-standard prelude into scope.
 The special syntax for tuples (such as @(x,x)@ and @(,)@) and lists
 (such as @[x]@ and @[]@) continues to refer to the tuples and lists
 defined by the standard @Prelude@;
@@ -775,7 +775,7 @@ additional information so that they may be referenced before they are
 compiled.  Explicit type signatures for all exported values may be
 necessary to deal with mutual recursion.  The
 precise details of separate compilation are not defined by this
-report. 
+report.
 
 \subsection{Abstract Datatypes}
 \label{abstract-types}
@@ -799,7 +799,7 @@ Instead, they must use @push@, @pop@, and @empty@ to construct such values.
 
 It is also possible to build an ADT on top of an existing type by
 using a @newtype@ declaration.  For example, stacks can be defined
-with lists: 
+with lists:
 \bprog
 @
   module Stack( StkType, push, pop, empty ) where
@@ -813,6 +813,6 @@ with lists:
 
 %**~footer
 
-% Local Variables: 
+% Local Variables:
 % mode: latex
 % End:

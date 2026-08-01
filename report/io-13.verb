@@ -57,7 +57,7 @@ In the following, recall that @String@ is a synonym for @[Char]@ (Section~\ref{c
 
 \paragraph*{Output Functions}
 These functions write to the standard output device (this is normally
-the user's terminal). 
+the user's terminal).
 \bprog
 @
   putChar  :: Char -> IO ()
@@ -104,14 +104,14 @@ the user's terminal).
 \indextt{getChar}%
 \indextt{getLine}%
 \indextt{getContents}%
-The @getChar@ operation raises an exception (Section~\ref{io-exceptions}) on end-of-file; a 
+The @getChar@ operation raises an exception (Section~\ref{io-exceptions}) on end-of-file; a
 predicate @isEOFError@ that identifies this exception is defined in the @IO@ library.
-The @getLine@ operation raises an exception under the same circumstances as @hGetLine@, 
+The @getLine@ operation raises an exception under the same circumstances as @hGetLine@,
 defined the @IO@ library.
 
 The @getContents@ operation returns all user input as a single
 string, which is read lazily as it is needed.  The @interact@
-function takes a function of type 
+function takes a function of type
 @String->String@ as its argument.  The entire input from the standard
 input device is passed to this function
 as its argument, and the resulting string is output on the
@@ -124,7 +124,7 @@ terminating the program.  The @readLn@ function combines @getLine@ and
 @readIO@.
 
 % Removed after extended debate on the Haskell mailing list.
-% By default, these input functions echo to standard output.  
+% By default, these input functions echo to standard output.
 
 % Functions in the I/O library provide full control over echoing.
 % Lies, all lies
@@ -150,7 +150,7 @@ lazily, on demand, as with @getContents@.
 \bprog
 @
   type FilePath =  String
-  
+
   writeFile  :: FilePath -> String -> IO ()
   appendFile :: FilePath -> String -> IO ()
   readFile   :: FilePath           -> IO String
@@ -179,10 +179,10 @@ operations.  The @>>@
 function is used where the result of the first operation is
 uninteresting, for example when it is @()@.  The @>>=@ operation
 passes the result of the first operation as an argument to the second
-operation.  
+operation.
 \bprog
 @
-  (>>=) :: IO a -> (a -> IO b) -> IO b 
+  (>>=) :: IO a -> (a -> IO b) -> IO b
   (>>)  :: IO a -> IO b        -> IO b
 @
 \eprog
@@ -210,7 +210,7 @@ main = do
         putStr "Output file: "
         ofile <- getLine
         s <- readFile ifile
-        writeFile ofile (filter isAscii s) 
+        writeFile ofile (filter isAscii s)
         putStr "Filtering successful\n"
 @
 \eprog
@@ -235,7 +235,7 @@ getLine = do c <- getChar
 The I/O monad includes a simple exception handling system.  Any I/O
 operation may raise an exception instead of returning a result.
 
-Exceptions in the I/O monad are represented by values of 
+Exceptions in the I/O monad are represented by values of
 type @IOError@.  This is an abstract type: its constructors are hidden
 from the user.  The @IO@ library defines functions that construct and
 examine @IOError@ values.  The only Prelude function that creates an
@@ -251,7 +251,7 @@ Exceptions are raised and caught using the following functions:
 \bprog
 @
   ioError :: IOError -> IO a
-  catch   :: IO a    -> (IOError -> IO a) -> IO a 
+  catch   :: IO a    -> (IOError -> IO a) -> IO a
 @
 \eprog
 \indextt{ioError}%
@@ -279,7 +279,7 @@ The @fail@ method of the @IO@ instance of the @Monad@ class (Section~\ref{monad-
 @userError@, thus:
 \bprog
 @
-  instance Monad IO where 
+  instance Monad IO where
     ...bindings for return, (>>=), (>>)
 
     fail s = ioError (userError s)
@@ -290,7 +290,3 @@ The exceptions raised by the I/O functions in the Prelude are defined
 in Chapter~\ref{module:System.IO.Error}.
 
 %**~footer
-
-
-
-

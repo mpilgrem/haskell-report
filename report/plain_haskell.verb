@@ -135,11 +135,11 @@
 \newcommand{\ecaption}[1]{\vspace{-1 ex}\caption{#1}\vspace{1 ex}}
 % partain fiddled here...
 %   also had to change two lines in verbatim.lex from
-%<SYNTAX>{nl}"|"{sp}	{ printf ("$\\\\ \n$\\it "); 
+%<SYNTAX>{nl}"|"{sp}	{ printf ("$\\\\ \n$\\it ");
 %			  printf ("$\\>\\makebox[3em]{$|$}$\\it "); }
 % to
 %
-%<SYNTAX>{nl}"|"{sp}	{ printf ("$\\\\ \n$\\it "); 
+%<SYNTAX>{nl}"|"{sp}	{ printf ("$\\\\ \n$\\it ");
 %			  printf ("$\\>\\makebox[3.5em]{$|$}$\\it "); }
 % so things would still line up.  Oh what a hack.
 %
@@ -168,12 +168,12 @@
 
 % haskell code
 % partain fiddled here...
-% \newcommand{\bprog}{\par \begin{tabular}{|l} 
+% \newcommand{\bprog}{\par \begin{tabular}{|l}
 %                   \mbox \bgroup \begin{minipage} {\textwidth} }
 % 6.0in (\textwidth) - 17pt (\parindent) ~=~ 412pt
-%\newcommand{\bprog}{\par \begin{tabular}{@@{}l@@{}} 
+%\newcommand{\bprog}{\par \begin{tabular}{@@{}l@@{}}
 %                   \mbox \bgroup \begin{minipage} {412pt} }
-%\newcommand{\eprog}{\end{minipage} 
+%\newcommand{\eprog}{\end{minipage}
 %                    \egroup
 %                    \end{tabular}\\[\parskip]}
 % 17pt is \parindent
@@ -358,7 +358,7 @@
 \newcommand{\qualcomb}[2]{#1\ @,@\ #2}
 \newcommand{\genguard}[1]{\ #1\ }
 \newcommand{\caseexpr}[2]{@case@\ #1\ @of@\ @{@\ #2\ @}@}
-\newcommand{\simplecaseexpr}[5]{@case@\ #1\ @of@\ @{@\ #2\ @->@\ #3;\ #4\ @->@\ #5\ @}@} 
+\newcommand{\simplecaseexpr}[5]{@case@\ #1\ @of@\ @{@\ #2\ @->@\ #3;\ #4\ @->@\ #5\ @}@}
 \newcommand{\iteexpr}[3]{@if@\ #1\ @then@\ #2\ @else@\ #3}
 \newcommand{\itexpr}[2]{@if@\ #1\ @then@\ #2}
 \newcommand{\gpat}[2]{#1\ @|@\ #2}
@@ -464,7 +464,7 @@ Authors' affiliations:
 \vspace{.2in}
 
 \begin{center}
-Copyright (c) Simon Peyton Jones and John Hughes. 
+Copyright (c) Simon Peyton Jones and John Hughes.
 \end{center}
 {\em The authors intend this Report to belong to the entire Haskell
 community, and so we grant permission to copy and distribute it for
@@ -498,7 +498,7 @@ a definition of the language Haskell 98.}
 % Simon Peyton Jones$^1$ \\
 % \end{center}
 % \vspace{.15in}
-% 
+%
 % \begin{quotation} \noindent
 % Authors' affiliations:
 % (1)~University of Glasgow,
@@ -574,6 +574,6 @@ a definition of the language Haskell 98.}
 \printindex
 \end{document}
 
-% Local Variables: 
+% Local Variables:
 % mode: latex
 % End:
