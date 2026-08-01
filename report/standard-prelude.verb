@@ -9,7 +9,7 @@
 
 In this chapter the entire \Haskell{} Prelude is given.  It constitutes
 a {\em specification} for the Prelude.  Many of the definitions are
-written with clarity rather than efficiency in mind, 
+written with clarity rather than efficiency in mind,
 and it is not required that the specification be implemented as shown here.
 
 The default method definitions, given with @class@ declarations, constitute
@@ -22,7 +22,7 @@ will not work properly for types whose range exceeds that of @Int@ (because
 The Prelude shown here is organized into a root module, @Prelude@,
 and three sub-modules, @PreludeList@, @PreludeText@, and @PreludeIO@.
 This structure is purely presentational.
-An implementation is not required to use 
+An implementation is not required to use
 this organisation for the Prelude,
 nor are these three modules available for import separately.
 Only the exports of module @Prelude@ are significant.
@@ -76,5 +76,3 @@ versions are given in the @Data.List@ library, with the prefix
 \label{preludeio}
 \inputHS{PreludeIO}
 %**~footer
-
-

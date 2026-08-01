@@ -11,7 +11,7 @@
 % versions of this Report may also be copied and distributed for any purpose,
 % provided that the modified version is clearly presented as such, and that it
 % does not claim to be a definition of the Haskell 98 Foreign Function
-% Interface. 
+% Interface.
 
 % Changes since RC15:
 % * 6.3: Footnote regarding __STDC_ISO_10646__ added to text introducing
@@ -40,7 +40,7 @@
 %          string marshalling; in particular, this adds `CWString' and
 %          `CWStringLen' as well as the `CWString' and the `CAString' family
 %          of marshalling routines.  In addition, `charIsRepresentable' was
-%          added. 
+%          added.
 %
 % Changes since RC11:
 % * 5.5: Swapped argument order of `newForeignPtr' and `addForeignPtrFinalizer'
@@ -65,11 +65,11 @@
 % * 5.6:   Clarified the description of `StablePtr'
 % * 5.8:   Added `finalizerFree'
 % * 6.2:   All the types in CTypes must be newtypes that are exported
-%          abstractly. 
+%          abstractly.
 %
 % Changes since RC8:
 % * 5.8: `MarshallAlloc.reallocBytes' is no longer permitted on memory
-%        allocated with `alloca' or `allocaBytes'. 
+%        allocated with `alloca' or `allocaBytes'.
 % * 6.1: Deinitialisation of the RTS via `hs_exit()' followed by
 %        (re)initialisation with `hs_init()' must be supported.
 %
@@ -99,7 +99,7 @@
 % * 4.1:   Explicitly stated that access to pre-processor symbols is not
 %          provided by the FFI
 % * 4.1.1: Removed [lib] from impent syntax and discussion
-% * 4.1.3: Added parentheses round FunPtr ft to make it easier to 
+% * 4.1.3: Added parentheses round FunPtr ft to make it easier to
 %          understand a tolerably complex type.
 % * 4.1.4: Removed all mention of library objects; clarified that header files
 %          do not impact the semantics of foreign calls, but may be required
@@ -119,7 +119,7 @@
 %          (HsFunPtr) NULL, respectively.
 %          Allowing multiple calls to hs_init() and clarified the constraints
 %          on the relative timing between hs_set_argv() and
-%          getProgName/getArgs. 
+%          getProgName/getArgs.
 %          Added hs_perform_gc().
 %
 % Changes since RC4:
@@ -249,7 +249,7 @@ leave it to the C compiler to match this prototype with the prototype that is
 specified in a C header file for the imported function.  However, the Haskell
 type is lacking some information that would be required to pursue this route.
 In particular, the Haskell type does not contain any information as to when
-@const@ modifiers have to be emitted.  
+@const@ modifiers have to be emitted.
 
 As a consequence, this definition does not require the Haskell system to check
 consistency with foreign types.  Nevertheless, Haskell systems are encouraged
@@ -347,13 +347,13 @@ identifiers for common calling conventions.
       \hline
       Identifier & Represented calling convention\\
       \hline\hline
-      @ccall@ 
+      @ccall@
       & Calling convention of the standard C compiler on a system\\
       @cplusplus@
       & Calling convention of the standard C{+}{+} compiler on a system\\
       @dotnet@
       & Calling convention of the \textsc{.net} platform\\
-      @jvm@ 
+      @jvm@
       & Calling convention of the Java Virtual Machine\\
       @stdcall@
       & Calling convention of the Win32 API (matches Pascal conventions)\\
@@ -651,7 +651,7 @@ pointers.  If neither of the specifiers @static@, @dynamic@, or
 It should be noted that a static foreign declaration that does not import an
 address (i.e., where @&@ is not used in the specification of the external
 entity) always refers to a C function, even if the Haskell type is
-non-functional.  For example, 
+non-functional.  For example,
 \bprog
 @
 foreign import ccall foo :: CInt
@@ -731,7 +731,7 @@ foreign import ccall "errno.h &errno" errno :: Ptr CInt
   %
 \bprog
 @
-foreign import ccall "dynamic" 
+foreign import ccall "dynamic"
   mkFun :: FunPtr (CInt -> IO ()) -> (CInt -> IO ())
 @
 \eprog
@@ -748,7 +748,7 @@ foreign import ccall "dynamic"
   %
 \bprog
 @
-foreign import ccall "wrapper" 
+foreign import ccall "wrapper"
   mkCallback :: IO () -> IO (FunPtr (IO ()))
 @
 \eprog
@@ -770,7 +770,7 @@ standard guarantees that any search path that would be used for a
 all paths that are unique to @#include "@"chname"@"@.  Furthermore,
 we require that "chname" ends in @.h@ to make parsing of the
 specification of external entities unambiguous.
-  
+
 The specification of include files has been kept to a minimum on purpose.
 Libraries often require a multitude of include directives, some of which may
 be system-dependent.  Any design that attempts to cover all possible
@@ -862,39 +862,39 @@ conventions only differ in the generated code.
 
 
 % \begin{FUTURE} % ===== Material for future extension =======================
-% 
+%
 % \subsubsection{C{+}{+} Calls}
-% 
+%
 % The syntax for the specification of external entities under the
 % @cplusplus@ calling convention is
-% 
+%
 % \subsubsection{JVM Calls}
-% 
+%
 % The syntax for the specification of external entities under the @jvm@
-% calling convention is 
+% calling convention is
 % %
-% 
+%
 %   \grule{impent}{%
 %     ""jtype" "jqid"("jtypes")"}
 %   \gor[constructor call]{%
 %     "new "jqid"("jtypes")"}
 %   \grule[$n\geq0$]{jtypes}{%
 %     \gnterm[1]{jtype},\gellipse,\gnterm[n]{jtype}}
-% 
+%
 % %
 % where "jqid" is a qualified Java identifier and "jtype" a Java
 % types as defined in~\cite{gosling-etal:Java}.
-% 
+%
 % \begin{verbatim}
-% FIXME: 
+% FIXME:
 % - force the inclusion of the return type in case of "new"?
 % \end{verbatim}
-% 
+%
 % \subsubsection{.NET Calls}
-% 
+%
 % The syntax for the specification of external entities under the @dotnet@
 % calling convention is
-% 
+%
 % \end{FUTURE}% =============================================================
 
 
@@ -949,7 +949,7 @@ corresponding C type.
       \hline
       C symbol          & Haskell symbol & Constraint on concrete C type\\
       \hline\hline
-      @HsChar@     & @Char@    
+      @HsChar@     & @Char@
       & integral type\\
       \hline
       @HsInt@      & @Int@
@@ -965,7 +965,7 @@ corresponding C type.
       & signed integral type, 32 bit; @int32_t@ if available\\
       \hline
       @HsInt64@    & @Int64@
-      & signed integral type, 64 bit; @int64_t@ if available\\ 
+      & signed integral type, 64 bit; @int64_t@ if available\\
       \hline
       @HsWord8@    & @Word8@
       & unsigned integral type, 8 bit; @uint8_t@ if available\\
@@ -1142,7 +1142,7 @@ in a foreign function declaration should be matched by @HsT@ in the
 corresponding C function prototype.  Indeed, where the Haskell system
 translates Haskell to C code that invokes @foreign@ @import@ed C
 routines, such prototypes need to be provided and included via the header that
-can be specified in external entity strings for foreign C functions (cf.\ 
+can be specified in external entity strings for foreign C functions (cf.\
 Section~\ref{sec:ccall}); otherwise, the system behaviour is undefined.  It is
 guaranteed that the Haskell value @nullPtr@ is mapped to @(HsPtr) NULL@ in C and @nullFunPtr@ is mapped to @(HsFunPtr) NULL@ and
 vice versa.

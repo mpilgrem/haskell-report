@@ -9,7 +9,7 @@
 
 \Haskell{}\index{Haskell@@\Haskell{}} is a general purpose, purely functional
 programming language incorporating many recent innovations in
-programming language design.  \Haskell{} provides 
+programming language design.  \Haskell{} provides
 higher-order functions,
 non-strict semantics, static polymorphic typing, user-defined
 algebraic datatypes, pattern-matching, list comprehensions, a module
@@ -114,7 +114,7 @@ in typewriter font:
 @
 \eprog
 ``Holes'' in program fragments representing arbitrary
-pieces of \Haskell{} code are written in italics, as in 
+pieces of \Haskell{} code are written in italics, as in
 "@if@ e_1 @then@ e_2 @else@ e_3".  Generally the italicized names are
 mnemonic, such as "e" for expressions, "d" for
 declarations, "t" for types, etc.
@@ -198,6 +198,6 @@ within a single scope.
 %are allowed by the standard must be explicitly documented.
 
 %**~footer
-% Local Variables: 
+% Local Variables:
 % mode: latex
 % End:

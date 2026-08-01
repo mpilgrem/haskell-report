@@ -1,11 +1,11 @@
 %
 % $Header: /home/cvs/root/haskell-report/report/syntax-lexical.verb,v 1.10 2003/01/13 13:08:56 simonpj Exp $
-% 
+%
 
 @@@
 
 program		-> \{ lexeme | whitespace \}
-lexeme          -> qvarid | qconid | qvarsym | qconsym 
+lexeme          -> qvarid | qconid | qvarsym | qconsym
                 | literal | special | reservedop | reservedid
 literal		-> integer | float | char | string
 special		-> @(@ | @)@ | @,@ | @;@ | @[@ | @]@ | \bkq | @{@ | @}@

@@ -28,7 +28,7 @@ meaning of the underlying type.
 \index{boolean}
 \bprog
 @
-data  Bool  =  False | True deriving 
+data  Bool  =  False | True deriving
                              (Read, Show, Eq, Ord, Enum, Bounded)
 @
 \eprog
@@ -54,11 +54,11 @@ is an enumeration whose values represent Unicode characters~\cite{unicode}.
 % and consists of 16 bit values, conforming to
 % the Unicode standard~\cite{unicode}.
 % of which the first 128
-% are the ASCII\index{ASCII character set} character set.  
+% are the ASCII\index{ASCII character set} character set.
 The lexical syntax for
 characters is defined in Section~\ref{lexemes-char}; character
 literals are nullary constructors in the datatype @Char@.  Type @Char@
-is an instance of the classes @Read@, @Show@, @Eq@, @Ord@, 
+is an instance of the classes @Read@, @Show@, @Eq@, @Ord@,
 @Enum@, and @Bounded@.  The @toEnum@ and @fromEnum@ functions,
 standard functions from class @Enum@, map characters to and from the
 @Int@ type.
@@ -99,7 +99,7 @@ The first constructor is the null list, written `@[]@' (``nil''),
 and the second is `@:@' (``cons'').
 \indextt{:}
 The module @PreludeList@ (see Section~\ref{preludelist})
-defines many standard list functions.  
+defines many standard list functions.
 Arithmetic sequences
 \index{arithmetic sequence}
 and list comprehensions,
@@ -107,7 +107,7 @@ and list comprehensions,
 two convenient
 syntaxes for special kinds of lists, are described in
 Sections~\ref{arithmetic-sequences} and \ref{list-comprehensions},
-respectively.  Lists are an instance of classes @Read@, @Show@, @Eq@, @Ord@, 
+respectively.  Lists are an instance of classes @Read@, @Show@, @Eq@, @Ord@,
 @Monad@, @Functor@, and @MonadPlus@.
 
 \subsubsection{Tuples}
@@ -230,7 +230,7 @@ The function @seq@ is defined by the equations:
 avoiding unneeded laziness.  Strict datatypes (see
 \index{strictness flags}
 Section~\ref{strictness-flags}) are defined in terms of the @$!@
-operator. 
+operator.
 However, the provision of @seq@ has important semantic consequences, because it is available
 {\em at every type}.
 As a consequence, "\bot" is
@@ -238,7 +238,7 @@ not the same as @\x -> @ "\bot", since @seq@ can be used to distinguish them.
 For the same reason, the existence of @seq@ weakens Haskell's parametricity properties.
 
 The operator @$!@ is strict (call-by-value) application, and is defined
-in terms of @seq@.  The Prelude also defines the @$@ operator to perform 
+in terms of @seq@.  The Prelude also defines the @$@ operator to perform
 non-strict application.
 \bprog
 @
@@ -248,7 +248,7 @@ non-strict application.
   f $! x   =  x `seq` f x
 @
 \eprog
-The non-strict application operator @$@ may appear redundant, since 
+The non-strict application operator @$@ may appear redundant, since
 ordinary application @(f x)@ means the same as @(f $ x)@.
 However, @$@ has low, right-associative binding precedence,
 so it sometimes allows parentheses to be omitted; for example:
@@ -261,7 +261,7 @@ It is also useful in higher-order situations, such as @map ($ 0) xs@,
 or @zipWith ($) fs xs@.
 
 \subsection{Standard Haskell Classes}
-Figure~\ref{standard-classes} shows the hierarchy of 
+Figure~\ref{standard-classes} shows the hierarchy of
 \Haskell{} classes defined in the Prelude and the Prelude types that
 are instances of these classes.
 \begin{figure}%
@@ -270,7 +270,7 @@ are instances of these classes.
 \includegraphics[scale=0.7]{classes}
 % \struthack{11pt}
 %*endignore
-%**<div align=center><img src="classes.gif" alt="Diagram of standard Haskell classes"> 
+%**<div align=center><img src="classes.gif" alt="Diagram of standard Haskell classes">
 %**<h4>Figure 5</h4> </div>
 \ecaption{Standard Haskell Classes}
 \label{standard-classes}
@@ -343,7 +343,7 @@ the one that is defined.  If both are defined, neither default method is used.
 The @Ord@ class is used for totally ordered datatypes.  All basic
 datatypes
 except for functions, @IO@, and @IOError@, are instances of this class.  Instances
-of @Ord@ 
+of @Ord@
 can be derived for any user-defined datatype whose constituent types
 are in @Ord@.  The declared order
 of the constructors in the data declaration determines the ordering in
@@ -352,7 +352,7 @@ The @Ordering@ datatype
 allows a single comparison to determine the precise ordering of two
 objects.
 
-The default declarations allow a user to create an @Ord@ instance 
+The default declarations allow a user to create an @Ord@ instance
 either with a type-specific @compare@ function or with type-specific
 @==@ and @<=@ functions.
 
@@ -378,7 +378,7 @@ class  Read a  where
 
 class  Show a  where
     showsPrec :: Int -> a -> ShowS
-    show      :: a -> String 
+    show      :: a -> String
     showList  :: [a] -> ShowS
 
     showsPrec _ x s   = show x ++ s
@@ -387,7 +387,7 @@ class  Show a  where
 @
 \eprog
 The @Read@ and @Show@ classes are used to convert values to
-or from strings. 
+or from strings.
 The @Int@ argument to @showsPrec@ and @readsPrec@ gives the operator
 precedence of the enclosing context (see Section~\ref{derived-text}).
 
@@ -404,18 +404,18 @@ shown in double quotes, rather than between square brackets.
 Derived instances of @Read@ and @Show@ replicate the style in which a
 constructor is declared: infix constructors and field names are used
 on input and output.  Strings produced by @showsPrec@ are usually
-readable by @readsPrec@.  
+readable by @readsPrec@.
 
 All @Prelude@ types, except function types and @IO@ types,
 are instances of @Show@ and @Read@.
-(If desired, a programmer can easily make functions and @IO@ types 
+(If desired, a programmer can easily make functions and @IO@ types
 into (vacuous) instances of @Show@, by providing an instance declaration.)
 
 \indextt{reads}
 \indextt{shows}
 \indextt{read}
 For convenience, the Prelude provides the following auxiliary
-functions: 
+functions:
 \bprog
 @
 reads   :: (Read a) => ReadS a
@@ -434,7 +434,7 @@ read s  =  case [x | (x,t) <- reads s, ("","") <- lex t] of
 \indextt{shows}\indextt{reads}\indextt{show}\indextt{read}
 @shows@ and @reads@ use a default precedence of 0.  The @read@ function reads
 input from a string, which must be completely consumed by the input
-process.  
+process.
 
 \indextt{lex}
 The function @lex :: ReadS String@, used by @read@, is also part of the Prelude.
@@ -472,7 +472,7 @@ Class @Enum@ defines operations on sequentially ordered types.
 The functions @succ@ and @pred@ return the successor and predecessor,
 respectively, of a value.
 The functions @fromEnum@ and @toEnum@ map values from a type in
-@Enum@ to and from @Int@.  
+@Enum@ to and from @Int@.
 The @enumFrom@... methods are used when translating arithmetic
 sequences (Section~\ref{arithmetic-sequences}).
 
@@ -485,11 +485,11 @@ should hold:
 \item The calls @succ maxBound@ and @pred minBound@ should result in
 a runtime error.
 
-\item @fromEnum@ and @toEnum@ should give a runtime error if the 
+\item @fromEnum@ and @toEnum@ should give a runtime error if the
 result value is not representable in the result type.  For example,
 @toEnum 7 :: Bool@ is an error.
 
-\item @enumFrom@ and @enumFromThen@ should be defined with 
+\item @enumFrom@ and @enumFromThen@ should be defined with
 an implicit bound, thus:
 \bprog
 @
@@ -502,7 +502,7 @@ an implicit bound, thus:
 \eprog
 \end{itemize}
 
-The following @Prelude@ types are instances of @Enum@: 
+The following @Prelude@ types are instances of @Enum@:
 \begin{itemize}
 \item Enumeration types: @()@, @Bool@, and @Ordering@. The
 semantics of these instances is given by Chapter~\ref{derived-appendix}.
@@ -519,10 +519,10 @@ of these instances is given next.
 For all four numeric types, @succ@ adds 1, and @pred@ subtracts 1.
 The conversions @fromEnum@ and @toEnum@ convert between the type and @Int@.
 In the case of @Float@ and @Double@, the digits after the decimal point may be lost.
-It is implementation-dependent what @fromEnum@ returns when applied to 
+It is implementation-dependent what @fromEnum@ returns when applied to
 a value that is too large to fit in an @Int@.
 
-For the types @Int@ and @Integer@, the enumeration functions 
+For the types @Int@ and @Integer@, the enumeration functions
 have the following meaning:
 \begin{itemize}
 \item The sequence "@enumFrom@~e_1" is the list "@[@e_1@,@e_1+1@,@e_1+2@,@...@]@".
@@ -531,13 +531,13 @@ have the following meaning:
 where the increment, "i", is "e_2-e_1".  The increment may be zero or negative.
 If the increment is zero, all the list elements are the same.
 
-\item The sequence "@enumFromTo@~e_1~e_3" is 
+\item The sequence "@enumFromTo@~e_1~e_3" is
 the list "@[@e_1@,@e_1+1@,@e_1+2@,@...e_3@]@".
 The list is empty if "e_1 > e_3".
 
-\item The sequence "@enumFromThenTo@~e_1~e_2~e_3" 
+\item The sequence "@enumFromThenTo@~e_1~e_2~e_3"
 is the list "@[@e_1@,@e_1+i@,@e_1+2i@,@...e_3@]@",
-where the increment, "i", is "e_2-e_1".  If the increment 
+where the increment, "i", is "e_2-e_1".  If the increment
 is positive or zero, the list terminates when the next element would
 be greater than "e_3"; the list is empty if "e_1 > e_3".
 If the increment is negative, the list terminates when the next element would
@@ -548,7 +548,7 @@ given by the rules for @Int@ above, except that the list terminates
 when the elements become greater than "e_3+i/2" for positive increment
 "i", or when they become less than "e_3+i/2" for negative "i".
 
-For all four of these Prelude numeric types, all of the @enumFrom@ 
+For all four of these Prelude numeric types, all of the @enumFrom@
 family of functions are strict in all their arguments.
 
 \subsubsection{The Functor Class}
@@ -564,7 +564,7 @@ class  Functor f  where
 \eprog
 The @Functor@
 class is used for types that can be mapped over.  Lists, @IO@, and
-@Maybe@ are in this class. 
+@Maybe@ are in this class.
 
 Instances of @Functor@ should satisfy the following laws:
 \[\ba{lcl}
@@ -602,7 +602,7 @@ monadic expressions (see Section~\ref{do-expressions}).
 The @fail@ method is invoked on pattern-match failure in a @do@
 expression.
 
-In the Prelude, lists, 
+In the Prelude, lists,
 @Maybe@, and @IO@ are all instances of @Monad@.
 The @fail@ method for lists returns the empty list @[]@,
 for @Maybe@ returns @Nothing@, and for @IO@ raises a user
@@ -620,11 +620,11 @@ Instances of both @Monad@ and @Functor@ should additionally satisfy the law:
 \ea\]\ifhtml{\\}{}
 All instances of @Monad@ defined in the Prelude satisfy these laws.
 
-The Prelude provides the following auxiliary functions: 
+The Prelude provides the following auxiliary functions:
 \bprog
 @
-sequence  :: Monad m => [m a] -> m [a] 
-sequence_ :: Monad m => [m a] -> m () 
+sequence  :: Monad m => [m a] -> m [a]
+sequence_ :: Monad m => [m a] -> m ()
 mapM      :: Monad m => (a -> m b) -> [a] -> m [b]
 mapM_     :: Monad m => (a -> m b) -> [a] -> m ()
 (=<<)     :: Monad m => (a -> m b) -> m a -> m b
@@ -649,7 +649,7 @@ The @Bounded@ class is used to name the upper and lower limits of a
 type.  @Ord@ is not a superclass of @Bounded@ since types that are not
 totally ordered may also have upper and lower bounds.
 The types @Int@, @Char@, @Bool@,
-@()@, @Ordering@, and all tuples are instances of @Bounded@.  
+@()@, @Ordering@, and all tuples are instances of @Bounded@.
 The @Bounded@ class may be derived
 for any enumeration type; @minBound@ is the first constructor listed
 in the @data@ declaration and @maxBound@ is the last.  @Bounded@ may
@@ -672,7 +672,7 @@ types is a subclass of @Eq@\indexclass{Eq}, since all numbers may be
 compared for equality; its subclass @Real@\indexclass{Real} is also a
 subclass of @Ord@\indexclass{Ord}, since the other comparison operations
 apply to all but complex numbers (defined in the @Complex@ library).
-The class @Integral@\indexclass{Integral} contains integers of both 
+The class @Integral@\indexclass{Integral} contains integers of both
 limited and unlimited range; the class
 @Fractional@\indexclass{Fractional} contains all non-integral types; and
 the class @Floating@\indexclass{Floating} contains all floating-point
@@ -684,10 +684,10 @@ precision floating (@Float@), and double precision floating
 (@Double@).  Other numeric types such as rationals and complex numbers
 are defined in libraries.  In particular, the type @Rational@ is a
 ratio of two @Integer@ values, as defined in the @Ratio@
-library.  
+library.
 
 The default floating point operations defined by the \Haskell{}
-Prelude do not 
+Prelude do not
 conform to current language independent arithmetic (LIA) standards.  These
 standards require considerably more complexity in the numeric
 structure and have thus been relegated to a library.  Some, but not
@@ -696,7 +696,7 @@ accounted for in Prelude class @RealFloat@.
 
 The standard numeric types are listed in Table~\ref{standard-numeric-types}.
 The finite-precision integer type @Int@\indextycon{Int} covers at
-least the range 
+least the range
 "[ - 2^{29}, 2^{29} - 1]\/".  As @Int@ is an instance of the @Bounded@
 class, @maxBound@ and @minBound@ can be used to determine the exact
 @Int@ range defined by an implementation.
@@ -715,7 +715,7 @@ infinity, indefinite, etc.
 \[
 \bto{|l|l|l|}
 \hline
-\multicolumn{1}{|c|}{Type} & 
+\multicolumn{1}{|c|}{Type} &
 	\multicolumn{1}{c|}{Class} &
 	\multicolumn{1}{c|}{Description} \\ \hline
 @Integer@ & @Integral@ & Arbitrary-precision integers \\
@@ -778,7 +778,7 @@ class  (Fractional a) => Floating a  where
 \indextt{+}
 \indextt{-}
 \indextt{*}
-\indextt{negate}\indextt{abs}\indextt{signum}         
+\indextt{negate}\indextt{abs}\indextt{signum}
 \indextt{fromInteger}
 \indexclass{Real}\indextt{toRational}
 \indexclass{Integral}
@@ -787,14 +787,14 @@ class  (Fractional a) => Floating a  where
 \indextt{even}\indextt{odd}
 \indexclass{Fractional}
 \indextt{/}
-\indextt{recip}\indextt{fromRational}       
-\indexclass{Floating}\indextt{pi}\indextt{exp}\indextt{log}\indextt{sqrt} 
+\indextt{recip}\indextt{fromRational}
+\indexclass{Floating}\indextt{pi}\indextt{exp}\indextt{log}\indextt{sqrt}
 \indextt{**}
 \indextt{logBase}
-\indextt{sin}\indextt{cos}\indextt{tan}                        
-\indextt{asin}\indextt{acos}\indextt{atan}               
-\indextt{sinh}\indextt{cosh}\indextt{tanh}               
-\indextt{asinh}\indextt{acosh}\indextt{atanh}      
+\indextt{sin}\indextt{cos}\indextt{tan}
+\indextt{asin}\indextt{acos}\indextt{atan}
+\indextt{sinh}\indextt{cosh}\indextt{tanh}
+\indextt{asinh}\indextt{acosh}\indextt{atanh}
 \end{figure}
 
 \begin{figure}[tb]
@@ -814,7 +814,7 @@ class  (RealFrac a, Floating a) => RealFloat a  where
     exponent            :: a -> Int
     significand         :: a -> a
     scaleFloat          :: Int -> a -> a
-    isNaN, isInfinite, isDenormalized, isNegativeZero, isIEEE 
+    isNaN, isInfinite, isDenormalized, isNegativeZero, isIEEE
                         :: a -> Bool
     atan2               :: a -> a -> a
 
@@ -831,14 +831,14 @@ realToFrac   :: (Real a, Fractional b) => a -> b
 \label{basic-numeric-2}
 \indexclass{RealFrac}\indextt{properFraction}\indextt{approxRational}
 \indextt{truncate}\indextt{round}
-\indextt{ceiling}\indextt{floor}    
+\indextt{ceiling}\indextt{floor}
 \indexclass{RealFloat}
-\indextt{floatRadix}\indextt{floatDigits}\indextt{floatRange} 
+\indextt{floatRadix}\indextt{floatDigits}\indextt{floatRange}
 \indextt{decodeFloat}\indextt{encodeFloat}
 \indextt{exponent}\indextt{significand}\indextt{scaleFloat}
 \indextycon{Int}\indextycon{Integer}
 \indextt{fromIntegral}
-\indextt{gcd}\indextt{lcm} 
+\indextt{gcd}\indextt{lcm}
 \index{^@@{\tt  {\char'136}}} % this is ^.  Must have 2 spaces after tt!
 \index{^^@@{\tt  {\char'136}{\char'136}}} % this is ^^
 \indexclass{RealFrac}
@@ -854,9 +854,9 @@ The syntax of numeric literals is given in
 Section~\ref{lexemes-numeric}.  An integer literal represents the
 application
 of the function @fromInteger@\indextt{fromInteger} to the appropriate
-value of type 
+value of type
 @Integer@.  Similarly, a floating literal stands for an application of
-@fromRational@\indextt{fromRational} to a value of type @Rational@ (that is, 
+@fromRational@\indextt{fromRational} to a value of type @Rational@ (that is,
 @Ratio Integer@).  Given the typings:
 \bprog
 @
@@ -874,7 +874,7 @@ See Section~\ref{default-decls} for a discussion of overloading ambiguity.
 \label{arithmetic-operators}
 \index{arithmetic operator}
 
-The infix class methods 
+The infix class methods
 @(+)@,
 \indextt{+}
 @(*)@,
@@ -898,7 +898,7 @@ applies only to fractional ones.  The @quot@, @rem@,
 \eprog
 @`quot`@ is integer division truncated toward zero,
 while the result of @`div`@ is truncated toward
-negative infinity. 
+negative infinity.
 %Note that @quot@ should be used rather than
 %@div@ to give the semantics of Pascal's @div@.
 The @quotRem@ class method takes a dividend and a divisor as arguments
@@ -919,7 +919,7 @@ odd    =  not . even
 \eprog\indextt{even}\indextt{odd}
 Finally, there are the greatest common divisor and least common
 multiple functions.  @gcd@\indextt{gcd} "x" "y" is the greatest
-(positive) integer that divides both "x" and "y"; for example @gcd (-3) 6@ = @3@, @gcd (-3) (-6)@ = @3@, 
+(positive) integer that divides both "x" and "y"; for example @gcd (-3) 6@ = @3@, @gcd (-3) (-6)@ = @3@,
 @gcd 0 4@ = @4@. @gcd 0 0@ raises a runtime error.
 
 @lcm@\indextt{lcm} "x" "y" is the smallest positive integer that both "x" and "y" divide.
@@ -933,7 +933,7 @@ use base "e".  @logBase@\indextt{logBase} "a" "x" returns the
 logarithm of "x" in base "a".  @sqrt@\indextt{sqrt} returns the
 principal square root of a floating-point number.
 There are three two-argument exponentiation operations:
-@(^)@\index{^@@{\tt  {\char'136}}} raises any  % 
+@(^)@\index{^@@{\tt  {\char'136}}} raises any  %
 number to a nonnegative integer power,
 @(^^)@\index{^^@@{\tt  {\char'136}{\char'136}}} raises a
 fractional number to any integer power, and @(**)@
@@ -941,7 +941,7 @@ fractional number to any integer power, and @(**)@
 takes two floating-point arguments.  The value of "x"@^0@ or "x"@^^0@
 is @1@ for any "x", including zero; @0**@"y" is @1@ if "y" is @0@, and
 @0@ otherwise.
-  
+
 \subsubsection{Magnitude and Sign}
 \label{magnitude-sign}
 \index{magnitude}\index{sign}
@@ -969,7 +969,7 @@ signum x | x >  0  = 1
 \subsubsection{Trigonometric Functions}
 \index{trigonometric function}
 
-Class @Floating@ provides the 
+Class @Floating@ provides the
 circular and hyperbolic sine\index{sine}, cosine\index{cosine},
 and tangent\index{tangent} functions and their inverses.
 Default implementations of @tan@, @tanh@, @logBase@, @**@, and @sqrt@ are
@@ -984,7 +984,7 @@ returns a value in the range @[-pi, pi]@.  It
 follows the Common Lisp semantics for the origin when signed zeroes are
 supported.  @atan2@ "y" @1@, with "y" in a type that is @RealFloat@, should return the
 same value as @atan@ "y".  A default definition of @atan2@ is provided, but
-implementors can provide a more accurate implementation. 
+implementors can provide a more accurate implementation.
 
 The precise definition of the above functions is as in Common Lisp,
 which in turn follows Penfield's proposal for
@@ -1007,11 +1007,11 @@ yields the integer nearest "x" between "0" and "x", inclusive.
 % 	Keith Wansbrough clarifies the above defn of @round@,
 %	which strangely rounds both 3.5 and 4.5 to 4
 %
-% This is generally considered the most accurate kind of rounding, since it 
-% avoids cumulative errors.  If you get lots of values on the 0.5 boundary, 
-% `round up' gives you an error of +0.5 for each, whereas round-to-even gives 
+% This is generally considered the most accurate kind of rounding, since it
+% avoids cumulative errors.  If you get lots of values on the 0.5 boundary,
+% `round up' gives you an error of +0.5 for each, whereas round-to-even gives
 % you a mean error of zero.
-% 
+%
 % IEEE floating point does this by default for its basic operations.
 
 The function @properFraction@\indextt{properFraction} takes a real
@@ -1028,7 +1028,7 @@ its real argument with full precision;
 @approxRational@\indextt{approxRational} takes two real fractional arguments
 "x" and "\epsilon" and returns the simplest rational number within
 "\epsilon" of "x", where a rational $ p/q $ in reduced form is
-{\em simpler} than another $ p^{\prime} / q^{\prime} $ if 
+{\em simpler} than another $ p^{\prime} / q^{\prime} $ if
 $ |p| \leq |p^{\prime}| $ and $ q \leq q^{\prime} $.
 Every real interval contains a unique simplest rational;
 in particular, note that $ 0/1 $ is the simplest rational of all.%
@@ -1074,6 +1074,6 @@ realToFrac   :: (Real a, Fractional b) => a -> b
 
 %**~footer
 
-% Local Variables: 
+% Local Variables:
 % mode: latex
 % End:

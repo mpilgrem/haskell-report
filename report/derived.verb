@@ -2,10 +2,10 @@
 % $Header: /home/cvs/root/haskell-report/report/derived.verb,v 1.13 2003/04/08 08:18:19 simonpj Exp $
 %
 % The paragraph describing the formats of standard representations might
-% be deleted, since the info is already in the Prelude.  
+% be deleted, since the info is already in the Prelude.
 % Note that there is a difference in the way readsPrec and showsPrec are defined.
 % showsPrec is exact Haskell text, readsPrec uses an auxiliary function which
-% isn't quite Haskell.  
+% isn't quite Haskell.
 
 %**<title>The Haskell 98 Report: Derived Instances</title>
 %**~header
@@ -28,7 +28,7 @@ If "T" is an algebraic datatype declared by:\index{algebraic datatype}
 & & "@deriving (@C_1@,@ ...@,@ C_m@)@"
 \ea\]
 (where "m\geq0" and the parentheses may be omitted if "m=1") then
-a derived instance declaration is possible for a class "C" 
+a derived instance declaration is possible for a class "C"
 if these conditions hold:
 \begin{enumerate}
 \item
@@ -104,9 +104,9 @@ this section).
 %% \bprog
 %% @@
 %% instance            Eq (T2 a) where (C2 x) == (C2 y)  =  True
-%% 
+%%
 %% instance (Eq  a) => Eq (T2 a) where (C2 x) == (C2 y)  =  x == y
-%% 
+%%
 %% instance (Ord a) => Eq (T2 a) where (C2 x) == (C2 y)  =  x > y
 %% @@
 %% \eprog
@@ -114,9 +114,9 @@ this section).
 %% \bprog
 %% @@
 %% instance            Eq (T1 a) where (C1 x) == (C1 y)  =  x == y
-%% 
+%%
 %% instance (Eq  a) => Eq (T1 a) where (C1 x) == (C1 y)  =  x == y
-%% 
+%%
 %% instance (Ord a) => Eq (T1 a) where (C1 x) == (C1 y)  =  x == y
 %% @@
 %% \eprog
@@ -147,7 +147,7 @@ of @Eq@ and @Ord@ are @(==)@,
 \indextt{>}
 @(>=)@,
 \indextt{>=}
-@max@\indextt{max}, and 
+@max@\indextt{max}, and
 @min@\indextt{min}.  The latter seven operators are defined so
 as to compare their arguments lexicographically with respect to
 the constructor set given, with earlier constructors in the datatype
@@ -180,7 +180,7 @@ The @toEnum@ and @fromEnum@ operators map enumerated values to and
 from the @Int@ type; @toEnum@ raises a runtime error if the @Int@ argument
 is not the index of one of the constructors.
 
-The definitions of the remaining methods are 
+The definitions of the remaining methods are
 \par
 {\small
 \bprog
@@ -215,7 +215,7 @@ we would have:
 \subsection{Derived instances of \texorpdfstring{@Bounded@}{Bounded}}
 \indexdi{Bounded}
 The @Bounded@ class introduces the class
-methods 
+methods
 @minBound@\indextt{maxBound} and
 @maxBound@\indextt{minBound},
 which define the minimal and maximal elements of the type.
@@ -265,10 +265,10 @@ structures are to be printed in linear time rather than time quadratic
 in the size of the tree.
 
 The function @readsPrec d s@ accepts a precedence level @d@ (a number
-from @0@ to @10@) and a string @s@, and attempts to parse a value 
+from @0@ to @10@) and a string @s@, and attempts to parse a value
 from the front of the string, returning a list of (parsed value, remaining string) pairs.
 If there is no successful parse, the returned list is empty.
-Parsing of an un-parenthesised infix operator application succeeds only 
+Parsing of an un-parenthesised infix operator application succeeds only
 if the precedence of the operator is greater than or equal to @d@.
 
 It should be the case that
@@ -284,7 +284,7 @@ using non-standard denotations.  This is especially useful for strings
 (lists of @Char@).
 
 %Because a string is a list of characters, @showsPrec@ of a string
-%such as @"abc"@ will result in the string 
+%such as @"abc"@ will result in the string
 %@"[@\fwq@a@\fwq @,@ \fwq@b@\fwq @,@ \fwq@c@\fwq @]"@.  Because
 %@"\"abc\""@ would be a better representation,
 %the operators @showList@
@@ -297,7 +297,7 @@ using non-standard denotations.  This is especially useful for strings
 
 %The instances of @Text@ for the standard types @Int@, @Integer@, @Float@,
 %@Double@, @Char@, lists, tuples, and rational and complex numbers are
-%defined in the  
+%defined in the
 %standard prelude (see Appendix~\ref{stdprelude}).
 %For characters and strings, the control characters that have special
 %representations (@\n@ etc.) are shown as such by @showsPrec@;
@@ -315,7 +315,7 @@ using non-standard denotations.  This is especially useful for strings
 %an exponent to be unsigned or signed with @+@ or @-@; @showsPrec@
 %shows a positive exponent without a sign.
 
-@readsPrec@ will parse any valid representation of the standard types 
+@readsPrec@ will parse any valid representation of the standard types
 apart from strings, for which only quoted strings are accepted, and other lists,
 for which only the bracketed form @[@\ldots@]@ is accepted. See
 Chapter~\ref{stdprelude} for full details.
@@ -331,14 +331,14 @@ are added. The result of @show@ is readable by @read@ if all component
 types are readable.  (This is true for all instances defined in the
 Prelude but may not be true for user-defined instances.)
 
-Derived instances of @Read@ make the following assumptions, 
+Derived instances of @Read@ make the following assumptions,
 which derived instances of @Show@ obey:
 \begin{itemize}
-\item If the constructor is defined to be an infix operator, then 
-the derived @Read@ instance will parse only infix applications of the 
+\item If the constructor is defined to be an infix operator, then
+the derived @Read@ instance will parse only infix applications of the
 constructor (not the prefix form).
 
-\item Associativity is not used to reduce the occurrence of 
+\item Associativity is not used to reduce the occurrence of
 parentheses, although precedence may be. For example, given
 \bprog
 @
@@ -353,12 +353,12 @@ then:
 \item @read "1 :$ 2 :$ NT"@ fails.
 \end{itemize}
 
-\item 
-If the constructor is defined using record syntax, the derived @Read@ 
-will parse only the record-syntax form, and furthermore, the fields must be 
+\item
+If the constructor is defined using record syntax, the derived @Read@
+will parse only the record-syntax form, and furthermore, the fields must be
 given in the same order as the original declaration.
 
-\item The derived @Read@ instance allows arbitrary Haskell whitespace between 
+\item The derived @Read@ instance allows arbitrary Haskell whitespace between
 tokens of the input string.  Extra parentheses are also allowed.
 \end{itemize}
 
@@ -374,7 +374,7 @@ tokens of the input string.  Extra parentheses are also allowed.
 %       types are readable.  (This is true for all instances defined in
 %       the Prelude but may not be true for user-defined instances.)
 % \item The instance generated by @Read@ allows arbitrary whitespace
-%       between tokens on the input string.  Extra parentheses are also 
+%       between tokens on the input string.  Extra parentheses are also
 %       allowed.
 % \item The result of @show@ contains only the constructor names defined
 %       in the data type, parentheses, and spaces.  When labelled
@@ -501,7 +501,7 @@ instance (Show a) => Show (Tree a) where
 
         showsPrec d (u :^: v) = showParen (d > up_prec) showStr
           where
-             showStr = showsPrec (up_prec+1) u . 
+             showStr = showsPrec (up_prec+1) u .
                        showString " :^: "      .
                        showsPrec (up_prec+1) v
                 -- Note: right-associativity of :^: ignored
