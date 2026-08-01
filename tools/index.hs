@@ -8,6 +8,7 @@ module Main where
 
 import Data.Char
 import Data.List
+import Data.Maybe ( fromMaybe )
 import System.IO.Error
 
 main :: IO ()
@@ -33,7 +34,7 @@ doFile r f = catchIOError
 type Refs = [(String,String)]
 
 expandAllRefs :: Refs -> [String] -> [String]
-expandAllRefs r ls = expandAll1 r False ls
+expandAllRefs r = expandAll1 r False
 
 expandAll1 :: Refs -> Bool -> [String] -> [String]
 expandAll1 _ _     [] = []
@@ -41,7 +42,7 @@ expandAll1 r table (l:ls) | l == "#table" = expandAll1 r True ls
                           | l == "#endtable" = expandAll1 r False ls
                           | table = ("<tr><td><tt>" ++ nbspaces (expandRefs r l)
                                      ++ "</tt></td></tr>") : rest
-                          | otherwise = (expandRefs r l) : rest
+                          | otherwise = expandRefs r l : rest
  where rest = expandAll1 r table ls
 
 expandRefs :: Refs -> String -> String
@@ -109,7 +110,7 @@ anchor str mfile tag txt =
        t = htmlS $ if txt == "" then str else txt
 
 mangleVar :: String -> String
-mangleVar n = "$v" ++ mangleName (filter (\c -> not (c `elem` "()")) n)
+mangleVar n = "$v" ++ mangleName (filter (`notElem` "()") n)
 
 mangleTycon :: String -> String
 mangleTycon n = "$t" ++ mangleName n
@@ -121,7 +122,7 @@ mangleSect :: String -> String
 mangleSect s = "sect" ++ s
 
 mangleName :: String -> String
-mangleName r = concatMap
+mangleName = concatMap
                    (\c -> case c of '(' -> "$P"
                                     ')' -> "$C"
                                     '-' -> "$D"
@@ -137,7 +138,7 @@ mangleName r = concatMap
                                     '>' -> "$G"
                                     '<' -> "$L"
                                     '=' -> "$Q"
-                                    _   -> [c]) r
+                                    _   -> [c])
 
 mangleType :: String -> String
 mangleType t = mangleName (case t of
@@ -169,15 +170,13 @@ parseClass s = let s1 = (skip "(" . skip "::") s
                  c
 
 trim :: String -> String
-trim s = dropWhile isSpace s
+trim = dropWhile isSpace
 
 trimr :: String -> String
 trimr s = reverse (dropWhile isSpace (reverse s))
 
 skip :: String -> String -> String
-skip val s = case stripPrefix val (trim s) of
-             Just s' -> s'
-             Nothing -> s
+skip val s = fromMaybe s (stripPrefix val (trim s))
 
 htmlEncode :: Char -> String
 htmlEncode '>' = "&gt;"
@@ -186,7 +185,7 @@ htmlEncode '&' = "&amp;"
 htmlEncode c   = [c]
 
 htmlS :: String -> String
-htmlS s = concatMap htmlEncode s
+htmlS = concatMap htmlEncode
 
 nbspaces :: String -> String
 nbspaces "" = ""
