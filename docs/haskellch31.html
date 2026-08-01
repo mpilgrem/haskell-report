@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>31 Foreign.Marshal.Alloc</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch32.html" >next</a>] [<a 
+href="haskellch30.html" >prev</a>] [<a 
+href="haskellch30.html#tailhaskellch30.html" >prev-tail</a>] [<a 
+href="#tailhaskellch31.html">tail</a>] [<a 
+href="haskellpa2.html#haskellch31.html" >up</a>] </p></div>
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;31</span><br /><a 
+ id="x39-45300031"></a><span 
+class="pcrr8t-">Foreign.Marshal.Alloc</span></h2>
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-925">
+module&#x00A0;Foreign.Marshal.Alloc&#x00A0;(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;alloca,&#x00A0;allocaBytes,&#x00A0;malloc,&#x00A0;mallocBytes,&#x00A0;realloc,&#x00A0;reallocBytes,&#x00A0;free,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;finalizerFree
+&#x00A0;&#x00A0;)&#x00A0;where
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> The module <span 
+class="pcrr8t-">Foreign.Marshal.Alloc </span>provides operations to allocate and deallocate blocks of raw memory
+(i.e., unstructured chunks of memory outside of the area maintained by the Haskell storage manager). These memory
+blocks are commonly used to pass compound data structures to foreign functions or to provide space in which
+compound result values are obtained from foreign functions.
+ <p class="noindent"> If any of the allocation functions fails, a value of <span 
+class="pcrr8t-">nullPtr </span>is produced. If <span 
+class="pcrr8t-">free</span><a 
+ id="dx39-453001"></a> or <span 
+class="pcrr8t-">reallocBytes</span><a 
+ id="dx39-453002"></a> is applied to
+a memory area that has been allocated with <span 
+class="pcrr8t-">alloca</span><a 
+ id="dx39-453003"></a> or <span 
+class="pcrr8t-">allocaBytes</span><a 
+ id="dx39-453004"></a>, the behaviour is undefined. Any further
+access to memory areas allocated with <span 
+class="pcrr8t-">alloca</span><a 
+ id="dx39-453005"></a> or <span 
+class="pcrr8t-">allocaBytes</span><a 
+ id="dx39-453006"></a>, after the computation that was
+passed to the allocation function has terminated, leads to undefined behaviour. Any further access to the
+memory area referenced by a pointer passed to <span 
+class="pcrr8t-">realloc</span><a 
+ id="dx39-453007"></a>, <span 
+class="pcrr8t-">reallocBytes</span><a 
+ id="dx39-453008"></a>, or <span 
+class="pcrr8t-">free</span><a 
+ id="dx39-453009"></a> entails undefined
+behaviour.
+ <p class="noindent"> All storage allocated by functions that allocate based on a <span 
+class="ptmri8t-">size in bytes </span>must be sufficiently aligned for any of the
+basic foreign types that fits into the newly allocated storage. All storage allocated by functions that allocate based on
+a specific type must be sufficiently aligned for that type. Array allocation routines need to obey the same alignment
+constraints for each array element.
+<h3 class="sectionHead"><span class="titlemark">31.1    </span> <a 
+ id="x39-45400031.1"></a>Memory allocation</h3>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">31.1.1    </span> <a 
+ id="x39-45500031.1.1"></a>Local allocation</h4>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-663" class="tabular" 
+ 
+><colgroup id="TBL-663-1g"><col 
+id="TBL-663-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-663-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-663-1-1"  
+class="td11"><span 
+class="pcrb8t-">alloca :: Storable a =&gt; (Ptr a -&gt; IO b) -&gt; IO b </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     <span 
+class="pcrr8t-">alloca</span><a 
+ id="dx39-455001"></a> <span 
+class="pcrr8t-">f </span>executes  the  computation  <span 
+class="pcrr8t-">f</span>,  passing  as  argument  a  pointer  to  a  temporarily  allocated
+     block of memory sufficient to hold values of type <span 
+class="pcrr8t-">a</span>.
+     <p class="noindent"> The memory is freed when <span 
+class="pcrr8t-">f </span>terminates (either normally or via an exception), so the pointer passed
+     to <span 
+class="pcrr8t-">f </span>must <span 
+class="ptmri8t-">not </span>be used after this.
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-664" class="tabular" 
+ 
+><colgroup id="TBL-664-1g"><col 
+id="TBL-664-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-664-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-664-1-1"  
+class="td11"><span 
+class="pcrb8t-">allocaBytes :: Int -&gt; (Ptr a -&gt; IO b) -&gt; IO b </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     <span 
+class="pcrr8t-">allocaBytes</span><a 
+ id="dx39-455002"></a> <span 
+class="pcrr8t-">n f </span>executes  the  computation  <span 
+class="pcrr8t-">f</span>,  passing  as  argument  a  pointer  to  a  temporarily
+     allocated block of memory of <span 
+class="pcrr8t-">n </span>bytes. The block of memory is sufficiently aligned for any of the basic
+     foreign types that fits into a memory block of the allocated size.
+     <p class="noindent"> The memory is freed when <span 
+class="pcrr8t-">f </span>terminates (either normally or via an exception), so the pointer passed
+     to <span 
+class="pcrr8t-">f </span>must <span 
+class="ptmri8t-">not </span>be used after this.
+     </dl>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">31.1.2    </span> <a 
+ id="x39-45600031.1.2"></a>Dynamic allocation</h4>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-665" class="tabular" 
+ 
+><colgroup id="TBL-665-1g"><col 
+id="TBL-665-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-665-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-665-1-1"  
+class="td11"><span 
+class="pcrb8t-">malloc :: Storable a =&gt; IO (Ptr a) </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Allocate a block of memory that is sufficient to hold values of type <span 
+class="pcrr8t-">a</span>. The size of the area allocated is
+     determined by the <span 
+class="pcrr8t-">sizeOf</span><a 
+ id="dx39-456001"></a> method from the instance of <span 
+class="pcrr8t-">Storable</span><a 
+ id="dx39-456002"></a> for the appropriate type.
+     <p class="noindent"> The memory may be deallocated using <span 
+class="pcrr8t-">free</span><a 
+ id="dx39-456003"></a> or <span 
+class="pcrr8t-">finalizerFree</span><a 
+ id="dx39-456004"></a> when no longer required.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-666" class="tabular" 
+ 
+><colgroup id="TBL-666-1g"><col 
+id="TBL-666-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-666-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-666-1-1"  
+class="td11"><span 
+class="pcrb8t-">mallocBytes :: Int -&gt; IO (Ptr a) </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Allocate a block of memory of the given number of bytes. The block of memory is sufficiently aligned
+     for any of the basic foreign types that fits into a memory block of the allocated size.
+     <p class="noindent"> The memory may be deallocated using <span 
+class="pcrr8t-">free</span><a 
+ id="dx39-456005"></a> or <span 
+class="pcrr8t-">finalizerFree</span><a 
+ id="dx39-456006"></a> when no longer required.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-667" class="tabular" 
+ 
+><colgroup id="TBL-667-1g"><col 
+id="TBL-667-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-667-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-667-1-1"  
+class="td11"><span 
+class="pcrb8t-">realloc :: forall a b. Storable b =&gt; Ptr a -&gt; IO (Ptr b) </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Resize a memory area that was allocated with <span 
+class="pcrr8t-">malloc</span><a 
+ id="dx39-456007"></a> or <span 
+class="pcrr8t-">mallocBytes</span><a 
+ id="dx39-456008"></a> to the size needed to store
+     values  of  type  <span 
+class="pcrr8t-">b</span>.  The  returned  pointer  may  refer  to  an  entirely  different  memory  area,  but  will  be
+     suitably aligned to hold values of type <span 
+class="pcrr8t-">b</span>. The contents of the referenced memory area will be the same
+     as of the original pointer up to the minimum of the original size and the size of values of type <span 
+class="pcrr8t-">b</span>.
+     <p class="noindent"> If the argument to <span 
+class="pcrr8t-">realloc</span><a 
+ id="dx39-456009"></a> is <span 
+class="pcrr8t-">nullPtr</span><a 
+ id="dx39-456010"></a>, <span 
+class="pcrr8t-">realloc</span><a 
+ id="dx39-456011"></a> behaves like <span 
+class="pcrr8t-">malloc</span><a 
+ id="dx39-456012"></a>.
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-668" class="tabular" 
+ 
+><colgroup id="TBL-668-1g"><col 
+id="TBL-668-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-668-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-668-1-1"  
+class="td11"><span 
+class="pcrb8t-">reallocBytes :: Ptr a -&gt; Int -&gt; IO (Ptr a) </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Resize  a  memory  area  that  was  allocated  with  <span 
+class="pcrr8t-">malloc</span><a 
+ id="dx39-456013"></a> or  <span 
+class="pcrr8t-">mallocBytes</span><a 
+ id="dx39-456014"></a> to  the  given  size.  The
+     returned pointer may refer to an entirely different memory area, but will be sufficiently aligned for
+     any of the basic foreign types that fits into a memory block of the given size. The contents of the
+     referenced memory area will be the same as of the original pointer up to the minimum of the original
+     size and the given size.
+     <p class="noindent"> If the pointer argument to <span 
+class="pcrr8t-">reallocBytes</span><a 
+ id="dx39-456015"></a> is <span 
+class="pcrr8t-">nullPtr</span><a 
+ id="dx39-456016"></a>, <span 
+class="pcrr8t-">reallocBytes</span><a 
+ id="dx39-456017"></a> behaves like <span 
+class="pcrr8t-">malloc</span><a 
+ id="dx39-456018"></a>.
+     If the requested size is 0, <span 
+class="pcrr8t-">reallocBytes</span><a 
+ id="dx39-456019"></a> behaves like <span 
+class="pcrr8t-">free</span><a 
+ id="dx39-456020"></a>.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-669" class="tabular" 
+ 
+><colgroup id="TBL-669-1g"><col 
+id="TBL-669-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-669-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-669-1-1"  
+class="td11"><span 
+class="pcrb8t-">free :: Ptr a -&gt; IO () </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Free   a   block   of   memory   that   was   allocated   with   <span 
+class="pcrr8t-">malloc</span><a 
+ id="dx39-456021"></a>,   <span 
+class="pcrr8t-">mallocBytes</span><a 
+ id="dx39-456022"></a>,   <span 
+class="pcrr8t-">realloc</span><a 
+ id="dx39-456023"></a>,
+     <span 
+class="pcrr8t-">reallocBytes</span><a 
+ id="dx39-456024"></a>,   <span 
+class="pcrr8t-">new</span><a 
+ id="dx39-456025"></a> or   any   of   the   <span 
+class="pcrr8t-">new</span><span 
+class="ptmri8t-">X   </span>functions   in   <span 
+class="pcrr8t-">Foreign.Marshal.Array </span>or
+     <span 
+class="pcrr8t-">Foreign.C.String</span>.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-670" class="tabular" 
+ 
+><colgroup id="TBL-670-1g"><col 
+id="TBL-670-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-670-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-670-1-1"  
+class="td11"><span 
+class="pcrb8t-">finalizerFree :: FinalizerPtr a </span></td></tr></table>                                           </div> <dd class="haddockdesc">
+     A pointer to a foreign function equivalent to <span 
+class="pcrr8t-">free</span><a 
+ id="dx39-456026"></a>, which may be used as a finalizer (cf <span 
+class="pcrr8t-">ForeignPtr</span><a 
+ id="dx39-456027"></a>)
+     for storage allocated with <span 
+class="pcrr8t-">malloc</span><a 
+ id="dx39-456028"></a>, <span 
+class="pcrr8t-">mallocBytes</span><a 
+ id="dx39-456029"></a>, <span 
+class="pcrr8t-">realloc</span><a 
+ id="dx39-456030"></a> or <span 
+class="pcrr8t-">reallocBytes</span><a 
+ id="dx39-456031"></a>.
+     </dl>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch32.html" >next</a>] [<a 
+href="haskellch30.html" >prev</a>] [<a 
+href="haskellch30.html#tailhaskellch30.html" >prev-tail</a>] [<a 
+href="haskellch31.html" >front</a>] [<a 
+href="haskellpa2.html#haskellch31.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellch31.html"></a>    
+</body></html> 

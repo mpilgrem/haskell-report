@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>27 Foreign.C.String</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch28.html" >next</a>] [<a 
+href="haskellch26.html" >prev</a>] [<a 
+href="haskellch26.html#tailhaskellch26.html" >prev-tail</a>] [<a 
+href="#tailhaskellch27.html">tail</a>] [<a 
+href="haskellpa2.html#haskellch27.html" >up</a>] </p></div>
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;27</span><br /><a 
+ id="x35-43600027"></a><span 
+class="pcrr8t-">Foreign.C.String</span></h2>
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-920">
+module&#x00A0;Foreign.C.String&#x00A0;(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;CString,&#x00A0;CStringLen,&#x00A0;peekCString,&#x00A0;peekCStringLen,&#x00A0;newCString,&#x00A0;newCStringLen,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;withCString,&#x00A0;withCStringLen,&#x00A0;charIsRepresentable,&#x00A0;castCharToCChar,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;castCCharToChar,&#x00A0;castCharToCUChar,&#x00A0;castCUCharToChar,&#x00A0;castCharToCSChar,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;castCSCharToChar,&#x00A0;peekCAString,&#x00A0;peekCAStringLen,&#x00A0;newCAString,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;newCAStringLen,&#x00A0;withCAString,&#x00A0;withCAStringLen,&#x00A0;CWString,&#x00A0;CWStringLen,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;peekCWString,&#x00A0;peekCWStringLen,&#x00A0;newCWString,&#x00A0;newCWStringLen,&#x00A0;withCWString,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;withCWStringLen
+&#x00A0;&#x00A0;)&#x00A0;where
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> Utilities for primitive marshalling of C strings.
+ <p class="noindent"> The marshalling converts each Haskell character, representing a Unicode code point, to one or more bytes in a
+manner that, by default, is determined by the current locale. As a consequence, no guarantees can be made about the
+relative length of a Haskell string and its corresponding C string, and therefore all the marshalling routines include
+memory allocation. The translation between Unicode and the encoding of the current locale may be
+lossy.
+<h3 class="sectionHead"><span class="titlemark">27.1    </span> <a 
+ id="x35-43700027.1"></a>C strings</h3>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-565" class="tabular" 
+ 
+><colgroup id="TBL-565-1g"><col 
+id="TBL-565-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-565-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-565-1-1"  
+class="td11"><span 
+class="pcrb8t-">type CString = Ptr CChar </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     A C string is a reference to an array of C characters terminated by NUL.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-566" class="tabular" 
+ 
+><colgroup id="TBL-566-1g"><col 
+id="TBL-566-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-566-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-566-1-1"  
+class="td11"><span 
+class="pcrb8t-">type CStringLen = (Ptr CChar, Int) </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     A  string  with  explicit  length  information  in  bytes  instead  of  a  terminating  NUL  (allowing  NUL
+     characters in the middle of the string).
+     </dl>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">27.1.1    </span> <a 
+ id="x35-43800027.1.1"></a>Using a locale-dependent encoding</h4>
+                                                                                   
+
+                                                                                   
+<p class="noindent"> Currently these functions are identical to their <span 
+class="pcrr8t-">CAString </span>counterparts; eventually they will use an encoding
+determined by the current locale.
+ <p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-567" class="tabular" 
+ 
+><colgroup id="TBL-567-1g"><col 
+id="TBL-567-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-567-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-567-1-1"  
+class="td11"><span 
+class="pcrb8t-">peekCString :: CString -&gt; IO String </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Marshal a NUL terminated C string into a Haskell string.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-568" class="tabular" 
+ 
+><colgroup id="TBL-568-1g"><col 
+id="TBL-568-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-568-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-568-1-1"  
+class="td11"><span 
+class="pcrb8t-">peekCStringLen :: CStringLen -&gt; IO String </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Marshal a C string with explicit length into a Haskell string.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-569" class="tabular" 
+ 
+><colgroup id="TBL-569-1g"><col 
+id="TBL-569-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-569-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-569-1-1"  
+class="td11"><span 
+class="pcrb8t-">newCString :: String -&gt; IO CString </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Marshal a Haskell string into a NUL terminated C string.
+         <ul class="itemize1">
+         <li class="itemize">
+         <p class="noindent"> the Haskell string may <span 
+class="ptmri8t-">not </span>contain any NUL characters
+         </li>
+         <li class="itemize">
+          <p class="noindent">  new  storage  is  allocated  for  the  C  string  and  must  be  explicitly  freed  using  <span 
+class="pcrr8t-">free</span><a 
+ id="dx35-438001"></a> or
+         <span 
+class="pcrr8t-">finalizerFree</span><a 
+ id="dx35-438002"></a>.
+         </li></ul>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-570" class="tabular" 
+ 
+><colgroup id="TBL-570-1g"><col 
+id="TBL-570-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-570-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-570-1-1"  
+class="td11"><span 
+class="pcrb8t-">newCStringLen :: String -&gt; IO CStringLen </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Marshal a Haskell string into a C string (ie, character array) with explicit length information.
+         <ul class="itemize1">
+         <li class="itemize">
+          <p class="noindent">  new  storage  is  allocated  for  the  C  string  and  must  be  explicitly  freed  using  <span 
+class="pcrr8t-">free</span><a 
+ id="dx35-438003"></a> or
+         <span 
+class="pcrr8t-">finalizerFree</span><a 
+ id="dx35-438004"></a>.
+         </li></ul>
+     </dl>
+                                                                                   
+
+                                                                                   
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-571" class="tabular" 
+ 
+><colgroup id="TBL-571-1g"><col 
+id="TBL-571-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-571-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-571-1-1"  
+class="td11"><span 
+class="pcrb8t-">withCString :: String -&gt; (CString -&gt; IO a) -&gt; IO a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Marshal a Haskell string into a NUL terminated C string using temporary storage.
+         <ul class="itemize1">
+         <li class="itemize">
+         <p class="noindent"> the Haskell string may <span 
+class="ptmri8t-">not </span>contain any NUL characters
+         </li>
+         <li class="itemize">
+         <p class="noindent"> the memory is freed when the subcomputation terminates (either normally or via an exception),
+         so the pointer to the temporary storage must <span 
+class="ptmri8t-">not </span>be used after this.
+         </li></ul>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-572" class="tabular" 
+ 
+><colgroup id="TBL-572-1g"><col 
+id="TBL-572-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-572-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-572-1-1"  
+class="td11"><span 
+class="pcrb8t-">withCStringLen :: String -&gt; (CStringLen -&gt; IO a) -&gt; IO a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Marshal a Haskell string into a C string (ie, character array) in temporary storage, with explicit length
+     information.
+         <ul class="itemize1">
+         <li class="itemize">
+         <p class="noindent"> the memory is freed when the subcomputation terminates (either normally or via an exception),
+         so the pointer to the temporary storage must <span 
+class="ptmri8t-">not </span>be used after this.
+         </li></ul>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-573" class="tabular" 
+ 
+><colgroup id="TBL-573-1g"><col 
+id="TBL-573-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-573-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-573-1-1"  
+class="td11"><span 
+class="pcrb8t-">charIsRepresentable :: Char -&gt; IO Bool </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">27.1.2    </span> <a 
+ id="x35-43900027.1.2"></a>Using 8-bit characters</h4>
+<p class="noindent"> These variants of the above functions are for use with C libraries that are ignorant of Unicode. These functions
+should be used with care, as a loss of information can occur.
+ <p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-574" class="tabular" 
+ 
+><colgroup id="TBL-574-1g"><col 
+id="TBL-574-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-574-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-574-1-1"  
+class="td11"><span 
+class="pcrb8t-">castCharToCChar :: Char -&gt; CChar </span></td></tr></table>                                         </div> <dd class="haddockdesc">
+     Convert a Haskell character to a C character. This function is only safe on the first 256 characters.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-575" class="tabular" 
+ 
+><colgroup id="TBL-575-1g"><col 
+id="TBL-575-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-575-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-575-1-1"  
+class="td11"><span 
+class="pcrb8t-">castCCharToChar :: CChar -&gt; Char </span></td></tr></table>                                         </div> <dd class="haddockdesc">
+     Convert a C byte, representing a Latin-1 character, to the corresponding Haskell character.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-576" class="tabular" 
+ 
+><colgroup id="TBL-576-1g"><col 
+id="TBL-576-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-576-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-576-1-1"  
+class="td11"><span 
+class="pcrb8t-">castCharToCUChar :: Char -&gt; CUChar </span></td></tr></table>                                       </div> <dd class="haddockdesc">
+     Convert  a  Haskell  character  to  a  C  <span 
+class="pcrr8t-">unsigned char</span>.  This  function  is  only  safe  on  the  first  256
+     characters.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-577" class="tabular" 
+ 
+><colgroup id="TBL-577-1g"><col 
+id="TBL-577-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-577-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-577-1-1"  
+class="td11"><span 
+class="pcrb8t-">castCUCharToChar :: CUChar -&gt; Char </span></td></tr></table>                                       </div> <dd class="haddockdesc">
+     Convert  a  C  <span 
+class="pcrr8t-">unsigned char</span>,  representing  a  Latin-1  character,  to  the  corresponding  Haskell
+     character.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-578" class="tabular" 
+ 
+><colgroup id="TBL-578-1g"><col 
+id="TBL-578-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-578-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-578-1-1"  
+class="td11"><span 
+class="pcrb8t-">castCharToCSChar :: Char -&gt; CSChar </span></td></tr></table>                                       </div> <dd class="haddockdesc">
+     Convert  a  Haskell  character  to  a  C  <span 
+class="pcrr8t-">signed char</span>.  This  function  is  only  safe  on  the  first  256
+     characters.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-579" class="tabular" 
+ 
+><colgroup id="TBL-579-1g"><col 
+id="TBL-579-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-579-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-579-1-1"  
+class="td11"><span 
+class="pcrb8t-">castCSCharToChar :: CSChar -&gt; Char </span></td></tr></table>                                       </div> <dd class="haddockdesc">
+     Convert a C <span 
+class="pcrr8t-">signed char</span>, representing a Latin-1 character, to the corresponding Haskell character.
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-580" class="tabular" 
+ 
+><colgroup id="TBL-580-1g"><col 
+id="TBL-580-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-580-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-580-1-1"  
+class="td11"><span 
+class="pcrb8t-">peekCAString :: CString -&gt; IO String </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Marshal a NUL terminated C string into a Haskell string.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-581" class="tabular" 
+ 
+><colgroup id="TBL-581-1g"><col 
+id="TBL-581-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-581-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-581-1-1"  
+class="td11"><span 
+class="pcrb8t-">peekCAStringLen :: CStringLen -&gt; IO String </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Marshal a C string with explicit length into a Haskell string.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-582" class="tabular" 
+ 
+><colgroup id="TBL-582-1g"><col 
+id="TBL-582-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-582-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-582-1-1"  
+class="td11"><span 
+class="pcrb8t-">newCAString :: String -&gt; IO CString </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Marshal a Haskell string into a NUL terminated C string.
+         <ul class="itemize1">
+         <li class="itemize">
+         <p class="noindent"> the Haskell string may <span 
+class="ptmri8t-">not </span>contain any NUL characters
+         </li>
+         <li class="itemize">
+          <p class="noindent">  new  storage  is  allocated  for  the  C  string  and  must  be  explicitly  freed  using  <span 
+class="pcrr8t-">free</span><a 
+ id="dx35-439001"></a> or
+         <span 
+class="pcrr8t-">finalizerFree</span><a 
+ id="dx35-439002"></a>.
+         </li></ul>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-583" class="tabular" 
+ 
+><colgroup id="TBL-583-1g"><col 
+id="TBL-583-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-583-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-583-1-1"  
+class="td11"><span 
+class="pcrb8t-">newCAStringLen :: String -&gt; IO CStringLen </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Marshal a Haskell string into a C string (ie, character array) with explicit length information.
+         <ul class="itemize1">
+         <li class="itemize">
+          <p class="noindent">  new  storage  is  allocated  for  the  C  string  and  must  be  explicitly  freed  using  <span 
+class="pcrr8t-">free</span><a 
+ id="dx35-439003"></a> or
+         <span 
+class="pcrr8t-">finalizerFree</span><a 
+ id="dx35-439004"></a>.
+         </li></ul>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-584" class="tabular" 
+ 
+><colgroup id="TBL-584-1g"><col 
+id="TBL-584-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-584-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-584-1-1"  
+class="td11"><span 
+class="pcrb8t-">withCAString :: String -&gt; (CString -&gt; IO a) -&gt; IO a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Marshal a Haskell string into a NUL terminated C string using temporary storage.
+                                                                                   
+
+                                                                                   
+         <ul class="itemize1">
+         <li class="itemize">
+         <p class="noindent"> the Haskell string may <span 
+class="ptmri8t-">not </span>contain any NUL characters
+         </li>
+         <li class="itemize">
+         <p class="noindent"> the memory is freed when the subcomputation terminates (either normally or via an exception),
+         so the pointer to the temporary storage must <span 
+class="ptmri8t-">not </span>be used after this.
+         </li></ul>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-585" class="tabular" 
+ 
+><colgroup id="TBL-585-1g"><col 
+id="TBL-585-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-585-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-585-1-1"  
+class="td11"><span 
+class="pcrb8t-">withCAStringLen :: String -&gt; (CStringLen -&gt; IO a) -&gt; IO a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Marshal a Haskell string into a C string (ie, character array) in temporary storage, with explicit length
+     information.
+         <ul class="itemize1">
+         <li class="itemize">
+         <p class="noindent"> the memory is freed when the subcomputation terminates (either normally or via an exception),
+         so the pointer to the temporary storage must <span 
+class="ptmri8t-">not </span>be used after this.
+         </li></ul>
+     </dl>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">27.2    </span> <a 
+ id="x35-44000027.2"></a>C wide strings</h3>
+<p class="noindent"> These variants of the above functions are for use with C libraries that encode Unicode using the C <span 
+class="pcrr8t-">wchar_t </span>type in
+a system-dependent way. The only encodings supported are
+     <ul class="itemize1">
+     <li class="itemize">
+     <p class="noindent"> UTF-32 (the C compiler defines <span 
+class="pcrr8t-">__STDC_ISO_10646__</span>), or
+     </li>
+     <li class="itemize">
+     <p class="noindent"> UTF-16 (as used on Windows systems).
+     </li></ul>
+ <p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-586" class="tabular" 
+ 
+><colgroup id="TBL-586-1g"><col 
+id="TBL-586-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-586-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-586-1-1"  
+class="td11"><span 
+class="pcrb8t-">type CWString = Ptr CWchar </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     A C wide string is a reference to an array of C wide characters terminated by NUL.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-587" class="tabular" 
+ 
+><colgroup id="TBL-587-1g"><col 
+id="TBL-587-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-587-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-587-1-1"  
+class="td11"><span 
+class="pcrb8t-">type CWStringLen = (Ptr CWchar, Int) </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     A wide character string with explicit length information in <span 
+class="pcrr8t-">CWchar</span><a 
+ id="dx35-440001"></a>s instead of a terminating NUL
+     (allowing NUL characters in the middle of the string).
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-588" class="tabular" 
+ 
+><colgroup id="TBL-588-1g"><col 
+id="TBL-588-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-588-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-588-1-1"  
+class="td11"><span 
+class="pcrb8t-">peekCWString :: CWString -&gt; IO String </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Marshal a NUL terminated C wide string into a Haskell string.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-589" class="tabular" 
+ 
+><colgroup id="TBL-589-1g"><col 
+id="TBL-589-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-589-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-589-1-1"  
+class="td11"><span 
+class="pcrb8t-">peekCWStringLen :: CWStringLen -&gt; IO String </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Marshal a C wide string with explicit length into a Haskell string.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-590" class="tabular" 
+ 
+><colgroup id="TBL-590-1g"><col 
+id="TBL-590-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-590-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-590-1-1"  
+class="td11"><span 
+class="pcrb8t-">newCWString :: String -&gt; IO CWString </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Marshal a Haskell string into a NUL terminated C wide string.
+         <ul class="itemize1">
+         <li class="itemize">
+         <p class="noindent"> the Haskell string may <span 
+class="ptmri8t-">not </span>contain any NUL characters
+         </li>
+         <li class="itemize">
+          <p class="noindent">  new  storage  is  allocated  for  the  C  wide  string  and  must  be  explicitly  freed  using  <span 
+class="pcrr8t-">free</span><a 
+ id="dx35-440002"></a> or
+         <span 
+class="pcrr8t-">finalizerFree</span><a 
+ id="dx35-440003"></a>.
+         </li></ul>
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-591" class="tabular" 
+ 
+><colgroup id="TBL-591-1g"><col 
+id="TBL-591-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-591-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-591-1-1"  
+class="td11"><span 
+class="pcrb8t-">newCWStringLen :: String -&gt; IO CWStringLen </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Marshal a Haskell string into a C wide string (ie, wide character array) with explicit length information.
+         <ul class="itemize1">
+         <li class="itemize">
+          <p class="noindent">  new  storage  is  allocated  for  the  C  wide  string  and  must  be  explicitly  freed  using  <span 
+class="pcrr8t-">free</span><a 
+ id="dx35-440004"></a> or
+         <span 
+class="pcrr8t-">finalizerFree</span><a 
+ id="dx35-440005"></a>.
+         </li></ul>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-592" class="tabular" 
+ 
+><colgroup id="TBL-592-1g"><col 
+id="TBL-592-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-592-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-592-1-1"  
+class="td11"><span 
+class="pcrb8t-">withCWString :: String -&gt; (CWString -&gt; IO a) -&gt; IO a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Marshal a Haskell string into a NUL terminated C wide string using temporary storage.
+         <ul class="itemize1">
+         <li class="itemize">
+         <p class="noindent"> the Haskell string may <span 
+class="ptmri8t-">not </span>contain any NUL characters
+         </li>
+         <li class="itemize">
+         <p class="noindent"> the memory is freed when the subcomputation terminates (either normally or via an exception),
+         so the pointer to the temporary storage must <span 
+class="ptmri8t-">not </span>be used after this.
+         </li></ul>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-593" class="tabular" 
+ 
+><colgroup id="TBL-593-1g"><col 
+id="TBL-593-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-593-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-593-1-1"  
+class="td11"><span 
+class="pcrb8t-">withCWStringLen :: String -&gt; (CWStringLen -&gt; IO a) -&gt; IO a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Marshal a Haskell string into a C wide string (i.e. wide character array) in temporary storage, with
+     explicit length information.
+         <ul class="itemize1">
+         <li class="itemize">
+         <p class="noindent"> the memory is freed when the subcomputation terminates (either normally or via an exception),
+         so the pointer to the temporary storage must <span 
+class="ptmri8t-">not </span>be used after this.
+         </li></ul>
+     </dl>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch28.html" >next</a>] [<a 
+href="haskellch26.html" >prev</a>] [<a 
+href="haskellch26.html#tailhaskellch26.html" >prev-tail</a>] [<a 
+href="haskellch27.html" >front</a>] [<a 
+href="haskellpa2.html#haskellch27.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellch27.html"></a>   
+</body></html> 

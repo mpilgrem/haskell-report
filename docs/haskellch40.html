@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>40 System.Exit</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch41.html" >next</a>] [<a 
+href="haskellch39.html" >prev</a>] [<a 
+href="haskellch39.html#tailhaskellch39.html" >prev-tail</a>] [<a 
+href="#tailhaskellch40.html">tail</a>] [<a 
+href="haskellpa2.html#haskellch40.html" >up</a>] </p></div>
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;40</span><br /><a 
+ id="x48-48600040"></a><span 
+class="pcrr8t-">System.Exit</span></h2>
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-951">
+module&#x00A0;System.Exit&#x00A0;(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;ExitCode(ExitSuccess,&#x00A0;ExitFailure),&#x00A0;exitWith,&#x00A0;exitFailure,&#x00A0;exitSuccess
+&#x00A0;&#x00A0;)&#x00A0;where
+</pre>
+     <p class="noindent"></blockquote>
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-772" class="tabular" 
+ 
+><colgroup id="TBL-772-1g"><col 
+id="TBL-772-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-772-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-772-1-1"  
+class="td11"><span 
+class="pcrb8t-">data ExitCode </span></td></tr></table>                                                               </div> <dd class="haddockdesc">
+     Defines the exit codes that a program can return.
+     <p class="noindent">   <span 
+class="ptmri8t-">Constructors</span>
+     <div class="tabular"> <table id="TBL-773" class="tabulary" 
+ 
+><colgroup id="TBL-773-1g"><col 
+id="TBL-773-1" /><col 
+id="TBL-773-2" /><col 
+id="TBL-773-3" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-773-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-773-1-1"  
+class="td11"> <span 
+class="pcrb8t-">= </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-773-1-2"  
+class="td11"> <span 
+class="pcrb8t-">ExitSuccess     </span></td><td  style="white-space:normal; text-align:left;" id="TBL-773-1-3"  
+class="td11"> indicates successful termination;                                                                                                                                                                                                                                                                        </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-773-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-773-2-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-773-2-2"  
+class="td11"> <span 
+class="pcrb8t-">ExitFailure Int </span></td><td  style="white-space:normal; text-align:left;" id="TBL-773-2-3"  
+class="td11"> indicates program failure with an exit code. The exact interpretation of the code is operating-system dependent. In particular, some values may be prohibited (e.g. 0 on a POSIX-compliant system).  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-773-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-773-3-1"  
+class="td11">   </td></tr></table>                                                                                                                                                           </div>
+     </dl>
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-774" class="tabular" 
+ 
+><colgroup id="TBL-774-1g"><col 
+id="TBL-774-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-774-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-774-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read ExitCode </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-774-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-774-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show ExitCode</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-774-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-774-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq ExitCode    </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-774-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-774-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord ExitCode   </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-774-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-774-5-1"  
+class="td11">                        </td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-775" class="tabular" 
+ 
+><colgroup id="TBL-775-1g"><col 
+id="TBL-775-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-775-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-775-1-1"  
+class="td11"><span 
+class="pcrb8t-">exitWith :: ExitCode -&gt; IO a </span></td></tr></table>                                              </div> <dd class="haddockdesc">
+     Computation  <span 
+class="pcrr8t-">exitWith</span><a 
+ id="dx48-486001"></a> <span 
+class="pcrr8t-">code </span>throws  <span 
+class="pcrr8t-">ExitCode</span><a 
+ id="dx48-486002"></a> <span 
+class="pcrr8t-">code</span>.  Normally  this  terminates  the  program,
+     returning <span 
+class="pcrr8t-">code </span>to the program&#8217;s caller.
+     <p class="noindent"> On program termination, the standard <span 
+class="pcrr8t-">Handle</span><a 
+ id="dx48-486003"></a>s <span 
+class="pcrr8t-">stdout</span><a 
+ id="dx48-486004"></a> and <span 
+class="pcrr8t-">stderr</span><a 
+ id="dx48-486005"></a> are flushed automatically; any
+     other buffered <span 
+class="pcrr8t-">Handle</span><a 
+ id="dx48-486006"></a>s need to be flushed manually, otherwise the buffered data will be discarded.
+     <p class="noindent"> A program that fails in any other way is treated as if it had called <span 
+class="pcrr8t-">exitFailure</span><a 
+ id="dx48-486007"></a>. A program that
+     terminates successfully without calling <span 
+class="pcrr8t-">exitWith</span><a 
+ id="dx48-486008"></a> explicitly is treated as if it had called <span 
+class="pcrr8t-">exitWith</span><a 
+ id="dx48-486009"></a>
+     <span 
+class="pcrr8t-">ExitSuccess</span><a 
+ id="dx48-486010"></a>.
+      <p class="noindent">    As    an    <span 
+class="pcrr8t-">ExitCode</span><a 
+ id="dx48-486011"></a> is    an    <span 
+class="pcrr8t-">Exception</span><a 
+ id="dx48-486012"></a>,    it    can    be    caught    using    the    functions    of
+     <span 
+class="pcrr8t-">Control.Exception</span>.  This  means  that  cleanup  computations  added  with  <span 
+class="pcrr8t-">bracket</span><a 
+ id="dx48-486013"></a> (from
+     <span 
+class="pcrr8t-">Control.Exception</span>) are also executed properly on <span 
+class="pcrr8t-">exitWith</span><a 
+ id="dx48-486014"></a>.
+     <p class="noindent"> Note: in GHC, <span 
+class="pcrr8t-">exitWith</span><a 
+ id="dx48-486015"></a> should be called from the main program thread in order to exit the process.
+     When called from another thread, <span 
+class="pcrr8t-">exitWith</span><a 
+ id="dx48-486016"></a> will throw an <span 
+class="pcrr8t-">ExitCode</span><a 
+ id="dx48-486017"></a> as normal, but the exception
+     will not cause the process itself to exit.
+     </dl>
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-776" class="tabular" 
+ 
+><colgroup id="TBL-776-1g"><col 
+id="TBL-776-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-776-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-776-1-1"  
+class="td11"><span 
+class="pcrb8t-">exitFailure :: IO a </span></td></tr></table>                                                        </div> <dd class="haddockdesc">
+     The  computation  <span 
+class="pcrr8t-">exitFailure</span><a 
+ id="dx48-486018"></a> is  equivalent  to  <span 
+class="pcrr8t-">exitWith</span><a 
+ id="dx48-486019"></a> <span 
+class="pcrr8t-">(ExitFailure</span><a 
+ id="dx48-486020"></a> <span 
+class="ptmri8t-">exitfail</span><span 
+class="pcrr8t-">)</span>,  where
+     <span 
+class="ptmri8t-">exitfail </span>is implementation-dependent.
+     </dl>
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-777" class="tabular" 
+ 
+><colgroup id="TBL-777-1g"><col 
+id="TBL-777-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-777-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-777-1-1"  
+class="td11"><span 
+class="pcrb8t-">exitSuccess :: IO a </span></td></tr></table>                                                        </div> <dd class="haddockdesc">
+     The  computation  <span 
+class="pcrr8t-">exitSuccess</span><a 
+ id="dx48-486021"></a> is  equivalent  to  <span 
+class="pcrr8t-">exitWith</span><a 
+ id="dx48-486022"></a> <span 
+class="pcrr8t-">ExitSuccess</span><a 
+ id="dx48-486023"></a>,  It  terminates  the
+     program successfully.
+                                                                                   
+
+                                                                                   
+     </dl>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch41.html" >next</a>] [<a 
+href="haskellch39.html" >prev</a>] [<a 
+href="haskellch39.html#tailhaskellch39.html" >prev-tail</a>] [<a 
+href="haskellch40.html" >front</a>] [<a 
+href="haskellpa2.html#haskellch40.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellch40.html"></a>  
+</body> </html> 

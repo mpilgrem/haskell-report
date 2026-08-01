@@ -1,0 +1,2539 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>6 Predefined Types and Classes</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 7--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch7.html" >next</a>] [<a 
+href="haskellch5.html" >prev</a>] [<a 
+href="haskellch5.html#tailhaskellch5.html" >prev-tail</a>] [<a 
+href="#tailhaskellch6.html">tail</a>] [<a 
+href="haskellpa1.html#haskellch6.html" >up</a>] </p></div>
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;6</span><br /><a 
+ id="x13-1200006"></a>Predefined Types and Classes</h2>
+<p class="noindent"> The Haskell Prelude contains predefined classes, types, and functions that are implicitly imported into
+every Haskell program. In this chapter, we describe the types and classes found in the Prelude. Most
+functions are not described in detail here as they can easily be understood from their definitions as given
+in Chapter&#x00A0;<a 
+href="haskellch9.html#x16-1810009">9<!--tex4ht:ref: stdprelude --></a>. Other predefined types such as arrays, complex numbers, and rationals are defined in
+Part&#x00A0;<a 
+href="haskellpa2.html#x20-209000II">II<!--tex4ht:ref: libraries --></a>.
+<h3 class="sectionHead"><span class="titlemark">6.1    </span> <a 
+ id="x13-1210006.1"></a>Standard Haskell Types</h3>
+<p class="noindent"> These types are defined by the Haskell Prelude. Numeric types are described in Section <a 
+href="#x13-1450006.4">6.4<!--tex4ht:ref: numbers --></a>. When appropriate, the
+Haskell definition of the type is given. Some definitions may not be completely valid on syntactic grounds but they
+faithfully convey the meaning of the underlying type.
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.1.1    </span> <a 
+ id="x13-1220006.1.1"></a>Booleans</h4>
+<a 
+ id="dx13-122001"></a>
+<p class="noindent">
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-105">
+data&#x00A0;&#x00A0;Bool&#x00A0;&#x00A0;=&#x00A0;&#x00A0;False&#x00A0;|&#x00A0;True&#x00A0;deriving
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(Read,&#x00A0;Show,&#x00A0;Eq,&#x00A0;Ord,&#x00A0;Enum,&#x00A0;Bounded)
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> The boolean type <span 
+class="pcrr8t-">Bool</span> is an enumeration. The basic boolean functions are <span 
+class="pcrr8t-">&amp;&amp;</span> (and), <span 
+class="pcrr8t-">||</span> (or), and <span 
+class="pcrr8t-">not</span>. The name
+<span 
+class="pcrr8t-">otherwise</span> is defined as <span 
+class="pcrr8t-">True</span> to make guarded expressions more readable.
+<a 
+ id="dx13-122002"></a>
+<a 
+ id="dx13-122003"></a>
+<a 
+ id="dx13-122004"></a>
+<a 
+ id="dx13-122005"></a>
+<a 
+ id="dx13-122006"></a>
+<a 
+ id="dx13-122007"></a>
+<a 
+ id="dx13-122008"></a>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.1.2    </span> <a 
+ id="x13-1230006.1.2"></a>Characters and Strings</h4>
+<a 
+ id="dx13-123001"></a>
+<a 
+ id="dx13-123002"></a>
+<p class="noindent"> The character type <span 
+class="pcrr8t-">Char</span><a 
+ id="dx13-123003"></a> is an enumeration whose values represent Unicode characters&#x00A0;<span class="cite">[<a 
+href="haskellli3.html#Xunicode">2</a>]</span>. The lexical syntax for
+characters is defined in Section&#x00A0;<a 
+href="haskellch2.html#x7-210002.6">2.6<!--tex4ht:ref: lexemes-char --></a>; character literals are nullary constructors in the datatype <span 
+class="pcrr8t-">Char</span>.
+Type <span 
+class="pcrr8t-">Char</span> is an instance of the classes <span 
+class="pcrr8t-">Read</span>, <span 
+class="pcrr8t-">Show</span>, <span 
+class="pcrr8t-">Eq</span>, <span 
+class="pcrr8t-">Ord</span>, <span 
+class="pcrr8t-">Enum</span>, and <span 
+class="pcrr8t-">Bounded</span>. The <span 
+class="pcrr8t-">toEnum</span>
+and <span 
+class="pcrr8t-">fromEnum</span> functions, standard functions from class <span 
+class="pcrr8t-">Enum</span>, map characters to and from the <span 
+class="pcrr8t-">Int</span>
+type.
+ <p class="noindent"> Note that ASCII control characters each have several representations in character literals: numeric escapes, ASCII
+mnemonic escapes, and the <span 
+class="pcrr8t-">\^</span><span 
+class="cmmi-10">X</span> notation. In addition, there are the following equivalences: <span 
+class="pcrr8t-">\a</span> and <span 
+class="pcrr8t-">\BEL</span>, <span 
+class="pcrr8t-">\b</span> and
+<span 
+class="pcrr8t-">\BS</span>, <span 
+class="pcrr8t-">\f</span> and <span 
+class="pcrr8t-">\FF</span>, <span 
+class="pcrr8t-">\r</span> and <span 
+class="pcrr8t-">\CR</span>, <span 
+class="pcrr8t-">\t</span> and <span 
+class="pcrr8t-">\HT</span>, <span 
+class="pcrr8t-">\v</span> and <span 
+class="pcrr8t-">\VT</span>, and <span 
+class="pcrr8t-">\n</span> and <span 
+class="pcrr8t-">\LF</span>.
+ <p class="noindent"> A <span 
+class="ptmri8t-">string </span>is a list of characters:
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-106">
+type&#x00A0;&#x00A0;String&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[Char]
+</pre>
+     <p class="noindent"></blockquote>
+<a 
+ id="dx13-123004"></a>
+<p class="noindent"> Strings may be abbreviated using the lexical syntax described in Section&#x00A0;<a 
+href="haskellch2.html#x7-210002.6">2.6<!--tex4ht:ref: lexemes-char --></a>. For example, <span 
+class="pcrr8t-">"A</span><span 
+class="pcrr8t-">&#x00A0;string"</span>
+abbreviates
+                     <span 
+class="pcrr8t-">[</span><span 
+class="pcrr8t-">&#x00A0;&#8217;A&#8217;,&#8217;</span><span 
+class="pcrr8t-">&#x00A0;&#8217;,&#8217;s&#8217;,&#8217;t&#8217;,&#8217;r&#8217;,</span><span 
+class="pcrr8t-">&#x00A0;&#8217;i&#8217;,&#8217;n&#8217;,&#8217;g&#8217;]</span>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.1.3    </span> <a 
+ id="x13-1240006.1.3"></a>Lists</h4>
+<a 
+ id="dx13-124001"></a>
+<p class="noindent">
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-107">
+data&#x00A0;&#x00A0;[a]&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[]&#x00A0;|&#x00A0;a&#x00A0;:&#x00A0;[a]&#x00A0;&#x00A0;deriving&#x00A0;(Eq,&#x00A0;Ord)
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> Lists are an algebraic datatype of two constructors, although with special syntax, as described in Section&#x00A0;<a 
+href="haskellch3.html#x8-360003.7">3.7<!--tex4ht:ref: lists --></a>.
+The first constructor is the null list, written &#8216;<span 
+class="pcrr8t-">[]</span>&#8217; (&#8220;nil&#8221;), <a 
+ id="dx13-124002"></a>and the second is &#8216;<span 
+class="pcrr8t-">:</span>&#8217; (&#8220;cons&#8221;). <a 
+ id="dx13-124003"></a>The module
+<span 
+class="pcrr8t-">PreludeList</span> (see Section&#x00A0;<a 
+href="haskellch9.html#x16-1820009.1">9.1<!--tex4ht:ref: preludelist --></a>) defines many standard list functions. Arithmetic sequences <a 
+ id="dx13-124004"></a>and list
+comprehensions, <a 
+ id="dx13-124005"></a>two convenient syntaxes for special kinds of lists, are described in Sections&#x00A0;<a 
+href="haskellch3.html#x8-420003.10">3.10<!--tex4ht:ref: arithmetic-sequences --></a> and
+<a 
+href="haskellch3.html#x8-440003.11">3.11<!--tex4ht:ref: list-comprehensions --></a>, respectively. Lists are an instance of classes <span 
+class="pcrr8t-">Read</span>, <span 
+class="pcrr8t-">Show</span>, <span 
+class="pcrr8t-">Eq</span>, <span 
+class="pcrr8t-">Ord</span>, <span 
+class="pcrr8t-">Monad</span>, <span 
+class="pcrr8t-">Functor</span>, and
+<span 
+class="pcrr8t-">MonadPlus</span>.
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.1.4    </span> <a 
+ id="x13-1250006.1.4"></a>Tuples</h4>
+<a 
+ id="dx13-125001"></a>
+<p class="noindent"> Tuples are algebraic datatypes with special syntax, as defined in Section&#x00A0;<a 
+href="haskellch3.html#x8-380003.8">3.8<!--tex4ht:ref: tuples --></a>. Each tuple type has a single
+constructor. All tuples are instances of <span 
+class="pcrr8t-">Eq</span>, <span 
+class="pcrr8t-">Ord</span>, <span 
+class="pcrr8t-">Bounded</span>, <span 
+class="pcrr8t-">Read</span>, and <span 
+class="pcrr8t-">Show</span> (provided, of course, that all their
+component types are).
+ <p class="noindent"> There is no upper bound on the size of a tuple, but some Haskell implementations may restrict the size of tuples, and
+limit the instances associated with larger tuples. However, every Haskell implementation must support tuples up to
+size 15, together with the instances for <span 
+class="pcrr8t-">Eq</span>, <span 
+class="pcrr8t-">Ord</span>, <span 
+class="pcrr8t-">Bounded</span>, <span 
+class="pcrr8t-">Read</span>, and <span 
+class="pcrr8t-">Show</span>. The Prelude and libraries define tuple
+functions such as <span 
+class="pcrr8t-">zip</span> for tuples up to a size of 7.
+ <p class="noindent"> The constructor for a tuple is written by omitting the expressions surrounding the commas; thus <span 
+class="pcrr8t-">(x,y)</span> and
+<span 
+class="pcrr8t-">(,)</span><span 
+class="pcrr8t-">&#x00A0;x</span><span 
+class="pcrr8t-">&#x00A0;y</span> produce the same value. The same holds for tuple type constructors; thus, <span 
+class="pcrr8t-">(Int,Bool,Int)</span> and
+<span 
+class="pcrr8t-">(&#8222;)</span><span 
+class="pcrr8t-">&#x00A0;Int</span><span 
+class="pcrr8t-">&#x00A0;Bool</span><span 
+class="pcrr8t-">&#x00A0;Int</span> denote the same type. <a 
+ id="dx13-125002"></a><a 
+ id="dx13-125003"></a>
+ <p class="noindent"> The following functions are defined for pairs (2-tuples): <span 
+class="pcrr8t-">fst</span>, <span 
+class="pcrr8t-">snd</span>, <span 
+class="pcrr8t-">curry</span>, and <span 
+class="pcrr8t-">uncurry</span>. Similar functions are
+not predefined for larger tuples. <a 
+ id="dx13-125004"></a><a 
+ id="dx13-125005"></a><a 
+ id="dx13-125006"></a><a 
+ id="dx13-125007"></a><a 
+ id="dx13-125008"></a>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.1.5    </span> <a 
+ id="x13-1260006.1.5"></a>The Unit Datatype</h4>
+<p class="noindent">
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-108">
+data&#x00A0;&#x00A0;()&#x00A0;=&#x00A0;()&#x00A0;deriving&#x00A0;(Eq,&#x00A0;Ord,&#x00A0;Bounded,&#x00A0;Enum,&#x00A0;Read,&#x00A0;Show)
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> The unit datatype <span 
+class="pcrr8t-">()</span> has one non-<span 
+class="cmsy-10">&#x22A5;</span> member, the nullary constructor <span 
+class="pcrr8t-">()</span>. See also Section&#x00A0;<a 
+href="haskellch3.html#x8-400003.9">3.9<!--tex4ht:ref: unit-expression --></a>. <a 
+ id="dx13-126001"></a>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.1.6    </span> <a 
+ id="x13-1270006.1.6"></a>Function Types</h4>
+<a 
+ id="dx13-127001"></a>
+<p class="noindent"> Functions are an abstract type: no constructors directly create functional values. The following simple functions are
+found in the Prelude: <span 
+class="pcrr8t-">id</span>, <span 
+class="pcrr8t-">const</span>, <span 
+class="pcrr8t-">(.)</span>, <span 
+class="pcrr8t-">flip</span>, <span 
+class="pcrr8t-">($)</span>, and <span 
+class="pcrr8t-">until</span>. <a 
+ id="dx13-127002"></a><a 
+ id="dx13-127003"></a><a 
+ id="dx13-127004"></a><a 
+ id="dx13-127005"></a><a 
+ id="dx13-127006"></a>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.1.7    </span> <a 
+ id="x13-1280006.1.7"></a>The IO and IOError Types</h4>
+<p class="noindent"> The <span 
+class="pcrr8t-">IO</span> type serves as a tag for operations (actions) that interact with the outside world. The <span 
+class="pcrr8t-">IO</span> type is abstract: no
+constructors are visible to the user. <span 
+class="pcrr8t-">IO</span> is an instance of the <span 
+class="pcrr8t-">Monad</span> and <span 
+class="pcrr8t-">Functor</span> classes. Chapter&#x00A0;<a 
+href="haskellch7.html#x14-1520007">7<!--tex4ht:ref: io --></a> describes I/O
+operations.
+ <p class="noindent"> <span 
+class="pcrr8t-">IOError</span> is an abstract type representing errors raised by I/O operations. It is an instance of <span 
+class="pcrr8t-">Show</span> and <span 
+class="pcrr8t-">Eq</span>. Values
+of this type are constructed by the various I/O functions and are not presented in any further detail in this report.
+The Prelude contains a few I/O functions (defined in Section&#x00A0;<a 
+href="haskellch9.html#x16-1840009.3">9.3<!--tex4ht:ref: preludeio --></a>), and Part&#x00A0;<a 
+href="haskellpa2.html#x20-209000II">II<!--tex4ht:ref: libraries --></a> contains many more.
+<a 
+ id="dx13-128001"></a><a 
+ id="dx13-128002"></a>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.1.8    </span> <a 
+ id="x13-1290006.1.8"></a>Other Types</h4>
+<p class="noindent">
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-109">
+data&#x00A0;&#x00A0;Maybe&#x00A0;a&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;Nothing&#x00A0;|&#x00A0;Just&#x00A0;a&#x00A0;&#x00A0;deriving&#x00A0;(Eq,&#x00A0;Ord,&#x00A0;Read,&#x00A0;Show)
+data&#x00A0;&#x00A0;Either&#x00A0;a&#x00A0;b&#x00A0;&#x00A0;=&#x00A0;&#x00A0;Left&#x00A0;a&#x00A0;|&#x00A0;Right&#x00A0;b&#x00A0;&#x00A0;deriving&#x00A0;(Eq,&#x00A0;Ord,&#x00A0;Read,&#x00A0;Show)
+data&#x00A0;&#x00A0;Ordering&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;LT&#x00A0;|&#x00A0;EQ&#x00A0;|&#x00A0;GT&#x00A0;deriving
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(Eq,&#x00A0;Ord,&#x00A0;Bounded,&#x00A0;Enum,&#x00A0;Read,&#x00A0;Show)
+</pre>
+     <p class="noindent"> <a 
+ id="dx13-129001"></a><a 
+ id="dx13-129002"></a><a 
+ id="dx13-129003"></a><a 
+ id="dx13-129004"></a><a 
+ id="dx13-129005"></a><a 
+ id="dx13-129006"></a><a 
+ id="dx13-129007"></a><a 
+ id="dx13-129008"></a><a 
+ id="dx13-129009"></a><a 
+ id="dx13-129010"></a><a 
+ id="dx13-129011"></a><a 
+ id="dx13-129012"></a> </blockquote>
+<p class="noindent"> The <span 
+class="pcrr8t-">Maybe</span> type is an instance of classes <span 
+class="pcrr8t-">Functor</span>, <span 
+class="pcrr8t-">Monad</span>, and <span 
+class="pcrr8t-">MonadPlus</span>. The <span 
+class="pcrr8t-">Ordering</span> type is used by
+<span 
+class="pcrr8t-">compare</span> in the class <span 
+class="pcrr8t-">Ord</span>. The functions <span 
+class="pcrr8t-">maybe</span> and <span 
+class="pcrr8t-">either</span> are found in the Prelude.
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">6.2    </span> <a 
+ id="x13-1300006.2"></a>Strict Evaluation</h3>
+<a 
+ id="dx13-130001"></a>
+<a 
+ id="dx13-130002"></a>
+<a 
+ id="dx13-130003"></a>
+<p class="noindent"> Function application in Haskell is non-strict; that is, a function argument is evaluated only when required. Sometimes
+it is desirable to force the evaluation of a value, using the <span 
+class="pcrr8t-">seq</span> function:
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-110">
+&#x00A0;&#x00A0;seq&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;b
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> The function <span 
+class="pcrr8t-">seq</span> is defined by the equations:
+<div class="array"> <table id="TBL-94" class="array" 
+ 
+><colgroup id="TBL-94-1g"><col 
+id="TBL-94-1" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">seq</span><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmsy-10">&#x22A5;</span><span 
+class="cmmi-10">&#x00A0;b</span><span 
+class="cmmi-10">&#x00A0; </span><span 
+class="cmr-10">=</span> <span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmsy-10">&#x22A5;</span>       </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">seq</span><span 
+class="cmmi-10">&#x00A0;a</span><span 
+class="cmmi-10">&#x00A0;b</span><span 
+class="cmmi-10">&#x00A0; </span><span 
+class="cmr-10">=</span> <span 
+class="cmmi-10">&#x00A0;b,</span><span 
+class="cmmi-10">&#x00A0;if</span><span 
+class="cmmi-10">&#x00A0;a</span><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2260;</span><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmsy-10">&#x22A5;</span> </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11">                      </div></td>
+</tr></table>                                                                                   </div>
+<br 
+class="newline" /><span 
+class="pcrr8t-">seq</span> is usually introduced to improve performance by avoiding unneeded laziness. Strict datatypes (see
+<a 
+ id="dx13-130004"></a>Section&#x00A0;<a 
+href="haskellch4.html#x10-75000doc">4.2.1.0.0<!--tex4ht:ref: strictness-flags --></a>) are defined in terms of the <span 
+class="pcrr8t-">$!</span> operator. However, the provision of <span 
+class="pcrr8t-">seq</span> has important semantic
+consequences, because it is available <span 
+class="ptmri8t-">at every type</span>. As a consequence, <span 
+class="cmsy-10">&#x22A5;</span> is not the same as <span 
+class="pcrr8t-">\x</span><span 
+class="pcrr8t-">&#x00A0;-&gt;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="cmsy-10">&#x22A5;</span>, since <span 
+class="pcrr8t-">seq</span>
+can be used to distinguish them. For the same reason, the existence of <span 
+class="pcrr8t-">seq</span> weakens Haskell&#8217;s parametricity
+properties.
+ <p class="noindent"> The operator <span 
+class="pcrr8t-">$!</span> is strict (call-by-value) application, and is defined in terms of <span 
+class="pcrr8t-">seq</span>. The Prelude also defines the <span 
+class="pcrr8t-">$</span>
+operator to perform non-strict application.
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-111">
+&#x00A0;&#x00A0;infixr&#x00A0;0&#x00A0;$,&#x00A0;$!
+&#x00A0;&#x00A0;($),&#x00A0;($!)&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;b)&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b
+&#x00A0;&#x00A0;f&#x00A0;$&#x00A0;&#x00A0;x&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;f&#x00A0;x
+&#x00A0;&#x00A0;f&#x00A0;$!&#x00A0;x&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x&#x00A0;&#8216;seq&#8216;&#x00A0;f&#x00A0;x
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> The non-strict application operator <span 
+class="pcrr8t-">$</span> may appear redundant, since ordinary application <span 
+class="pcrr8t-">(f</span><span 
+class="pcrr8t-">&#x00A0;x)</span> means the same as
+<span 
+class="pcrr8t-">(f</span><span 
+class="pcrr8t-">&#x00A0;$</span><span 
+class="pcrr8t-">&#x00A0;x)</span>. However, <span 
+class="pcrr8t-">$</span> has low, right-associative binding precedence, so it sometimes allows parentheses to be
+omitted; for example:
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-112">
+&#x00A0;&#x00A0;f&#x00A0;$&#x00A0;g&#x00A0;$&#x00A0;h&#x00A0;x&#x00A0;&#x00A0;=&#x00A0;&#x00A0;f&#x00A0;(g&#x00A0;(h&#x00A0;x))
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> It is also useful in higher-order situations, such as <span 
+class="pcrr8t-">map</span><span 
+class="pcrr8t-">&#x00A0;($</span><span 
+class="pcrr8t-">&#x00A0;0)</span><span 
+class="pcrr8t-">&#x00A0;xs</span>, or <span 
+class="pcrr8t-">zipWith</span><span 
+class="pcrr8t-">&#x00A0;($)</span><span 
+class="pcrr8t-">&#x00A0;fs</span><span 
+class="pcrr8t-">&#x00A0;xs</span>.
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">6.3    </span> <a 
+ id="x13-1310006.3"></a>Standard Haskell Classes</h3>
+<p class="noindent"> Figure&#x00A0;<a 
+href="#x13-1310011">6.1<!--tex4ht:ref: standard-classes --></a> shows the hierarchy of Haskell classes defined in the Prelude and the Prelude types that are instances of
+these classes. <hr class="figure" /><div class="figure" 
+>
+                                                                                   
+
+                                                                                   
+<a 
+ id="x13-1310011"></a>
+                                                                                   
+
+                                                                                   
+ <p class="noindent"> <img 
+src="classes.png" alt="PIC"  
+width="50" height="50"  />
+<br /> <div class="caption" 
+><span class="id">Figure&#x00A0;6.1: </span><span  
+class="content">Standard Haskell Classes</span></div><!--tex4ht:label?: x13-1310011 -->
+                                                                                   
+
+                                                                                   
+</div><hr class="endfigure" />
+ <p class="noindent"> Default class method declarations (Section&#x00A0;<a 
+href="haskellch4.html#x10-790004.3">4.3<!--tex4ht:ref: classes --></a>) are provided for many of the methods in standard
+classes. A comment with each <span 
+class="pcrr8t-">class</span> declaration in Chapter&#x00A0;<a 
+href="haskellch9.html#x16-1810009">9<!--tex4ht:ref: stdprelude --></a> specifies the smallest collection of
+method definitions that, together with the default declarations, provide a reasonable definition for all the
+class methods. If there is no such comment, then all class methods must be given to fully specify an
+instance.
+<h4 class="subsectionHead"><span class="titlemark">6.3.1    </span> <a 
+ id="x13-1320006.3.1"></a>The Eq Class</h4>
+<a 
+ id="dx13-132001"></a>
+<a 
+ id="dx13-132002"></a>
+<a 
+ id="dx13-132003"></a>
+<p class="noindent">
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-113">
+&#x00A0;&#x00A0;class&#x00A0;&#x00A0;Eq&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(==),&#x00A0;(/=)&#x00A0;&#x00A0;::&#x00A0;&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;Bool
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;x&#x00A0;/=&#x00A0;y&#x00A0;&#x00A0;=&#x00A0;not&#x00A0;(x&#x00A0;==&#x00A0;y)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;x&#x00A0;==&#x00A0;y&#x00A0;&#x00A0;=&#x00A0;not&#x00A0;(x&#x00A0;/=&#x00A0;y)
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> The <span 
+class="pcrr8t-">Eq</span> class provides equality (<span 
+class="pcrr8t-">==</span>) and inequality (<span 
+class="pcrr8t-">/=</span>) methods. All basic datatypes except for functions and <span 
+class="pcrr8t-">IO</span>
+are instances of this class. Instances of <span 
+class="pcrr8t-">Eq</span> can be derived for any user-defined datatype whose constituents are also
+instances of <span 
+class="pcrr8t-">Eq</span>.
+ <p class="noindent"> This declaration gives default method declarations for both <span 
+class="pcrr8t-">/=</span> and <span 
+class="pcrr8t-">==</span>, each being defined in terms of the other. If
+an instance declaration for <span 
+class="pcrr8t-">Eq</span> defines neither <span 
+class="pcrr8t-">==</span> nor <span 
+class="pcrr8t-">/=</span>, then both will loop. If one is defined, the default method
+for the other will make use of the one that is defined. If both are defined, neither default method is
+used.
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.3.2    </span> <a 
+ id="x13-1330006.3.2"></a>The Ord Class</h4>
+<a 
+ id="dx13-133001"></a>
+<a 
+ id="dx13-133002"></a>
+<a 
+ id="dx13-133003"></a>
+<a 
+ id="dx13-133004"></a>
+<a 
+ id="dx13-133005"></a>
+<a 
+ id="dx13-133006"></a>
+<a 
+ id="dx13-133007"></a>
+<a 
+ id="dx13-133008"></a>
+<p class="noindent">
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-114">
+&#x00A0;&#x00A0;class&#x00A0;&#x00A0;(Eq&#x00A0;a)&#x00A0;=&gt;&#x00A0;Ord&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;compare&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;Ordering
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(&lt;),&#x00A0;(&lt;=),&#x00A0;(&gt;=),&#x00A0;(&gt;)&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;Bool
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;max,&#x00A0;min&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;compare&#x00A0;x&#x00A0;y&#x00A0;|&#x00A0;x&#x00A0;==&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;EQ
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;x&#x00A0;&lt;=&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;LT
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;=&#x00A0;GT
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;x&#x00A0;&lt;=&#x00A0;y&#x00A0;&#x00A0;=&#x00A0;compare&#x00A0;x&#x00A0;y&#x00A0;/=&#x00A0;GT
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;x&#x00A0;&lt;&#x00A0;&#x00A0;y&#x00A0;&#x00A0;=&#x00A0;compare&#x00A0;x&#x00A0;y&#x00A0;==&#x00A0;LT
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;x&#x00A0;&gt;=&#x00A0;y&#x00A0;&#x00A0;=&#x00A0;compare&#x00A0;x&#x00A0;y&#x00A0;/=&#x00A0;LT
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;x&#x00A0;&gt;&#x00A0;&#x00A0;y&#x00A0;&#x00A0;=&#x00A0;compare&#x00A0;x&#x00A0;y&#x00A0;==&#x00A0;GT
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Note&#x00A0;that&#x00A0;(min&#x00A0;x&#x00A0;y,&#x00A0;max&#x00A0;x&#x00A0;y)&#x00A0;=&#x00A0;(x,y)&#x00A0;or&#x00A0;(y,x)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;max&#x00A0;x&#x00A0;y&#x00A0;|&#x00A0;x&#x00A0;&lt;=&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;y
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;=&#x00A0;&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;min&#x00A0;x&#x00A0;y&#x00A0;|&#x00A0;x&#x00A0;&lt;=&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;=&#x00A0;&#x00A0;y
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> The <span 
+class="pcrr8t-">Ord</span> class is used for totally ordered datatypes. All basic datatypes except for functions, <span 
+class="pcrr8t-">IO</span>, and <span 
+class="pcrr8t-">IOError</span>, are
+instances of this class. Instances of <span 
+class="pcrr8t-">Ord</span> can be derived for any user-defined datatype whose constituent types are in
+<span 
+class="pcrr8t-">Ord</span>. The declared order of the constructors in the data declaration determines the ordering in derived <span 
+class="pcrr8t-">Ord</span>
+instances. The <span 
+class="pcrr8t-">Ordering</span> datatype allows a single comparison to determine the precise ordering of two
+objects.
+ <p class="noindent"> The default declarations allow a user to create an <span 
+class="pcrr8t-">Ord</span> instance either with a type-specific <span 
+class="pcrr8t-">compare</span> function or
+with type-specific <span 
+class="pcrr8t-">==</span> and <span 
+class="pcrr8t-">&lt;=</span> functions.
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.3.3    </span> <a 
+ id="x13-1340006.3.3"></a>The Read and Show Classes</h4>
+<a 
+ id="dx13-134001"></a>
+<a 
+ id="dx13-134002"></a>
+<a 
+ id="dx13-134003"></a>
+<a 
+ id="dx13-134004"></a>
+<a 
+ id="dx13-134005"></a>
+<a 
+ id="dx13-134006"></a>
+<a 
+ id="dx13-134007"></a>
+<a 
+ id="dx13-134008"></a>
+<a 
+ id="dx13-134009"></a>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-115">
+type&#x00A0;&#x00A0;ReadS&#x00A0;a&#x00A0;=&#x00A0;String&#x00A0;-&gt;&#x00A0;[(a,String)]
+type&#x00A0;&#x00A0;ShowS&#x00A0;&#x00A0;&#x00A0;=&#x00A0;String&#x00A0;-&gt;&#x00A0;String
+
+class&#x00A0;&#x00A0;Read&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;readsPrec&#x00A0;::&#x00A0;Int&#x00A0;-&gt;&#x00A0;ReadS&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;readList&#x00A0;&#x00A0;::&#x00A0;ReadS&#x00A0;[a]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;...&#x00A0;default&#x00A0;decl&#x00A0;for&#x00A0;readList&#x00A0;given&#x00A0;in&#x00A0;Prelude
+
+class&#x00A0;&#x00A0;Show&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showsPrec&#x00A0;::&#x00A0;Int&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;ShowS
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;show&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;String
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showList&#x00A0;&#x00A0;::&#x00A0;[a]&#x00A0;-&gt;&#x00A0;ShowS
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showsPrec&#x00A0;_&#x00A0;x&#x00A0;s&#x00A0;&#x00A0;&#x00A0;=&#x00A0;show&#x00A0;x&#x00A0;++&#x00A0;s
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;show&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;showsPrec&#x00A0;0&#x00A0;x&#x00A0;""
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;...&#x00A0;default&#x00A0;decl&#x00A0;for&#x00A0;showList&#x00A0;given&#x00A0;in&#x00A0;Prelude
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> The <span 
+class="pcrr8t-">Read</span> and <span 
+class="pcrr8t-">Show</span> classes are used to convert values to or from strings. The <span 
+class="pcrr8t-">Int</span> argument to <span 
+class="pcrr8t-">showsPrec</span> and
+<span 
+class="pcrr8t-">readsPrec</span> gives the operator precedence of the enclosing context (see Section&#x00A0;<a 
+href="haskellch11.html#x18-20200011.10">11.10<!--tex4ht:ref: derived-text --></a>).
+ <p class="noindent"> <span 
+class="pcrr8t-">showsPrec</span> and <span 
+class="pcrr8t-">showList</span> return a <span 
+class="pcrr8t-">String</span>-to-<span 
+class="pcrr8t-">String</span> function, to allow constant-time concatenation
+of its results using function composition. A specialised variant, <span 
+class="pcrr8t-">show</span>, is also provided, which uses
+precedence context zero, and returns an ordinary <span 
+class="pcrr8t-">String</span>. The method <span 
+class="pcrr8t-">showList</span> is provided to allow the
+programmer to give a specialised way of showing lists of values. This is particularly useful for the <span 
+class="pcrr8t-">Char</span>
+type, where values of type <span 
+class="pcrr8t-">String</span> should be shown in double quotes, rather than between square
+brackets.
+ <p class="noindent"> Derived instances of <span 
+class="pcrr8t-">Read</span> and <span 
+class="pcrr8t-">Show</span> replicate the style in which a constructor is declared: infix constructors and
+field names are used on input and output. Strings produced by <span 
+class="pcrr8t-">showsPrec</span> are usually readable by
+<span 
+class="pcrr8t-">readsPrec</span>.
+ <p class="noindent"> All <span 
+class="pcrr8t-">Prelude</span> types, except function types and <span 
+class="pcrr8t-">IO</span> types, are instances of <span 
+class="pcrr8t-">Show</span> and <span 
+class="pcrr8t-">Read</span>. (If desired, a
+programmer can easily make functions and <span 
+class="pcrr8t-">IO</span> types into (vacuous) instances of <span 
+class="pcrr8t-">Show</span>, by providing an instance
+declaration.)
+<a 
+ id="dx13-134010"></a>
+<a 
+ id="dx13-134011"></a>
+<a 
+ id="dx13-134012"></a>
+ <p class="noindent"> For convenience, the Prelude provides the following auxiliary functions:
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-116">
+reads&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Read&#x00A0;a)&#x00A0;=&gt;&#x00A0;ReadS&#x00A0;a
+reads&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;readsPrec&#x00A0;0
+
+shows&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Show&#x00A0;a)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;ShowS
+shows&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;showsPrec&#x00A0;0
+
+read&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Read&#x00A0;a)&#x00A0;=&gt;&#x00A0;String&#x00A0;-&gt;&#x00A0;a
+read&#x00A0;s&#x00A0;&#x00A0;=&#x00A0;&#x00A0;case&#x00A0;[x&#x00A0;|&#x00A0;(x,t)&#x00A0;&lt;-&#x00A0;reads&#x00A0;s,&#x00A0;("","")&#x00A0;&lt;-&#x00A0;lex&#x00A0;t]&#x00A0;of
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;[x]&#x00A0;-&gt;&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;[]&#x00A0;&#x00A0;-&gt;&#x00A0;error&#x00A0;"PreludeText.read:&#x00A0;no&#x00A0;parse"
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;_&#x00A0;&#x00A0;&#x00A0;-&gt;&#x00A0;error&#x00A0;"PreludeText.read:&#x00A0;ambiguous&#x00A0;parse"
+</pre>
+     <p class="noindent"></blockquote>
+<a 
+ id="dx13-134013"></a>
+<a 
+ id="dx13-134014"></a>
+<a 
+ id="dx13-134015"></a>
+<a 
+ id="dx13-134016"></a>
+<p class="noindent"><span 
+class="pcrr8t-">shows</span> and <span 
+class="pcrr8t-">reads</span> use a default precedence of 0. The <span 
+class="pcrr8t-">read</span> function reads input from a string, which must be
+completely consumed by the input process.
+<a 
+ id="dx13-134017"></a>
+ <p class="noindent"> The function <span 
+class="pcrr8t-">lex</span><span 
+class="pcrr8t-">&#x00A0;::</span><span 
+class="pcrr8t-">&#x00A0;ReadS</span><span 
+class="pcrr8t-">&#x00A0;String</span>, used by <span 
+class="pcrr8t-">read</span>, is also part of the Prelude. It reads a single lexeme from
+the input, discarding initial white space, and returning the characters that constitute the lexeme. If the input string
+contains only white space, <span 
+class="pcrr8t-">lex</span> returns a single successful &#8220;lexeme&#8221; consisting of the empty string. (Thus <span 
+class="pcrr8t-">lex</span><span 
+class="pcrr8t-">&#x00A0;""</span> =
+<span 
+class="pcrr8t-">[("","")]</span>.) If there is no legal lexeme at the beginning of the input string, <span 
+class="pcrr8t-">lex</span> fails (i.e. returns
+<span 
+class="pcrr8t-">[]</span>).
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.3.4    </span> <a 
+ id="x13-1350006.3.4"></a>The Enum Class</h4>
+<a 
+ id="dx13-135001"></a>
+<a 
+ id="dx13-135002"></a>
+<a 
+ id="dx13-135003"></a>
+<a 
+ id="dx13-135004"></a>
+<a 
+ id="dx13-135005"></a>
+<a 
+ id="dx13-135006"></a>
+<a 
+ id="dx13-135007"></a>
+<p class="noindent">
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-117">
+class&#x00A0;&#x00A0;Enum&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;succ,&#x00A0;pred&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;toEnum&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Int&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fromEnum&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;Int
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFrom&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;[a]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;[n..]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFromThen&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;[a]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;[n,n&#8217;..]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFromTo&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;[a]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;[n..m]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;enumFromThenTo&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;[a]&#x00A0;&#x00A0;--&#x00A0;[n,n&#8217;..m]
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Default&#x00A0;declarations&#x00A0;given&#x00A0;in&#x00A0;Prelude
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> Class <span 
+class="pcrr8t-">Enum</span> defines operations on sequentially ordered types. The functions <span 
+class="pcrr8t-">succ</span> and <span 
+class="pcrr8t-">pred</span> return the successor
+and predecessor, respectively, of a value. The functions <span 
+class="pcrr8t-">fromEnum</span> and <span 
+class="pcrr8t-">toEnum</span> map values from a type in
+<span 
+class="pcrr8t-">Enum</span> to and from <span 
+class="pcrr8t-">Int</span>. The <span 
+class="pcrr8t-">enumFrom</span>... methods are used when translating arithmetic sequences
+(Section&#x00A0;<a 
+href="haskellch3.html#x8-420003.10">3.10<!--tex4ht:ref: arithmetic-sequences --></a>).
+ <p class="noindent"> Instances of <span 
+class="pcrr8t-">Enum</span> may be derived for any enumeration type (types whose constructors have no fields); see
+Chapter&#x00A0;<a 
+href="haskellch11.html#x18-19200011">11<!--tex4ht:ref: derived-appendix --></a>.
+ <p class="noindent"> For any type that is an instance of class <span 
+class="pcrr8t-">Bounded</span> as well as <span 
+class="pcrr8t-">Enum</span>, the following should hold:
+     <ul class="itemize1">
+     <li class="itemize">
+     <p class="noindent"> The calls <span 
+class="pcrr8t-">succ</span><span 
+class="pcrr8t-">&#x00A0;maxBound</span> and <span 
+class="pcrr8t-">pred</span><span 
+class="pcrr8t-">&#x00A0;minBound</span> should result in a runtime error.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> <span 
+class="pcrr8t-">fromEnum</span> and <span 
+class="pcrr8t-">toEnum</span> should give a runtime error if the result value is not representable in the
+     result type. For example, <span 
+class="pcrr8t-">toEnum</span><span 
+class="pcrr8t-">&#x00A0;7</span><span 
+class="pcrr8t-">&#x00A0;::</span><span 
+class="pcrr8t-">&#x00A0;Bool</span> is an error.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> <span 
+class="pcrr8t-">enumFrom</span> and <span 
+class="pcrr8t-">enumFromThen</span> should be defined with an implicit bound, thus:
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-118">
+&#x00A0;&#x00A0;enumFrom&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;x&#x00A0;&#x00A0;&#x00A0;=&#x00A0;enumFromTo&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;x&#x00A0;maxBound
+&#x00A0;&#x00A0;enumFromThen&#x00A0;x&#x00A0;y&#x00A0;=&#x00A0;enumFromThenTo&#x00A0;x&#x00A0;y&#x00A0;bound
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;bound&#x00A0;|&#x00A0;fromEnum&#x00A0;y&#x00A0;&gt;=&#x00A0;fromEnum&#x00A0;x&#x00A0;=&#x00A0;maxBound
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;minBound
+</pre>
+         <p class="noindent"></blockquote>
+     </li></ul>
+<p class="noindent"> The following <span 
+class="pcrr8t-">Prelude</span> types are instances of <span 
+class="pcrr8t-">Enum</span>:
+     <ul class="itemize1">
+     <li class="itemize">
+      <p class="noindent">  Enumeration  types:  <span 
+class="pcrr8t-">()</span>,  <span 
+class="pcrr8t-">Bool</span>,  and  <span 
+class="pcrr8t-">Ordering</span>.  The  semantics  of  these  instances  is  given  by
+     Chapter&#x00A0;<a 
+href="haskellch11.html#x18-19200011">11<!--tex4ht:ref: derived-appendix --></a>. For example, <span 
+class="pcrr8t-">[LT</span><span 
+class="pcrr8t-">&#x00A0;..]</span> is the list <span 
+class="pcrr8t-">[LT,EQ,GT]</span>.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> <span 
+class="pcrr8t-">Char</span>: the instance is given in Chapter&#x00A0;<a 
+href="haskellch9.html#x16-1810009">9<!--tex4ht:ref: stdprelude --></a>, based on the primitive functions that convert between a
+     <span 
+class="pcrr8t-">Char</span> and an <span 
+class="pcrr8t-">Int</span>. For example, <span 
+class="pcrr8t-">enumFromTo</span><span 
+class="pcrr8t-">&#x00A0;&#8217;a&#8217;</span><span 
+class="pcrr8t-">&#x00A0;&#8217;z&#8217;</span> denotes the list of lowercase letters in
+     alphabetical order.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> Numeric types: <span 
+class="pcrr8t-">Int</span>, <span 
+class="pcrr8t-">Integer</span>, <span 
+class="pcrr8t-">Float</span>, <span 
+class="pcrr8t-">Double</span>. The semantics of these instances is given next.</li></ul>
+<p class="noindent"> For all four numeric types, <span 
+class="pcrr8t-">succ</span> adds 1, and <span 
+class="pcrr8t-">pred</span> subtracts 1. The conversions <span 
+class="pcrr8t-">fromEnum</span> and <span 
+class="pcrr8t-">toEnum</span> convert
+between the type and <span 
+class="pcrr8t-">Int</span>. In the case of <span 
+class="pcrr8t-">Float</span> and <span 
+class="pcrr8t-">Double</span>, the digits after the decimal point may be lost. It is
+implementation-dependent what <span 
+class="pcrr8t-">fromEnum</span> returns when applied to a value that is too large to fit in an
+<span 
+class="pcrr8t-">Int</span>.
+ <p class="noindent"> For the types <span 
+class="pcrr8t-">Int</span> and <span 
+class="pcrr8t-">Integer</span>, the enumeration functions have the following meaning:
+     <ul class="itemize1">
+     <li class="itemize">
+     <p class="noindent"> The sequence <span 
+class="pcrr8t-">enumFrom</span><span 
+class="cmmi-10">&#x00A0;e</span><sub><span 
+class="cmr-7">1</span></sub> is the list <span 
+class="pcrr8t-">[</span><span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="pcrr8t-">,</span><span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">1</span></sub> <span 
+class="cmr-10">+ 1</span><span 
+class="pcrr8t-">,</span><span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">1</span></sub> <span 
+class="cmr-10">+ 2</span><span 
+class="pcrr8t-">,</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="pcrr8t-">]</span>.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> The sequence <span 
+class="pcrr8t-">enumFromThen</span><span 
+class="cmmi-10">&#x00A0;e</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;e</span><sub><span 
+class="cmr-7">2</span></sub> is the list <span 
+class="pcrr8t-">[</span><span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="pcrr8t-">,</span><span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">1</span></sub> <span 
+class="cmr-10">+ </span><span 
+class="cmmi-10">i</span><span 
+class="pcrr8t-">,</span><span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">1</span></sub> <span 
+class="cmr-10">+ 2</span><span 
+class="cmmi-10">i</span><span 
+class="pcrr8t-">,</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="pcrr8t-">]</span>, where the increment, <span 
+class="cmmi-10">i</span>, is
+     <span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">2</span></sub> <span 
+class="cmsy-10">- </span><span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">1</span></sub>. The increment may be zero or negative. If the increment is zero, all the list elements are the
+     same.
+     </li>
+     <li class="itemize">
+      <p class="noindent">  The  sequence  <span 
+class="pcrr8t-">enumFromTo</span><span 
+class="cmmi-10">&#x00A0;e</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;e</span><sub><span 
+class="cmr-7">3</span></sub>  is  the  list  <span 
+class="pcrr8t-">[</span><span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="pcrr8t-">,</span><span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">1</span></sub> <span 
+class="cmr-10">+ 1</span><span 
+class="pcrr8t-">,</span><span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">1</span></sub> <span 
+class="cmr-10">+ 2</span><span 
+class="pcrr8t-">,</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">3</span></sub><span 
+class="pcrr8t-">]</span>.  The  list  is  empty  if
+     <span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0; &#x003E;</span> <span 
+class="cmmi-10">&#x00A0;e</span><sub><span 
+class="cmr-7">3</span></sub>.
+                                                                                   
+
+                                                                                   
+     </li>
+     <li class="itemize">
+      <p class="noindent">  The  sequence  <span 
+class="pcrr8t-">enumFromThenTo</span><span 
+class="cmmi-10">&#x00A0;e</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;e</span><sub><span 
+class="cmr-7">2</span></sub><span 
+class="cmmi-10">&#x00A0;e</span><sub><span 
+class="cmr-7">3</span></sub>  is  the  list  <span 
+class="pcrr8t-">[</span><span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="pcrr8t-">,</span><span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">1</span></sub> <span 
+class="cmr-10">+ </span><span 
+class="cmmi-10">i</span><span 
+class="pcrr8t-">,</span><span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">1</span></sub> <span 
+class="cmr-10">+ 2</span><span 
+class="cmmi-10">i</span><span 
+class="pcrr8t-">,</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">3</span></sub><span 
+class="pcrr8t-">]</span>,  where  the
+     increment, <span 
+class="cmmi-10">i</span>, is <span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">2</span></sub> <span 
+class="cmsy-10">- </span><span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">1</span></sub>. If the increment is positive or zero, the list terminates when the next element
+     would be greater than <span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">3</span></sub>; the list is empty if <span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0; &#x003E;</span> <span 
+class="cmmi-10">&#x00A0;e</span><sub><span 
+class="cmr-7">3</span></sub>. If the increment is negative, the list terminates
+     when the next element would be less than <span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">3</span></sub>; the list is empty if <span 
+class="cmmi-10">e</span><span 
+class="cmr-10">1</span><span 
+class="cmmi-10">&#x00A0; &#x003C;</span> <span 
+class="cmmi-10">&#x00A0;e</span><sub><span 
+class="cmr-7">3</span></sub>.</li></ul>
+<p class="noindent"> For <span 
+class="pcrr8t-">Float</span> and <span 
+class="pcrr8t-">Double</span>, the semantics of the <span 
+class="pcrr8t-">enumFrom</span> family is given by the rules for <span 
+class="pcrr8t-">Int</span> above, except that
+the list terminates when the elements become greater than <span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">3</span></sub> <span 
+class="cmr-10">+ </span><span 
+class="cmmi-10">i&#x2215;</span><span 
+class="cmr-10">2</span> for positive increment <span 
+class="cmmi-10">i</span>, or when they become
+less than <span 
+class="cmmi-10">e</span><sub><span 
+class="cmr-7">3</span></sub> <span 
+class="cmr-10">+ </span><span 
+class="cmmi-10">i&#x2215;</span><span 
+class="cmr-10">2</span> for negative <span 
+class="cmmi-10">i</span>.
+ <p class="noindent"> For all four of these Prelude numeric types, all of the <span 
+class="pcrr8t-">enumFrom</span> family of functions are strict in all their
+arguments.
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.3.5    </span> <a 
+ id="x13-1360006.3.5"></a>The Semigroup Class</h4>
+<a 
+ id="dx13-136001"></a>
+<a 
+ id="dx13-136002"></a>
+<a 
+ id="dx13-136003"></a>
+<p class="noindent">
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-119">
+class&#x00A0;&#x00A0;Semigroup&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(&lt;&gt;)&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> The <span 
+class="pcrr8t-">Semigroup</span> class is used with types with an associative binary operation. <span 
+class="pcrr8t-">()</span>, lists, <span 
+class="pcrr8t-">Either</span><span 
+class="pcrr8t-">&#x00A0;a</span><span 
+class="pcrr8t-">&#x00A0;b</span>, and
+2-tuples to 4-tuples (where types are in this class) are in this class.
+ <p class="noindent"> Instances of <span 
+class="pcrr8t-">Semigroup</span> should satisfy the following law:
+<div class="array"> <table id="TBL-95" class="array" 
+ 
+><colgroup id="TBL-95-1g"><col 
+id="TBL-95-1" /><col 
+id="TBL-95-2" /><col 
+id="TBL-95-3" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">x</span><span 
+class="pcrr8t-">&#x00A0;&lt;&gt;</span><span 
+class="pcrr8t-">&#x00A0;(y</span><span 
+class="pcrr8t-">&#x00A0;&lt;&gt;</span><span 
+class="pcrr8t-">&#x00A0;z)</span> </div></td><td  style="white-space:nowrap; text-align:center;" 
+><div class="td11"> <span 
+class="cmr-10">= </span></div></td><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">(x</span><span 
+class="pcrr8t-">&#x00A0;&lt;&gt;</span><span 
+class="pcrr8t-">&#x00A0;y)</span><span 
+class="pcrr8t-">&#x00A0;&lt;&gt;</span><span 
+class="pcrr8t-">&#x00A0;z</span> </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11">               </div></td>
+</tr></table>                                                                                   </div>
+<br 
+class="newline" />
+<p class="noindent"> All instances of <span 
+class="pcrr8t-">Semigroup</span> defined in the Prelude satisfy this law.
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.3.6    </span> <a 
+ id="x13-1370006.3.6"></a>The Monoid Class</h4>
+<a 
+ id="dx13-137001"></a>
+<a 
+ id="dx13-137002"></a>
+<a 
+ id="dx13-137003"></a>
+<a 
+ id="dx13-137004"></a>
+<a 
+ id="dx13-137005"></a>
+<p class="noindent">
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-120">
+class&#x00A0;&#x00A0;Semigroup&#x00A0;a&#x00A0;=&gt;&#x00A0;Monoid&#x00A0;a&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;mempty&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;mappend&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;mconcat&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[a]&#x00A0;-&gt;&#x00A0;a
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;mempty&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;mconcat&#x00A0;[]
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;mappend&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;(&lt;&gt;)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;mconcat&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;foldr&#x00A0;mappend&#x00A0;mempty
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> The <span 
+class="pcrr8t-">Monoid</span> class is used with types with an associative binary operation that has an identity.
+ <p class="noindent"> Instances of <span 
+class="pcrr8t-">Monoid</span> should satisfy the following laws:
+<div class="array"> <table id="TBL-96" class="array" 
+ 
+><colgroup id="TBL-96-1g"><col 
+id="TBL-96-1" /><col 
+id="TBL-96-2" /><col 
+id="TBL-96-3" /><col 
+id="TBL-96-4" /><col 
+id="TBL-96-5" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">x</span><span 
+class="pcrr8t-">&#x00A0;&lt;&gt;</span><span 
+class="pcrr8t-">&#x00A0;mempty</span> </div></td><td  style="white-space:nowrap; text-align:center;" 
+><div class="td11"> <span 
+class="cmr-10">= </span></div></td><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">mempty</span><span 
+class="pcrr8t-">&#x00A0;&lt;&gt;</span><span 
+class="pcrr8t-">&#x00A0;x</span> </div></td><td  style="white-space:nowrap; text-align:center;" 
+><div class="td11"> <span 
+class="cmr-10">= </span></div></td><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">x</span> </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11">             </div></td>
+</tr></table>                                                                                   </div>
+<br 
+class="newline" />
+<p class="noindent"> All instances of <span 
+class="pcrr8t-">Monoid</span> defined in the Prelude satisfy this law.
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.3.7    </span> <a 
+ id="x13-1380006.3.7"></a>The Functor Class</h4>
+<a 
+ id="dx13-138001"></a>
+<a 
+ id="dx13-138002"></a>
+<a 
+ id="dx13-138003"></a>
+<p class="noindent">
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-121">
+class&#x00A0;&#x00A0;Functor&#x00A0;f&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fmap&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;b)&#x00A0;-&gt;&#x00A0;f&#x00A0;a&#x00A0;-&gt;&#x00A0;f&#x00A0;b
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(&lt;$)&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;-&gt;&#x00A0;f&#x00A0;b&#x00A0;-&gt;&#x00A0;f&#x00A0;a
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(&lt;$)&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;fmap&#x00A0;.&#x00A0;const
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> The <span 
+class="pcrr8t-">Functor</span> class is used for types that can be mapped over. Lists, <span 
+class="pcrr8t-">IO</span>, and <span 
+class="pcrr8t-">Maybe</span> are in this class.
+ <p class="noindent"> Instances of <span 
+class="pcrr8t-">Functor</span> should satisfy the following laws:
+<div class="array"> <table id="TBL-97" class="array" 
+ 
+><colgroup id="TBL-97-1g"><col 
+id="TBL-97-1" /><col 
+id="TBL-97-2" /><col 
+id="TBL-97-3" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">fmap</span><span 
+class="pcrr8t-">&#x00A0;id</span>     </div></td><td  style="white-space:nowrap; text-align:center;" 
+><div class="td11"> <span 
+class="cmr-10">= </span></div></td><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">id</span>              </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">fmap</span><span 
+class="pcrr8t-">&#x00A0;(f</span><span 
+class="pcrr8t-">&#x00A0;.</span><span 
+class="pcrr8t-">&#x00A0;g)</span> </div></td><td  style="white-space:nowrap; text-align:center;" 
+><div class="td11"> <span 
+class="cmr-10">= </span></div></td><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">fmap</span><span 
+class="pcrr8t-">&#x00A0;f</span><span 
+class="pcrr8t-">&#x00A0;.</span><span 
+class="pcrr8t-">&#x00A0;fmap</span><span 
+class="pcrr8t-">&#x00A0;g</span> </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11">              </div></td>
+</tr></table>                                                                                   </div>
+<br 
+class="newline" /> All instances of <span 
+class="pcrr8t-">Functor</span> defined in the Prelude satisfy these laws.
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.3.8    </span> <a 
+ id="x13-1390006.3.8"></a>The Applicative Class</h4>
+<a 
+ id="dx13-139001"></a>
+<a 
+ id="dx13-139002"></a>
+<a 
+ id="dx13-139003"></a>
+<p class="noindent">
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-122">
+class&#x00A0;&#x00A0;Functor&#x00A0;f&#x00A0;=&gt;&#x00A0;Applicative&#x00A0;f&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;pure&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;f&#x00A0;a
+&#x00A0;&#x00A0;(&lt;*&gt;)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;f&#x00A0;(a&#x00A0;-&gt;&#x00A0;b)&#x00A0;-&gt;&#x00A0;f&#x00A0;a&#x00A0;-&gt;&#x00A0;f&#x00A0;b
+&#x00A0;&#x00A0;liftA2&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;c)&#x00A0;-&gt;&#x00A0;f&#x00A0;a&#x00A0;-&gt;&#x00A0;f&#x00A0;b&#x00A0;-&gt;&#x00A0;f&#x00A0;c
+&#x00A0;&#x00A0;(*&gt;)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;f&#x00A0;a&#x00A0;-&gt;&#x00A0;f&#x00A0;b&#x00A0;-&gt;&#x00A0;f&#x00A0;b
+&#x00A0;&#x00A0;(&lt;*)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;f&#x00A0;a&#x00A0;-&gt;&#x00A0;f&#x00A0;b&#x00A0;-&gt;&#x00A0;f&#x00A0;a
+
+&#x00A0;&#x00A0;(&lt;*&gt;)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;liftA2&#x00A0;id
+&#x00A0;&#x00A0;liftA2&#x00A0;f&#x00A0;x&#x00A0;=&#x00A0;&#x00A0;(&lt;*&gt;)&#x00A0;(fmap&#x00A0;f&#x00A0;x)
+&#x00A0;&#x00A0;a1&#x00A0;*&gt;&#x00A0;a2&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;(id&#x00A0;&lt;$&#x00A0;a1)&#x00A0;&lt;*&gt;&#x00A0;a2
+&#x00A0;&#x00A0;(&lt;*)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;liftA2&#x00A0;const
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> The <span 
+class="pcrr8t-">Applicative</span> class is used for types that can be mapped over and provide operations to embed pure
+expressions and sequence computations and combine their results.
+ <p class="noindent"> Instances of <span 
+class="pcrr8t-">Applicative</span> should satisfy the following laws:
+<div class="array"> <table id="TBL-98" class="array" 
+ 
+><colgroup id="TBL-98-1g"><col 
+id="TBL-98-1" /><col 
+id="TBL-98-2" /><col 
+id="TBL-98-3" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">pure</span><span 
+class="pcrr8t-">&#x00A0;id</span><span 
+class="pcrr8t-">&#x00A0;&lt;*&gt;</span><span 
+class="pcrr8t-">&#x00A0;v</span>             </div></td><td  style="white-space:nowrap; text-align:center;" 
+><div class="td11"> <span 
+class="cmr-10">= </span></div></td><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">v</span>                </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">pure</span><span 
+class="pcrr8t-">&#x00A0;(.)</span><span 
+class="pcrr8t-">&#x00A0;&lt;*&gt;</span><span 
+class="pcrr8t-">&#x00A0;u</span><span 
+class="pcrr8t-">&#x00A0;&lt;*&gt;</span><span 
+class="pcrr8t-">&#x00A0;v</span><span 
+class="pcrr8t-">&#x00A0;&lt;*&gt;</span><span 
+class="pcrr8t-">&#x00A0;w</span> </div></td><td  style="white-space:nowrap; text-align:center;" 
+><div class="td11"> <span 
+class="cmr-10">= </span></div></td><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">u</span><span 
+class="pcrr8t-">&#x00A0;&lt;*&gt;</span><span 
+class="pcrr8t-">&#x00A0;(v</span><span 
+class="pcrr8t-">&#x00A0;&lt;*&gt;</span><span 
+class="pcrr8t-">&#x00A0;w)</span>  </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">pure</span><span 
+class="pcrr8t-">&#x00A0;f</span><span 
+class="pcrr8t-">&#x00A0;&lt;*&gt;</span><span 
+class="pcrr8t-">&#x00A0;pure</span><span 
+class="pcrr8t-">&#x00A0;x</span>          </div></td><td  style="white-space:nowrap; text-align:center;" 
+><div class="td11"> <span 
+class="cmr-10">= </span></div></td><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">pure</span><span 
+class="pcrr8t-">&#x00A0;(f</span><span 
+class="pcrr8t-">&#x00A0;x)</span>       </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">u</span><span 
+class="pcrr8t-">&#x00A0;&lt;*&gt;</span><span 
+class="pcrr8t-">&#x00A0;pure</span><span 
+class="pcrr8t-">&#x00A0;y</span>               </div></td><td  style="white-space:nowrap; text-align:center;" 
+><div class="td11"> <span 
+class="cmr-10">= </span></div></td><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">pure</span><span 
+class="pcrr8t-">&#x00A0;($</span><span 
+class="pcrr8t-">&#x00A0;y)</span><span 
+class="pcrr8t-">&#x00A0;&lt;*&gt;</span><span 
+class="pcrr8t-">&#x00A0;u</span> </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11">                            </div></td>
+</tr></table>                                                                                   </div>
+<br 
+class="newline" />
+<p class="noindent"> All instances of <span 
+class="pcrr8t-">Applicative</span> defined in the Prelude satisfy these laws.
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.3.9    </span> <a 
+ id="x13-1400006.3.9"></a>The Monad Class</h4>
+<a 
+ id="dx13-140001"></a>
+<a 
+ id="dx13-140002"></a>
+<a 
+ id="dx13-140003"></a>
+<a 
+ id="dx13-140004"></a>
+<a 
+ id="dx13-140005"></a>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-123">
+class&#x00A0;&#x00A0;Applicative&#x00A0;m&#x00A0;=&gt;&#x00A0;Monad&#x00A0;m&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(&gt;&gt;=)&#x00A0;&#x00A0;&#x00A0;::&#x00A0;m&#x00A0;a&#x00A0;-&gt;&#x00A0;(a&#x00A0;-&gt;&#x00A0;m&#x00A0;b)&#x00A0;-&gt;&#x00A0;m&#x00A0;b
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(&gt;&gt;)&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;m&#x00A0;a&#x00A0;-&gt;&#x00A0;m&#x00A0;b&#x00A0;-&gt;&#x00A0;m&#x00A0;b
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;return&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;m&#x00A0;a
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;m&#x00A0;&gt;&gt;&#x00A0;k&#x00A0;&#x00A0;=&#x00A0;&#x00A0;m&#x00A0;&gt;&gt;=&#x00A0;\_&#x00A0;-&gt;&#x00A0;k
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> The <span 
+class="pcrr8t-">Monad</span> class defines the basic operations over a <span 
+class="ptmri8t-">monad</span>. See Chapter&#x00A0;<a 
+href="haskellch7.html#x14-1520007">7<!--tex4ht:ref: io --></a> for more information about
+monads.
+ <p class="noindent"> &#8220;<span 
+class="pcrr8t-">do</span>&#8221; expressions provide a convenient syntax for writing monadic expressions (see Section&#x00A0;<a 
+href="haskellch3.html#x8-510003.14">3.14<!--tex4ht:ref: do-expressions --></a>).
+ <p class="noindent"> In the Prelude, lists, <span 
+class="pcrr8t-">Maybe</span>, and <span 
+class="pcrr8t-">IO</span> are all instances of <span 
+class="pcrr8t-">Monad</span>.
+ <p class="noindent"> Instances of <span 
+class="pcrr8t-">Monad</span> should satisfy the following laws:
+<div class="array"> <table id="TBL-99" class="array" 
+ 
+><colgroup id="TBL-99-1g"><col 
+id="TBL-99-1" /><col 
+id="TBL-99-2" /><col 
+id="TBL-99-3" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">return</span><span 
+class="pcrr8t-">&#x00A0;a</span><span 
+class="pcrr8t-">&#x00A0;»=</span><span 
+class="pcrr8t-">&#x00A0;k</span>        </div></td><td  style="white-space:nowrap; text-align:center;" 
+><div class="td11"> <span 
+class="cmr-10">= </span></div></td><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">k</span><span 
+class="pcrr8t-">&#x00A0;a</span>           </div></td></tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">m</span><span 
+class="pcrr8t-">&#x00A0;»=</span><span 
+class="pcrr8t-">&#x00A0;return</span> </div></td><td  style="white-space:nowrap; text-align:center;" 
+><div class="td11"> <span 
+class="cmr-10">= </span></div></td><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">m</span></div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">m</span><span 
+class="pcrr8t-">&#x00A0;»=</span><span 
+class="pcrr8t-">&#x00A0;(\x</span><span 
+class="pcrr8t-">&#x00A0;-&gt;</span><span 
+class="pcrr8t-">&#x00A0;k</span><span 
+class="pcrr8t-">&#x00A0;x</span><span 
+class="pcrr8t-">&#x00A0;»=</span><span 
+class="pcrr8t-">&#x00A0;h)</span> </div></td><td  style="white-space:nowrap; text-align:center;" 
+><div class="td11"> <span 
+class="cmr-10">= </span></div></td><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">(m</span><span 
+class="pcrr8t-">&#x00A0;»=</span><span 
+class="pcrr8t-">&#x00A0;k)</span><span 
+class="pcrr8t-">&#x00A0;»=</span><span 
+class="pcrr8t-">&#x00A0;h</span> </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11">                       </div></td>
+</tr></table>                                                                                   </div>
+<br 
+class="newline" /> Instances of both <span 
+class="pcrr8t-">Monad</span> and <span 
+class="pcrr8t-">Functor</span> should additionally satisfy the law:
+<div class="array"> <table id="TBL-100" class="array" 
+ 
+><colgroup id="TBL-100-1g"><col 
+id="TBL-100-1" /><col 
+id="TBL-100-2" /><col 
+id="TBL-100-3" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">fmap</span><span 
+class="pcrr8t-">&#x00A0;f</span><span 
+class="pcrr8t-">&#x00A0;xs</span> </div></td><td  style="white-space:nowrap; text-align:center;" 
+><div class="td11"> <span 
+class="cmr-10">= </span></div></td><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">xs</span><span 
+class="pcrr8t-">&#x00A0;»=</span><span 
+class="pcrr8t-">&#x00A0;return</span><span 
+class="pcrr8t-">&#x00A0;.</span><span 
+class="pcrr8t-">&#x00A0;f</span> </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11">           </div></td>
+</tr></table>                                                                                   </div>
+<br 
+class="newline" /> All instances of <span 
+class="pcrr8t-">Monad</span> defined in the Prelude satisfy these laws.
+ <p class="noindent"> The Prelude provides the following auxiliary functions:
+                                                                                   
+
+                                                                                   
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-124">
+mapM&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Monad&#x00A0;m&#x00A0;=&gt;&#x00A0;(a&#x00A0;-&gt;&#x00A0;m&#x00A0;b)&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;m&#x00A0;[b]
+(=&lt;&lt;)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Monad&#x00A0;m&#x00A0;=&gt;&#x00A0;(a&#x00A0;-&gt;&#x00A0;m&#x00A0;b)&#x00A0;-&gt;&#x00A0;m&#x00A0;a&#x00A0;-&gt;&#x00A0;m&#x00A0;b
+</pre>
+     <p class="noindent"></blockquote>
+<a 
+ id="dx13-140006"></a>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.3.10    </span> <a 
+ id="x13-1410006.3.10"></a>The MonadFail Class</h4>
+<a 
+ id="dx13-141001"></a>
+<a 
+ id="dx13-141002"></a>
+<p class="noindent">
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-125">
+class&#x00A0;&#x00A0;Monad&#x00A0;m&#x00A0;=&gt;&#x00A0;MonadFail&#x00A0;m&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fail&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;String&#x00A0;-&gt;&#x00A0;m&#x00A0;a
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fail&#x00A0;s&#x00A0;&#x00A0;=&#x00A0;&#x00A0;error&#x00A0;s
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> The <span 
+class="pcrr8t-">fail</span> method is invoked on pattern-match failure in a <span 
+class="pcrr8t-">do</span> expression.
+ <p class="noindent"> The <span 
+class="pcrr8t-">fail</span> method for lists returns the empty list <span 
+class="pcrr8t-">[]</span>, for <span 
+class="pcrr8t-">Maybe</span> returns <span 
+class="pcrr8t-">Nothing</span>, and for <span 
+class="pcrr8t-">IO</span> raises a user
+exception in the IO monad (see Section&#x00A0;<a 
+href="haskellch7.html#x14-1580007.3">7.3<!--tex4ht:ref: io-exceptions --></a>).
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.3.11    </span> <a 
+ id="x13-1420006.3.11"></a>The Foldable Class</h4>
+<a 
+ id="dx13-142001"></a>
+<a 
+ id="dx13-142002"></a>
+<a 
+ id="dx13-142003"></a>
+<a 
+ id="dx13-142004"></a>
+<a 
+ id="dx13-142005"></a>
+<a 
+ id="dx13-142006"></a>
+<a 
+ id="dx13-142007"></a>
+<a 
+ id="dx13-142008"></a>
+<a 
+ id="dx13-142009"></a>
+<a 
+ id="dx13-142010"></a>
+<a 
+ id="dx13-142011"></a>
+<a 
+ id="dx13-142012"></a>
+<a 
+ id="dx13-142013"></a>
+<p class="noindent">
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-126">
+class&#x00A0;&#x00A0;Foldable&#x00A0;t&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;foldMap&#x00A0;::&#x00A0;Monoid&#x00A0;m&#x00A0;=&gt;&#x00A0;(a&#x00A0;-&gt;&#x00A0;m)&#x00A0;-&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;m
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;foldr&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;b)&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;b
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;foldl&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(b&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b)&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;b
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;foldl&#8217;&#x00A0;&#x00A0;::&#x00A0;(b&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b)&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;b
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;foldr1&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a)&#x00A0;-&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;foldl1&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a)&#x00A0;-&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;elem&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Eq&#x00A0;a&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;Bool
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;maximum&#x00A0;::&#x00A0;Ord&#x00A0;a&#x00A0;=&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;minimum&#x00A0;::&#x00A0;Ord&#x00A0;a&#x00A0;=&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;sum&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Num&#x00A0;a&#x00A0;=&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;product&#x00A0;::&#x00A0;Num&#x00A0;a&#x00A0;=&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;foldMap&#x00A0;f&#x00A0;&#x00A0;&#x00A0;=&#x00A0;foldr&#x00A0;(mappend&#x00A0;.&#x00A0;f)&#x00A0;mempty
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;maximum&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;foldr1&#x00A0;max
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;minimum&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;foldr1&#x00A0;min
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;elem&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;any&#x00A0;.&#x00A0;(==)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;sum&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;foldr&#x00A0;(+)&#x00A0;0
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;product&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;foldr&#x00A0;(*)&#x00A0;1
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> The <span 
+class="pcrr8t-">Foldable</span> class represents data structures that can be reduced to a summary value one element at a
+time.
+ <p class="noindent"> The Prelude provides the following auxiliary functions:
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-127">
+null&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Foldable&#x00A0;t&#x00A0;=&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;Bool
+length&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Foldable&#x00A0;t&#x00A0;=&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;Int
+notElem&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Foldable&#x00A0;t&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;Bool
+and&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Foldable&#x00A0;t&#x00A0;=&gt;&#x00A0;t&#x00A0;Bool&#x00A0;-&gt;&#x00A0;Bool
+or&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Foldable&#x00A0;t&#x00A0;=&gt;&#x00A0;t&#x00A0;Bool&#x00A0;-&gt;&#x00A0;Bool
+any&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Foldable&#x00A0;t&#x00A0;=&gt;&#x00A0;(a&#x00A0;-&gt;&#x00A0;Bool)&#x00A0;-&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;Bool
+all&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Foldable&#x00A0;t&#x00A0;=&gt;&#x00A0;(a&#x00A0;-&gt;&#x00A0;Bool)&#x00A0;-&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;Bool
+concat&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Foldable&#x00A0;t&#x00A0;=&gt;&#x00A0;t&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[a]
+concatMap&#x00A0;::&#x00A0;Foldable&#x00A0;t&#x00A0;=&gt;&#x00A0;(a&#x00A0;-&gt;&#x00A0;[b])&#x00A0;-&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;t&#x00A0;[b]
+</pre>
+<p class="noindent"> <a 
+ id="dx13-142014"></a><a 
+ id="dx13-142015"></a><a 
+ id="dx13-142016"></a><a 
+ id="dx13-142017"></a><a 
+ id="dx13-142018"></a><a 
+ id="dx13-142019"></a><a 
+ id="dx13-142020"></a><a 
+ id="dx13-142021"></a><a 
+ id="dx13-142022"></a>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.3.12    </span> <a 
+ id="x13-1430006.3.12"></a>The Traversable Class</h4>
+<a 
+ id="dx13-143001"></a>
+<a 
+ id="dx13-143002"></a>
+<a 
+ id="dx13-143003"></a>
+<a 
+ id="dx13-143004"></a>
+<a 
+ id="dx13-143005"></a>
+<a 
+ id="dx13-143006"></a>
+<p class="noindent">
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-128">
+class&#x00A0;&#x00A0;(Functor&#x00A0;t,&#x00A0;Foldable&#x00A0;t)&#x00A0;=&gt;&#x00A0;Traversable&#x00A0;t&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;traverse&#x00A0;::&#x00A0;Applicative&#x00A0;f&#x00A0;=&gt;&#x00A0;(a&#x00A0;-&gt;&#x00A0;f&#x00A0;b)&#x00A0;-&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;f&#x00A0;(t&#x00A0;b)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;sequenceA&#x00A0;::&#x00A0;Applicative&#x00A0;f&#x00A0;=&gt;&#x00A0;t&#x00A0;(f&#x00A0;a)&#x00A0;-&gt;&#x00A0;f&#x00A0;(t&#x00A0;a)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;mapM&#x00A0;::&#x00A0;Monad&#x00A0;m&#x00A0;=&gt;&#x00A0;(a&#x00A0;-&gt;&#x00A0;m&#x00A0;b)&#x00A0;-&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;m&#x00A0;(t&#x00A0;b)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;sequence&#x00A0;::&#x00A0;Monad&#x00A0;m&#x00A0;=&gt;&#x00A0;t&#x00A0;(m&#x00A0;a)&#x00A0;-&gt;&#x00A0;m&#x00A0;(t&#x00A0;a)
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;traverse&#x00A0;f&#x00A0;=&#x00A0;sequenceA&#x00A0;.&#x00A0;fmap&#x00A0;f
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;sequenceA&#x00A0;=&#x00A0;traverse&#x00A0;id
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;mapM&#x00A0;=&#x00A0;traverse
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;sequence&#x00A0;=&#x00A0;sequenceA
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> The <span 
+class="pcrr8t-">Traversable</span> class represents data structures that can be transformed to structures of the same
+shape by performing an <span 
+class="pcrr8t-">Applicative</span> (or, therefore, <span 
+class="pcrr8t-">Monad</span>) action on each element from left to
+right.
+ <p class="noindent"> The Prelude provides the following auxiliary functions:
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-129">
+sequence_&#x00A0;::&#x00A0;(Foldable&#x00A0;t,&#x00A0;Monad&#x00A0;m)&#x00A0;=&gt;&#x00A0;t&#x00A0;(m&#x00A0;a)&#x00A0;-&gt;&#x00A0;m&#x00A0;()
+mapM_&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Foldable&#x00A0;t,&#x00A0;Monad&#x00A0;m)&#x00A0;=&gt;&#x00A0;(a&#x00A0;-&gt;&#x00A0;m&#x00A0;b)&#x00A0;-&gt;&#x00A0;t&#x00A0;a&#x00A0;-&gt;&#x00A0;m&#x00A0;()
+</pre>
+<p class="noindent"> <a 
+ id="dx13-143007"></a><a 
+ id="dx13-143008"></a>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.3.13    </span> <a 
+ id="x13-1440006.3.13"></a>The Bounded Class</h4>
+<a 
+ id="dx13-144001"></a>
+<a 
+ id="dx13-144002"></a>
+<a 
+ id="dx13-144003"></a>
+                                                                                   
+
+                                                                                   
+<pre class="verbatim" id="verbatim-130">
+class&#x00A0;&#x00A0;Bounded&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;minBound,&#x00A0;maxBound&#x00A0;::&#x00A0;a
+</pre>
+<p class="noindent">
+<p class="noindent"> The <span 
+class="pcrr8t-">Bounded</span> class is used to name the upper and lower limits of a type. <span 
+class="pcrr8t-">Ord</span> is not a superclass of <span 
+class="pcrr8t-">Bounded</span> since
+types that are not totally ordered may also have upper and lower bounds. The types <span 
+class="pcrr8t-">Int</span>, <span 
+class="pcrr8t-">Char</span>, <span 
+class="pcrr8t-">Bool</span>, <span 
+class="pcrr8t-">()</span>,
+<span 
+class="pcrr8t-">Ordering</span>, and all tuples are instances of <span 
+class="pcrr8t-">Bounded</span>. The <span 
+class="pcrr8t-">Bounded</span> class may be derived for any
+enumeration type; <span 
+class="pcrr8t-">minBound</span> is the first constructor listed in the <span 
+class="pcrr8t-">data</span> declaration and <span 
+class="pcrr8t-">maxBound</span> is the
+last. <span 
+class="pcrr8t-">Bounded</span> may also be derived for single-constructor datatypes whose constituent types are in
+<span 
+class="pcrr8t-">Bounded</span>.
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">6.4    </span> <a 
+ id="x13-1450006.4"></a>Numbers</h3>
+<a 
+ id="dx13-145001"></a>
+<p class="noindent"> Haskell provides several kinds of numbers; the numeric types and the operations upon them have been heavily
+influenced by Common Lisp and Scheme. Numeric function names and operators are usually overloaded, using
+several type classes with an inclusion relation shown in Figure&#x00A0;<a 
+href="#x13-1310011">6.1<!--tex4ht:ref: standard-classes --></a>. The class <span 
+class="pcrr8t-">Num</span><a 
+ id="dx13-145002"></a> of numeric types is a subclass of
+<span 
+class="pcrr8t-">Eq</span><a 
+ id="dx13-145003"></a>, since all numbers may be compared for equality; its subclass <span 
+class="pcrr8t-">Real</span><a 
+ id="dx13-145004"></a> is also a subclass of <span 
+class="pcrr8t-">Ord</span><a 
+ id="dx13-145005"></a>, since
+the other comparison operations apply to all but complex numbers (defined in the <span 
+class="pcrr8t-">Complex</span> library).
+The class <span 
+class="pcrr8t-">Integral</span><a 
+ id="dx13-145006"></a> contains integers of both limited and unlimited range; the class <span 
+class="pcrr8t-">Fractional</span><a 
+ id="dx13-145007"></a>
+contains all non-integral types; and the class <span 
+class="pcrr8t-">Floating</span><a 
+ id="dx13-145008"></a> contains all floating-point types, both real and
+complex.
+ <p class="noindent"> The Prelude defines only the most basic numeric types: fixed sized integers (<span 
+class="pcrr8t-">Int</span>), arbitrary precision integers
+(<span 
+class="pcrr8t-">Integer</span>), single precision floating (<span 
+class="pcrr8t-">Float</span>), and double precision floating (<span 
+class="pcrr8t-">Double</span>). Other numeric types such
+as rationals and complex numbers are defined in libraries. In particular, the type <span 
+class="pcrr8t-">Rational</span> is a ratio of two
+<span 
+class="pcrr8t-">Integer</span> values, as defined in the <span 
+class="pcrr8t-">Ratio</span> library.
+ <p class="noindent"> The default floating point operations defined by the Haskell Prelude do not conform to current language independent
+arithmetic (LIA) standards. These standards require considerably more complexity in the numeric structure and have
+thus been relegated to a library. Some, but not all, aspects of the IEEE floating point standard have been accounted for
+in Prelude class <span 
+class="pcrr8t-">RealFloat</span>.
+ <p class="noindent"> The standard numeric types are listed in Table&#x00A0;<a 
+href="#x13-1450121">6.1<!--tex4ht:ref: standard-numeric-types --></a>. The finite-precision integer type <span 
+class="pcrr8t-">Int</span><a 
+ id="dx13-145009"></a> covers at
+least the range <span 
+class="cmr-10">[</span><span 
+class="cmmi-10">&#x00A0; </span><span 
+class="cmsy-10">-</span> <span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmr-10">2</span><sup><span 
+class="cmr-7">29</span></sup><span 
+class="cmmi-10">,</span><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmr-10">2</span><sup><span 
+class="cmr-7">29</span></sup><span 
+class="cmmi-10">&#x00A0; </span><span 
+class="cmsy-10">-</span> <span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmr-10">1]</span>. As <span 
+class="pcrr8t-">Int</span> is an instance of the <span 
+class="pcrr8t-">Bounded</span> class, <span 
+class="pcrr8t-">maxBound</span> and
+<span 
+class="pcrr8t-">minBound</span> can be used to determine the exact <span 
+class="pcrr8t-">Int</span> range defined by an implementation. <span 
+class="pcrr8t-">Float</span><a 
+ id="dx13-145010"></a> is
+implementation-defined; it is desirable that this type be at least equal in range and precision to the IEEE
+single-precision type. Similarly, <span 
+class="pcrr8t-">Double</span><a 
+ id="dx13-145011"></a> should cover IEEE double-precision. The results of exceptional conditions
+(such as overflow or underflow) on the fixed-precision numeric types are undefined; an implementation
+may choose error (<span 
+class="cmsy-10">&#x22A5;</span>, semantically), a truncated value, or a special value such as infinity, indefinite,
+etc.
+                                                                                   
+
+                                                                                   
+<div class="table">
+                                                                                   
+
+                                                                                   
+ <p class="noindent"> <a 
+ id="x13-1450121"></a><hr class="float" /><div class="float" 
+>
+                                                                                   
+
+                                                                                   
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-101" class="tabular" 
+ 
+><colgroup id="TBL-101-1g"><col 
+id="TBL-101-1" /></colgroup><colgroup id="TBL-101-2g"><col 
+id="TBL-101-2" /></colgroup><colgroup id="TBL-101-3g"><col 
+id="TBL-101-3" /></colgroup><tr 
+class="hline"><td><hr /></td><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-101-1-"><td  style="white-space:nowrap; text-align:center;" id="TBL-101-1-1"  
+class="td11">            <div class="multicolumn"  style="white-space:nowrap; text-align:center;">Type</div>                             </td><td  style="white-space:nowrap; text-align:center;" id="TBL-101-1-2"  
+class="td11">    <div class="multicolumn"  style="white-space:nowrap; text-align:center;">Class</div>         </td><td  style="white-space:nowrap; text-align:center;" id="TBL-101-1-3"  
+class="td11">         <div class="multicolumn"  style="white-space:nowrap; text-align:center;">Description</div>                      
+</td></tr><tr 
+class="hline"><td><hr /></td><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-101-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-101-2-1"  
+class="td11"> <span 
+class="pcrr8t-">Integer</span>                    </td><td  style="white-space:nowrap; text-align:left;" id="TBL-101-2-2"  
+class="td11"> <span 
+class="pcrr8t-">Integral</span>  </td><td  style="white-space:nowrap; text-align:left;" id="TBL-101-2-3"  
+class="td11"> Arbitrary-precision integers                 </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-101-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-101-3-1"  
+class="td11"> <span 
+class="pcrr8t-">Int</span>                        </td><td  style="white-space:nowrap; text-align:left;" id="TBL-101-3-2"  
+class="td11"> <span 
+class="pcrr8t-">Integral</span>  </td><td  style="white-space:nowrap; text-align:left;" id="TBL-101-3-3"  
+class="td11"> Fixed-precision integers                      </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-101-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-101-4-1"  
+class="td11"> <span 
+class="pcrr8t-">(Integral</span><span 
+class="pcrr8t-">&#x00A0;a)</span><span 
+class="pcrr8t-">&#x00A0;=&gt;</span><span 
+class="pcrr8t-">&#x00A0;Ratio</span><span 
+class="pcrr8t-">&#x00A0;a</span>    </td><td  style="white-space:nowrap; text-align:left;" id="TBL-101-4-2"  
+class="td11"> <span 
+class="pcrr8t-">RealFrac</span>  </td><td  style="white-space:nowrap; text-align:left;" id="TBL-101-4-3"  
+class="td11"> Rational numbers                                 </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-101-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-101-5-1"  
+class="td11"> <span 
+class="pcrr8t-">Float</span>                      </td><td  style="white-space:nowrap; text-align:left;" id="TBL-101-5-2"  
+class="td11"> <span 
+class="pcrr8t-">RealFloat</span> </td><td  style="white-space:nowrap; text-align:left;" id="TBL-101-5-3"  
+class="td11"> Real floating-point, single precision    </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-101-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-101-6-1"  
+class="td11"> <span 
+class="pcrr8t-">Double</span>                     </td><td  style="white-space:nowrap; text-align:left;" id="TBL-101-6-2"  
+class="td11"> <span 
+class="pcrr8t-">RealFloat</span> </td><td  style="white-space:nowrap; text-align:left;" id="TBL-101-6-3"  
+class="td11"> Real floating-point, double precision  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-101-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-101-7-1"  
+class="td11"> <span 
+class="pcrr8t-">(RealFloat</span><span 
+class="pcrr8t-">&#x00A0;a)</span><span 
+class="pcrr8t-">&#x00A0;=&gt;</span><span 
+class="pcrr8t-">&#x00A0;Complex</span><span 
+class="pcrr8t-">&#x00A0;a</span> </td><td  style="white-space:nowrap; text-align:left;" id="TBL-101-7-2"  
+class="td11"> <span 
+class="pcrr8t-">Floating</span>  </td><td  style="white-space:nowrap; text-align:left;" id="TBL-101-7-3"  
+class="td11"> Complex floating-point                        </td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-101-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-101-8-1"  
+class="td11">                            </td></tr></table>                                                </div>
+<br /><div class="caption" 
+><span class="id">Table&#x00A0;6.1: </span><span  
+class="content">Standard Numeric Types</span></div><!--tex4ht:label?: x13-1450121 -->
+<a 
+ id="dx13-145013"></a>
+                                                                                   
+
+                                                                                   
+</div><hr class="endfloat" />
+</div>
+ <p class="noindent"> The standard numeric classes and other numeric functions defined in the Prelude are shown in Figures&#x00A0;<a 
+href="#x13-1450142">6.2<!--tex4ht:ref: basic-numeric-1 --></a>&#8211;<a 
+href="#x13-1450573">6.3<!--tex4ht:ref: basic-numeric-2 --></a>.
+Figure&#x00A0;<a 
+href="#x13-1310011">6.1<!--tex4ht:ref: standard-classes --></a> shows the class dependencies and built-in types that are instances of the numeric classes.
+<hr class="figure" /><div class="figure" 
+>
+                                                                                   
+
+                                                                                   
+<a 
+ id="x13-1450142"></a>
+                                                                                   
+
+                                                                                   
+<div class="center" 
+>
+ <p class="noindent">
+<div class="fbox"><div class="minipage"><pre class="verbatim" id="verbatim-131">
+class&#x00A0;&#x00A0;(Eq&#x00A0;a,&#x00A0;Show&#x00A0;a)&#x00A0;=&gt;&#x00A0;Num&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(+),&#x00A0;(-),&#x00A0;(*)&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;negate&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;abs,&#x00A0;signum&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fromInteger&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Integer&#x00A0;-&gt;&#x00A0;a
+
+class&#x00A0;&#x00A0;(Num&#x00A0;a,&#x00A0;Ord&#x00A0;a)&#x00A0;=&gt;&#x00A0;Real&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;toRational&#x00A0;::&#x00A0;&#x00A0;a&#x00A0;-&gt;&#x00A0;Rational
+
+class&#x00A0;&#x00A0;(Real&#x00A0;a,&#x00A0;Enum&#x00A0;a)&#x00A0;=&gt;&#x00A0;Integral&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;quot,&#x00A0;rem,&#x00A0;div,&#x00A0;mod&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;quotRem,&#x00A0;divMod&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;(a,a)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;toInteger&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;Integer
+
+class&#x00A0;&#x00A0;(Num&#x00A0;a)&#x00A0;=&gt;&#x00A0;Fractional&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(/)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;recip&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fromRational&#x00A0;::&#x00A0;Rational&#x00A0;-&gt;&#x00A0;a
+
+class&#x00A0;&#x00A0;(Fractional&#x00A0;a)&#x00A0;=&gt;&#x00A0;Floating&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;pi&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;exp,&#x00A0;log,&#x00A0;sqrt&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(**),&#x00A0;logBase&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;sin,&#x00A0;cos,&#x00A0;tan&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;asin,&#x00A0;acos,&#x00A0;atan&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;sinh,&#x00A0;cosh,&#x00A0;tanh&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;asinh,&#x00A0;acosh,&#x00A0;atanh&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+</pre>
+<p class="noindent">                                                                               </div></div>
+</div>
+<br /><div class="caption" 
+><span class="id">Figure&#x00A0;6.2: </span><span  
+class="content">Standard Numeric Classes and Related Operations, Part 1</span></div><!--tex4ht:label?: x13-1450142 -->
+<a 
+ id="dx13-145015"></a>
+<a 
+ id="dx13-145016"></a>
+<a 
+ id="dx13-145017"></a>
+<a 
+ id="dx13-145018"></a>
+<a 
+ id="dx13-145019"></a>
+<a 
+ id="dx13-145020"></a>
+<a 
+ id="dx13-145021"></a>
+<a 
+ id="dx13-145022"></a>
+<a 
+ id="dx13-145023"></a>
+<a 
+ id="dx13-145024"></a>
+<a 
+ id="dx13-145025"></a>
+<a 
+ id="dx13-145026"></a>
+<a 
+ id="dx13-145027"></a>
+<a 
+ id="dx13-145028"></a>
+<a 
+ id="dx13-145029"></a>
+                                                                                   
+
+                                                                                   
+<a 
+ id="dx13-145030"></a>
+<a 
+ id="dx13-145031"></a>
+<a 
+ id="dx13-145032"></a>
+<a 
+ id="dx13-145033"></a>
+<a 
+ id="dx13-145034"></a>
+<a 
+ id="dx13-145035"></a>
+<a 
+ id="dx13-145036"></a>
+<a 
+ id="dx13-145037"></a>
+<a 
+ id="dx13-145038"></a>
+<a 
+ id="dx13-145039"></a>
+<a 
+ id="dx13-145040"></a>
+<a 
+ id="dx13-145041"></a>
+<a 
+ id="dx13-145042"></a>
+<a 
+ id="dx13-145043"></a>
+<a 
+ id="dx13-145044"></a>
+<a 
+ id="dx13-145045"></a>
+<a 
+ id="dx13-145046"></a>
+<a 
+ id="dx13-145047"></a>
+<a 
+ id="dx13-145048"></a>
+<a 
+ id="dx13-145049"></a>
+<a 
+ id="dx13-145050"></a>
+<a 
+ id="dx13-145051"></a>
+<a 
+ id="dx13-145052"></a>
+<a 
+ id="dx13-145053"></a>
+<a 
+ id="dx13-145054"></a>
+<a 
+ id="dx13-145055"></a>
+<a 
+ id="dx13-145056"></a>
+                                                                                   
+
+                                                                                   
+</div><hr class="endfigure" />
+<hr class="figure" /><div class="figure" 
+>
+                                                                                   
+
+                                                                                   
+<a 
+ id="x13-1450573"></a>
+                                                                                   
+
+                                                                                   
+<div class="center" 
+>
+ <p class="noindent">
+<div class="fbox"><div class="minipage"><pre class="verbatim" id="verbatim-132">
+class&#x00A0;&#x00A0;(Real&#x00A0;a,&#x00A0;Fractional&#x00A0;a)&#x00A0;=&gt;&#x00A0;RealFrac&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;properFraction&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Integral&#x00A0;b)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;(b,a)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;truncate,&#x00A0;round&#x00A0;&#x00A0;::&#x00A0;(Integral&#x00A0;b)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;ceiling,&#x00A0;floor&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Integral&#x00A0;b)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b
+
+class&#x00A0;&#x00A0;(RealFrac&#x00A0;a,&#x00A0;Floating&#x00A0;a)&#x00A0;=&gt;&#x00A0;RealFloat&#x00A0;a&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;floatRadix&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;Integer
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;floatDigits&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;Int
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;floatRange&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;(Int,Int)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;decodeFloat&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;(Integer,Int)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;encodeFloat&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Integer&#x00A0;-&gt;&#x00A0;Int&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;exponent&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;Int
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;significand&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;scaleFloat&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Int&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;isNaN,&#x00A0;isInfinite,&#x00A0;isDenormalized,&#x00A0;isNegativeZero,&#x00A0;isIEEE
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;Bool
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;atan2&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+
+gcd,&#x00A0;lcm&#x00A0;::&#x00A0;(Integral&#x00A0;a)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a-&gt;&#x00A0;a
+(^)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Num&#x00A0;a,&#x00A0;Integral&#x00A0;b)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;a
+(^^)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Fractional&#x00A0;a,&#x00A0;Integral&#x00A0;b)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b&#x00A0;-&gt;&#x00A0;a
+
+fromIntegral&#x00A0;::&#x00A0;(Integral&#x00A0;a,&#x00A0;Num&#x00A0;b)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b
+realToFrac&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Real&#x00A0;a,&#x00A0;Fractional&#x00A0;b)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b
+</pre>
+<p class="noindent">                                                                               </div></div>
+</div>
+<br /><div class="caption" 
+><span class="id">Figure&#x00A0;6.3: </span><span  
+class="content">Standard Numeric Classes and Related Operations, Part 2</span></div><!--tex4ht:label?: x13-1450573 -->
+<a 
+ id="dx13-145058"></a>
+<a 
+ id="dx13-145059"></a>
+<a 
+ id="dx13-145060"></a>
+<a 
+ id="dx13-145061"></a>
+<a 
+ id="dx13-145062"></a>
+<a 
+ id="dx13-145063"></a>
+<a 
+ id="dx13-145064"></a>
+<a 
+ id="dx13-145065"></a>
+<a 
+ id="dx13-145066"></a>
+<a 
+ id="dx13-145067"></a>
+<a 
+ id="dx13-145068"></a>
+<a 
+ id="dx13-145069"></a>
+<a 
+ id="dx13-145070"></a>
+<a 
+ id="dx13-145071"></a>
+<a 
+ id="dx13-145072"></a>
+<a 
+ id="dx13-145073"></a>
+<a 
+ id="dx13-145074"></a>
+<a 
+ id="dx13-145075"></a>
+                                                                                   
+
+                                                                                   
+<a 
+ id="dx13-145076"></a>
+<a 
+ id="dx13-145077"></a>
+<a 
+ id="dx13-145078"></a>
+<a 
+ id="dx13-145079"></a>
+<a 
+ id="dx13-145080"></a>
+<a 
+ id="dx13-145081"></a>
+<a 
+ id="dx13-145082"></a>
+<a 
+ id="dx13-145083"></a>
+<a 
+ id="dx13-145084"></a>
+<a 
+ id="dx13-145085"></a>
+                                                                                   
+
+                                                                                   
+</div><hr class="endfigure" />
+<h4 class="subsectionHead"><span class="titlemark">6.4.1    </span> <a 
+ id="x13-1460006.4.1"></a>Numeric Literals</h4>
+<p class="noindent"> The syntax of numeric literals is given in Section&#x00A0;<a 
+href="haskellch2.html#x7-200002.5">2.5<!--tex4ht:ref: lexemes-numeric --></a>. An integer literal represents the application of the function
+<span 
+class="pcrr8t-">fromInteger</span><a 
+ id="dx13-146001"></a> to the appropriate value of type <span 
+class="pcrr8t-">Integer</span>. Similarly, a floating literal stands for an application
+of <span 
+class="pcrr8t-">fromRational</span><a 
+ id="dx13-146002"></a> to a value of type <span 
+class="pcrr8t-">Rational</span> (that is, <span 
+class="pcrr8t-">Ratio</span><span 
+class="pcrr8t-">&#x00A0;Integer</span>). Given the typings:
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-133">
+fromInteger&#x00A0;&#x00A0;::&#x00A0;(Num&#x00A0;a)&#x00A0;=&gt;&#x00A0;Integer&#x00A0;-&gt;&#x00A0;a
+fromRational&#x00A0;::&#x00A0;(Fractional&#x00A0;a)&#x00A0;=&gt;&#x00A0;Rational&#x00A0;-&gt;&#x00A0;a
+</pre>
+     <p class="noindent"></blockquote>
+<a 
+ id="dx13-146003"></a>
+<a 
+ id="dx13-146004"></a>
+<p class="noindent"> integer and floating literals have the typings <span 
+class="pcrr8t-">(Num</span><span 
+class="pcrr8t-">&#x00A0;a)</span><span 
+class="pcrr8t-">&#x00A0;=&gt;</span><span 
+class="pcrr8t-">&#x00A0;a</span> and <span 
+class="pcrr8t-">(Fractional</span><span 
+class="pcrr8t-">&#x00A0;a)</span><span 
+class="pcrr8t-">&#x00A0;=&gt;</span><span 
+class="pcrr8t-">&#x00A0;a</span>, respectively.
+Numeric literals are defined in this indirect way so that they may be interpreted as values of any appropriate numeric
+type. See Section&#x00A0;<a 
+href="haskellch4.html#x10-830004.3.4">4.3.4<!--tex4ht:ref: default-decls --></a> for a discussion of overloading ambiguity.
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.4.2    </span> <a 
+ id="x13-1470006.4.2"></a>Arithmetic and Number-Theoretic Operations</h4>
+<a 
+ id="dx13-147001"></a>
+<p class="noindent"> The infix class methods <span 
+class="pcrr8t-">(+)</span>, <a 
+ id="dx13-147002"></a><span 
+class="pcrr8t-">(*)</span>, <a 
+ id="dx13-147003"></a><span 
+class="pcrr8t-">(-)</span>, <a 
+ id="dx13-147004"></a>and the unary function <span 
+class="pcrr8t-">negate</span><a 
+ id="dx13-147005"></a> (which can also be written as a prefix
+minus sign; see section&#x00A0;<a 
+href="haskellch3.html#x8-290003.4">3.4<!--tex4ht:ref: operators --></a>) apply to all numbers. The class methods <span 
+class="pcrr8t-">quot</span><a 
+ id="dx13-147006"></a>, <span 
+class="pcrr8t-">rem</span><a 
+ id="dx13-147007"></a>, <span 
+class="pcrr8t-">div</span><a 
+ id="dx13-147008"></a>, and <span 
+class="pcrr8t-">mod</span><a 
+ id="dx13-147009"></a> apply only to
+integral numbers, while the class method <span 
+class="pcrr8t-">(/)</span><a 
+ id="dx13-147010"></a>applies only to fractional ones. The <span 
+class="pcrr8t-">quot</span>, <span 
+class="pcrr8t-">rem</span>, <span 
+class="pcrr8t-">div</span>, and <span 
+class="pcrr8t-">mod</span> class
+methods satisfy these laws if <span 
+class="pcrr8t-">y</span> is non-zero:
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-134">
+(x&#x00A0;&#8216;quot&#8216;&#x00A0;y)*y&#x00A0;+&#x00A0;(x&#x00A0;&#8216;rem&#8216;&#x00A0;y)&#x00A0;==&#x00A0;x
+(x&#x00A0;&#8216;div&#8216;&#x00A0;&#x00A0;y)*y&#x00A0;+&#x00A0;(x&#x00A0;&#8216;mod&#8216;&#x00A0;y)&#x00A0;==&#x00A0;x
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"><span 
+class="pcrr8t-">&#8216;quot&#8216;</span> is integer division truncated toward zero, while the result of <span 
+class="pcrr8t-">&#8216;div&#8216;</span> is truncated toward negative infinity.
+The <span 
+class="pcrr8t-">quotRem</span> class method takes a dividend and a divisor as arguments and returns a (quotient, remainder) pair;
+<span 
+class="pcrr8t-">divMod</span> is defined similarly:
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-135">
+quotRem&#x00A0;x&#x00A0;y&#x00A0;&#x00A0;=&#x00A0;&#x00A0;(x&#x00A0;&#8216;quot&#8216;&#x00A0;y,&#x00A0;x&#x00A0;&#8216;rem&#8216;&#x00A0;y)
+divMod&#x00A0;&#x00A0;x&#x00A0;y&#x00A0;&#x00A0;=&#x00A0;&#x00A0;(x&#x00A0;&#8216;div&#8216;&#x00A0;&#x00A0;y,&#x00A0;x&#x00A0;&#8216;mod&#8216;&#x00A0;y)
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> Also available on integral numbers are the even and odd predicates:
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-136">
+even&#x00A0;x&#x00A0;=&#x00A0;&#x00A0;x&#x00A0;&#8216;rem&#8216;&#x00A0;2&#x00A0;==&#x00A0;0
+odd&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;not&#x00A0;.&#x00A0;even
+</pre>
+     <p class="noindent"></blockquote>
+<a 
+ id="dx13-147011"></a>
+<a 
+ id="dx13-147012"></a>
+<p class="noindent"> Finally, there are the greatest common divisor and least common multiple functions. <span 
+class="pcrr8t-">gcd</span><a 
+ id="dx13-147013"></a> <span 
+class="cmmi-10">x</span> <span 
+class="cmmi-10">y</span> is the greatest
+(positive) integer that divides both <span 
+class="cmmi-10">x</span> and <span 
+class="cmmi-10">y</span>; for example <span 
+class="pcrr8t-">gcd</span><span 
+class="pcrr8t-">&#x00A0;(-3)</span><span 
+class="pcrr8t-">&#x00A0;6</span> = <span 
+class="pcrr8t-">3</span>, <span 
+class="pcrr8t-">gcd</span><span 
+class="pcrr8t-">&#x00A0;(-3)</span><span 
+class="pcrr8t-">&#x00A0;(-6)</span> = <span 
+class="pcrr8t-">3</span>, <span 
+class="pcrr8t-">gcd</span><span 
+class="pcrr8t-">&#x00A0;0</span><span 
+class="pcrr8t-">&#x00A0;4</span> = <span 
+class="pcrr8t-">4</span>.
+<span 
+class="pcrr8t-">gcd</span><span 
+class="pcrr8t-">&#x00A0;0</span><span 
+class="pcrr8t-">&#x00A0;0</span> raises a runtime error.
+ <p class="noindent"> <span 
+class="pcrr8t-">lcm</span><a 
+ id="dx13-147014"></a> <span 
+class="cmmi-10">x</span> <span 
+class="cmmi-10">y</span> is the smallest positive integer that both <span 
+class="cmmi-10">x</span> and <span 
+class="cmmi-10">y</span> divide.
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.4.3    </span> <a 
+ id="x13-1480006.4.3"></a>Exponentiation and Logarithms</h4>
+<a 
+ id="dx13-148001"></a>
+<a 
+ id="dx13-148002"></a>
+<p class="noindent"> The one-argument exponential function <span 
+class="pcrr8t-">exp</span><a 
+ id="dx13-148003"></a> and the logarithm function <span 
+class="pcrr8t-">log</span><a 
+ id="dx13-148004"></a> act on floating-point numbers and use
+base <span 
+class="cmmi-10">e</span>. <span 
+class="pcrr8t-">logBase</span><a 
+ id="dx13-148005"></a> <span 
+class="cmmi-10">a</span> <span 
+class="cmmi-10">x</span> returns the logarithm of <span 
+class="cmmi-10">x</span> in base <span 
+class="cmmi-10">a</span>. <span 
+class="pcrr8t-">sqrt</span><a 
+ id="dx13-148006"></a> returns the principal square root of a
+floating-point number. There are three two-argument exponentiation operations: <span 
+class="pcrr8t-">(^)</span><a 
+ id="dx13-148007"></a> raises any number to a
+nonnegative integer power, <span 
+class="pcrr8t-">(^^)</span><a 
+ id="dx13-148008"></a> raises a fractional number to any integer power, and <span 
+class="pcrr8t-">(**)</span><a 
+ id="dx13-148009"></a>takes two
+floating-point arguments. The value of <span 
+class="cmmi-10">x</span><span 
+class="pcrr8t-">^0</span> or <span 
+class="cmmi-10">x</span><span 
+class="pcrr8t-">^^0</span> is <span 
+class="pcrr8t-">1</span> for any <span 
+class="cmmi-10">x</span>, including zero; <span 
+class="pcrr8t-">0**</span><span 
+class="cmmi-10">y</span> is <span 
+class="pcrr8t-">1</span> if <span 
+class="cmmi-10">y</span> is <span 
+class="pcrr8t-">0</span>, and <span 
+class="pcrr8t-">0</span>
+otherwise.
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.4.4    </span> <a 
+ id="x13-1490006.4.4"></a>Magnitude and Sign</h4>
+<a 
+ id="dx13-149001"></a>
+<a 
+ id="dx13-149002"></a>
+<p class="noindent"> A number has a <span 
+class="ptmri8t-">magnitude </span>and a <span 
+class="ptmri8t-">sign</span>. The functions <span 
+class="pcrr8t-">abs</span><a 
+ id="dx13-149003"></a> and <span 
+class="pcrr8t-">signum</span><a 
+ id="dx13-149004"></a> apply to any number and satisfy the law:
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-137">
+abs&#x00A0;x&#x00A0;*&#x00A0;signum&#x00A0;x&#x00A0;==&#x00A0;x
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> For real numbers, these functions are defined by:
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-138">
+abs&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;x&#x00A0;&gt;=&#x00A0;0&#x00A0;&#x00A0;=&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;x&#x00A0;&lt;&#x00A0;&#x00A0;0&#x00A0;&#x00A0;=&#x00A0;-x
+
+signum&#x00A0;x&#x00A0;|&#x00A0;x&#x00A0;&gt;&#x00A0;&#x00A0;0&#x00A0;&#x00A0;=&#x00A0;1
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;x&#x00A0;==&#x00A0;0&#x00A0;&#x00A0;=&#x00A0;0
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;x&#x00A0;&lt;&#x00A0;&#x00A0;0&#x00A0;&#x00A0;=&#x00A0;-1
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.4.5    </span> <a 
+ id="x13-1500006.4.5"></a>Trigonometric Functions</h4>
+<a 
+ id="dx13-150001"></a>
+<p class="noindent"> Class <span 
+class="pcrr8t-">Floating</span> provides the circular and hyperbolic sine<a 
+ id="dx13-150002"></a>, cosine<a 
+ id="dx13-150003"></a>, and tangent<a 
+ id="dx13-150004"></a> functions and their inverses. Default
+implementations of <span 
+class="pcrr8t-">tan</span>, <span 
+class="pcrr8t-">tanh</span>, <span 
+class="pcrr8t-">logBase</span>, <span 
+class="pcrr8t-">**</span>, and <span 
+class="pcrr8t-">sqrt</span> are provided, but implementors are free to provide more
+accurate implementations.
+ <p class="noindent"> Class <span 
+class="pcrr8t-">RealFloat</span> provides a version of arctangent taking two real floating-point arguments. For real floating <span 
+class="cmmi-10">x</span> and
+<span 
+class="cmmi-10">y</span>, <span 
+class="pcrr8t-">atan2</span><a 
+ id="dx13-150005"></a> <span 
+class="cmmi-10">y</span> <span 
+class="cmmi-10">x</span> computes the angle (from the positive x-axis) of the vector from the origin to the point <span 
+class="cmr-10">(</span><span 
+class="cmmi-10">x,y</span><span 
+class="cmr-10">)</span>. <span 
+class="pcrr8t-">atan2</span><a 
+ id="dx13-150006"></a> <span 
+class="cmmi-10">y</span>
+<span 
+class="cmmi-10">x</span> returns a value in the range <span 
+class="pcrr8t-">[-pi,</span><span 
+class="pcrr8t-">&#x00A0;pi]</span>. It follows the Common Lisp semantics for the origin when signed
+zeroes are supported. <span 
+class="pcrr8t-">atan2</span> <span 
+class="cmmi-10">y</span> <span 
+class="pcrr8t-">1</span>, with <span 
+class="cmmi-10">y</span> in a type that is <span 
+class="pcrr8t-">RealFloat</span>, should return the same value as
+<span 
+class="pcrr8t-">atan</span> <span 
+class="cmmi-10">y</span>. A default definition of <span 
+class="pcrr8t-">atan2</span> is provided, but implementors can provide a more accurate
+implementation.
+ <p class="noindent"> The precise definition of the above functions is as in Common Lisp, which in turn follows Penfield&#8217;s proposal for
+APL&#x00A0;<span class="cite">[<a 
+href="haskellli3.html#Xpenfield:complex-apl">12</a>]</span>. See these references for discussions of branch cuts, discontinuities, and implementation.
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">6.4.6    </span> <a 
+ id="x13-1510006.4.6"></a>Coercions and Component Extraction</h4>
+<a 
+ id="dx13-151001"></a>
+<p class="noindent"> The <span 
+class="pcrr8t-">ceiling</span><a 
+ id="dx13-151002"></a>, <span 
+class="pcrr8t-">floor</span><a 
+ id="dx13-151003"></a>, <span 
+class="pcrr8t-">truncate</span><a 
+ id="dx13-151004"></a>, and <span 
+class="pcrr8t-">round</span><a 
+ id="dx13-151005"></a> functions each take a real fractional argument and return an
+integral result. <span 
+class="pcrr8t-">ceiling</span> <span 
+class="cmmi-10">x</span> returns the least integer not less than <span 
+class="cmmi-10">x</span>, and <span 
+class="pcrr8t-">floor</span> <span 
+class="cmmi-10">x</span>, the greatest integer not greater
+than <span 
+class="cmmi-10">x</span>. <span 
+class="pcrr8t-">truncate</span> <span 
+class="cmmi-10">x</span> yields the integer nearest <span 
+class="cmmi-10">x</span> between <span 
+class="cmr-10">0</span> and <span 
+class="cmmi-10">x</span>, inclusive. <span 
+class="pcrr8t-">round</span> <span 
+class="cmmi-10">x</span> returns the nearest integer to
+<span 
+class="cmmi-10">x</span>, the even integer if <span 
+class="cmmi-10">x</span> is equidistant between two integers.
+ <p class="noindent"> The function <span 
+class="pcrr8t-">properFraction</span><a 
+ id="dx13-151006"></a> takes a real fractional number <span 
+class="cmmi-10">x</span> and returns a pair <span 
+class="cmr-10">(</span><span 
+class="cmmi-10">n,f</span><span 
+class="cmr-10">)</span> such that <span 
+class="cmmi-10">x</span><span 
+class="cmmi-10">&#x00A0; </span><span 
+class="cmr-10">=</span> <span 
+class="cmmi-10">&#x00A0;n </span><span 
+class="cmr-10">+ </span><span 
+class="cmmi-10">f</span>,
+and: <span 
+class="cmmi-10">n</span> is an integral number with the same sign as <span 
+class="cmmi-10">x</span>; and <span 
+class="cmmi-10">f</span> is a fraction <span 
+class="cmmi-10">f</span> with the same type and sign as <span 
+class="cmmi-10">x</span>, and with
+absolute value less than 1. The <span 
+class="pcrr8t-">ceiling</span>, <span 
+class="pcrr8t-">floor</span>, <span 
+class="pcrr8t-">truncate</span>, and <span 
+class="pcrr8t-">round</span> functions can be defined in terms of
+<span 
+class="pcrr8t-">properFraction</span>.
+                                                                                   
+
+                                                                                   
+ <p class="noindent"> Two functions convert numbers to type <span 
+class="pcrr8t-">Rational</span>: <span 
+class="pcrr8t-">toRational</span><a 
+ id="dx13-151007"></a> returns the rational equivalent of its real
+argument with full precision; <span 
+class="pcrr8t-">approxRational</span><a 
+ id="dx13-151008"></a> takes two real fractional arguments <span 
+class="cmmi-10">x</span> and <span 
+class="cmmi-10">&#x03F5;</span> and returns the
+simplest rational number within <span 
+class="cmmi-10">&#x03F5;</span> of <span 
+class="cmmi-10">x</span>, where a rational <span 
+class="cmmi-10">p&#x2215;q </span>in reduced form is <span 
+class="ptmri8t-">simpler </span>than another <span 
+class="cmmi-10">p</span><sup><span 
+class="cmsy-7">&#x2032;</span></sup><span 
+class="cmmi-10">&#x2215;q</span><sup><span 
+class="cmsy-7">&#x2032;</span></sup> if <span 
+class="cmsy-10">|</span><span 
+class="cmmi-10">p</span><span 
+class="cmsy-10">|&#x2264;|</span><span 
+class="cmmi-10">p</span><sup><span 
+class="cmsy-7">&#x2032;</span></sup><span 
+class="cmsy-10">|</span>
+and <span 
+class="cmmi-10">q </span><span 
+class="cmsy-10">&#x2264; </span><span 
+class="cmmi-10">q</span><sup><span 
+class="cmsy-7">&#x2032;</span></sup>. Every real interval contains a unique simplest rational; in particular, note that <span 
+class="cmr-10">0</span><span 
+class="cmmi-10">&#x2215;</span><span 
+class="cmr-10">1 </span>is the simplest rational
+of all.
+ <p class="noindent"> The class methods of class <span 
+class="pcrr8t-">RealFloat</span><a 
+ id="dx13-151009"></a> allow efficient, machine-independent access to the components of a
+floating-point number. The functions <span 
+class="pcrr8t-">floatRadix</span><a 
+ id="dx13-151010"></a>, <span 
+class="pcrr8t-">floatDigits</span><a 
+ id="dx13-151011"></a>, and <span 
+class="pcrr8t-">floatRange</span><a 
+ id="dx13-151012"></a> give the parameters of a
+floating-point type: the radix of the representation, the number of digits of this radix in the significand, and the lowest
+and highest values the exponent may assume, respectively. The function <span 
+class="pcrr8t-">decodeFloat</span><a 
+ id="dx13-151013"></a> applied to a real
+floating-point number returns the significand expressed as an <span 
+class="pcrr8t-">Integer</span> and an appropriately scaled
+exponent (an <span 
+class="pcrr8t-">Int</span>). If <span 
+class="pcrr8t-">decodeFloat</span><span 
+class="pcrr8t-">&#x00A0;x</span> yields <span 
+class="pcrr8t-">(</span><span 
+class="cmmi-10">m</span><span 
+class="pcrr8t-">,</span><span 
+class="cmmi-10">n</span><span 
+class="pcrr8t-">)</span>, then <span 
+class="pcrr8t-">x</span> is equal in value to <span 
+class="cmmi-10">mb</span><sup><span 
+class="cmmi-7">n</span></sup>, where <span 
+class="cmmi-10">b</span> is the
+floating-point radix, and furthermore, either <span 
+class="cmmi-10">m</span> and <span 
+class="cmmi-10">n</span> are both zero or else <span 
+class="cmmi-10">b</span><sup><span 
+class="cmmi-7">d</span><span 
+class="cmsy-7">-</span><span 
+class="cmr-7">1</span></sup> <span 
+class="cmsy-10">&#x2264;|</span><span 
+class="cmmi-10">m</span><span 
+class="cmsy-10">| </span><span 
+class="cmmi-10">&#x003C; b</span><sup><span 
+class="cmmi-7">d</span></sup>, where <span 
+class="cmmi-10">d</span> is the
+value of <span 
+class="pcrr8t-">floatDigits</span><span 
+class="pcrr8t-">&#x00A0;x</span>. <span 
+class="pcrr8t-">encodeFloat</span><a 
+ id="dx13-151014"></a> performs the inverse of this transformation. The functions
+<span 
+class="pcrr8t-">significand</span><a 
+ id="dx13-151015"></a> and <span 
+class="pcrr8t-">exponent</span><a 
+ id="dx13-151016"></a> together provide the same information as <span 
+class="pcrr8t-">decodeFloat</span>, but rather than an
+<span 
+class="pcrr8t-">Integer</span>, <span 
+class="pcrr8t-">significand</span><span 
+class="pcrr8t-">&#x00A0;x</span> yields a value of the same type as <span 
+class="pcrr8t-">x</span>, scaled to lie in the open interval <span 
+class="cmr-10">(</span><span 
+class="cmsy-10">-</span><span 
+class="cmr-10">1</span><span 
+class="cmmi-10">,</span><span 
+class="cmr-10">1)</span>.
+<span 
+class="pcrr8t-">exponent</span><span 
+class="pcrr8t-">&#x00A0;0</span> is zero. <span 
+class="pcrr8t-">scaleFloat</span> multiplies a floating-point number by an integer power of the
+radix.
+ <p class="noindent"> The functions <span 
+class="pcrr8t-">isNaN</span>, <span 
+class="pcrr8t-">isInfinite</span>, <span 
+class="pcrr8t-">isDenormalized</span>, <span 
+class="pcrr8t-">isNegativeZero</span>, and <span 
+class="pcrr8t-">isIEEE</span> all support
+numbers represented using the IEEE standard. For non-IEEE floating point numbers, these may all return
+false.
+ <p class="noindent"> Also available are the following coercion functions:
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-139">
+fromIntegral&#x00A0;::&#x00A0;(Integral&#x00A0;a,&#x00A0;Num&#x00A0;b)&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b
+realToFrac&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(Real&#x00A0;a,&#x00A0;Fractional&#x00A0;b)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;b
+</pre>
+     <p class="noindent"></blockquote>
+<a 
+ id="dx13-151017"></a>
+<a 
+ id="dx13-151018"></a>
+                                                                                   
+
+                                                                                   
+                                                                                   
+
+                                                                                   
+<!--l. 11--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch7.html" >next</a>] [<a 
+href="haskellch5.html" >prev</a>] [<a 
+href="haskellch5.html#tailhaskellch5.html" >prev-tail</a>] [<a 
+href="haskellch6.html" >front</a>] [<a 
+href="haskellpa1.html#haskellch6.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellch6.html"></a>    
+</body></html> 

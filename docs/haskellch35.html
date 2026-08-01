@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>35 Foreign.Ptr</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch36.html" >next</a>] [<a 
+href="haskellch34.html" >prev</a>] [<a 
+href="haskellch34.html#tailhaskellch34.html" >prev-tail</a>] [<a 
+href="#tailhaskellch35.html">tail</a>] [<a 
+href="haskellpa2.html#haskellch35.html" >up</a>] </p></div>
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;35</span><br /><a 
+ id="x43-47300035"></a><span 
+class="pcrr8t-">Foreign.Ptr</span></h2>
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-929">
+module&#x00A0;Foreign.Ptr&#x00A0;(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Ptr,&#x00A0;nullPtr,&#x00A0;castPtr,&#x00A0;plusPtr,&#x00A0;alignPtr,&#x00A0;minusPtr,&#x00A0;FunPtr,&#x00A0;nullFunPtr,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;castFunPtr,&#x00A0;castFunPtrToPtr,&#x00A0;castPtrToFunPtr,&#x00A0;freeHaskellFunPtr,&#x00A0;IntPtr,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;ptrToIntPtr,&#x00A0;intPtrToPtr,&#x00A0;WordPtr,&#x00A0;ptrToWordPtr,&#x00A0;wordPtrToPtr
+&#x00A0;&#x00A0;)&#x00A0;where
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> The module <span 
+class="pcrr8t-">Foreign.Ptr </span>provides typed pointers to foreign entities. We distinguish two kinds of pointers:
+pointers to data and pointers to functions. It is understood that these two kinds of pointers may be represented
+differently as they may be references to data and text segments, respectively.
+<h3 class="sectionHead"><span class="titlemark">35.1    </span> <a 
+ id="x43-47400035.1"></a>Data pointers</h3>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-710" class="tabular" 
+ 
+><colgroup id="TBL-710-1g"><col 
+id="TBL-710-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-710-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-710-1-1"  
+class="td11"><span 
+class="pcrb8t-">data Ptr a </span></td></tr></table>                                                                   </div> <dd class="haddockdesc">
+     A  value  of  type  <span 
+class="pcrr8t-">Ptr</span><a 
+ id="dx43-474001"></a> <span 
+class="pcrr8t-">a </span>represents  a  pointer  to  an  object,  or  an  array  of  objects,  which  may  be
+     marshalled to or from Haskell values of type <span 
+class="pcrr8t-">a</span>.
+     <p class="noindent"> The type <span 
+class="pcrr8t-">a </span>will often be an instance of class <span 
+class="pcrr8t-">Storable</span><a 
+ id="dx43-474002"></a> which provides the marshalling operations.
+     However  this  is  not  essential,  and  you  can  provide  your  own  operations  to  access  the  pointer.  For
+     example you might write small foreign functions to get or set the fields of a C <span 
+class="pcrr8t-">struct</span>.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-711" class="tabular" 
+ 
+><colgroup id="TBL-711-1g"><col 
+id="TBL-711-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-711-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-711-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable Ptr a </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-711-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-711-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show Ptr a</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-711-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-711-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq Ptr a        </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-711-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-711-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord Ptr a       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-711-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-711-5-1"  
+class="td11">                         </td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-712" class="tabular" 
+ 
+><colgroup id="TBL-712-1g"><col 
+id="TBL-712-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-712-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-712-1-1"  
+class="td11"><span 
+class="pcrb8t-">nullPtr :: Ptr a </span></td></tr></table>                                                            </div> <dd class="haddockdesc">
+     The  constant  <span 
+class="pcrr8t-">nullPtr</span><a 
+ id="dx43-474003"></a> contains  a  distinguished  value  of  <span 
+class="pcrr8t-">Ptr</span><a 
+ id="dx43-474004"></a> that  is  not  associated  with  a  valid
+     memory location.
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-713" class="tabular" 
+ 
+><colgroup id="TBL-713-1g"><col 
+id="TBL-713-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-713-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-713-1-1"  
+class="td11"><span 
+class="pcrb8t-">castPtr :: Ptr a -&gt; Ptr b </span></td></tr></table>                                                 </div> <dd class="haddockdesc">
+     The <span 
+class="pcrr8t-">castPtr</span><a 
+ id="dx43-474005"></a> function casts a pointer from one type to another.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-714" class="tabular" 
+ 
+><colgroup id="TBL-714-1g"><col 
+id="TBL-714-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-714-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-714-1-1"  
+class="td11"><span 
+class="pcrb8t-">plusPtr :: Ptr a -&gt; Int -&gt; Ptr b </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Advances the given address by the given offset in bytes.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-715" class="tabular" 
+ 
+><colgroup id="TBL-715-1g"><col 
+id="TBL-715-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-715-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-715-1-1"  
+class="td11"><span 
+class="pcrb8t-">alignPtr :: Ptr a -&gt; Int -&gt; Ptr a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Given an arbitrary address and an alignment constraint, <span 
+class="pcrr8t-">alignPtr</span><a 
+ id="dx43-474006"></a> yields the next higher address that
+     fulfills the alignment constraint. An alignment constraint <span 
+class="pcrr8t-">x </span>is fulfilled by any address divisible by <span 
+class="pcrr8t-">x</span>.
+     This operation is idempotent.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-716" class="tabular" 
+ 
+><colgroup id="TBL-716-1g"><col 
+id="TBL-716-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-716-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-716-1-1"  
+class="td11"><span 
+class="pcrb8t-">minusPtr :: Ptr a -&gt; Ptr b -&gt; Int </span></td></tr></table>                                        </div> <dd class="haddockdesc">
+     Computes the offset required to get from the second to the first argument. We have
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-930">
+p2&#x00A0;==&#x00A0;p1&#x00A0;&#8216;plusPtr&#8216;&#x00A0;(p2&#x00A0;&#8216;minusPtr&#8216;&#x00A0;p1)
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">35.2    </span> <a 
+ id="x43-47500035.2"></a>Function pointers</h3>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-717" class="tabular" 
+ 
+><colgroup id="TBL-717-1g"><col 
+id="TBL-717-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-717-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-717-1-1"  
+class="td11"><span 
+class="pcrb8t-">data FunPtr a </span></td></tr></table>                                                               </div> <dd class="haddockdesc">
+     A value of type <span 
+class="pcrr8t-">FunPtr</span><a 
+ id="dx43-475001"></a> <span 
+class="pcrr8t-">a </span>is a pointer to a function callable from foreign code. The type <span 
+class="pcrr8t-">a </span>will
+     normally be a <span 
+class="ptmri8t-">foreign type</span>, a function type with zero or more arguments where
+         <ul class="itemize1">
+         <li class="itemize">
+          <p class="noindent"> the argument types are <span 
+class="ptmri8t-">marshallable foreign types</span>, i.e. <span 
+class="pcrr8t-">Char</span><a 
+ id="dx43-475002"></a>, <span 
+class="pcrr8t-">Int</span><a 
+ id="dx43-475003"></a>, <span 
+class="pcrr8t-">Double</span><a 
+ id="dx43-475004"></a>, <span 
+class="pcrr8t-">Float</span><a 
+ id="dx43-475005"></a>, <span 
+class="pcrr8t-">Bool</span><a 
+ id="dx43-475006"></a>,
+         <span 
+class="pcrr8t-">Int8</span><a 
+ id="dx43-475007"></a>, <span 
+class="pcrr8t-">Int16</span><a 
+ id="dx43-475008"></a>, <span 
+class="pcrr8t-">Int32</span><a 
+ id="dx43-475009"></a>, <span 
+class="pcrr8t-">Int64</span><a 
+ id="dx43-475010"></a>, <span 
+class="pcrr8t-">Word8</span><a 
+ id="dx43-475011"></a>, <span 
+class="pcrr8t-">Word16</span><a 
+ id="dx43-475012"></a>, <span 
+class="pcrr8t-">Word32</span><a 
+ id="dx43-475013"></a>, <span 
+class="pcrr8t-">Word64</span><a 
+ id="dx43-475014"></a>, <span 
+class="pcrr8t-">Ptr</span><a 
+ id="dx43-475015"></a> <span 
+class="pcrr8t-">a</span>, <span 
+class="pcrr8t-">FunPtr</span><a 
+ id="dx43-475016"></a> <span 
+class="pcrr8t-">a</span>,
+         <span 
+class="pcrr8t-">StablePtr</span><a 
+ id="dx43-475017"></a> <span 
+class="pcrr8t-">a </span>or a renaming of any of these using <span 
+class="pcrr8t-">newtype</span>.
+         </li>
+         <li class="itemize">
+          <p class="noindent">  the  return  type  is  either  a  marshallable  foreign  type  or  has  the  form  <span 
+class="pcrr8t-">IO</span><a 
+ id="dx43-475018"></a> <span 
+class="pcrr8t-">t </span>where  <span 
+class="pcrr8t-">t </span>is  a
+         marshallable foreign type or <span 
+class="pcrr8t-">()</span>.
+         </li></ul>
+     <p class="noindent"> A value of type <span 
+class="pcrr8t-">FunPtr</span><a 
+ id="dx43-475019"></a> <span 
+class="pcrr8t-">a </span>may be a pointer to a foreign function, either returned by another foreign
+     function or imported with a a static address import like
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-931">
+foreign&#x00A0;import&#x00A0;ccall&#x00A0;"stdlib.h&#x00A0;&amp;free"
+&#x00A0;&#x00A0;p_free&#x00A0;::&#x00A0;FunPtr&#x00A0;(Ptr&#x00A0;a&#x00A0;-&gt;&#x00A0;IO&#x00A0;())
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent"> or a pointer to a Haskell function created using a <span 
+class="ptmri8t-">wrapper </span>stub declared to produce a <span 
+class="pcrr8t-">FunPtr</span><a 
+ id="dx43-475020"></a> of the correct
+     type. For example:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-932">
+type&#x00A0;Compare&#x00A0;=&#x00A0;Int&#x00A0;-&gt;&#x00A0;Int&#x00A0;-&gt;&#x00A0;Bool
+foreign&#x00A0;import&#x00A0;ccall&#x00A0;"wrapper"
+&#x00A0;&#x00A0;mkCompare&#x00A0;::&#x00A0;Compare&#x00A0;-&gt;&#x00A0;IO&#x00A0;(FunPtr&#x00A0;Compare)
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent"> Calls to wrapper stubs like <span 
+class="pcrr8t-">mkCompare </span>allocate storage, which should be released with <span 
+class="pcrr8t-">freeHaskellFunPtr</span><a 
+ id="dx43-475021"></a>
+     when no longer required.
+     <p class="noindent"> To convert <span 
+class="pcrr8t-">FunPtr</span><a 
+ id="dx43-475022"></a> values to corresponding Haskell functions, one can define a <span 
+class="ptmri8t-">dynamic </span>stub for the specific
+     foreign type, e.g.
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-933">
+type&#x00A0;IntFunction&#x00A0;=&#x00A0;CInt&#x00A0;-&gt;&#x00A0;IO&#x00A0;()
+foreign&#x00A0;import&#x00A0;ccall&#x00A0;"dynamic"
+&#x00A0;&#x00A0;mkFun&#x00A0;::&#x00A0;FunPtr&#x00A0;IntFunction&#x00A0;-&gt;&#x00A0;IntFunction
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-718" class="tabular" 
+ 
+><colgroup id="TBL-718-1g"><col 
+id="TBL-718-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-718-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-718-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable FunPtr a </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-718-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-718-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show FunPtr a</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-718-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-718-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq FunPtr a        </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-718-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-718-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord FunPtr a       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-718-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-718-5-1"  
+class="td11">                            </td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-719" class="tabular" 
+ 
+><colgroup id="TBL-719-1g"><col 
+id="TBL-719-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-719-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-719-1-1"  
+class="td11"><span 
+class="pcrb8t-">nullFunPtr :: FunPtr a </span></td></tr></table>                                                     </div> <dd class="haddockdesc">
+     The constant <span 
+class="pcrr8t-">nullFunPtr</span><a 
+ id="dx43-475023"></a> contains a distinguished value of <span 
+class="pcrr8t-">FunPtr</span><a 
+ id="dx43-475024"></a> that is not associated with a
+     valid memory location.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-720" class="tabular" 
+ 
+><colgroup id="TBL-720-1g"><col 
+id="TBL-720-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-720-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-720-1-1"  
+class="td11"><span 
+class="pcrb8t-">castFunPtr :: FunPtr a -&gt; FunPtr b </span></td></tr></table>                                       </div> <dd class="haddockdesc">
+     Casts a <span 
+class="pcrr8t-">FunPtr</span><a 
+ id="dx43-475025"></a> to a <span 
+class="pcrr8t-">FunPtr</span><a 
+ id="dx43-475026"></a> of a different type.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-721" class="tabular" 
+ 
+><colgroup id="TBL-721-1g"><col 
+id="TBL-721-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-721-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-721-1-1"  
+class="td11"><span 
+class="pcrb8t-">castFunPtrToPtr :: FunPtr a -&gt; Ptr b </span></td></tr></table>                                     </div> <dd class="haddockdesc">
+     Casts a <span 
+class="pcrr8t-">FunPtr</span><a 
+ id="dx43-475027"></a> to a <span 
+class="pcrr8t-">Ptr</span><a 
+ id="dx43-475028"></a>.
+     <p class="noindent"> <span 
+class="ptmri8t-">Note: </span>this is valid only on architectures where data and function pointers range over the same set of
+     addresses, and should only be used for bindings to external libraries whose interface already relies on
+     this assumption.
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-722" class="tabular" 
+ 
+><colgroup id="TBL-722-1g"><col 
+id="TBL-722-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-722-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-722-1-1"  
+class="td11"><span 
+class="pcrb8t-">castPtrToFunPtr :: Ptr a -&gt; FunPtr b </span></td></tr></table>                                     </div> <dd class="haddockdesc">
+     Casts a <span 
+class="pcrr8t-">Ptr</span><a 
+ id="dx43-475029"></a> to a <span 
+class="pcrr8t-">FunPtr</span><a 
+ id="dx43-475030"></a>.
+     <p class="noindent"> <span 
+class="ptmri8t-">Note: </span>this is valid only on architectures where data and function pointers range over the same set of
+     addresses, and should only be used for bindings to external libraries whose interface already relies on
+     this assumption.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-723" class="tabular" 
+ 
+><colgroup id="TBL-723-1g"><col 
+id="TBL-723-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-723-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-723-1-1"  
+class="td11"><span 
+class="pcrb8t-">freeHaskellFunPtr :: FunPtr a -&gt; IO () </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Release the storage associated with the given <span 
+class="pcrr8t-">FunPtr</span><a 
+ id="dx43-475031"></a>, which must have been obtained from a wrapper
+     stub. This should be called whenever the return value from a foreign import wrapper function is no
+     longer required; otherwise, the storage it uses will leak.
+     </dl>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">35.3    </span> <a 
+ id="x43-47600035.3"></a>Integral types with lossless conversion to and from pointers</h3>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-724" class="tabular" 
+ 
+><colgroup id="TBL-724-1g"><col 
+id="TBL-724-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-724-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-724-1-1"  
+class="td11"><span 
+class="pcrb8t-">data IntPtr </span></td></tr></table>                                                                 </div> <dd class="haddockdesc">
+     A signed integral type that can be losslessly converted to and from <span 
+class="pcrr8t-">Ptr</span>. This type is also compatible
+     with the C99 type <span 
+class="pcrr8t-">intptr_t</span>, and can be marshalled to and from that type safely.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-725" class="tabular" 
+ 
+><colgroup id="TBL-725-1g"><col 
+id="TBL-725-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-725-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-725-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits IntPtr    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-725-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-725-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded IntPtr</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-725-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-725-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum IntPtr     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-725-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-725-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable IntPtr</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-725-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-725-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix IntPtr       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-725-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-725-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num IntPtr</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-725-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-725-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read IntPtr     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-725-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-725-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral IntPtr </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-725-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-725-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real IntPtr     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-725-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-725-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show IntPtr     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-725-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-725-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq IntPtr       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-725-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-725-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord IntPtr      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-726" class="tabular" 
+ 
+><colgroup id="TBL-726-1g"><col 
+id="TBL-726-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-726-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-726-1-1"  
+class="td11"><span 
+class="pcrb8t-">ptrToIntPtr :: Ptr a -&gt; IntPtr </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     casts a <span 
+class="pcrr8t-">Ptr </span>to an <span 
+class="pcrr8t-">IntPtr</span>
+     </dl>
+                                                                                   
+
+                                                                                   
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-727" class="tabular" 
+ 
+><colgroup id="TBL-727-1g"><col 
+id="TBL-727-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-727-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-727-1-1"  
+class="td11"><span 
+class="pcrb8t-">intPtrToPtr :: IntPtr -&gt; Ptr a </span></td></tr></table>                                            </div> <dd class="haddockdesc">
+     casts an <span 
+class="pcrr8t-">IntPtr </span>to a <span 
+class="pcrr8t-">Ptr</span>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-728" class="tabular" 
+ 
+><colgroup id="TBL-728-1g"><col 
+id="TBL-728-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-728-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-728-1-1"  
+class="td11"><span 
+class="pcrb8t-">data WordPtr </span></td></tr></table>                                                                </div> <dd class="haddockdesc">
+     An  unsigned  integral  type  that  can  be  losslessly  converted  to  and  from  <span 
+class="pcrr8t-">Ptr</span>.  This  type  is  also
+     compatible with the C99 type <span 
+class="pcrr8t-">uintptr_t</span>, and can be marshalled to and from that type safely.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-729" class="tabular" 
+ 
+><colgroup id="TBL-729-1g"><col 
+id="TBL-729-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-729-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-729-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits WordPtr    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-729-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-729-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded WordPtr</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-729-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-729-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum WordPtr     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-729-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-729-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable WordPtr</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-729-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-729-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix WordPtr       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-729-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-729-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num WordPtr</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-729-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-729-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read WordPtr     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-729-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-729-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral WordPtr </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-729-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-729-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real WordPtr     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-729-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-729-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show WordPtr     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-729-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-729-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq WordPtr       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-729-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-729-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord WordPtr      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-730" class="tabular" 
+ 
+><colgroup id="TBL-730-1g"><col 
+id="TBL-730-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-730-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-730-1-1"  
+class="td11"><span 
+class="pcrb8t-">ptrToWordPtr :: Ptr a -&gt; WordPtr </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     casts a <span 
+class="pcrr8t-">Ptr </span>to a <span 
+class="pcrr8t-">WordPtr</span>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-731" class="tabular" 
+ 
+><colgroup id="TBL-731-1g"><col 
+id="TBL-731-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-731-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-731-1-1"  
+class="td11"><span 
+class="pcrb8t-">wordPtrToPtr :: WordPtr -&gt; Ptr a </span></td></tr></table>                                         </div> <dd class="haddockdesc">
+     casts a <span 
+class="pcrr8t-">WordPtr </span>to a <span 
+class="pcrr8t-">Ptr</span>
+     </dl>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch36.html" >next</a>] [<a 
+href="haskellch34.html" >prev</a>] [<a 
+href="haskellch34.html#tailhaskellch34.html" >prev-tail</a>] [<a 
+href="haskellch35.html" >front</a>] [<a 
+href="haskellpa2.html#haskellch35.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellch35.html"></a>   
+</body></html> 

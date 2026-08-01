@@ -1,0 +1,1700 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>28 Foreign.C.Types</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch29.html" >next</a>] [<a 
+href="haskellch27.html" >prev</a>] [<a 
+href="haskellch27.html#tailhaskellch27.html" >prev-tail</a>] [<a 
+href="#tailhaskellch28.html">tail</a>] [<a 
+href="haskellpa2.html#haskellch28.html" >up</a>] </p></div>
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;28</span><br /><a 
+ id="x36-44100028"></a><span 
+class="pcrr8t-">Foreign.C.Types</span></h2>
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-921">
+module&#x00A0;Foreign.C.Types&#x00A0;(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;CChar,&#x00A0;CSChar,&#x00A0;CUChar,&#x00A0;CShort,&#x00A0;CUShort,&#x00A0;CInt,&#x00A0;CUInt,&#x00A0;CLong,&#x00A0;CULong,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;CPtrdiff,&#x00A0;CSize,&#x00A0;CWchar,&#x00A0;CSigAtomic,&#x00A0;CLLong,&#x00A0;CULLong,&#x00A0;CIntPtr,&#x00A0;CUIntPtr,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;CIntMax,&#x00A0;CUIntMax,&#x00A0;CClock,&#x00A0;CTime,&#x00A0;CFloat,&#x00A0;CDouble,&#x00A0;CFile,&#x00A0;CFpos,&#x00A0;CJmpBuf
+&#x00A0;&#x00A0;)&#x00A0;where
+</pre>
+     <p class="noindent"></blockquote>
+<h3 class="sectionHead"><span class="titlemark">28.1    </span> <a 
+ id="x36-44200028.1"></a>Representations of C types</h3>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">28.1.1    </span> <a 
+ id="x36-44300028.1.1"></a>Integral types</h4>
+<p class="noindent"> These types are are represented as <span 
+class="pcrr8t-">newtype</span>s of types in <span 
+class="pcrr8t-">Data.Int </span>and <span 
+class="pcrr8t-">Data.Word</span>, and are instances of <span 
+class="pcrr8t-">Eq</span>,
+<span 
+class="pcrr8t-">Ord</span>, <span 
+class="pcrr8t-">Num</span>, <span 
+class="pcrr8t-">Read</span>, <span 
+class="pcrr8t-">Show</span>, <span 
+class="pcrr8t-">Enum</span>, <span 
+class="pcrr8t-">Storable</span>, <span 
+class="pcrr8t-">Bounded</span>, <span 
+class="pcrr8t-">Real</span>, <span 
+class="pcrr8t-">Integral </span>and <span 
+class="pcrr8t-">Bits</span>.
+ <p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-594" class="tabular" 
+ 
+><colgroup id="TBL-594-1g"><col 
+id="TBL-594-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-594-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-594-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CChar </span></td></tr></table>                                                                   </div> <dd class="haddockdesc">
+     Haskell  type  representing  the  C  <span 
+class="pcrr8t-">char </span>type.  <span 
+class="ptmri8t-">(The  concrete  types  of  </span><span 
+class="pcrro8t-">Foreign.C.Types </span><span 
+class="ptmri8t-">are</span>
+     <span 
+class="ptmri8t-">platform-specific.)</span>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-595" class="tabular" 
+ 
+><colgroup id="TBL-595-1g"><col 
+id="TBL-595-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-595-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-595-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CChar    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-595-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-595-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CChar</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-595-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-595-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CChar     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-595-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-595-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CChar</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-595-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-595-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CChar       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-595-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-595-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CChar</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-595-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-595-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CChar     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-595-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-595-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CChar </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-595-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-595-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CChar     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-595-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-595-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CChar     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-595-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-595-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CChar       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-595-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-595-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CChar      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-596" class="tabular" 
+ 
+><colgroup id="TBL-596-1g"><col 
+id="TBL-596-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-596-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-596-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CSChar </span></td></tr></table>                                                                 </div> <dd class="haddockdesc">
+     Haskell type representing the C <span 
+class="pcrr8t-">signed char </span>type. <span 
+class="ptmri8t-">(The concrete types of </span><span 
+class="pcrro8t-">Foreign.C.Types</span>
+     <span 
+class="ptmri8t-">are platform-specific.)</span>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-597" class="tabular" 
+ 
+><colgroup id="TBL-597-1g"><col 
+id="TBL-597-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-597-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-597-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CSChar    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-597-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-597-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CSChar</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-597-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-597-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CSChar     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-597-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-597-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CSChar</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-597-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-597-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CSChar       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-597-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-597-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CSChar</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-597-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-597-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CSChar     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-597-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-597-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CSChar </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-597-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-597-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CSChar     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-597-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-597-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CSChar     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-597-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-597-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CSChar       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-597-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-597-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CSChar      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-598" class="tabular" 
+ 
+><colgroup id="TBL-598-1g"><col 
+id="TBL-598-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-598-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-598-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CUChar </span></td></tr></table>                                                                 </div> <dd class="haddockdesc">
+     Haskell type representing the C <span 
+class="pcrr8t-">unsigned char </span>type. <span 
+class="ptmri8t-">(The concrete types of </span><span 
+class="pcrro8t-">Foreign.C.Types</span>
+     <span 
+class="ptmri8t-">are platform-specific.)</span>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-599" class="tabular" 
+ 
+><colgroup id="TBL-599-1g"><col 
+id="TBL-599-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-599-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-599-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CUChar    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-599-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-599-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CUChar</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-599-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-599-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CUChar     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-599-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-599-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CUChar</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-599-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-599-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CUChar       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-599-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-599-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CUChar</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-599-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-599-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CUChar     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-599-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-599-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CUChar </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-599-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-599-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CUChar     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-599-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-599-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CUChar     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-599-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-599-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CUChar       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-599-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-599-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CUChar      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-600" class="tabular" 
+ 
+><colgroup id="TBL-600-1g"><col 
+id="TBL-600-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-600-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-600-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CShort </span></td></tr></table>                                                                 </div> <dd class="haddockdesc">
+     Haskell  type  representing  the  C  <span 
+class="pcrr8t-">short </span>type.  <span 
+class="ptmri8t-">(The  concrete  types  of  </span><span 
+class="pcrro8t-">Foreign.C.Types </span><span 
+class="ptmri8t-">are</span>
+     <span 
+class="ptmri8t-">platform-specific.)</span>
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-601" class="tabular" 
+ 
+><colgroup id="TBL-601-1g"><col 
+id="TBL-601-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-601-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-601-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CShort    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-601-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-601-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CShort</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-601-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-601-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CShort     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-601-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-601-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CShort</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-601-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-601-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CShort       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-601-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-601-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CShort</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-601-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-601-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CShort     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-601-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-601-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CShort </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-601-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-601-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CShort     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-601-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-601-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CShort     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-601-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-601-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CShort       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-601-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-601-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CShort      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-602" class="tabular" 
+ 
+><colgroup id="TBL-602-1g"><col 
+id="TBL-602-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-602-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-602-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CUShort </span></td></tr></table>                                                                </div> <dd class="haddockdesc">
+     Haskell    type    representing    the    C    <span 
+class="pcrr8t-">unsigned short  </span>type.    <span 
+class="ptmri8t-">(The    concrete    types    of</span>
+     <span 
+class="pcrro8t-">Foreign.C.Types </span><span 
+class="ptmri8t-">are platform-specific.)</span>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-603" class="tabular" 
+ 
+><colgroup id="TBL-603-1g"><col 
+id="TBL-603-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-603-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-603-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CUShort    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-603-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-603-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CUShort</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-603-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-603-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CUShort     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-603-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-603-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CUShort</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-603-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-603-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CUShort       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-603-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-603-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CUShort</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-603-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-603-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CUShort     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-603-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-603-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CUShort </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-603-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-603-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CUShort     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-603-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-603-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CUShort     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-603-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-603-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CUShort       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-603-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-603-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CUShort      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-604" class="tabular" 
+ 
+><colgroup id="TBL-604-1g"><col 
+id="TBL-604-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-604-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-604-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CInt </span></td></tr></table>                                                                    </div> <dd class="haddockdesc">
+     Haskell  type  representing  the  C  <span 
+class="pcrr8t-">int </span>type.  <span 
+class="ptmri8t-">(The  concrete  types  of  </span><span 
+class="pcrro8t-">Foreign.C.Types </span><span 
+class="ptmri8t-">are</span>
+     <span 
+class="ptmri8t-">platform-specific.)</span>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-605" class="tabular" 
+ 
+><colgroup id="TBL-605-1g"><col 
+id="TBL-605-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-605-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-605-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CInt    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-605-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-605-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CInt</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-605-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-605-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CInt     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-605-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-605-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CInt</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-605-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-605-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CInt       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-605-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-605-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CInt</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-605-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-605-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CInt     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-605-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-605-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CInt </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-605-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-605-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CInt     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-605-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-605-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CInt     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-605-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-605-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CInt       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-605-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-605-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CInt      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+                                                                                   
+
+                                                                                   
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-606" class="tabular" 
+ 
+><colgroup id="TBL-606-1g"><col 
+id="TBL-606-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-606-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-606-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CUInt </span></td></tr></table>                                                                   </div> <dd class="haddockdesc">
+     Haskell type representing the C <span 
+class="pcrr8t-">unsigned int </span>type. <span 
+class="ptmri8t-">(The concrete types of </span><span 
+class="pcrro8t-">Foreign.C.Types</span>
+     <span 
+class="ptmri8t-">are platform-specific.)</span>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-607" class="tabular" 
+ 
+><colgroup id="TBL-607-1g"><col 
+id="TBL-607-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-607-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-607-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CUInt    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-607-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-607-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CUInt</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-607-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-607-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CUInt     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-607-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-607-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CUInt</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-607-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-607-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CUInt       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-607-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-607-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CUInt</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-607-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-607-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CUInt     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-607-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-607-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CUInt </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-607-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-607-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CUInt     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-607-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-607-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CUInt     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-607-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-607-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CUInt       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-607-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-607-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CUInt      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-608" class="tabular" 
+ 
+><colgroup id="TBL-608-1g"><col 
+id="TBL-608-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-608-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-608-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CLong </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Haskell  type  representing  the  C  <span 
+class="pcrr8t-">long </span>type.  <span 
+class="ptmri8t-">(The  concrete  types  of  </span><span 
+class="pcrro8t-">Foreign.C.Types </span><span 
+class="ptmri8t-">are</span>
+     <span 
+class="ptmri8t-">platform-specific.)</span>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-609" class="tabular" 
+ 
+><colgroup id="TBL-609-1g"><col 
+id="TBL-609-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-609-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-609-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CLong    </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-609-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-609-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CLong  </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-609-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-609-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CLong     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-609-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-609-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CLong </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-609-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-609-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CLong       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-609-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-609-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CLong      </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-609-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-609-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CLong     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-609-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-609-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CLong </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-609-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-609-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CLong     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-609-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-609-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CLong     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-609-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-609-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CLong       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-609-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-609-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CLong      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-610" class="tabular" 
+ 
+><colgroup id="TBL-610-1g"><col 
+id="TBL-610-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-610-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-610-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CULong </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Haskell type representing the C <span 
+class="pcrr8t-">unsigned long </span>type. <span 
+class="ptmri8t-">(The concrete types of </span><span 
+class="pcrro8t-">Foreign.C.Types</span>
+     <span 
+class="ptmri8t-">are platform-specific.)</span>
+     </dl>
+                                                                                   
+
+                                                                                   
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-611" class="tabular" 
+ 
+><colgroup id="TBL-611-1g"><col 
+id="TBL-611-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-611-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-611-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CULong    </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-611-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-611-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CULong  </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-611-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-611-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CULong     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-611-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-611-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CULong </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-611-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-611-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CULong       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-611-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-611-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CULong      </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-611-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-611-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CULong     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-611-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-611-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CULong </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-611-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-611-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CULong     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-611-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-611-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CULong     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-611-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-611-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CULong       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-611-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-611-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CULong      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-612" class="tabular" 
+ 
+><colgroup id="TBL-612-1g"><col 
+id="TBL-612-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-612-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-612-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CPtrdiff </span></td></tr></table>                                                               </div> <dd class="haddockdesc">
+     Haskell type representing the C <span 
+class="pcrr8t-">ptrdiff_t </span>type. <span 
+class="ptmri8t-">(The concrete types of </span><span 
+class="pcrro8t-">Foreign.C.Types </span><span 
+class="ptmri8t-">are</span>
+     <span 
+class="ptmri8t-">platform-specific.)</span>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-613" class="tabular" 
+ 
+><colgroup id="TBL-613-1g"><col 
+id="TBL-613-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-613-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-613-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CPtrdiff    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-613-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-613-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CPtrdiff</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-613-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-613-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CPtrdiff     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-613-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-613-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CPtrdiff</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-613-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-613-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CPtrdiff       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-613-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-613-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CPtrdiff</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-613-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-613-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CPtrdiff     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-613-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-613-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CPtrdiff </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-613-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-613-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CPtrdiff     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-613-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-613-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CPtrdiff     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-613-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-613-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CPtrdiff       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-613-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-613-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CPtrdiff      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-614" class="tabular" 
+ 
+><colgroup id="TBL-614-1g"><col 
+id="TBL-614-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-614-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-614-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CSize </span></td></tr></table>                                                                   </div> <dd class="haddockdesc">
+     Haskell  type  representing  the  C  <span 
+class="pcrr8t-">size_t </span>type.  <span 
+class="ptmri8t-">(The  concrete  types  of  </span><span 
+class="pcrro8t-">Foreign.C.Types </span><span 
+class="ptmri8t-">are</span>
+     <span 
+class="ptmri8t-">platform-specific.)</span>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-615" class="tabular" 
+ 
+><colgroup id="TBL-615-1g"><col 
+id="TBL-615-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-615-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-615-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CSize    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-615-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-615-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CSize</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-615-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-615-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CSize     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-615-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-615-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CSize</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-615-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-615-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CSize       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-615-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-615-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CSize</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-615-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-615-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CSize     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-615-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-615-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CSize </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-615-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-615-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CSize     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-615-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-615-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CSize     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-615-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-615-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CSize       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-615-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-615-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CSize      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+                                                                                   
+
+                                                                                   
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-616" class="tabular" 
+ 
+><colgroup id="TBL-616-1g"><col 
+id="TBL-616-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-616-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-616-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CWchar </span></td></tr></table>                                                                 </div> <dd class="haddockdesc">
+     Haskell  type  representing  the  C  <span 
+class="pcrr8t-">wchar_t </span>type.  <span 
+class="ptmri8t-">(The  concrete  types  of  </span><span 
+class="pcrro8t-">Foreign.C.Types </span><span 
+class="ptmri8t-">are</span>
+     <span 
+class="ptmri8t-">platform-specific.)</span>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-617" class="tabular" 
+ 
+><colgroup id="TBL-617-1g"><col 
+id="TBL-617-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-617-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-617-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CWchar    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-617-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-617-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CWchar</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-617-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-617-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CWchar     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-617-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-617-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CWchar</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-617-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-617-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CWchar       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-617-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-617-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CWchar</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-617-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-617-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CWchar     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-617-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-617-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CWchar </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-617-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-617-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CWchar     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-617-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-617-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CWchar     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-617-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-617-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CWchar       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-617-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-617-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CWchar      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-618" class="tabular" 
+ 
+><colgroup id="TBL-618-1g"><col 
+id="TBL-618-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-618-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-618-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CSigAtomic </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Haskell type representing the C <span 
+class="pcrr8t-">sig_atomic_t </span>type. <span 
+class="ptmri8t-">(The concrete types of </span><span 
+class="pcrro8t-">Foreign.C.Types</span>
+     <span 
+class="ptmri8t-">are platform-specific.) </span>See Note [Lack of signals on wasm32-wasi].
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-619" class="tabular" 
+ 
+><colgroup id="TBL-619-1g"><col 
+id="TBL-619-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-619-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-619-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CSigAtomic    </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-619-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-619-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CSigAtomic  </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-619-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-619-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CSigAtomic     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-619-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-619-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CSigAtomic </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-619-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-619-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CSigAtomic       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-619-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-619-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CSigAtomic      </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-619-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-619-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CSigAtomic     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-619-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-619-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CSigAtomic </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-619-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-619-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CSigAtomic     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-619-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-619-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CSigAtomic     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-619-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-619-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CSigAtomic       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-619-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-619-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CSigAtomic      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-620" class="tabular" 
+ 
+><colgroup id="TBL-620-1g"><col 
+id="TBL-620-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-620-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-620-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CLLong </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Haskell type representing the C <span 
+class="pcrr8t-">long long </span>type. <span 
+class="ptmri8t-">(The concrete types of </span><span 
+class="pcrro8t-">Foreign.C.Types </span><span 
+class="ptmri8t-">are</span>
+     <span 
+class="ptmri8t-">platform-specific.)</span>
+     </dl>
+                                                                                   
+
+                                                                                   
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-621" class="tabular" 
+ 
+><colgroup id="TBL-621-1g"><col 
+id="TBL-621-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-621-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-621-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CLLong    </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-621-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-621-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CLLong  </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-621-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-621-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CLLong     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-621-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-621-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CLLong </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-621-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-621-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CLLong       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-621-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-621-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CLLong      </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-621-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-621-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CLLong     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-621-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-621-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CLLong </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-621-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-621-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CLLong     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-621-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-621-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CLLong     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-621-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-621-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CLLong       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-621-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-621-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CLLong      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-622" class="tabular" 
+ 
+><colgroup id="TBL-622-1g"><col 
+id="TBL-622-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-622-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-622-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CULLong </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Haskell   type   representing   the   C   <span 
+class="pcrr8t-">unsigned long long </span>type.   <span 
+class="ptmri8t-">(The   concrete   types   of</span>
+     <span 
+class="pcrro8t-">Foreign.C.Types </span><span 
+class="ptmri8t-">are platform-specific.)</span>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-623" class="tabular" 
+ 
+><colgroup id="TBL-623-1g"><col 
+id="TBL-623-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-623-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-623-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CULLong    </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-623-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-623-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CULLong  </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-623-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-623-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CULLong     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-623-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-623-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CULLong </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-623-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-623-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CULLong       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-623-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-623-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CULLong      </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-623-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-623-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CULLong     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-623-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-623-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CULLong </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-623-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-623-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CULLong     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-623-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-623-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CULLong     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-623-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-623-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CULLong       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-623-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-623-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CULLong      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-624" class="tabular" 
+ 
+><colgroup id="TBL-624-1g"><col 
+id="TBL-624-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-624-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-624-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CIntPtr </span></td></tr></table>                                                                </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-625" class="tabular" 
+ 
+><colgroup id="TBL-625-1g"><col 
+id="TBL-625-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-625-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-625-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CIntPtr    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-625-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-625-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CIntPtr</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-625-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-625-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CIntPtr     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-625-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-625-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CIntPtr</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-625-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-625-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CIntPtr       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-625-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-625-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CIntPtr</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-625-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-625-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CIntPtr     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-625-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-625-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CIntPtr </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-625-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-625-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CIntPtr     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-625-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-625-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CIntPtr     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-625-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-625-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CIntPtr       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-625-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-625-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CIntPtr      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+                                                                                   
+
+                                                                                   
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-626" class="tabular" 
+ 
+><colgroup id="TBL-626-1g"><col 
+id="TBL-626-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-626-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-626-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CUIntPtr </span></td></tr></table>                                                               </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-627" class="tabular" 
+ 
+><colgroup id="TBL-627-1g"><col 
+id="TBL-627-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-627-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-627-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CUIntPtr    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-627-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-627-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CUIntPtr</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-627-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-627-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CUIntPtr     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-627-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-627-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CUIntPtr</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-627-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-627-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CUIntPtr       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-627-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-627-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CUIntPtr</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-627-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-627-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CUIntPtr     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-627-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-627-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CUIntPtr </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-627-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-627-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CUIntPtr     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-627-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-627-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CUIntPtr     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-627-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-627-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CUIntPtr       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-627-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-627-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CUIntPtr      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-628" class="tabular" 
+ 
+><colgroup id="TBL-628-1g"><col 
+id="TBL-628-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-628-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-628-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CIntMax </span></td></tr></table>                                                                </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-629" class="tabular" 
+ 
+><colgroup id="TBL-629-1g"><col 
+id="TBL-629-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-629-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-629-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CIntMax    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-629-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-629-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CIntMax</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-629-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-629-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CIntMax     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-629-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-629-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CIntMax</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-629-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-629-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CIntMax       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-629-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-629-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CIntMax</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-629-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-629-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CIntMax     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-629-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-629-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CIntMax </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-629-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-629-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CIntMax     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-629-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-629-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CIntMax     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-629-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-629-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CIntMax       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-629-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-629-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CIntMax      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-630" class="tabular" 
+ 
+><colgroup id="TBL-630-1g"><col 
+id="TBL-630-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-630-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-630-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CUIntMax </span></td></tr></table>                                                               </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+                                                                                   
+
+                                                                                   
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-631" class="tabular" 
+ 
+><colgroup id="TBL-631-1g"><col 
+id="TBL-631-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-631-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-631-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits CUIntMax    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-631-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-631-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded CUIntMax</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-631-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-631-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CUIntMax     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-631-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-631-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CUIntMax</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-631-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-631-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix CUIntMax       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-631-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-631-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CUIntMax</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-631-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-631-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CUIntMax     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-631-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-631-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral CUIntMax </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-631-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-631-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CUIntMax     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-631-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-631-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CUIntMax     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-631-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-631-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CUIntMax       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-631-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-631-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CUIntMax      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">28.1.2    </span> <a 
+ id="x36-44400028.1.2"></a>Numeric types</h4>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-632" class="tabular" 
+ 
+><colgroup id="TBL-632-1g"><col 
+id="TBL-632-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-632-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-632-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CClock </span></td></tr></table>                                                                 </div> <dd class="haddockdesc">
+     Haskell  type  representing  the  C  <span 
+class="pcrr8t-">clock_t </span>type.  <span 
+class="ptmri8t-">(The  concrete  types  of  </span><span 
+class="pcrro8t-">Foreign.C.Types </span><span 
+class="ptmri8t-">are</span>
+     <span 
+class="ptmri8t-">platform-specific.)</span>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-633" class="tabular" 
+ 
+><colgroup id="TBL-633-1g"><col 
+id="TBL-633-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-633-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-633-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CClock    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-633-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-633-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CClock</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-633-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-633-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CClock      </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-633-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-633-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CClock</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-633-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-633-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CClock     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-633-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-633-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CClock     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-633-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-633-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CClock       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-633-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-633-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CClock      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-634" class="tabular" 
+ 
+><colgroup id="TBL-634-1g"><col 
+id="TBL-634-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-634-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-634-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CTime </span></td></tr></table>                                                                   </div> <dd class="haddockdesc">
+     Haskell  type  representing  the  C  <span 
+class="pcrr8t-">time_t </span>type.  <span 
+class="ptmri8t-">(The  concrete  types  of  </span><span 
+class="pcrro8t-">Foreign.C.Types </span><span 
+class="ptmri8t-">are</span>
+     <span 
+class="ptmri8t-">platform-specific.)</span>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-635" class="tabular" 
+ 
+><colgroup id="TBL-635-1g"><col 
+id="TBL-635-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-635-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-635-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CTime    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-635-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-635-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CTime</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-635-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-635-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CTime      </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-635-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-635-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CTime</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-635-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-635-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CTime     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-635-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-635-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CTime     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-635-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-635-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CTime       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-635-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-635-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CTime      </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+                                                                                   
+
+                                                                                   
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">28.1.3    </span> <a 
+ id="x36-44500028.1.3"></a>Floating types</h4>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-636" class="tabular" 
+ 
+><colgroup id="TBL-636-1g"><col 
+id="TBL-636-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-636-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-636-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CFloat </span></td></tr></table>                                                                 </div> <dd class="haddockdesc">
+     Haskell  type  representing  the  C  <span 
+class="pcrr8t-">float </span>type.  <span 
+class="ptmri8t-">(The  concrete  types  of  </span><span 
+class="pcrro8t-">Foreign.C.Types </span><span 
+class="ptmri8t-">are</span>
+     <span 
+class="ptmri8t-">platform-specific.)</span>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-637" class="tabular" 
+ 
+><colgroup id="TBL-637-1g"><col 
+id="TBL-637-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-637-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-637-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CFloat      </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-637-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-637-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Floating CFloat</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-637-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-637-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance RealFloat CFloat  </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-637-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-637-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CFloat</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-637-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-637-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CFloat        </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-637-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-637-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CFloat</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-637-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-637-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Fractional CFloat </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-637-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-637-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CFloat       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-637-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-637-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance RealFrac CFloat   </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-637-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-637-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CFloat       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-637-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-637-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CFloat         </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-637-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-637-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CFloat        </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-638" class="tabular" 
+ 
+><colgroup id="TBL-638-1g"><col 
+id="TBL-638-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-638-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-638-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CDouble </span></td></tr></table>                                                                </div> <dd class="haddockdesc">
+     Haskell  type  representing  the  C  <span 
+class="pcrr8t-">double </span>type.  <span 
+class="ptmri8t-">(The  concrete  types  of  </span><span 
+class="pcrro8t-">Foreign.C.Types </span><span 
+class="ptmri8t-">are</span>
+     <span 
+class="ptmri8t-">platform-specific.)</span>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-639" class="tabular" 
+ 
+><colgroup id="TBL-639-1g"><col 
+id="TBL-639-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-639-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-639-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum CDouble      </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-639-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-639-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Floating CDouble</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-639-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-639-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance RealFloat CDouble  </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-639-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-639-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable CDouble</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-639-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-639-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num CDouble        </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-639-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-639-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read CDouble</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-639-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-639-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Fractional CDouble </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-639-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-639-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real CDouble       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-639-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-639-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance RealFrac CDouble   </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-639-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-639-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show CDouble       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-639-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-639-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq CDouble         </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-639-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-639-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord CDouble        </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+                                                                                   
+
+                                                                                   
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">28.1.4    </span> <a 
+ id="x36-44600028.1.4"></a>Other types</h4>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-640" class="tabular" 
+ 
+><colgroup id="TBL-640-1g"><col 
+id="TBL-640-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-640-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-640-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CFile </span></td></tr></table>                                                                   </div> <dd class="haddockdesc">
+     Haskell  type  representing  the  C  <span 
+class="pcrr8t-">FILE </span>type.  <span 
+class="ptmri8t-">(The  concrete  types  of  </span><span 
+class="pcrro8t-">Foreign.C.Types </span><span 
+class="ptmri8t-">are</span>
+     <span 
+class="ptmri8t-">platform-specific.)</span>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-641" class="tabular" 
+ 
+><colgroup id="TBL-641-1g"><col 
+id="TBL-641-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-641-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-641-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CFpos </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Haskell  type  representing  the  C  <span 
+class="pcrr8t-">fpos_t </span>type.  <span 
+class="ptmri8t-">(The  concrete  types  of  </span><span 
+class="pcrro8t-">Foreign.C.Types </span><span 
+class="ptmri8t-">are</span>
+     <span 
+class="ptmri8t-">platform-specific.)</span>
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-642" class="tabular" 
+ 
+><colgroup id="TBL-642-1g"><col 
+id="TBL-642-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-642-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-642-1-1"  
+class="td11"><span 
+class="pcrb8t-">data CJmpBuf </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Haskell  type  representing  the  C  <span 
+class="pcrr8t-">jmp_buf </span>type.  <span 
+class="ptmri8t-">(The  concrete  types  of  </span><span 
+class="pcrro8t-">Foreign.C.Types </span><span 
+class="ptmri8t-">are</span>
+     <span 
+class="ptmri8t-">platform-specific.)</span>
+     </dl>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch29.html" >next</a>] [<a 
+href="haskellch27.html" >prev</a>] [<a 
+href="haskellch27.html#tailhaskellch27.html" >prev-tail</a>] [<a 
+href="haskellch28.html" >front</a>] [<a 
+href="haskellpa2.html#haskellch28.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellch28.html"></a>    
+</body></html> 

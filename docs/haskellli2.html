@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>Preface</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 4--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellpa1.html" >next</a>] [<a 
+href="haskellli1.html" >prev</a>] [<a 
+href="haskellli1.html#tailhaskellli1.html" >prev-tail</a>] [<a 
+href="#tailhaskellli2.html">tail</a>] [<a 
+href="haskell.html#haskellli2.html" >up</a>] </p></div>
+<h2 class="likechapterHead"><a 
+ id="x3-2000"></a>Preface</h2>
+     <blockquote class="quote">
+     <p class="noindent"> &#8220;<span 
+class="ptmri8t-">Some half dozen persons have written technically on combinatory logic, and most of these,</span>
+     <span 
+class="ptmri8t-">including ourselves, have published something erroneous. Since some of our fellow sinners are</span>
+     <span 
+class="ptmri8t-">among the most careful and competent logicians on the contemporary scene, we regard</span>
+     <span 
+class="ptmri8t-">this as evidence that the subject is refractory. Thus fullness of exposition is necessary for</span>
+     <span 
+class="ptmri8t-">accuracy; and excessive condensation would be false economy here, even more than it is</span>
+     <span 
+class="ptmri8t-">ordinarily.</span>&#8221;
+                                                                              <div class="flushright" 
+>
+ <p class="noindent">
+ Haskell B.&#x00A0;Curry and Robert Feys<br />
+in the Preface to <span 
+class="ptmri8t-">Combinatory Logic </span><span class="cite">[<a 
+href="haskellli3.html#Xcurry&feys:book">3</a>]</span>, May 31, 1956</div>
+     </blockquote>
+<p class="noindent"> In September of 1987 a meeting was held at the conference on Functional Programming Languages and Computer
+Architecture (FPCA&#x00A0;&#8217;87) in Portland, Oregon, to discuss an unfortunate situation in the functional programming
+community: there had come into being more than a dozen non-strict, purely functional programming languages, all
+similar in expressive power and semantic underpinnings. There was a strong consensus at this meeting
+that more widespread use of this class of functional languages<a 
+ id="dx3-2001"></a> was being hampered by the lack of a
+common language. It was decided that a committee should be formed to design such a language, providing
+faster communication of new ideas, a stable foundation for real applications development, and a vehicle
+through which others would be encouraged to use functional languages. This document describes the
+result of that (and subsequent) committee&#8217;s efforts: a purely functional programming language called
+Haskell, <a 
+ id="dx3-2002"></a>named after the logician Haskell B.&#x00A0;Curry<a 
+ id="dx3-2003"></a> whose work provides the logical basis for much of
+ours.
+<h3 class="likesectionHead"><a 
+ id="x3-3000"></a>Goals</h3>
+<p class="noindent"> The committee&#8217;s primary goal was to design a language that satisfied these constraints:
+                                                                                   
+
+                                                                                   
+     <ol  class="enumerate1" >
+<li 
+  class="enumerate" id="x3-3002x1">
+     <p class="noindent"> It should be suitable for teaching, research, and applications, including building large systems.
+     </li>
+<li 
+  class="enumerate" id="x3-3004x2">
+     <p class="noindent"> It should be completely described via the publication of a formal syntax and semantics.
+     </li>
+<li 
+  class="enumerate" id="x3-3006x3">
+     <p class="noindent"> It should be freely available. Anyone should be permitted to implement the language and distribute it
+     to whomever they please.
+     </li>
+<li 
+  class="enumerate" id="x3-3008x4">
+     <p class="noindent"> It should be based on ideas that enjoy a wide consensus.
+     </li>
+<li 
+  class="enumerate" id="x3-3010x5">
+     <p class="noindent"> It should reduce unnecessary diversity in functional programming languages.</li></ol>
+<p class="noindent">
+<h3 class="likesectionHead"><a 
+ id="x3-4000"></a>Haskell 2024: language and libraries</h3>
+<p class="noindent"> The committee intended that Haskell would serve as a basis for future research in language design, and hoped that
+extensions or variants of the language would appear, incorporating experimental features.
+ <p class="noindent"> Haskell has indeed evolved continuously since its original publication. By the middle of 1997, there
+had been five versions of the language design (from Haskell 1.0 &#8211; 1.4). At the 1997 Haskell Workshop
+in Amsterdam, it was decided that a stable variant of Haskell was needed; this became &#8220;Haskell 98&#8221;
+and was published in February 1999. The fixing of minor bugs led to the <span 
+class="ptmri8t-">Revised </span>Haskell 98 Report in
+2002.
+ <p class="noindent"> At the 2005 Haskell Workshop, the consensus was that so many extensions to the official language were widely used
+(and supported by multiple implementations), that it was worthwhile to define another iteration of the language
+standard, essentially to codify (and legitimise) the status quo.
+ <p class="noindent"> The Haskell Prime effort was thus conceived as a relatively conservative extension of Haskell 98, taking on board
+new features only where they were well understood and widely agreed upon. It too was intended to be a
+&#8220;stable&#8221; language, yet reflecting the considerable progress in research on language design in recent
+years.
+                                                                                   
+
+                                                                                   
+ <p class="noindent"> After several years exploring the design space, it was decided that a single monolithic revision of the
+language was too large a task, and the best way to make progress was to evolve the language in small
+incremental steps, each revision integrating only a small number of well-understood extensions and changes.
+Haskell 2010 is the first revision to be created in this way, and new revisions are expected once per year.
+ <p class="noindent"> The Haskell 2010 Language Report has been, and continues to be, a valued reference for users of Haskell. However,
+much has happened since it was first published. There has been further progress in research on language design and
+Haskell, and Haskell modules, have continued to evolve.
+ <p class="noindent"> Despite that progress, the hope that the report would be the first of annual incremental revisions to the language has
+not been realised.
+ <p class="noindent"> Although not the only Haskell compiler, the Glasgow Haskell Compiler (GHC) is, by some margin, the most
+popular one today. It has used the <span 
+class="pcrr8t-">LANGUAGE</span> pragma to introduce many extensions to the Haskell 2010 language.
+With the release of GHC 9.2.1 in October 2021, it introduced the language feature <span 
+class="pcrr8t-">GHC2021</span> (a <span 
+class="ptmri8t-">language edition</span>) to
+specify a set of enabled extensions. GHC 9.10.1, released in May 2024, introduced the further language edition
+<span 
+class="pcrr8t-">GHC2024</span>.
+ <p class="noindent"> The Haskell 2024 Language Report aims to modify the Haskell 2010 Language Report as if the extensions in
+<span 
+class="pcrr8t-">GHC2024</span> were part of the language. In doing so, it draws upon each extension&#8217;s approved proposal and the
+documentation in, or referred to, by the relevant part of the GHC User&#8217;s Guide.
+ <p class="noindent"> The Prelude and other Haskell modules have also changed since the Haskell 2010 Language Report. The Haskell
+2024 Language Report aims to reflect such changes only to the extent strictly necessary to be consistent with the
+extensions in <span 
+class="pcrr8t-">GHC2024</span> and by reference to the boot packages of GHC 9.10.3 as published on Hackage. In that
+regard:
+     <ul class="itemize1">
+     <li class="itemize">
+     <p class="noindent"> The Prelude exports classes <span 
+class="pcrr8t-">Semigroup</span>, <span 
+class="pcrr8t-">Monoid</span>, <span 
+class="pcrr8t-">Applicative</span>, <span 
+class="pcrr8t-">MonadFail</span>, <span 
+class="pcrr8t-">Foldable</span> and
+     <span 
+class="pcrr8t-">Traversable</span>.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> <span 
+class="pcrr8t-">Applicative</span> is a superclass of <span 
+class="pcrr8t-">Monad</span>.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> Functions <span 
+class="pcrr8t-">null</span>, <span 
+class="pcrr8t-">length</span>, <span 
+class="pcrr8t-">notElem</span>, <span 
+class="pcrr8t-">and</span>, <span 
+class="pcrr8t-">or</span>, <span 
+class="pcrr8t-">any</span>, <span 
+class="pcrr8t-">all</span>, <span 
+class="pcrr8t-">concat</span>, <span 
+class="pcrr8t-">concatMap</span>, <span 
+class="pcrr8t-">mapM_</span> and
+     <span 
+class="pcrr8t-">sequence_</span> (exported by the Prelude) are more general than applying to lists.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> <span 
+class="pcrr8t-">(&lt;$)</span><span 
+class="pcrr8t-">&#x00A0;::</span><span 
+class="pcrr8t-">&#x00A0;a</span><span 
+class="pcrr8t-">&#x00A0;-&gt;</span><span 
+class="pcrr8t-">&#x00A0;f</span><span 
+class="pcrr8t-">&#x00A0;b</span><span 
+class="pcrr8t-">&#x00A0;-&gt;</span><span 
+class="pcrr8t-">&#x00A0;fa</span> is a method of the class <span 
+class="pcrr8t-">Functor</span>.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> <span 
+class="pcrr8t-">fail</span><span 
+class="pcrr8t-">&#x00A0;::</span><span 
+class="pcrr8t-">&#x00A0;String</span><span 
+class="pcrr8t-">&#x00A0;-&gt;</span><span 
+class="pcrr8t-">&#x00A0;m</span><span 
+class="pcrr8t-">&#x00A0;a</span> is not a method of the class <span 
+class="pcrr8t-">Monad</span> and is a method of the class
+     <span 
+class="pcrr8t-">MonadFail</span>.</li></ul>
+                                                                                   
+
+                                                                                   
+<p class="noindent">
+<h3 class="likesectionHead"><a 
+ id="x3-5000"></a>Extensions to Haskell 98</h3>
+<p class="noindent"> The most significant language changes in Haskell 2010 relative to Haskell 98 are listed here.
+ <p class="noindent"> New language features:
+     <ul class="itemize1">
+     <li class="itemize">
+     <p class="noindent"> A Foreign Function Interface (FFI).
+     </li>
+     <li class="itemize">
+     <p class="noindent"> Hierarchical module names, e.g. <span 
+class="pcrr8t-">Data.Bool</span>.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> Pattern guards.</li></ul>
+ <p class="noindent"> Removed language features:
+     <ul class="itemize1">
+     <li class="itemize">
+     <p class="noindent"> The <span 
+class="cmr-10">(</span><span 
+class="cmmi-10">n </span><span 
+class="cmr-10">+ </span><span 
+class="cmmi-10">k</span><span 
+class="cmr-10">) </span>pattern syntax.</li></ul>
+<p class="noindent">
+<h3 class="likesectionHead"><a 
+ id="x3-6000"></a>Extensions to Haskell 2010</h3>
+<p class="noindent"> <span 
+class="pcrr8t-">GHC2024</span> removes contexts from the declarations of algebraic datatypes (see Section&#x00A0;<a 
+href="haskellch4.html#x10-720004.2">4.2<!--tex4ht:ref: user-defined-datatypes --></a>) and datatype renamings
+(see Section&#x00A0;<a 
+href="haskellch4.html#x10-780004.2.3">4.2.3<!--tex4ht:ref: datatype-renaming --></a>), which was a part of Haskell 2010.
+ <p class="noindent"> <span 
+class="pcrr8t-">GHC2024</span> replaces CUSKS (<span 
+class="ptmri8t-">complete user-supplied kind signatures</span>) with standalone kind signatures. [The report is
+not yet modified for this matter.]
+ <p class="noindent"> <span 
+class="pcrr8t-">GHC2024</span> also enables the following new features (the classification is that of the GHC User&#8217;s Guide):
+                                                                                   
+
+                                                                                   
+<div class="tabular"> <table id="TBL-1" class="tabular" 
+ 
+><colgroup id="TBL-1-1g"><col 
+id="TBL-1-1" /><col 
+id="TBL-1-2" /><col 
+id="TBL-1-3" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-1-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-1-1"  
+class="td11"> Classification     </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-1-2"  
+class="td11"> Feature                                                                                  </td><td  style="white-space:normal; text-align:left;" id="TBL-1-1-3"  
+class="td11"> [Report modified?]                 </td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-2-1"  
+class="td11"> Syntax                </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-2-2"  
+class="td11"> Empty case alternatives                                                        </td><td  style="white-space:normal; text-align:left;" id="TBL-1-2-3"  
+class="td11"> Sections&#x00A0;<a 
+href="haskellch3.html#x8-480003.13">3.13<!--tex4ht:ref: case --></a>, <a 
+href="haskellch10.html#x17-19000010.5">10.5<!--tex4ht:ref: bnf --></a>                </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-3-1"  
+class="td11"> Syntax                </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-3-2"  
+class="td11"> Lambda-case                                                                         </td><td  style="white-space:normal; text-align:left;" id="TBL-1-3-3"  
+class="td11"> Sections&#x00A0;<a 
+href="haskellch3.html#x8-480003.13">3.13<!--tex4ht:ref: case --></a>, <a 
+href="haskellch10.html#x17-18800010.3">10.3<!--tex4ht:ref: layout --></a>, <a 
+href="haskellch10.html#x17-19000010.5">10.5<!--tex4ht:ref: bnf --></a>       </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-4-1"  
+class="td11"> Syntax                </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-4-2"  
+class="td11"> Postfix operators                                                                   </td><td  style="white-space:normal; text-align:left;" id="TBL-1-4-3"  
+class="td11"> Section&#x00A0;<a 
+href="haskellch3.html#x8-310003.5">3.5<!--tex4ht:ref: sections --></a>                             </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-5-1"  
+class="td11"> Syntax                </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-5-2"  
+class="td11"> Tuple sections                                                                       </td><td  style="white-space:normal; text-align:left;" id="TBL-1-5-3"  
+class="td11"> Section&#x00A0;<a 
+href="haskellch3.html#x8-310003.5">3.5<!--tex4ht:ref: sections --></a>, <a 
+href="haskellch10.html#x17-19000010.5">10.5<!--tex4ht:ref: bnf --></a>                    </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-6-1"  
+class="td11"> Import/export     </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-6-2"  
+class="td11"> Writing qualified in postpositive position                            </td><td  style="white-space:normal; text-align:left;" id="TBL-1-6-3"  
+class="td11"> Section&#x00A0;<a 
+href="haskellch5.html#x11-1050005.3">5.3<!--tex4ht:ref: import --></a>, <a 
+href="haskellch10.html#x17-19000010.5">10.5<!--tex4ht:ref: bnf --></a>                    </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-7-1"  
+class="td11"> Literals               </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-7-2"  
+class="td11"> Binary integer literals                                                           </td><td  style="white-space:normal; text-align:left;" id="TBL-1-7-3"  
+class="td11"> Sections&#x00A0;<a 
+href="haskellch2.html#x7-170002.2">2.2<!--tex4ht:ref: lexemes --></a>, <a 
+href="haskellch2.html#x7-200002.5">2.5<!--tex4ht:ref: lexemes-numeric --></a>, <a 
+href="haskellch10.html#x17-18700010.2">10.2<!--tex4ht:ref: lexical-syntax --></a>           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-8-1"  
+class="td11"> Literals               </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-8-2"  
+class="td11"> Hexadecimal floating point literals                                       </td><td  style="white-space:normal; text-align:left;" id="TBL-1-8-3"  
+class="td11"> Sections&#x00A0;<a 
+href="haskellch2.html#x7-200002.5">2.5<!--tex4ht:ref: lexemes-numeric --></a>, <a 
+href="haskellch10.html#x17-18700010.2">10.2<!--tex4ht:ref: lexical-syntax --></a>                  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-9-1"  
+class="td11"> Literals               </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-9-2"  
+class="td11"> Numeric underscores                                                            </td><td  style="white-space:normal; text-align:left;" id="TBL-1-9-3"  
+class="td11"> Sections&#x00A0;<a 
+href="haskellch2.html#x7-200002.5">2.5<!--tex4ht:ref: lexemes-numeric --></a>, <a 
+href="haskellch10.html#x17-18700010.2">10.2<!--tex4ht:ref: lexical-syntax --></a>                  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-10-1"  
+class="td11"> Types                  </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-10-2"  
+class="td11"> Datatype promotion                                                              </td><td  style="white-space:normal; text-align:left;" id="TBL-1-10-3"  
+class="td11"> No                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-11-1"  
+class="td11"> Types                  </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-11-2"  
+class="td11"> Existentially quantified data constructors (explicit forall)   </td><td  style="white-space:normal; text-align:left;" id="TBL-1-11-3"  
+class="td11"> No                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-12-1"  
+class="td11"> Types                  </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-12-2"  
+class="td11"> GADTs (GADT Syntax, Mono local binds)                        </td><td  style="white-space:normal; text-align:left;" id="TBL-1-12-3"  
+class="td11"> No                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-13-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-13-1"  
+class="td11"> Types                  </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-13-2"  
+class="td11"> Allow kind polymorphic types (kind signatures)                 </td><td  style="white-space:normal; text-align:left;" id="TBL-1-13-3"  
+class="td11"> No                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-14-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-14-1"  
+class="td11"> Types                  </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-14-2"  
+class="td11"> Rank-n types (explicit forall)                                                </td><td  style="white-space:normal; text-align:left;" id="TBL-1-14-3"  
+class="td11"> No                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-15-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-15-1"  
+class="td11"> Types                  </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-15-2"  
+class="td11"> Role annotations                                                                   </td><td  style="white-space:normal; text-align:left;" id="TBL-1-15-3"  
+class="td11"> No                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-16-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-16-1"  
+class="td11"> Types                  </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-16-2"  
+class="td11"> Visible type application                                                        </td><td  style="white-space:normal; text-align:left;" id="TBL-1-16-3"  
+class="td11"> No                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-17-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-17-1"  
+class="td11"> Types                  </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-17-2"  
+class="td11"> Type operators (explicit namespaces)                                   </td><td  style="white-space:normal; text-align:left;" id="TBL-1-17-3"  
+class="td11"> No                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-18-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-18-1"  
+class="td11"> Records              </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-18-2"  
+class="td11"> Disambiguate record fields                                                   </td><td  style="white-space:normal; text-align:left;" id="TBL-1-18-3"  
+class="td11"> No                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-19-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-19-1"  
+class="td11"> Records              </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-19-2"  
+class="td11"> Named field puns                                                                  </td><td  style="white-space:normal; text-align:left;" id="TBL-1-19-3"  
+class="td11"> No                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-20-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-20-1"  
+class="td11"> Records              </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-20-2"  
+class="td11"> Named wild cards                                                                 </td><td  style="white-space:normal; text-align:left;" id="TBL-1-20-3"  
+class="td11"> No                                           </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-21-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-21-1"  
+class="td11"> Deriving </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-21-2"  
+class="td11"> Derive <span 
+class="pcrr8t-">Data</span> and <span 
+class="pcrr8t-">Typeable</span> instances </td><td  style="white-space:normal; text-align:left;" id="TBL-1-21-3"  
+class="td11"> No</td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-22-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-22-1"  
+class="td11"> Deriving             </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-22-2"  
+class="td11"> Derive <span 
+class="pcrr8t-">Generic</span> instances                                                  </td><td  style="white-space:normal; text-align:left;" id="TBL-1-22-3"  
+class="td11"> Sections&#x00A0;<a 
+href="haskellch4.html#x10-820004.3.3">4.3.3<!--tex4ht:ref: derived-decls --></a>, <a 
+href="haskellch11.html#x18-20300011.11">11.11<!--tex4ht:ref: derived-generic --></a>             </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-23-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-23-1"  
+class="td11"> Deriving             </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-23-2"  
+class="td11"> Derive <span 
+class="pcrr8t-">Lift</span> instances                                                         </td><td  style="white-space:normal; text-align:left;" id="TBL-1-23-3"  
+class="td11"> No                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-24-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-24-1"  
+class="td11"> Deriving             </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-24-2"  
+class="td11"> Derive <span 
+class="pcrr8t-">Functor</span> instances                                                  </td><td  style="white-space:normal; text-align:left;" id="TBL-1-24-3"  
+class="td11"> Sections&#x00A0;<a 
+href="haskellch4.html#x10-820004.3.3">4.3.3<!--tex4ht:ref: derived-decls --></a>,    <a 
+href="haskellch6.html#x13-1380006.3.7">6.3.7<!--tex4ht:ref: functor-class --></a>,    <a 
+href="haskellch9.html#x16-1810009">9<!--tex4ht:ref: stdprelude --></a>,
+  <a 
+href="haskellch11.html#x18-19900011.7">11.7<!--tex4ht:ref: derived-functor --></a>                                         </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-25-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-25-1"  
+class="td11"> Deriving             </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-25-2"  
+class="td11"> Derive <span 
+class="pcrr8t-">Foldable</span> instances                                               </td><td  style="white-space:normal; text-align:left;" id="TBL-1-25-3"  
+class="td11"> Sections&#x00A0;<a 
+href="haskellch4.html#x10-820004.3.3">4.3.3<!--tex4ht:ref: derived-decls --></a>, <a 
+href="haskellch6.html#x13-1360006.3.5">6.3.5<!--tex4ht:ref: semigroup-class --></a>, <a 
+href="haskellch6.html#x13-1370006.3.6">6.3.6<!--tex4ht:ref: monoid-class --></a>,
+  <a 
+href="haskellch6.html#x13-1420006.3.11">6.3.11<!--tex4ht:ref: foldable-class --></a>, <a 
+href="haskellch9.html#x16-1810009">9<!--tex4ht:ref: stdprelude --></a>, <a 
+href="haskellch9.html#x16-1820009.1">9.1<!--tex4ht:ref: preludelist --></a>, <a 
+href="haskellch11.html#x18-20000011.8">11.8<!--tex4ht:ref: derived-foldable --></a>                  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-26-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-26-1"  
+class="td11"> Deriving             </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-26-2"  
+class="td11"> Derive <span 
+class="pcrr8t-">Traversable</span> instances                                        </td><td  style="white-space:normal; text-align:left;" id="TBL-1-26-3"  
+class="td11"> Sections&#x00A0;<a 
+href="haskellch4.html#x10-820004.3.3">4.3.3<!--tex4ht:ref: derived-decls --></a>, <a 
+href="haskellch6.html#x13-1390006.3.8">6.3.8<!--tex4ht:ref: applicative-class --></a>, <a 
+href="haskellch6.html#x13-1400006.3.9">6.3.9<!--tex4ht:ref: monad-class --></a>,
+  <a 
+href="haskellch6.html#x13-1430006.3.12">6.3.12<!--tex4ht:ref: traversable-class --></a>, <a 
+href="haskellch9.html#x16-1810009">9<!--tex4ht:ref: stdprelude --></a>, <a 
+href="haskellch9.html#x16-1820009.1">9.1<!--tex4ht:ref: preludelist --></a>, <a 
+href="haskellch11.html#x18-20100011.9">11.9<!--tex4ht:ref: derived-traversable --></a>                  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-27-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-27-1"  
+class="td11"> Deriving             </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-27-2"  
+class="td11"> Deriving strategies                                                                </td><td  style="white-space:normal; text-align:left;" id="TBL-1-27-3"  
+class="td11"> Sections&#x00A0;<a 
+href="haskellch4.html#x10-660004">4<!--tex4ht:ref: declarations --></a>,    <a 
+href="haskellch4.html#x10-730004.2.1">4.2.1<!--tex4ht:ref: datatype-decls --></a>,    <a 
+href="haskellch4.html#x10-780004.2.3">4.2.3<!--tex4ht:ref: datatype-renaming --></a>,
+  <a 
+href="haskellch4.html#x10-820004.3.3">4.3.3<!--tex4ht:ref: derived-decls --></a>, <a 
+href="haskellch10.html#x17-19000010.5">10.5<!--tex4ht:ref: bnf --></a>, <a 
+href="haskellch11.html#x18-19300011.1">11.1<!--tex4ht:ref: deriving-strategies --></a>, <a 
+href="haskellch11.html#x18-19500011.3">11.3<!--tex4ht:ref: stock-deriving --></a>             </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-28-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-28-1"  
+class="td11"> Deriving             </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-28-2"  
+class="td11"> Derive instances for empty data types                                  </td><td  style="white-space:normal; text-align:left;" id="TBL-1-28-3"  
+class="td11"> Sections&#x00A0;<a 
+href="haskellch11.html#x18-19500011.3">11.3<!--tex4ht:ref: stock-deriving --></a>,   <a 
+href="haskellch11.html#x18-19600011.4">11.4<!--tex4ht:ref: derived-eq-ord --></a>,   <a 
+href="haskellch11.html#x18-19900011.7">11.7<!--tex4ht:ref: derived-functor --></a>,
+  <a 
+href="haskellch11.html#x18-20000011.8">11.8<!--tex4ht:ref: derived-foldable --></a>, <a 
+href="haskellch11.html#x18-20100011.9">11.9<!--tex4ht:ref: derived-traversable --></a>                                </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-29-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-29-1"  
+class="td11"> Deriving             </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-29-2"  
+class="td11"> Generalised derived instances for newtypes                         </td><td  style="white-space:normal; text-align:left;" id="TBL-1-29-3"  
+class="td11"> Sections&#x00A0;<a 
+href="haskellch11.html#x18-19200011">11<!--tex4ht:ref: derived-appendix --></a>, <a 
+href="haskellch11.html#x18-19400011.2">11.2<!--tex4ht:ref: newtype-deriving --></a>                   </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-30-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-30-1"  
+class="td11"> Deriving             </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-30-2"  
+class="td11"> Stand-alone deriving declarations                                        </td><td  style="white-space:normal; text-align:left;" id="TBL-1-30-3"  
+class="td11"> Section&#x00A0;<a 
+href="haskellch4.html#x10-660004">4<!--tex4ht:ref: declarations --></a>, <a 
+href="haskellch4.html#x10-820004.3.3">4.3.3<!--tex4ht:ref: derived-decls --></a>, <a 
+href="haskellch10.html#x17-19000010.5">10.5<!--tex4ht:ref: bnf --></a>, <a 
+href="haskellch11.html#x18-19200011">11<!--tex4ht:ref: derived-appendix --></a>       </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-31-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-31-1"  
+class="td11"> Class/instance     </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-31-2"  
+class="td11"> Flexible instances (type synonym instances)                        </td><td  style="white-space:normal; text-align:left;" id="TBL-1-31-3"  
+class="td11"> No                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-32-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-32-1"  
+class="td11"> Class/instance     </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-32-2"  
+class="td11"> Type signatures in instance declarations                              </td><td  style="white-space:normal; text-align:left;" id="TBL-1-32-3"  
+class="td11"> No                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-33-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-33-1"  
+class="td11"> Class/instance     </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-33-2"  
+class="td11"> Multi-parameter type classes (constrained class methods)  </td><td  style="white-space:normal; text-align:left;" id="TBL-1-33-3"  
+class="td11"> No                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-34-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-34-1"  
+class="td11"> Constraints         </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-34-2"  
+class="td11"> The <span 
+class="pcrr8t-">Constraint</span> kind                                                       </td><td  style="white-space:normal; text-align:left;" id="TBL-1-34-3"  
+class="td11"> No                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-35-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-35-1"  
+class="td11"> Constraints         </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-35-2"  
+class="td11"> Loosening restractions on class contexts                              </td><td  style="white-space:normal; text-align:left;" id="TBL-1-35-3"  
+class="td11"> No                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-36-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-36-1"  
+class="td11"> Type signatures  </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-36-2"  
+class="td11"> Lexically scoped type variables (explicit forall)                  </td><td  style="white-space:normal; text-align:left;" id="TBL-1-36-3"  
+class="td11"> No                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-37-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-37-1"  
+class="td11"> Bang patterns     </td><td  style="white-space:nowrap; text-align:left;" id="TBL-1-37-2"  
+class="td11"> Bang patterns                                                                        </td><td  style="white-space:normal; text-align:left;" id="TBL-1-37-3"  
+class="td11"> No                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-38-"><td  style="white-space:nowrap; text-align:left;" id="TBL-1-38-1"  
+class="td11">            </td>
+</tr></table>                                                                                           </div>
+<p class="noindent">
+<h3 class="likesectionHead"><a 
+ id="x3-7000"></a>Haskell Resources</h3>
+<a 
+ id="x3-7000doc"></a>
+<p class="noindent"> The Haskell web site <a 
+href="http://haskell.org" class="url" ><span 
+class="pcrr8t-">http://haskell.org</span></a> gives access to many useful resources, including:
+     <ul class="itemize1">
+     <li class="itemize">
+     <p class="noindent"> Online versions of the language and library definitions.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> Tutorial material on Haskell.
+                                                                                   
+
+                                                                                   
+     </li>
+     <li class="itemize">
+     <p class="noindent"> Details of the Haskell mailing list.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> Implementations of Haskell.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> Contributed Haskell tools and libraries.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> Applications of Haskell.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> User-contributed wiki pages.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> News and events in the Haskell community.</li></ul>
+<p class="noindent"> You are welcome to comment on, suggest improvements to, and criticise the language or its presentation in the
+report, via the Haskell mailing list, or the Haskell wiki.
+<p class="noindent">
+<h3 class="likesectionHead"><a 
+ id="x3-8000"></a>Building the language</h3>
+<p class="noindent"> Haskell was created, and continues to be sustained, by an active community of researchers and application
+programmers. Those who served on the Language and Library committees, in particular, devoted a
+huge amount of time and energy to the language. Here they are, with their affiliation(s) for the relevant
+period:
+<div class="center" 
+>
+ <p class="noindent">
+ <p class="noindent"> Arvind (MIT)<br />
+Lennart Augustsson (Chalmers University)<br />
+Dave Barton (Mitre Corp)<br />
+Brian Boutel (Victoria University of Wellington)<br />
+                                                                                   
+
+                                                                                   
+Warren Burton (Simon Fraser University)<br />
+Manuel M T Chakravarty (University of New South Wales)<br />
+Duncan Coutts (Well-Typed LLP)<br />
+Jon Fairbairn (University of Cambridge)<br />
+Joseph Fasel (Los Alamos National Laboratory)<br />
+John Goerzen<br />
+Andy Gordon (University of Cambridge)<br />
+Maria Guzman (Yale University)<br />
+Kevin Hammond [editor] (University of Glasgow)<br />
+Bastiaan Heeren (Utrecht University)<br />
+Ralf Hinze (University of Bonn)<br />
+Paul Hudak [editor] (Yale University)<br />
+John Hughes [editor] (University of Glasgow; Chalmers University)<br />
+Thomas Johnsson (Chalmers University)<br />
+Isaac Jones (Galois, inc.)<br />
+Mark Jones (Yale University, University of Nottingham, Oregon Graduate Institute)<br />
+Dick Kieburtz (Oregon Graduate Institute)<br />
+John Launchbury (University of Glasgow; Oregon Graduate Institute; Galois, inc.)<br />
+Andres Löh (Utrecht University)<br />
+Ian Lynagh (Well-Typed LLP)<br />
+Simon Marlow [editor] (Microsoft Research)<br />
+John Meacham<br />
+Erik Meijer (Utrecht University)<br />
+Ravi Nanavati (Bluespec, inc.)<br />
+Rishiyur Nikhil (MIT)<br />
+Henrik Nilsson (University of Nottingham)<br />
+Ross Paterson (City University, London)<br />
+John Peterson [editor] (Yale University)<br />
+Simon Peyton Jones [editor] (University of Glasgow; Microsoft Research Ltd)<br />
+Mike Reeve (Imperial College)<br />
+Alastair Reid (University of Glasgow)<br />
+Colin Runciman (University of York)<br />
+Don Stewart (Galois, inc.)<br />
+Martin Sulzmann (Informatik Consulting Systems AG)<br />
+Audrey Tang<br />
+Simon Thompson (University of Kent)<br />
+Philip Wadler [editor] (University of Glasgow)<br />
+Malcolm Wallace (University of York)<br />
+Stephanie Weirich (University of Pennsylvania)<br />
+David Wise (Indiana University)<br />
+Jonathan Young (Yale University)</div>
+ <p class="noindent"> Those marked [editor] served as the co-ordinating editor for one or more revisions of the language.
+ <p class="noindent"> In addition, dozens of other people made helpful contributions, some small but many substantial. They are as
+follows: Hans Aberg, Kris Aerts, Sten Anderson, Richard Bird, Tom Blenko, Stephen Blott, Duke Briscoe, Paul
+Callaghan, Magnus Carlsson, Mark Carroll, Franklin Chen, Olaf Chitil, Chris Clack, Guy Cousineau, Tony Davie,
+Craig Dickson, Chris Dornan, Laura Dutton, Chris Fasel, Pat Fasel, Sigbjorn Finne, Michael Fryers, Peter Gammie,
+Andy Gill, Mike Gunter, Cordy Hall, Mark Hall, Thomas Hallgren, Matt Harden, Klemens Hemm,
+Fergus Henderson, Dean Herington, Bob Hiromoto, Nic Holt, Ian Holyer, Randy Hudson, Alexander
+Jacobson, Patrik Jansson, Robert Jeschofnik, Orjan Johansen, Simon B.&#x00A0;Jones, Stef Joosten, Mike Joy,
+                                                                                   
+
+                                                                                   
+Wolfram Kahl, Stefan Kahrs, Antti-Juhani Kaijanaho, Jerzy Karczmarczuk, Kent Karlsson, Martin D.
+Kealey, Richard Kelsey, Siau-Cheng Khoo, Amir Kishon, Feliks Kluzniak, Jan Kort, Marcin Kowalczyk,
+Jose Labra, Jeff Lewis, Mark Lillibridge, Bjorn Lisper, Sandra Loosemore, Pablo Lopez, Olaf Lubeck,
+Christian Maeder, Ketil Malde, Michael Marte, Jim Mattson, John Meacham, Sergey Mechveliani,
+Gary Memovich, Randy Michelsen, Rick Mohr, Andy Moran, Graeme Moss, Arthur Norman, Nick
+North, Chris Okasaki, Bjarte M. Østvold, Paul Otto, Sven Panne, Dave Parrott, Larne Pekowsky, Rinus
+Plasmeijer, Ian Poole, Stephen Price, John Robson, Andreas Rossberg, George Russell, Patrick Sansom,
+Michael Schneider, Felix Schroeter, Julian Seward, Nimish Shah, Christian Sievers, Libor Skarvada, Jan
+Skibinski, Lauren Smith, Raman Sundaresh, Josef Svenningsson, Ken Takusagawa, Wolfgang Thaller,
+Satish Thatte, Tom Thomson, Tommy Thorn, Dylan Thurston, Mike Thyer, Mark Tullsen, David Tweed,
+Pradeep Varma, Keith Wansbrough, Tony Warnock, Michael Webber, Carl Witty, Stuart Wray, and Bonnie
+Yantis.
+ <p class="noindent"> Finally, aside from the important foundational work laid by Church, Rosser, Curry, and others on the lambda
+calculus, it is right to acknowledge the influence of many noteworthy programming languages developed over the
+years. Although it is difficult to pinpoint the origin of many ideas, the following languages were particularly
+influential: Lisp (and its modern-day incarnations Common Lisp and Scheme); Landin&#8217;s ISWIM; APL; Backus&#8217;s FP
+<span class="cite">[<a 
+href="haskellli3.html#Xback78">1</a>]</span>; ML and Standard ML; Hope and Hope<sup><span 
+class="cmr-7">+</span></sup>; Clean; Id; Gofer; Sisal; and Turner&#8217;s series of languages culminating in
+Miranda<span class="footnote-mark"><a 
+href="haskell4.html#fn1x0"><sup class="textsuperscript">1</sup></a></span><a 
+ id="x3-8001f1"></a> .
+Without these forerunners Haskell would not have been possible.
+ <p class="noindent"> Simon Marlow <br 
+class="newline" />Cambridge, April 2010
+ <p class="noindent"> Mike Pilgrem <br 
+class="newline" />London, August 2026 
+                                                                                   
+
+                                                                                   
+                                                                                   
+
+                                                                                   
+<!--l. 510--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellpa1.html" >next</a>] [<a 
+href="haskellli1.html" >prev</a>] [<a 
+href="haskellli1.html#tailhaskellli1.html" >prev-tail</a>] [<a 
+href="haskellli2.html" >front</a>] [<a 
+href="haskell.html#haskellli2.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellli2.html"></a>   
+</body></html> 

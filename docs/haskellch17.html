@@ -1,0 +1,849 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>17 Data.Complex</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch18.html" >next</a>] [<a 
+href="haskellch16.html" >prev</a>] [<a 
+href="haskellch16.html#tailhaskellch16.html" >prev-tail</a>] [<a 
+href="#tailhaskellch17.html">tail</a>] [<a 
+href="haskellpa2.html#haskellch17.html" >up</a>] </p></div>
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;17</span><br /><a 
+ id="x25-26100017"></a><span 
+class="pcrr8t-">Data.Complex</span></h2>
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-482">
+module&#x00A0;Data.Complex&#x00A0;(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Complex((:+)),&#x00A0;realPart,&#x00A0;imagPart,&#x00A0;mkPolar,&#x00A0;cis,&#x00A0;polar,&#x00A0;magnitude,&#x00A0;phase,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;conjugate
+&#x00A0;&#x00A0;)&#x00A0;where
+</pre>
+     <p class="noindent"></blockquote>
+<h3 class="sectionHead"><span class="titlemark">17.1    </span> <a 
+ id="x25-26200017.1"></a>Rectangular form</h3>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-255" class="tabular" 
+ 
+><colgroup id="TBL-255-1g"><col 
+id="TBL-255-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-255-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-255-1-1"  
+class="td11"><span 
+class="pcrb8t-">data Complex a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     A data type representing complex numbers.
+     <p class="noindent"> You can read about complex numbers <a 
+href="https://en.wikipedia.org/wiki/Complex_number" >on wikipedia</a>.
+     <p class="noindent"> In haskell, complex numbers are represented as <span 
+class="pcrr8t-">a :+ b </span>which can be thought of as representing
+     <span 
+class="cmmi-10">a </span><span 
+class="cmr-10">+ </span><span 
+class="cmmi-10">bi</span>. For a complex number <span 
+class="pcrr8t-">z</span>, <span 
+class="pcrr8t-">abs</span><a 
+ id="dx25-262001"></a> <span 
+class="pcrr8t-">z </span>is a number with the <span 
+class="pcrr8t-">magnitude</span><a 
+ id="dx25-262002"></a> of <span 
+class="pcrr8t-">z</span>, but oriented in the
+     positive real direction, whereas <span 
+class="pcrr8t-">signum</span><a 
+ id="dx25-262003"></a> <span 
+class="pcrr8t-">z </span>has the <span 
+class="pcrr8t-">phase</span><a 
+ id="dx25-262004"></a> of <span 
+class="pcrr8t-">z</span>, but unit <span 
+class="pcrr8t-">magnitude</span><a 
+ id="dx25-262005"></a>. Apart from
+     the loss of precision due to IEEE754 floating point numbers, it holds that <span 
+class="pcrr8t-">z == abs</span><a 
+ id="dx25-262006"></a> <span 
+class="pcrr8t-">z * signum</span><a 
+ id="dx25-262007"></a>
+     <span 
+class="pcrr8t-">z</span>.
+      <p class="noindent">  Note  that  <span 
+class="pcrr8t-">Complex</span><a 
+ id="dx25-262008"></a>&#8217;s  instances  inherit  the  deficiencies  from  the  type  parameter&#8217;s.  For  example,
+     <span 
+class="pcrr8t-">Complex Float</span>&#8217;s <span 
+class="pcrr8t-">Ord</span><a 
+ id="dx25-262009"></a> instance has similar problems to <span 
+class="pcrr8t-">Float</span><a 
+ id="dx25-262010"></a>&#8217;s.
+     <p class="noindent"> As can be seen in the examples, the <span 
+class="pcrr8t-">Foldable</span><a 
+ id="dx25-262011"></a> and <span 
+class="pcrr8t-">Traversable</span><a 
+ id="dx25-262012"></a> instances traverse the real part
+     first.
+     <p class="noindent">
+     <h5 class="likesubsubsectionHead"><a 
+ id="x25-263000"></a><span 
+class="ptmb8t-">Examples</span></h5>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-483">
+&gt;&gt;&gt;&#x00A0;(5.0&#x00A0;:+&#x00A0;2.5)&#x00A0;+&#x00A0;6.5
+11.5&#x00A0;:+&#x00A0;2.5
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-484">
+&gt;&gt;&gt;&#x00A0;abs&#x00A0;(1.0&#x00A0;:+&#x00A0;1.0)&#x00A0;-&#x00A0;sqrt&#x00A0;2.0
+0.0&#x00A0;:+&#x00A0;0.0
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-485">
+&gt;&gt;&gt;&#x00A0;abs&#x00A0;(signum&#x00A0;(4.0&#x00A0;:+&#x00A0;3.0))
+1.0&#x00A0;:+&#x00A0;0.0
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-486">
+&gt;&gt;&gt;&#x00A0;foldr&#x00A0;(:)&#x00A0;[]&#x00A0;(1&#x00A0;:+&#x00A0;2)
+[1,2]
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-487">
+&gt;&gt;&gt;&#x00A0;mapM&#x00A0;print&#x00A0;(1&#x00A0;:+&#x00A0;2)
+1
+2
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent"> <span 
+class="ptmri8t-">Constructors</span>
+     <div class="tabular"> <table id="TBL-256" class="tabulary" 
+ 
+><colgroup id="TBL-256-1g"><col 
+id="TBL-256-1" /><col 
+id="TBL-256-2" /><col 
+id="TBL-256-3" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-256-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-256-1-1"  
+class="td11"> <span 
+class="pcrb8t-">= </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-256-1-2"  
+class="td11"> <span 
+class="pcrb8t-">!a :+ !a </span></td><td  style="white-space:normal; text-align:left;" id="TBL-256-1-3"  
+class="td11"> forms a complex number from its real and imaginary rectangular components.  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-256-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-256-2-1"  
+class="td11">   </td></tr></table>                                                                     </div>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-257" class="tabular" 
+ 
+><colgroup id="TBL-257-1g"><col 
+id="TBL-257-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-257-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-257-1-1"  
+class="td11"> </td></tr></table>                                                                              </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-258" class="tabular" 
+ 
+><colgroup id="TBL-258-1g"><col 
+id="TBL-258-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-258-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-258-1-1"  
+class="td11"> </td></tr></table>                                                                              </div> <dd class="haddockdesc">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-488">
+&gt;&gt;&gt;&#x00A0;eq1&#x00A0;(1&#x00A0;:+&#x00A0;2)&#x00A0;(1&#x00A0;:+&#x00A0;2)
+True
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-489">
+&gt;&gt;&gt;&#x00A0;eq1&#x00A0;(1&#x00A0;:+&#x00A0;2)&#x00A0;(1&#x00A0;:+&#x00A0;3)
+False
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-259" class="tabular" 
+ 
+><colgroup id="TBL-259-1g"><col 
+id="TBL-259-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-259-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-259-1-1"  
+class="td11"> </td></tr></table>                                                                              </div> <dd class="haddockdesc">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-490">
+&gt;&gt;&gt;&#x00A0;readPrec_to_S&#x00A0;readPrec1&#x00A0;0&#x00A0;"(2&#x00A0;%&#x00A0;3)&#x00A0;:+&#x00A0;(3&#x00A0;%&#x00A0;4)"&#x00A0;::&#x00A0;[(Complex&#x00A0;Rational,&#x00A0;String)]
+[(2&#x00A0;%&#x00A0;3&#x00A0;:+&#x00A0;3&#x00A0;%&#x00A0;4,"")]
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-260" class="tabular" 
+ 
+><colgroup id="TBL-260-1g"><col 
+id="TBL-260-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-260-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-260-1-1"  
+class="td11"> </td></tr></table>                                                                              </div> <dd class="haddockdesc">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-491">
+&gt;&gt;&gt;&#x00A0;showsPrec1&#x00A0;0&#x00A0;(2&#x00A0;:+&#x00A0;3)&#x00A0;""
+"2&#x00A0;:+&#x00A0;3"
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-261" class="tabular" 
+ 
+><colgroup id="TBL-261-1g"><col 
+id="TBL-261-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-261-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-261-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Functor Complex                    </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-261-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-261-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Monad Complex                       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-261-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-261-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Foldable Complex                    </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-261-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-261-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Traversable Complex                 </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-261-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-261-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Data a =&gt; Data Complex a            </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-261-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-261-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance RealFloat a =&gt; Floating Complex a   </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-261-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-261-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable a =&gt; Storable Complex a    </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-261-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-261-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance RealFloat a =&gt; Num Complex a        </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-261-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-261-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read a =&gt; Read Complex a            </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-261-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-261-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance RealFloat a =&gt; Fractional Complex a </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-261-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-261-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show a =&gt; Show Complex a            </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-261-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-261-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq a =&gt; Eq Complex a                </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-261-13-"><td  style="white-space:nowrap; text-align:left;" id="TBL-261-13-1"  
+class="td11">                                             </td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-262" class="tabular" 
+ 
+><colgroup id="TBL-262-1g"><col 
+id="TBL-262-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-262-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-262-1-1"  
+class="td11"><span 
+class="pcrb8t-">realPart :: Complex a -&gt; a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Extracts the real part of a complex number.
+     <p class="noindent">
+     <h5 class="likesubsubsectionHead"><a 
+ id="x25-264000"></a><span 
+class="ptmb8t-">Examples</span></h5>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-492">
+&gt;&gt;&gt;&#x00A0;realPart&#x00A0;(5.0&#x00A0;:+&#x00A0;3.0)
+5.0
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-493">
+&gt;&gt;&gt;&#x00A0;realPart&#x00A0;((5.0&#x00A0;:+&#x00A0;3.0)&#x00A0;*&#x00A0;(2.0&#x00A0;:+&#x00A0;3.0))
+1.0
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-263" class="tabular" 
+ 
+><colgroup id="TBL-263-1g"><col 
+id="TBL-263-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-263-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-263-1-1"  
+class="td11"><span 
+class="pcrb8t-">imagPart :: Complex a -&gt; a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Extracts the imaginary part of a complex number.
+     <p class="noindent">
+     <h5 class="likesubsubsectionHead"><a 
+ id="x25-265000"></a><span 
+class="ptmb8t-">Examples</span></h5>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-494">
+&gt;&gt;&gt;&#x00A0;imagPart&#x00A0;(5.0&#x00A0;:+&#x00A0;3.0)
+3.0
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-495">
+&gt;&gt;&gt;&#x00A0;imagPart&#x00A0;((5.0&#x00A0;:+&#x00A0;3.0)&#x00A0;*&#x00A0;(2.0&#x00A0;:+&#x00A0;3.0))
+21.0
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">17.2    </span> <a 
+ id="x25-26600017.2"></a>Polar form</h3>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-264" class="tabular" 
+ 
+><colgroup id="TBL-264-1g"><col 
+id="TBL-264-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-264-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-264-1-1"  
+class="td11"><span 
+class="pcrb8t-">mkPolar :: Floating a =&gt; a -&gt; a -&gt; Complex a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Form a complex number from <span 
+class="pcrr8t-">polar</span><a 
+ id="dx25-266001"></a> components of <span 
+class="pcrr8t-">magnitude</span><a 
+ id="dx25-266002"></a> and <span 
+class="pcrr8t-">phase</span><a 
+ id="dx25-266003"></a>.
+     <p class="noindent">
+     <h5 class="likesubsubsectionHead"><a 
+ id="x25-267000"></a><span 
+class="ptmb8t-">Examples</span></h5>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-496">
+&gt;&gt;&gt;&#x00A0;mkPolar&#x00A0;1&#x00A0;(pi&#x00A0;/&#x00A0;4)
+0.7071067811865476&#x00A0;:+&#x00A0;0.7071067811865475
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-497">
+&gt;&gt;&gt;&#x00A0;mkPolar&#x00A0;1&#x00A0;0
+1.0&#x00A0;:+&#x00A0;0.0
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-265" class="tabular" 
+ 
+><colgroup id="TBL-265-1g"><col 
+id="TBL-265-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-265-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-265-1-1"  
+class="td11"><span 
+class="pcrb8t-">cis :: Floating a =&gt; a -&gt; Complex a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     <span 
+class="pcrr8t-">cis</span><a 
+ id="dx25-267001"></a> <span 
+class="pcrr8t-">t </span>is a complex value with <span 
+class="pcrr8t-">magnitude</span><a 
+ id="dx25-267002"></a><span 
+class="pcrr8t-">1 </span>and <span 
+class="pcrr8t-">phase</span><a 
+ id="dx25-267003"></a><span 
+class="pcrr8t-">t </span>(modulo <span 
+class="pcrr8t-">2*pi</span><a 
+ id="dx25-267004"></a>).
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-498">
+cis&#x00A0;=&#x00A0;mkPolar&#x00A0;1
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+     <h5 class="likesubsubsectionHead"><a 
+ id="x25-268000"></a><span 
+class="ptmb8t-">Examples</span></h5>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-499">
+&gt;&gt;&gt;&#x00A0;cis&#x00A0;0
+1.0&#x00A0;:+&#x00A0;0.0
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent"> The following examples are not perfectly zero due to <a 
+href="https://en.wikipedia.org/wiki/IEEE_754" >IEEE 754</a>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-500">
+&gt;&gt;&gt;&#x00A0;cis&#x00A0;pi
+(-1.0)&#x00A0;:+&#x00A0;1.2246467991473532e-16
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-501">
+&gt;&gt;&gt;&#x00A0;cis&#x00A0;(4&#x00A0;*&#x00A0;pi)&#x00A0;-&#x00A0;cis&#x00A0;(2&#x00A0;*&#x00A0;pi)
+0.0&#x00A0;:+&#x00A0;(-2.4492935982947064e-16)
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-266" class="tabular" 
+ 
+><colgroup id="TBL-266-1g"><col 
+id="TBL-266-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-266-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-266-1-1"  
+class="td11"><span 
+class="pcrb8t-">polar :: RealFloat a =&gt; Complex a -&gt; (a, a) </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     The function <span 
+class="pcrr8t-">polar</span><a 
+ id="dx25-268001"></a> takes a complex number and returns a (<span 
+class="pcrr8t-">magnitude</span><a 
+ id="dx25-268002"></a>, <span 
+class="pcrr8t-">phase</span><a 
+ id="dx25-268003"></a>) pair in canonical
+     form: the <span 
+class="pcrr8t-">magnitude</span><a 
+ id="dx25-268004"></a> is non-negative, and the <span 
+class="pcrr8t-">phase</span><a 
+ id="dx25-268005"></a> in the range <span 
+class="pcrr8t-">(-pi</span><a 
+ id="dx25-268006"></a><span 
+class="pcrr8t-">, pi</span><a 
+ id="dx25-268007"></a><span 
+class="pcrr8t-">]</span>; if the <span 
+class="pcrr8t-">magnitude</span><a 
+ id="dx25-268008"></a>
+     is zero, then so is the <span 
+class="pcrr8t-">phase</span><a 
+ id="dx25-268009"></a>.
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-502">
+polar&#x00A0;z&#x00A0;=&#x00A0;(magnitude&#x00A0;z,&#x00A0;phase&#x00A0;z)
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+     <h5 class="likesubsubsectionHead"><a 
+ id="x25-269000"></a><span 
+class="ptmb8t-">Examples</span></h5>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-503">
+&gt;&gt;&gt;&#x00A0;polar&#x00A0;(1.0&#x00A0;:+&#x00A0;1.0)
+(1.4142135623730951,0.7853981633974483)
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-504">
+&gt;&gt;&gt;&#x00A0;polar&#x00A0;((-1.0)&#x00A0;:+&#x00A0;0.0)
+(1.0,3.141592653589793)
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-505">
+&gt;&gt;&gt;&#x00A0;polar&#x00A0;(0.0&#x00A0;:+&#x00A0;0.0)
+(0.0,0.0)
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-267" class="tabular" 
+ 
+><colgroup id="TBL-267-1g"><col 
+id="TBL-267-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-267-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-267-1-1"  
+class="td11"><span 
+class="pcrb8t-">magnitude :: RealFloat a =&gt; Complex a -&gt; a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     The non-negative <span 
+class="pcrr8t-">magnitude</span><a 
+ id="dx25-269001"></a> of a complex number.
+     <p class="noindent">
+     <h5 class="likesubsubsectionHead"><a 
+ id="x25-270000"></a><span 
+class="ptmb8t-">Examples</span></h5>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-506">
+&gt;&gt;&gt;&#x00A0;magnitude&#x00A0;(1.0&#x00A0;:+&#x00A0;1.0)
+1.4142135623730951
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-507">
+&gt;&gt;&gt;&#x00A0;magnitude&#x00A0;(1.0&#x00A0;+&#x00A0;0.0)
+1.0
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-508">
+&gt;&gt;&gt;&#x00A0;magnitude&#x00A0;(0.0&#x00A0;:+&#x00A0;(-5.0))
+5.0
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-268" class="tabular" 
+ 
+><colgroup id="TBL-268-1g"><col 
+id="TBL-268-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-268-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-268-1-1"  
+class="td11"><span 
+class="pcrb8t-">phase :: RealFloat a =&gt; Complex a -&gt; a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     The <span 
+class="pcrr8t-">phase</span><a 
+ id="dx25-270001"></a> of a complex number, in the range <span 
+class="pcrr8t-">(-pi</span><a 
+ id="dx25-270002"></a><span 
+class="pcrr8t-">, pi</span><a 
+ id="dx25-270003"></a><span 
+class="pcrr8t-">]</span>. If the <span 
+class="pcrr8t-">magnitude</span><a 
+ id="dx25-270004"></a> is zero, then so is
+     the <span 
+class="pcrr8t-">phase</span><a 
+ id="dx25-270005"></a>.
+     <p class="noindent">
+     <h5 class="likesubsubsectionHead"><a 
+ id="x25-271000"></a><span 
+class="ptmb8t-">Examples</span></h5>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-509">
+&gt;&gt;&gt;&#x00A0;phase&#x00A0;(0.5&#x00A0;:+&#x00A0;0.5)&#x00A0;/&#x00A0;pi
+0.25
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-510">
+&gt;&gt;&gt;&#x00A0;phase&#x00A0;(0&#x00A0;:+&#x00A0;4)&#x00A0;/&#x00A0;pi
+0.5
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">17.3    </span> <a 
+ id="x25-27200017.3"></a>Conjugate</h3>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-269" class="tabular" 
+ 
+><colgroup id="TBL-269-1g"><col 
+id="TBL-269-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-269-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-269-1-1"  
+class="td11"><span 
+class="pcrb8t-">conjugate :: Num a =&gt; Complex a -&gt; Complex a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     The <span 
+class="pcrr8t-">conjugate</span><a 
+ id="dx25-272001"></a> of a complex number.
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-511">
+conjugate&#x00A0;(conjugate&#x00A0;x)&#x00A0;=&#x00A0;x
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+     <h5 class="likesubsubsectionHead"><a 
+ id="x25-273000"></a><span 
+class="ptmb8t-">Examples</span></h5>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-512">
+&gt;&gt;&gt;&#x00A0;conjugate&#x00A0;(3.0&#x00A0;:+&#x00A0;3.0)
+3.0&#x00A0;:+&#x00A0;(-3.0)
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-513">
+&gt;&gt;&gt;&#x00A0;conjugate&#x00A0;((3.0&#x00A0;:+&#x00A0;3.0)&#x00A0;*&#x00A0;(2.0&#x00A0;:+&#x00A0;2.0))
+0.0&#x00A0;:+&#x00A0;(-12.0)
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">17.4    </span> <a 
+ id="x25-27400017.4"></a>Specification</h3>
+<p class="noindent">
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-514">
+module&#x00A0;Data.Complex(Complex((:+)),&#x00A0;realPart,&#x00A0;imagPart,&#x00A0;conjugate,&#x00A0;mkPolar,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;cis,&#x00A0;polar,&#x00A0;magnitude,&#x00A0;phase)&#x00A0;&#x00A0;where
+
+infix&#x00A0;&#x00A0;6&#x00A0;&#x00A0;:+
+
+data&#x00A0;&#x00A0;(RealFloat&#x00A0;a)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&gt;&#x00A0;Complex&#x00A0;a&#x00A0;=&#x00A0;!a&#x00A0;:+&#x00A0;!a&#x00A0;&#x00A0;deriving&#x00A0;(Eq,Read,Show)
+
+
+realPart,&#x00A0;imagPart&#x00A0;::&#x00A0;(RealFloat&#x00A0;a)&#x00A0;=&gt;&#x00A0;Complex&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+realPart&#x00A0;(x:+y)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x
+imagPart&#x00A0;(x:+y)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;y
+
+conjugate&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(RealFloat&#x00A0;a)&#x00A0;=&gt;&#x00A0;Complex&#x00A0;a&#x00A0;-&gt;&#x00A0;Complex&#x00A0;a
+conjugate&#x00A0;(x:+y)&#x00A0;=&#x00A0;&#x00A0;x&#x00A0;:+&#x00A0;(-y)
+
+mkPolar&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(RealFloat&#x00A0;a)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;Complex&#x00A0;a
+mkPolar&#x00A0;r&#x00A0;theta&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;r&#x00A0;\x22C6&#x00A0;cos&#x00A0;theta&#x00A0;:+&#x00A0;r&#x00A0;\x22C6&#x00A0;sin&#x00A0;theta
+
+cis&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(RealFloat&#x00A0;a)&#x00A0;=&gt;&#x00A0;a&#x00A0;-&gt;&#x00A0;Complex&#x00A0;a
+cis&#x00A0;theta&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;cos&#x00A0;theta&#x00A0;:+&#x00A0;sin&#x00A0;theta
+
+polar&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(RealFloat&#x00A0;a)&#x00A0;=&gt;&#x00A0;Complex&#x00A0;a&#x00A0;-&gt;&#x00A0;(a,a)
+polar&#x00A0;z&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;(magnitude&#x00A0;z,&#x00A0;phase&#x00A0;z)
+
+magnitude&#x00A0;::&#x00A0;(RealFloat&#x00A0;a)&#x00A0;=&gt;&#x00A0;Complex&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+magnitude&#x00A0;(x:+y)&#x00A0;=&#x00A0;&#x00A0;scaleFloat&#x00A0;k
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(sqrt&#x00A0;((scaleFloat&#x00A0;mk&#x00A0;x)^2&#x00A0;+&#x00A0;(scaleFloat&#x00A0;mk&#x00A0;y)^2))
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;k&#x00A0;&#x00A0;=&#x00A0;max&#x00A0;(exponent&#x00A0;x)&#x00A0;(exponent&#x00A0;y)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;mk&#x00A0;=&#x00A0;-&#x00A0;k
+
+phase&#x00A0;::&#x00A0;(RealFloat&#x00A0;a)&#x00A0;=&gt;&#x00A0;Complex&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+phase&#x00A0;(0&#x00A0;:+&#x00A0;0)&#x00A0;=&#x00A0;0
+phase&#x00A0;(x&#x00A0;:+&#x00A0;y)&#x00A0;=&#x00A0;atan2&#x00A0;y&#x00A0;x
+
+
+instance&#x00A0;&#x00A0;(RealFloat&#x00A0;a)&#x00A0;=&gt;&#x00A0;Num&#x00A0;(Complex&#x00A0;a)&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(x:+y)&#x00A0;+&#x00A0;(x&#8217;:+y&#8217;)&#x00A0;=&#x00A0;&#x00A0;(x+x&#8217;)&#x00A0;:+&#x00A0;(y+y&#8217;)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(x:+y)&#x00A0;-&#x00A0;(x&#8217;:+y&#8217;)&#x00A0;=&#x00A0;&#x00A0;(x-x&#8217;)&#x00A0;:+&#x00A0;(y-y&#8217;)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(x:+y)&#x00A0;\x22C6&#x00A0;(x&#8217;:+y&#8217;)&#x00A0;=&#x00A0;&#x00A0;(x\x22C6x&#8217;-y\x22C6y&#8217;)&#x00A0;:+&#x00A0;(x\x22C6y&#8217;+y\x22C6x&#8217;)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;negate&#x00A0;(x:+y)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;negate&#x00A0;x&#x00A0;:+&#x00A0;negate&#x00A0;y
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;abs&#x00A0;z&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;magnitude&#x00A0;z&#x00A0;:+&#x00A0;0
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;signum&#x00A0;0&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;0
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;signum&#x00A0;z(x:+y)&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;x\emph{r&#x00A0;:+&#x00A0;y}r&#x00A0;&#x00A0;where&#x00A0;r&#x00A0;=&#x00A0;magnitude&#x00A0;z
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fromInteger&#x00A0;n&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;fromInteger&#x00A0;n&#x00A0;:+&#x00A0;0
+
+instance&#x00A0;&#x00A0;(RealFloat&#x00A0;a)&#x00A0;=&gt;&#x00A0;Fractional&#x00A0;(Complex&#x00A0;a)&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;(x:+y)&#x00A0;\emph{&#x00A0;(x&#8217;:+y&#8217;)&#x00A0;=&#x00A0;&#x00A0;(x\x22C6x&#8217;&#8217;+y\x22C6y&#8217;&#8217;)&#x00A0;}&#x00A0;d&#x00A0;:+&#x00A0;(y\x22C6x&#8217;&#8217;-x\x22C6y&#8217;&#8217;)&#x00A0;/&#x00A0;d
+                                                                                   
+
+                                                                                   
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;x&#8217;&#8217;&#x00A0;=&#x00A0;scaleFloat&#x00A0;k&#x00A0;x&#8217;
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;y&#8217;&#8217;&#x00A0;=&#x00A0;scaleFloat&#x00A0;k&#x00A0;y&#8217;
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;k&#x00A0;&#x00A0;&#x00A0;=&#x00A0;-&#x00A0;max&#x00A0;(exponent&#x00A0;x&#8217;)&#x00A0;(exponent&#x00A0;y&#8217;)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;d&#x00A0;&#x00A0;&#x00A0;=&#x00A0;x&#8217;\x22C6x&#8217;&#8217;&#x00A0;+&#x00A0;y&#8217;\x22C6y&#8217;&#8217;
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fromRational&#x00A0;a&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;fromRational&#x00A0;a&#x00A0;:+&#x00A0;0
+
+instance&#x00A0;&#x00A0;(RealFloat&#x00A0;a)&#x00A0;=&gt;&#x00A0;Floating&#x00A0;(Complex&#x00A0;a)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;pi&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;pi&#x00A0;:+&#x00A0;0
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;exp&#x00A0;(x:+y)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;expx&#x00A0;\x22C6&#x00A0;cos&#x00A0;y&#x00A0;:+&#x00A0;expx&#x00A0;\x22C6&#x00A0;sin&#x00A0;y
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;expx&#x00A0;=&#x00A0;exp&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;log&#x00A0;z&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;log&#x00A0;(magnitude&#x00A0;z)&#x00A0;:+&#x00A0;phase&#x00A0;z
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;sqrt&#x00A0;0&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;0
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;sqrt&#x00A0;z(x:+y)&#x00A0;&#x00A0;=&#x00A0;&#x00A0;u&#x00A0;:+&#x00A0;(if&#x00A0;y&#x00A0;&lt;&#x00A0;0&#x00A0;then&#x00A0;-v&#x00A0;else&#x00A0;v)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;(u,v)&#x00A0;=&#x00A0;if&#x00A0;x&#x00A0;&lt;&#x00A0;0&#x00A0;then&#x00A0;(v&#8217;,u&#8217;)&#x00A0;else&#x00A0;(u&#8217;,v&#8217;)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;v&#8217;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;abs&#x00A0;y&#x00A0;/&#x00A0;(u&#8217;\x22C62)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;u&#8217;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;sqrt&#x00A0;((magnitude&#x00A0;z&#x00A0;+&#x00A0;abs&#x00A0;x)&#x00A0;/&#x00A0;2)
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;sin&#x00A0;(x:+y)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;sin&#x00A0;x&#x00A0;\x22C6&#x00A0;cosh&#x00A0;y&#x00A0;:+&#x00A0;cos&#x00A0;x&#x00A0;\x22C6&#x00A0;sinh&#x00A0;y
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;cos&#x00A0;(x:+y)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;cos&#x00A0;x&#x00A0;\x22C6&#x00A0;cosh&#x00A0;y&#x00A0;:+&#x00A0;(-&#x00A0;sin&#x00A0;x&#x00A0;\x22C6&#x00A0;sinh&#x00A0;y)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;tan&#x00A0;(x:+y)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;(sinx\x22C6coshy:+cosx\x22C6sinhy)/(cosx\x22C6coshy:+(-sinx\x22C6sinhy))
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;sinx&#x00A0;&#x00A0;=&#x00A0;sin&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;cosx&#x00A0;&#x00A0;=&#x00A0;cos&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;sinhy&#x00A0;=&#x00A0;sinh&#x00A0;y
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;coshy&#x00A0;=&#x00A0;cosh&#x00A0;y
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;sinh&#x00A0;(x:+y)&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;cos&#x00A0;y&#x00A0;\x22C6&#x00A0;sinh&#x00A0;x&#x00A0;:+&#x00A0;sin&#x00A0;&#x00A0;y&#x00A0;\x22C6&#x00A0;cosh&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;cosh&#x00A0;(x:+y)&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;cos&#x00A0;y&#x00A0;\x22C6&#x00A0;cosh&#x00A0;x&#x00A0;:+&#x00A0;sin&#x00A0;y&#x00A0;\x22C6&#x00A0;sinh&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;tanh&#x00A0;(x:+y)&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;(cosy\x22C6sinhx:+siny\x22C6coshx)/(cosy\x22C6coshx:+siny\x22C6sinhx)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;siny&#x00A0;&#x00A0;=&#x00A0;sin&#x00A0;y
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;cosy&#x00A0;&#x00A0;=&#x00A0;cos&#x00A0;y
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;sinhx&#x00A0;=&#x00A0;sinh&#x00A0;x
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;coshx&#x00A0;=&#x00A0;cosh&#x00A0;x
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;asin&#x00A0;z(x:+y)&#x00A0;&#x00A0;=&#x00A0;&#x00A0;y&#8217;:+(-x&#8217;)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;&#x00A0;(x&#8217;:+y&#8217;)&#x00A0;=&#x00A0;log&#x00A0;(((-y):+x)&#x00A0;+&#x00A0;sqrt&#x00A0;(1&#x00A0;-&#x00A0;z\x22C6z))
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;acos&#x00A0;z(x:+y)&#x00A0;&#x00A0;=&#x00A0;&#x00A0;y&#8217;&#8217;:+(-x&#8217;&#8217;)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;(x&#8217;&#8217;:+y&#8217;&#8217;)&#x00A0;=&#x00A0;log&#x00A0;(z&#x00A0;+&#x00A0;((-y&#8217;):+x&#8217;))
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(x&#8217;:+y&#8217;)&#x00A0;&#x00A0;&#x00A0;=&#x00A0;sqrt&#x00A0;(1&#x00A0;-&#x00A0;z\x22C6z)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;atan&#x00A0;z@(x:+y)&#x00A0;&#x00A0;=&#x00A0;&#x00A0;y&#8217;:+(-x&#8217;)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where&#x00A0;(x&#8217;:+y&#8217;)&#x00A0;=&#x00A0;log&#x00A0;(((1-y):+x)&#x00A0;/&#x00A0;sqrt&#x00A0;(1+z\x22C6z))
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;asinh&#x00A0;z&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;log&#x00A0;(z&#x00A0;+&#x00A0;sqrt&#x00A0;(1+z\x22C6z))
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;acosh&#x00A0;z&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;log&#x00A0;(z&#x00A0;+&#x00A0;(z+1)&#x00A0;\x22C6&#x00A0;sqrt&#x00A0;((z-1)/(z+1)))
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;atanh&#x00A0;z&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;log&#x00A0;((1+z)&#x00A0;/&#x00A0;sqrt&#x00A0;(1-z\x22C6z))
+</pre>
+     <p class="noindent"></blockquote>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch18.html" >next</a>] [<a 
+href="haskellch16.html" >prev</a>] [<a 
+href="haskellch16.html#tailhaskellch16.html" >prev-tail</a>] [<a 
+href="haskellch17.html" >front</a>] [<a 
+href="haskellpa2.html#haskellch17.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellch17.html"></a>   
+</body> </html> 

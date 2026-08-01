@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>23 Data.Word</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch24.html" >next</a>] [<a 
+href="haskellch22.html" >prev</a>] [<a 
+href="haskellch22.html#tailhaskellch22.html" >prev-tail</a>] [<a 
+href="#tailhaskellch23.html">tail</a>] [<a 
+href="haskellpa2.html#haskellch23.html" >up</a>] </p></div>
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;23</span><br /><a 
+ id="x31-42800023"></a><span 
+class="pcrr8t-">Data.Word</span></h2>
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-916">
+module&#x00A0;Data.Word&#x00A0;(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Word,&#x00A0;Word8,&#x00A0;Word16,&#x00A0;Word32,&#x00A0;Word64
+&#x00A0;&#x00A0;)&#x00A0;where
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> This module provides unsigned integer types of unspecified width (<span 
+class="pcrr8t-">Word</span><a 
+ id="dx31-428001"></a>) and fixed widths (<span 
+class="pcrr8t-">Word8</span><a 
+ id="dx31-428002"></a>, <span 
+class="pcrr8t-">Word16</span><a 
+ id="dx31-428003"></a>,
+<span 
+class="pcrr8t-">Word32</span><a 
+ id="dx31-428004"></a> and <span 
+class="pcrr8t-">Word64</span><a 
+ id="dx31-428005"></a>). All arithmetic is performed modulo 2^n, where n is the number of bits in the
+type.
+ <p class="noindent"> For coercing between any two integer types, use <span 
+class="pcrr8t-">fromIntegral</span>. Coercing word types to and from integer types
+preserves representation, not sign.
+ <p class="noindent"> The rules that hold for <span 
+class="pcrr8t-">Enum </span>instances over a bounded type such as <span 
+class="pcrr8t-">Int </span>(see the section of the Haskell language
+report dealing with arithmetic sequences) also hold for the <span 
+class="pcrr8t-">Enum </span>instances over the various <span 
+class="pcrr8t-">Word</span><a 
+ id="dx31-428006"></a> types defined
+here.
+ <p class="noindent"> Right and left shifts by amounts greater than or equal to the width of the type result in a zero result. This is contrary
+to the behaviour in C, which is undefined; a common interpretation is to truncate the shift count to the width of the
+type, for example 1 « 32 == 1 in some C implementations.
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-421" class="tabular" 
+ 
+><colgroup id="TBL-421-1g"><col 
+id="TBL-421-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-421-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-421-1-1"  
+class="td11"><span 
+class="pcrb8t-">data Word </span></td></tr></table>                                                                    </div> <dd class="haddockdesc">
+     A <span 
+class="pcrr8t-">Word</span><a 
+ id="dx31-428007"></a> is an unsigned integral type, with the same size as <span 
+class="pcrr8t-">Int</span><a 
+ id="dx31-428008"></a>.
+     </dl>
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-422" class="tabular" 
+ 
+><colgroup id="TBL-422-1g"><col 
+id="TBL-422-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-422-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-422-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits Word    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-422-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-422-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable Word</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-422-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-422-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix Word       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-422-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-422-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num Word</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-422-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-422-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read Word     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-422-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-422-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral Word</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-422-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-422-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real Word     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-422-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-422-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show Word     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-422-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-422-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq Word       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-422-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-422-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord Word      </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-422-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-422-11-1"  
+class="td11">                       </td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-423" class="tabular" 
+ 
+><colgroup id="TBL-423-1g"><col 
+id="TBL-423-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-423-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-423-1-1"  
+class="td11"><span 
+class="pcrb8t-">data Word8 </span></td></tr></table>                                                                   </div> <dd class="haddockdesc">
+     8-bit unsigned integer type
+     </dl>
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-424" class="tabular" 
+ 
+><colgroup id="TBL-424-1g"><col 
+id="TBL-424-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-424-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-424-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits Word8    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-424-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-424-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded Word8</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-424-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-424-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum Word8     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-424-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-424-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable Word8</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-424-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-424-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix Word8       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-424-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-424-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num Word8</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-424-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-424-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read Word8     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-424-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-424-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral Word8 </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-424-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-424-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real Word8     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-424-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-424-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show Word8     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-424-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-424-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq Word8       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-424-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-424-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord Word8      </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-424-13-"><td  style="white-space:nowrap; text-align:left;" id="TBL-424-13-1"  
+class="td11">                        </td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+                                                                                   
+
+                                                                                   
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-425" class="tabular" 
+ 
+><colgroup id="TBL-425-1g"><col 
+id="TBL-425-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-425-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-425-1-1"  
+class="td11"><span 
+class="pcrb8t-">data Word16 </span></td></tr></table>                                                                 </div> <dd class="haddockdesc">
+     16-bit unsigned integer type
+     </dl>
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-426" class="tabular" 
+ 
+><colgroup id="TBL-426-1g"><col 
+id="TBL-426-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-426-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-426-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits Word16    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-426-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-426-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded Word16</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-426-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-426-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum Word16     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-426-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-426-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable Word16</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-426-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-426-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix Word16       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-426-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-426-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num Word16</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-426-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-426-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read Word16     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-426-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-426-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral Word16 </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-426-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-426-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real Word16     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-426-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-426-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show Word16     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-426-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-426-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq Word16       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-426-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-426-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord Word16      </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-426-13-"><td  style="white-space:nowrap; text-align:left;" id="TBL-426-13-1"  
+class="td11">                         </td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-427" class="tabular" 
+ 
+><colgroup id="TBL-427-1g"><col 
+id="TBL-427-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-427-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-427-1-1"  
+class="td11"><span 
+class="pcrb8t-">data Word32 </span></td></tr></table>                                                                 </div> <dd class="haddockdesc">
+     32-bit unsigned integer type
+     </dl>
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-428" class="tabular" 
+ 
+><colgroup id="TBL-428-1g"><col 
+id="TBL-428-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-428-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-428-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits Word32    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-428-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-428-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded Word32</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-428-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-428-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum Word32     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-428-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-428-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable Word32</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-428-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-428-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix Word32       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-428-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-428-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num Word32</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-428-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-428-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read Word32     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-428-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-428-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral Word32 </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-428-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-428-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real Word32     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-428-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-428-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show Word32     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-428-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-428-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq Word32       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-428-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-428-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord Word32      </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-428-13-"><td  style="white-space:nowrap; text-align:left;" id="TBL-428-13-1"  
+class="td11">                         </td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-429" class="tabular" 
+ 
+><colgroup id="TBL-429-1g"><col 
+id="TBL-429-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-429-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-429-1-1"  
+class="td11"><span 
+class="pcrb8t-">data Word64 </span></td></tr></table>                                                                 </div> <dd class="haddockdesc">
+     64-bit unsigned integer type
+     </dl>
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-430" class="tabular" 
+ 
+><colgroup id="TBL-430-1g"><col 
+id="TBL-430-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-430-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-430-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits Word64    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-430-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-430-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded Word64</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-430-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-430-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum Word64     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-430-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-430-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable Word64</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-430-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-430-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix Word64       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-430-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-430-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num Word64</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-430-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-430-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read Word64     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-430-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-430-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral Word64 </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-430-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-430-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real Word64     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-430-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-430-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show Word64     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-430-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-430-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq Word64       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-430-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-430-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord Word64      </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-430-13-"><td  style="white-space:nowrap; text-align:left;" id="TBL-430-13-1"  
+class="td11">                         </td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch24.html" >next</a>] [<a 
+href="haskellch22.html" >prev</a>] [<a 
+href="haskellch22.html#tailhaskellch22.html" >prev-tail</a>] [<a 
+href="haskellch23.html" >front</a>] [<a 
+href="haskellpa2.html#haskellch23.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellch23.html"></a>  
+</body></html> 

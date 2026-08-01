@@ -1,0 +1,909 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>21 Data.Maybe</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch22.html" >next</a>] [<a 
+href="haskellch20.html" >prev</a>] [<a 
+href="haskellch20.html#tailhaskellch20.html" >prev-tail</a>] [<a 
+href="#tailhaskellch21.html">tail</a>] [<a 
+href="haskellpa2.html#haskellch21.html" >up</a>] </p></div>
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;21</span><br /><a 
+ id="x29-41400021"></a><span 
+class="pcrr8t-">Data.Maybe</span></h2>
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-882">
+module&#x00A0;Data.Maybe&#x00A0;(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Maybe(Nothing,&#x00A0;Just),&#x00A0;maybe,&#x00A0;isJust,&#x00A0;isNothing,&#x00A0;fromJust,&#x00A0;fromMaybe,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;listToMaybe,&#x00A0;maybeToList,&#x00A0;catMaybes,&#x00A0;mapMaybe
+&#x00A0;&#x00A0;)&#x00A0;where
+</pre>
+     <p class="noindent"></blockquote>
+<h3 class="sectionHead"><span class="titlemark">21.1    </span> <a 
+ id="x29-41500021.1"></a>The Maybe type and operations</h3>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-397" class="tabular" 
+ 
+><colgroup id="TBL-397-1g"><col 
+id="TBL-397-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-397-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-397-1-1"  
+class="td11"><span 
+class="pcrb8t-">data Maybe a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     The <span 
+class="pcrr8t-">Maybe</span><a 
+ id="dx29-415001"></a> type encapsulates an optional value. A value of type <span 
+class="pcrr8t-">Maybe</span><a 
+ id="dx29-415002"></a> <span 
+class="pcrr8t-">a </span>either contains a value of
+     type <span 
+class="pcrr8t-">a </span>(represented as <span 
+class="pcrr8t-">Just</span><a 
+ id="dx29-415003"></a> <span 
+class="pcrr8t-">a</span>), or it is empty (represented as <span 
+class="pcrr8t-">Nothing</span><a 
+ id="dx29-415004"></a>). Using <span 
+class="pcrr8t-">Maybe</span><a 
+ id="dx29-415005"></a> is a good
+     way to deal with errors or exceptional cases without resorting to drastic measures such as <span 
+class="pcrr8t-">error</span><a 
+ id="dx29-415006"></a>.
+     <p class="noindent"> The <span 
+class="pcrr8t-">Maybe</span><a 
+ id="dx29-415007"></a> type is also a monad. It is a simple kind of error monad, where all errors are represented
+     by <span 
+class="pcrr8t-">Nothing</span><a 
+ id="dx29-415008"></a>. A richer error monad can be built using the <span 
+class="pcrr8t-">Either</span><a 
+ id="dx29-415009"></a> type.
+     <p class="noindent">   <span 
+class="ptmri8t-">Constructors</span>
+     <div class="tabular"> <table id="TBL-398" class="tabulary" 
+ 
+><colgroup id="TBL-398-1g"><col 
+id="TBL-398-1" /><col 
+id="TBL-398-2" /><col 
+id="TBL-398-3" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-398-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-398-1-1"  
+class="td11"> <span 
+class="pcrb8t-">= </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-398-1-2"  
+class="td11"> <span 
+class="pcrb8t-">Nothing </span></td><td  style="white-space:normal; text-align:left;" id="TBL-398-1-3"  
+class="td11">  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-398-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-398-2-1"  
+class="td11"> <span 
+class="pcrb8t-">| </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-398-2-2"  
+class="td11"> <span 
+class="pcrb8t-">Just a  </span></td><td  style="white-space:normal; text-align:left;" id="TBL-398-2-3"  
+class="td11">  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-398-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-398-3-1"  
+class="td11">   </td></tr></table>                                                                   </div>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-399" class="tabular" 
+ 
+><colgroup id="TBL-399-1g"><col 
+id="TBL-399-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-399-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-399-1-1"  
+class="td11"> </td></tr></table>                                                                              </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-400" class="tabular" 
+ 
+><colgroup id="TBL-400-1g"><col 
+id="TBL-400-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-400-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-400-1-1"  
+class="td11"> </td></tr></table>                                                                              </div> <dd class="haddockdesc">
+     Picks the leftmost <span 
+class="pcrr8t-">Just</span><a 
+ id="dx29-415010"></a> value, or, alternatively, <span 
+class="pcrr8t-">Nothing</span><a 
+ id="dx29-415011"></a>.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-401" class="tabular" 
+ 
+><colgroup id="TBL-401-1g"><col 
+id="TBL-401-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-401-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-401-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Functor Maybe </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-401-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-401-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Monad Maybe    </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+                                                                                   
+
+                                                                                   
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-402" class="tabular" 
+ 
+><colgroup id="TBL-402-1g"><col 
+id="TBL-402-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-402-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-402-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance MonadPlus Maybe </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Picks the leftmost <span 
+class="pcrr8t-">Just</span><a 
+ id="dx29-415012"></a> value, or, alternatively, <span 
+class="pcrr8t-">Nothing</span><a 
+ id="dx29-415013"></a>.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-403" class="tabular" 
+ 
+><colgroup id="TBL-403-1g"><col 
+id="TBL-403-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-403-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-403-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance MonadFail Maybe  </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-403-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-403-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Foldable Maybe    </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-403-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-403-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Traversable Maybe </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-404" class="tabular" 
+ 
+><colgroup id="TBL-404-1g"><col 
+id="TBL-404-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-404-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-404-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read a =&gt; Read Maybe a </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-404-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-404-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show a =&gt; Show Maybe a  </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-404-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-404-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq a =&gt; Eq Maybe a      </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-404-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-404-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord a =&gt; Ord Maybe a    </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-405" class="tabular" 
+ 
+><colgroup id="TBL-405-1g"><col 
+id="TBL-405-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-405-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-405-1-1"  
+class="td11"><span 
+class="pcrb8t-">maybe :: b -&gt; (a -&gt; b) -&gt; Maybe a -&gt; b </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     The <span 
+class="pcrr8t-">maybe</span><a 
+ id="dx29-415014"></a> function takes a default value, a function, and a <span 
+class="pcrr8t-">Maybe</span><a 
+ id="dx29-415015"></a> value. If the <span 
+class="pcrr8t-">Maybe</span><a 
+ id="dx29-415016"></a> value is
+     <span 
+class="pcrr8t-">Nothing</span><a 
+ id="dx29-415017"></a>, the function returns the default value. Otherwise, it applies the function to the value inside
+     the <span 
+class="pcrr8t-">Just</span><a 
+ id="dx29-415018"></a> and returns the result.
+     <p class="noindent">
+     <h5 class="likesubsubsectionHead"><a 
+ id="x29-416000"></a><span 
+class="ptmb8t-">Examples</span></h5>
+     <p class="noindent"> Basic usage:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-883">
+&gt;&gt;&gt;&#x00A0;maybe&#x00A0;False&#x00A0;odd&#x00A0;(Just&#x00A0;3)
+True
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-884">
+&gt;&gt;&gt;&#x00A0;maybe&#x00A0;False&#x00A0;odd&#x00A0;Nothing
+False
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent"> Read an integer from a string using <span 
+class="pcrr8t-">readMaybe</span><a 
+ id="dx29-416001"></a>. If we succeed, return twice the integer; that is, apply <span 
+class="pcrr8t-">(*2)</span>
+     to it. If instead we fail to parse an integer, return <span 
+class="pcrr8t-">0 </span>by default:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-885">
+&gt;&gt;&gt;&#x00A0;import&#x00A0;GHC.Internal.Text.Read&#x00A0;(&#x00A0;readMaybe&#x00A0;)
+
+&gt;&gt;&gt;&#x00A0;maybe&#x00A0;0&#x00A0;(*2)&#x00A0;(readMaybe&#x00A0;"5")
+10
+
+&gt;&gt;&gt;&#x00A0;maybe&#x00A0;0&#x00A0;(*2)&#x00A0;(readMaybe&#x00A0;"")
+0
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent"> Apply <span 
+class="pcrr8t-">show</span><a 
+ id="dx29-416002"></a> to a <span 
+class="pcrr8t-">Maybe Int</span>. If we have <span 
+class="pcrr8t-">Just n</span>, we want to show the underlying <span 
+class="pcrr8t-">Int</span><a 
+ id="dx29-416003"></a><span 
+class="pcrr8t-">n</span>. But if we have
+     <span 
+class="pcrr8t-">Nothing</span><a 
+ id="dx29-416004"></a>, we return the empty string instead of (for example) "Nothing":
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-886">
+&gt;&gt;&gt;&#x00A0;maybe&#x00A0;""&#x00A0;show&#x00A0;(Just&#x00A0;5)
+"5"
+
+&gt;&gt;&gt;&#x00A0;maybe&#x00A0;""&#x00A0;show&#x00A0;Nothing
+""
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-406" class="tabular" 
+ 
+><colgroup id="TBL-406-1g"><col 
+id="TBL-406-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-406-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-406-1-1"  
+class="td11"><span 
+class="pcrb8t-">isJust :: Maybe a -&gt; Bool </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     The <span 
+class="pcrr8t-">isJust</span><a 
+ id="dx29-416005"></a> function returns <span 
+class="pcrr8t-">True</span><a 
+ id="dx29-416006"></a> iff its argument is of the form <span 
+class="pcrr8t-">Just _</span>.
+     <p class="noindent">
+     <h5 class="likesubsubsectionHead"><a 
+ id="x29-417000"></a><span 
+class="ptmb8t-">Examples</span></h5>
+     <p class="noindent"> Basic usage:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-887">
+&gt;&gt;&gt;&#x00A0;isJust&#x00A0;(Just&#x00A0;3)
+True
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-888">
+&gt;&gt;&gt;&#x00A0;isJust&#x00A0;(Just&#x00A0;())
+True
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-889">
+&gt;&gt;&gt;&#x00A0;isJust&#x00A0;Nothing
+False
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent"> Only the outer constructor is taken into consideration:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-890">
+&gt;&gt;&gt;&#x00A0;isJust&#x00A0;(Just&#x00A0;Nothing)
+True
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-407" class="tabular" 
+ 
+><colgroup id="TBL-407-1g"><col 
+id="TBL-407-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-407-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-407-1-1"  
+class="td11"><span 
+class="pcrb8t-">isNothing :: Maybe a -&gt; Bool </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     The <span 
+class="pcrr8t-">isNothing</span><a 
+ id="dx29-417001"></a> function returns <span 
+class="pcrr8t-">True</span><a 
+ id="dx29-417002"></a> iff its argument is <span 
+class="pcrr8t-">Nothing</span><a 
+ id="dx29-417003"></a>.
+     <p class="noindent">
+     <h5 class="likesubsubsectionHead"><a 
+ id="x29-418000"></a><span 
+class="ptmb8t-">Examples</span></h5>
+     <p class="noindent"> Basic usage:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-891">
+&gt;&gt;&gt;&#x00A0;isNothing&#x00A0;(Just&#x00A0;3)
+False
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-892">
+&gt;&gt;&gt;&#x00A0;isNothing&#x00A0;(Just&#x00A0;())
+False
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-893">
+&gt;&gt;&gt;&#x00A0;isNothing&#x00A0;Nothing
+True
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent"> Only the outer constructor is taken into consideration:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-894">
+&gt;&gt;&gt;&#x00A0;isNothing&#x00A0;(Just&#x00A0;Nothing)
+False
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-408" class="tabular" 
+ 
+><colgroup id="TBL-408-1g"><col 
+id="TBL-408-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-408-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-408-1-1"  
+class="td11"><span 
+class="pcrb8t-">fromJust :: HasCallStack =&gt; Maybe a -&gt; a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     The <span 
+class="pcrr8t-">fromJust</span><a 
+ id="dx29-418001"></a> function extracts the element out of a <span 
+class="pcrr8t-">Just</span><a 
+ id="dx29-418002"></a> and throws an error if its argument is
+     <span 
+class="pcrr8t-">Nothing</span><a 
+ id="dx29-418003"></a>.
+     <p class="noindent">
+     <h5 class="likesubsubsectionHead"><a 
+ id="x29-419000"></a><span 
+class="ptmb8t-">Examples</span></h5>
+     <p class="noindent"> Basic usage:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-895">
+&gt;&gt;&gt;&#x00A0;fromJust&#x00A0;(Just&#x00A0;1)
+1
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-896">
+&gt;&gt;&gt;&#x00A0;2&#x00A0;*&#x00A0;(fromJust&#x00A0;(Just&#x00A0;10))
+20
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-897">
+&gt;&gt;&gt;&#x00A0;2&#x00A0;*&#x00A0;(fromJust&#x00A0;Nothing)
+***&#x00A0;Exception:&#x00A0;Maybe.fromJust:&#x00A0;Nothing
+...
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent"> WARNING: This function is partial. You can use case-matching instead.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-409" class="tabular" 
+ 
+><colgroup id="TBL-409-1g"><col 
+id="TBL-409-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-409-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-409-1-1"  
+class="td11"><span 
+class="pcrb8t-">fromMaybe :: a -&gt; Maybe a -&gt; a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     The <span 
+class="pcrr8t-">fromMaybe</span><a 
+ id="dx29-419001"></a> function takes a default value and a <span 
+class="pcrr8t-">Maybe</span><a 
+ id="dx29-419002"></a> value. If the <span 
+class="pcrr8t-">Maybe</span><a 
+ id="dx29-419003"></a> is <span 
+class="pcrr8t-">Nothing</span><a 
+ id="dx29-419004"></a>, it
+     returns the default value; otherwise, it returns the value contained in the <span 
+class="pcrr8t-">Maybe</span><a 
+ id="dx29-419005"></a>.
+     <p class="noindent">
+     <h5 class="likesubsubsectionHead"><a 
+ id="x29-420000"></a><span 
+class="ptmb8t-">Examples</span></h5>
+     <p class="noindent"> Basic usage:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-898">
+&gt;&gt;&gt;&#x00A0;fromMaybe&#x00A0;""&#x00A0;(Just&#x00A0;"Hello,&#x00A0;World!")
+"Hello,&#x00A0;World!"
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-899">
+&gt;&gt;&gt;&#x00A0;fromMaybe&#x00A0;""&#x00A0;Nothing
+""
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent"> Read an integer from a string using <span 
+class="pcrr8t-">readMaybe</span><a 
+ id="dx29-420001"></a>. If we fail to parse an integer, we want to return <span 
+class="pcrr8t-">0 </span>by
+     default:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-900">
+&gt;&gt;&gt;&#x00A0;import&#x00A0;GHC.Internal.Text.Read&#x00A0;(&#x00A0;readMaybe&#x00A0;)
+
+&gt;&gt;&gt;&#x00A0;fromMaybe&#x00A0;0&#x00A0;(readMaybe&#x00A0;"5")
+5
+
+&gt;&gt;&gt;&#x00A0;fromMaybe&#x00A0;0&#x00A0;(readMaybe&#x00A0;"")
+0
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-410" class="tabular" 
+ 
+><colgroup id="TBL-410-1g"><col 
+id="TBL-410-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-410-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-410-1-1"  
+class="td11"><span 
+class="pcrb8t-">listToMaybe :: [a] -&gt; Maybe a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     The  <span 
+class="pcrr8t-">listToMaybe</span><a 
+ id="dx29-420002"></a> function  returns  <span 
+class="pcrr8t-">Nothing</span><a 
+ id="dx29-420003"></a> on  an  empty  list  or  <span 
+class="pcrr8t-">Just</span><a 
+ id="dx29-420004"></a> <span 
+class="pcrr8t-">a </span>where  <span 
+class="pcrr8t-">a </span>is  the  first
+     element of the list.
+     <p class="noindent">
+     <h5 class="likesubsubsectionHead"><a 
+ id="x29-421000"></a><span 
+class="ptmb8t-">Examples</span></h5>
+     <p class="noindent"> Basic usage:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-901">
+&gt;&gt;&gt;&#x00A0;listToMaybe&#x00A0;[]
+Nothing
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-902">
+&gt;&gt;&gt;&#x00A0;listToMaybe&#x00A0;[9]
+Just&#x00A0;9
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-903">
+&gt;&gt;&gt;&#x00A0;listToMaybe&#x00A0;[1,2,3]
+Just&#x00A0;1
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent"> Composing <span 
+class="pcrr8t-">maybeToList</span><a 
+ id="dx29-421001"></a> with <span 
+class="pcrr8t-">listToMaybe</span><a 
+ id="dx29-421002"></a> should be the identity on singleton/empty
+     lists:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-904">
+&gt;&gt;&gt;&#x00A0;maybeToList&#x00A0;$&#x00A0;listToMaybe&#x00A0;[5]
+[5]
+
+&gt;&gt;&gt;&#x00A0;maybeToList&#x00A0;$&#x00A0;listToMaybe&#x00A0;[]
+[]
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent"> But not on lists with more than one element:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-905">
+&gt;&gt;&gt;&#x00A0;maybeToList&#x00A0;$&#x00A0;listToMaybe&#x00A0;[1,2,3]
+[1]
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-411" class="tabular" 
+ 
+><colgroup id="TBL-411-1g"><col 
+id="TBL-411-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-411-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-411-1-1"  
+class="td11"><span 
+class="pcrb8t-">maybeToList :: Maybe a -&gt; [a] </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     The <span 
+class="pcrr8t-">maybeToList</span><a 
+ id="dx29-421003"></a> function returns an empty list when given <span 
+class="pcrr8t-">Nothing</span><a 
+ id="dx29-421004"></a> or a singleton list when
+     given <span 
+class="pcrr8t-">Just</span><a 
+ id="dx29-421005"></a>.
+     <p class="noindent">
+     <h5 class="likesubsubsectionHead"><a 
+ id="x29-422000"></a><span 
+class="ptmb8t-">Examples</span></h5>
+     <p class="noindent"> Basic usage:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-906">
+&gt;&gt;&gt;&#x00A0;maybeToList&#x00A0;(Just&#x00A0;7)
+[7]
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-907">
+&gt;&gt;&gt;&#x00A0;maybeToList&#x00A0;Nothing
+[]
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent"> One can use <span 
+class="pcrr8t-">maybeToList</span><a 
+ id="dx29-422001"></a> to avoid pattern matching when combined with a function that (safely) works on
+     lists:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-908">
+&gt;&gt;&gt;&#x00A0;import&#x00A0;GHC.Internal.Text.Read&#x00A0;(&#x00A0;readMaybe&#x00A0;)
+
+&gt;&gt;&gt;&#x00A0;sum&#x00A0;$&#x00A0;maybeToList&#x00A0;(readMaybe&#x00A0;"3")
+3
+
+&gt;&gt;&gt;&#x00A0;sum&#x00A0;$&#x00A0;maybeToList&#x00A0;(readMaybe&#x00A0;"")
+0
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-412" class="tabular" 
+ 
+><colgroup id="TBL-412-1g"><col 
+id="TBL-412-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-412-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-412-1-1"  
+class="td11"><span 
+class="pcrb8t-">catMaybes :: [Maybe a] -&gt; [a] </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     The <span 
+class="pcrr8t-">catMaybes</span><a 
+ id="dx29-422002"></a> function takes a list of <span 
+class="pcrr8t-">Maybe</span><a 
+ id="dx29-422003"></a>s and returns a list of all the <span 
+class="pcrr8t-">Just</span><a 
+ id="dx29-422004"></a> values.
+     <p class="noindent">
+     <h5 class="likesubsubsectionHead"><a 
+ id="x29-423000"></a><span 
+class="ptmb8t-">Examples</span></h5>
+     <p class="noindent"> Basic usage:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-909">
+&gt;&gt;&gt;&#x00A0;catMaybes&#x00A0;[Just&#x00A0;1,&#x00A0;Nothing,&#x00A0;Just&#x00A0;3]
+[1,3]
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent"> When constructing a list of <span 
+class="pcrr8t-">Maybe</span><a 
+ id="dx29-423001"></a> values, <span 
+class="pcrr8t-">catMaybes</span><a 
+ id="dx29-423002"></a> can be used to return all of the "success" results (if
+     the list is the result of a <span 
+class="pcrr8t-">map</span><a 
+ id="dx29-423003"></a>, then <span 
+class="pcrr8t-">mapMaybe</span><a 
+ id="dx29-423004"></a> would be more appropriate):
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-910">
+&gt;&gt;&gt;&#x00A0;import&#x00A0;GHC.Internal.Text.Read&#x00A0;(&#x00A0;readMaybe&#x00A0;)
+
+&gt;&gt;&gt;&#x00A0;[readMaybe&#x00A0;x&#x00A0;::&#x00A0;Maybe&#x00A0;Int&#x00A0;|&#x00A0;x&#x00A0;&lt;-&#x00A0;["1",&#x00A0;"Foo",&#x00A0;"3"]&#x00A0;]
+[Just&#x00A0;1,Nothing,Just&#x00A0;3]
+
+&gt;&gt;&gt;&#x00A0;catMaybes&#x00A0;$&#x00A0;[readMaybe&#x00A0;x&#x00A0;::&#x00A0;Maybe&#x00A0;Int&#x00A0;|&#x00A0;x&#x00A0;&lt;-&#x00A0;["1",&#x00A0;"Foo",&#x00A0;"3"]&#x00A0;]
+[1,3]
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-413" class="tabular" 
+ 
+><colgroup id="TBL-413-1g"><col 
+id="TBL-413-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-413-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-413-1-1"  
+class="td11"><span 
+class="pcrb8t-">mapMaybe :: (a -&gt; Maybe b) -&gt; [a] -&gt; [b] </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     The  <span 
+class="pcrr8t-">mapMaybe</span><a 
+ id="dx29-423005"></a> function  is  a  version  of  <span 
+class="pcrr8t-">map</span><a 
+ id="dx29-423006"></a> which  can  throw  out  elements.  In  particular,  the
+     functional argument returns something of type <span 
+class="pcrr8t-">Maybe</span><a 
+ id="dx29-423007"></a> <span 
+class="pcrr8t-">b</span>. If this is <span 
+class="pcrr8t-">Nothing</span><a 
+ id="dx29-423008"></a>, no element is added on
+     to the result list. If it is <span 
+class="pcrr8t-">Just</span><a 
+ id="dx29-423009"></a> <span 
+class="pcrr8t-">b</span>, then <span 
+class="pcrr8t-">b </span>is included in the result list.
+     <p class="noindent">
+     <h5 class="likesubsubsectionHead"><a 
+ id="x29-424000"></a><span 
+class="ptmb8t-">Examples</span></h5>
+     <p class="noindent"> Using <span 
+class="pcrr8t-">mapMaybe</span><a 
+ id="dx29-424001"></a> <span 
+class="pcrr8t-">f x </span>is a shortcut for <span 
+class="pcrr8t-">catMaybes</span><a 
+ id="dx29-424002"></a> <span 
+class="pcrr8t-">$ map</span><a 
+ id="dx29-424003"></a> <span 
+class="pcrr8t-">f x </span>in most cases:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-911">
+&gt;&gt;&gt;&#x00A0;import&#x00A0;GHC.Internal.Text.Read&#x00A0;(&#x00A0;readMaybe&#x00A0;)
+
+&gt;&gt;&gt;&#x00A0;let&#x00A0;readMaybeInt&#x00A0;=&#x00A0;readMaybe&#x00A0;::&#x00A0;String&#x00A0;-&gt;&#x00A0;Maybe&#x00A0;Int
+
+&gt;&gt;&gt;&#x00A0;mapMaybe&#x00A0;readMaybeInt&#x00A0;["1",&#x00A0;"Foo",&#x00A0;"3"]
+[1,3]
+
+&gt;&gt;&gt;&#x00A0;catMaybes&#x00A0;$&#x00A0;map&#x00A0;readMaybeInt&#x00A0;["1",&#x00A0;"Foo",&#x00A0;"3"]
+[1,3]
+
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent"> If we map the <span 
+class="pcrr8t-">Just</span><a 
+ id="dx29-424004"></a> constructor, the entire list should be returned:
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-912">
+&gt;&gt;&gt;&#x00A0;mapMaybe&#x00A0;Just&#x00A0;[1,2,3]
+[1,2,3]
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">21.2    </span> <a 
+ id="x29-42500021.2"></a>Specification</h3>
+<p class="noindent">
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-913">
+module&#x00A0;Data.Maybe(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Maybe(Nothing,&#x00A0;Just),
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;isJust,&#x00A0;isNothing,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;fromJust,&#x00A0;fromMaybe,&#x00A0;listToMaybe,&#x00A0;maybeToList,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;catMaybes,&#x00A0;mapMaybe,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;maybe
+&#x00A0;&#x00A0;)&#x00A0;where
+
+maybe&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;b&#x00A0;-&gt;&#x00A0;(a&#x00A0;-&gt;&#x00A0;b)&#x00A0;-&gt;&#x00A0;Maybe&#x00A0;a&#x00A0;-&gt;&#x00A0;b
+maybe&#x00A0;n&#x00A0;_&#x00A0;Nothing&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;n
+maybe&#x00A0;_&#x00A0;f&#x00A0;(Just&#x00A0;x)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;f&#x00A0;x
+
+isJust&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Maybe&#x00A0;a&#x00A0;-&gt;&#x00A0;Bool
+isJust&#x00A0;(Just&#x00A0;a)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;True
+isJust&#x00A0;Nothing&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;False
+
+isNothing&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Maybe&#x00A0;a&#x00A0;-&gt;&#x00A0;Bool
+isNothing&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;not&#x00A0;.&#x00A0;isJust
+
+fromJust&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Maybe&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+fromJust&#x00A0;(Just&#x00A0;a)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;a
+fromJust&#x00A0;Nothing&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;error&#x00A0;"Maybe.fromJust:&#x00A0;Nothing"
+
+fromMaybe&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;a&#x00A0;-&gt;&#x00A0;Maybe&#x00A0;a&#x00A0;-&gt;&#x00A0;a
+fromMaybe&#x00A0;d&#x00A0;Nothing&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;d
+fromMaybe&#x00A0;d&#x00A0;(Just&#x00A0;a)&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;a
+
+maybeToList&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;Maybe&#x00A0;a&#x00A0;-&gt;&#x00A0;[a]
+maybeToList&#x00A0;Nothing&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[]
+maybeToList&#x00A0;(Just&#x00A0;a)&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[a]
+
+listToMaybe&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[a]&#x00A0;-&gt;&#x00A0;Maybe&#x00A0;a
+listToMaybe&#x00A0;[]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;Nothing
+listToMaybe&#x00A0;(a:_)&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;Just&#x00A0;a
+
+catMaybes&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;[Maybe&#x00A0;a]&#x00A0;-&gt;&#x00A0;[a]
+catMaybes&#x00A0;ms&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;[&#x00A0;m&#x00A0;|&#x00A0;Just&#x00A0;m&#x00A0;&lt;-&#x00A0;ms&#x00A0;]
+
+mapMaybe&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;::&#x00A0;(a&#x00A0;-&gt;&#x00A0;Maybe&#x00A0;b)&#x00A0;-&gt;&#x00A0;[a]&#x00A0;-&gt;&#x00A0;[b]
+mapMaybe&#x00A0;f&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;catMaybes&#x00A0;.&#x00A0;map&#x00A0;f
+</pre>
+     <p class="noindent"></blockquote>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch22.html" >next</a>] [<a 
+href="haskellch20.html" >prev</a>] [<a 
+href="haskellch20.html#tailhaskellch20.html" >prev-tail</a>] [<a 
+href="haskellch21.html" >front</a>] [<a 
+href="haskellpa2.html#haskellch21.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellch21.html"></a>   
+</body> </html> 

@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>I The Haskell 2024 Language</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 510--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellpa2.html" >next</a>] [<a 
+href="haskellli2.html" >prev</a>] [<a 
+href="haskellli2.html#tailhaskellli2.html" >prev-tail</a>] [<a 
+href="#tailhaskellpa1.html">tail</a>] [<a 
+href="haskell.html#haskellpa1.html" >up</a>] </p></div>
+<h1 class="partHead"><span class="titlemark">Part&#x00A0;I<br /></span><a 
+ id="x5-9000I"></a>The Haskell 2024 Language</h1>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+ <p class="noindent">
+                                                                                   
+
+                                                                                   
+                                                                                   
+
+                                                                                   
+ <p class="noindent">
+                                                                                   
+
+                                                                                   
+<div class="chapterTOCS">
+<span class="chapterToc" >1 <a 
+href="haskellch1.html#x6-100001">Introduction</a></span>
+<br /><span class="sectionToc" >1.1 <a 
+href="haskellch1.html#x6-110001.1">Program Structure</a></span>
+<br /><span class="sectionToc" >1.2 <a 
+href="haskellch1.html#x6-120001.2">The Haskell Kernel</a></span>
+<br /><span class="sectionToc" >1.3 <a 
+href="haskellch1.html#x6-130001.3">Values and Types</a></span>
+<br /><span class="sectionToc" >1.4 <a 
+href="haskellch1.html#x6-140001.4">Namespaces</a></span>
+<br /><span class="chapterToc" >2 <a 
+href="haskellch2.html#x7-150002">Lexical Structure</a></span>
+<br /><span class="sectionToc" >2.1 <a 
+href="haskellch2.html#x7-160002.1">Notational Conventions</a></span>
+<br /><span class="sectionToc" >2.2 <a 
+href="haskellch2.html#x7-170002.2">Lexical Program Structure</a></span>
+<br /><span class="sectionToc" >2.3 <a 
+href="haskellch2.html#x7-180002.3">Comments</a></span>
+<br /><span class="sectionToc" >2.4 <a 
+href="haskellch2.html#x7-190002.4">Identifiers and Operators</a></span>
+<br /><span class="sectionToc" >2.5 <a 
+href="haskellch2.html#x7-200002.5">Numeric Literals</a></span>
+<br /><span class="sectionToc" >2.6 <a 
+href="haskellch2.html#x7-210002.6">Character and String Literals</a></span>
+<br /><span class="sectionToc" >2.7 <a 
+href="haskellch2.html#x7-220002.7">Layout</a></span>
+<br /><span class="chapterToc" >3 <a 
+href="haskellch3.html#x8-230003">Expressions</a></span>
+<br /><span class="sectionToc" >3.1 <a 
+href="haskellch3.html#x8-240003.1">Errors</a></span>
+<br /><span class="sectionToc" >3.2 <a 
+href="haskellch3.html#x8-250003.2">Variables, Constructors, Operators, and Literals</a></span>
+<br /><span class="sectionToc" >3.3 <a 
+href="haskellch3.html#x8-270003.3">Curried Applications and Lambda Abstractions</a></span>
+<br /><span class="sectionToc" >3.4 <a 
+href="haskellch3.html#x8-290003.4">Operator Applications</a></span>
+<br /><span class="sectionToc" >3.5 <a 
+href="haskellch3.html#x8-310003.5">Sections</a></span>
+<br /><span class="sectionToc" >3.6 <a 
+href="haskellch3.html#x8-340003.6">Conditionals</a></span>
+<br /><span class="sectionToc" >3.7 <a 
+href="haskellch3.html#x8-360003.7">Lists</a></span>
+<br /><span class="sectionToc" >3.8 <a 
+href="haskellch3.html#x8-380003.8">Tuples</a></span>
+<br /><span class="sectionToc" >3.9 <a 
+href="haskellch3.html#x8-400003.9">Unit Expressions and Parenthesized Expressions</a></span>
+<br /><span class="sectionToc" >3.10 <a 
+href="haskellch3.html#x8-420003.10">Arithmetic Sequences</a></span>
+<br /><span class="sectionToc" >3.11 <a 
+href="haskellch3.html#x8-440003.11">List Comprehensions</a></span>
+<br /><span class="sectionToc" >3.12 <a 
+href="haskellch3.html#x8-460003.12">Let Expressions</a></span>
+<br /><span class="sectionToc" >3.13 <a 
+href="haskellch3.html#x8-480003.13">Case Expressions</a></span>
+<br /><span class="sectionToc" >3.14 <a 
+href="haskellch3.html#x8-510003.14">Do Expressions</a></span>
+                                                                                   
+
+                                                                                   
+<br /><span class="sectionToc" >3.15 <a 
+href="haskellch3.html#x8-530003.15">Datatypes with Field Labels</a></span>
+<br /><span class="sectionToc" >3.16 <a 
+href="haskellch3.html#x8-600003.16">Expression Type-Signatures</a></span>
+<br /><span class="sectionToc" >3.17 <a 
+href="haskellch3.html#x8-620003.17">Pattern Matching</a></span>
+<br /><span class="chapterToc" >4 <a 
+href="haskellch4.html#x10-660004">Declarations and Bindings</a></span>
+<br /><span class="sectionToc" >4.1 <a 
+href="haskellch4.html#x10-670004.1">Overview of Types and Classes</a></span>
+<br /><span class="sectionToc" >4.2 <a 
+href="haskellch4.html#x10-720004.2">User-Defined Datatypes</a></span>
+<br /><span class="sectionToc" >4.3 <a 
+href="haskellch4.html#x10-790004.3">Type Classes and Overloading</a></span>
+<br /><span class="sectionToc" >4.4 <a 
+href="haskellch4.html#x10-840004.4">Nested Declarations</a></span>
+<br /><span class="sectionToc" >4.5 <a 
+href="haskellch4.html#x10-920004.5">Static Semantics of Function and Pattern Bindings</a></span>
+<br /><span class="sectionToc" >4.6 <a 
+href="haskellch4.html#x10-1010004.6">Kind Inference</a></span>
+<br /><span class="chapterToc" >5 <a 
+href="haskellch5.html#x11-1020005">Modules</a></span>
+<br /><span class="sectionToc" >5.1 <a 
+href="haskellch5.html#x11-1030005.1">Module Structure</a></span>
+<br /><span class="sectionToc" >5.2 <a 
+href="haskellch5.html#x11-1040005.2">Export Lists</a></span>
+<br /><span class="sectionToc" >5.3 <a 
+href="haskellch5.html#x11-1050005.3">Import Declarations</a></span>
+<br /><span class="sectionToc" >5.4 <a 
+href="haskellch5.html#x11-1100005.4">Importing and Exporting Instance Declarations</a></span>
+<br /><span class="sectionToc" >5.5 <a 
+href="haskellch5.html#x11-1110005.5">Name Clashes and Closure</a></span>
+<br /><span class="sectionToc" >5.6 <a 
+href="haskellch5.html#x11-1150005.6">Standard Prelude</a></span>
+<br /><span class="sectionToc" >5.7 <a 
+href="haskellch5.html#x11-1180005.7">Separate Compilation</a></span>
+<br /><span class="sectionToc" >5.8 <a 
+href="haskellch5.html#x11-1190005.8">Abstract Datatypes</a></span>
+<br /><span class="chapterToc" >6 <a 
+href="haskellch6.html#x13-1200006">Predefined Types and Classes</a></span>
+<br /><span class="sectionToc" >6.1 <a 
+href="haskellch6.html#x13-1210006.1">Standard Haskell Types</a></span>
+<br /><span class="sectionToc" >6.2 <a 
+href="haskellch6.html#x13-1300006.2">Strict Evaluation</a></span>
+<br /><span class="sectionToc" >6.3 <a 
+href="haskellch6.html#x13-1310006.3">Standard Haskell Classes</a></span>
+<br /><span class="sectionToc" >6.4 <a 
+href="haskellch6.html#x13-1450006.4">Numbers</a></span>
+<br /><span class="chapterToc" >7 <a 
+href="haskellch7.html#x14-1520007">Basic Input/Output</a></span>
+<br /><span class="sectionToc" >7.1 <a 
+href="haskellch7.html#x14-1530007.1">Standard I/O Functions</a></span>
+<br /><span class="sectionToc" >7.2 <a 
+href="haskellch7.html#x14-1570007.2">Sequencing I/O Operations</a></span>
+<br /><span class="sectionToc" >7.3 <a 
+href="haskellch7.html#x14-1580007.3">Exception Handling in the I/O Monad</a></span>
+<br /><span class="chapterToc" >8 <a 
+href="haskellch8.html#x15-1590008">Foreign Function Interface</a></span>
+                                                                                   
+
+                                                                                   
+<br /><span class="sectionToc" >8.1 <a 
+href="haskellch8.html#x15-1600008.1">Foreign Languages</a></span>
+<br /><span class="sectionToc" >8.2 <a 
+href="haskellch8.html#x15-1610008.2">Contexts</a></span>
+<br /><span class="sectionToc" >8.3 <a 
+href="haskellch8.html#x15-1630008.3">Lexical Structure</a></span>
+<br /><span class="sectionToc" >8.4 <a 
+href="haskellch8.html#x15-1640008.4">Foreign Declarations</a></span>
+<br /><span class="sectionToc" >8.5 <a 
+href="haskellch8.html#x15-1710008.5">Specification of External Entities</a></span>
+<br /><span class="sectionToc" >8.6 <a 
+href="haskellch8.html#x15-1790008.6">Marshalling</a></span>
+<br /><span class="sectionToc" >8.7 <a 
+href="haskellch8.html#x15-1800008.7">The External C Interface</a></span>
+<br /><span class="chapterToc" >9 <a 
+href="haskellch9.html#x16-1810009">Standard Prelude</a></span>
+<br /><span class="sectionToc" >9.1 <a 
+href="haskellch9.html#x16-1820009.1">Prelude <span 
+class="pcrr8t-">PreludeList</span></a></span>
+<br /><span class="sectionToc" >9.2 <a 
+href="haskellch9.html#x16-1830009.2">Prelude <span 
+class="pcrr8t-">PreludeText</span></a></span>
+<br /><span class="sectionToc" >9.3 <a 
+href="haskellch9.html#x16-1840009.3">Prelude <span 
+class="pcrr8t-">PreludeIO</span></a></span>
+<br /><span class="chapterToc" >10 <a 
+href="haskellch10.html#x17-18500010">Syntax Reference</a></span>
+<br /><span class="sectionToc" >10.1 <a 
+href="haskellch10.html#x17-18600010.1">Notational Conventions</a></span>
+<br /><span class="sectionToc" >10.2 <a 
+href="haskellch10.html#x17-18700010.2">Lexical Syntax</a></span>
+<br /><span class="sectionToc" >10.3 <a 
+href="haskellch10.html#x17-18800010.3">Layout</a></span>
+<br /><span class="sectionToc" >10.4 <a 
+href="haskellch10.html#x17-18900010.4">Literate comments</a></span>
+<br /><span class="sectionToc" >10.5 <a 
+href="haskellch10.html#x17-19000010.5">Context-Free Syntax</a></span>
+<br /><span class="sectionToc" >10.6 <a 
+href="haskellch10.html#x17-19100010.6">Fixity Resolution</a></span>
+<br /><span class="chapterToc" >11 <a 
+href="haskellch11.html#x18-19200011">Specification of Derived Instances</a></span>
+<br /><span class="sectionToc" >11.1 <a 
+href="haskellch11.html#x18-19300011.1">Deriving strategies</a></span>
+<br /><span class="sectionToc" >11.2 <a 
+href="haskellch11.html#x18-19400011.2">The <span 
+class="pcrr8t-">newtype</span> deriving strategy</a></span>
+<br /><span class="sectionToc" >11.3 <a 
+href="haskellch11.html#x18-19500011.3">The <span 
+class="pcrr8t-">stock</span> deriving strategies</a></span>
+<br /><span class="sectionToc" >11.4 <a 
+href="haskellch11.html#x18-19600011.4"><span 
+class="pcrr8t-">stock</span> derived instances of <span 
+class="pcrr8t-">Eq</span> and <span 
+class="pcrr8t-">Ord</span></a></span>
+<br /><span class="sectionToc" >11.5 <a 
+href="haskellch11.html#x18-19700011.5"><span 
+class="pcrr8t-">stock</span> derived instances of <span 
+class="pcrr8t-">Enum</span></a></span>
+<br /><span class="sectionToc" >11.6 <a 
+href="haskellch11.html#x18-19800011.6"><span 
+class="pcrr8t-">stock</span> derived instances of <span 
+class="pcrr8t-">Bounded</span></a></span>
+<br /><span class="sectionToc" >11.7 <a 
+href="haskellch11.html#x18-19900011.7"><span 
+class="pcrr8t-">stock</span> derived instances of <span 
+class="pcrr8t-">Functor</span></a></span>
+<br /><span class="sectionToc" >11.8 <a 
+href="haskellch11.html#x18-20000011.8"><span 
+class="pcrr8t-">stock</span> derived instances of <span 
+class="pcrr8t-">Foldable</span></a></span>
+<br /><span class="sectionToc" >11.9 <a 
+href="haskellch11.html#x18-20100011.9"><span 
+class="pcrr8t-">stock</span> derived instances of <span 
+class="pcrr8t-">Traversable</span></a></span>
+<br /><span class="sectionToc" >11.10 <a 
+href="haskellch11.html#x18-20200011.10"><span 
+class="pcrr8t-">stock</span> derived instances of <span 
+class="pcrr8t-">Read</span> and <span 
+class="pcrr8t-">Show</span></a></span>
+                                                                                   
+
+                                                                                   
+<br /><span class="sectionToc" >11.11 <a 
+href="haskellch11.html#x18-20300011.11"><span 
+class="pcrr8t-">stock</span> derived instances of <span 
+class="pcrr8t-">Generic</span> and <span 
+class="pcrr8t-">Generic1</span></a></span>
+<br /><span class="sectionToc" >11.12 <a 
+href="haskellch11.html#x18-20400011.12">An Example</a></span>
+<br /><span class="chapterToc" >12 <a 
+href="haskellch12.html#x19-20500012">Compiler Pragmas</a></span>
+<br /><span class="sectionToc" >12.1 <a 
+href="haskellch12.html#x19-20600012.1">Inlining</a></span>
+<br /><span class="sectionToc" >12.2 <a 
+href="haskellch12.html#x19-20700012.2">Specialization</a></span>
+<br /><span class="sectionToc" >12.3 <a 
+href="haskellch12.html#x19-20800012.3">Language extensions</a></span>
+</div>
+                                                                                   
+
+                                                                                   
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+
+                                                                                   
+<!--l. 531--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellpa2.html" >next</a>] [<a 
+href="haskellli2.html" >prev</a>] [<a 
+href="haskellli2.html#tailhaskellli2.html" >prev-tail</a>] [<a 
+href="haskellpa1.html" >front</a>] [<a 
+href="haskell.html#haskellpa1.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellpa1.html"></a>  
+</body></html> 

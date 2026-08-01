@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>38 Numeric</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch39.html" >next</a>] [<a 
+href="haskellch37.html" >prev</a>] [<a 
+href="haskellch37.html#tailhaskellch37.html" >prev-tail</a>] [<a 
+href="#tailhaskellch38.html">tail</a>] [<a 
+href="haskellpa2.html#haskellch38.html" >up</a>] </p></div>
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;38</span><br /><a 
+ id="x46-48100038"></a><span 
+class="pcrr8t-">Numeric</span></h2>
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-942">
+module&#x00A0;Numeric&#x00A0;(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showSigned,&#x00A0;showIntAtBase,&#x00A0;showInt,&#x00A0;showHex,&#x00A0;showOct,&#x00A0;showEFloat,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;showFFloat,&#x00A0;showGFloat,&#x00A0;showFloat,&#x00A0;floatToDigits,&#x00A0;readSigned,&#x00A0;readInt,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;readDec,&#x00A0;readOct,&#x00A0;readHex,&#x00A0;readFloat,&#x00A0;lexDigits,&#x00A0;fromRat
+&#x00A0;&#x00A0;)&#x00A0;where
+</pre>
+     <p class="noindent"></blockquote>
+<h3 class="sectionHead"><span class="titlemark">38.1    </span> <a 
+ id="x46-48200038.1"></a>Showing</h3>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-749" class="tabular" 
+ 
+><colgroup id="TBL-749-1g"><col 
+id="TBL-749-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-749-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-749-1-1"  
+class="td11"><span 
+class="pcrb8t-">showSigned </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     <!--tex4ht:inline--><div class="tabular"><table id="TBL-750" class="tabulary" 
+ 
+><colgroup id="TBL-750-1g"><col 
+id="TBL-750-1" /><col 
+id="TBL-750-2" /><col 
+id="TBL-750-3" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-750-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-750-1-1"  
+class="td11"> <span 
+class="pcrb8t-">:: </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-750-1-2"  
+class="td11"> <span 
+class="pcrb8t-">Real a       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-750-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-750-2-1"  
+class="td11"> <span 
+class="pcrb8t-">=&gt; </span></td> <td  style="white-space:nowrap; text-align:left;" id="TBL-750-2-2"  
+class="td11"> <span 
+class="pcrb8t-">(a -&gt; ShowS)</span></td><td  style="white-space:normal; text-align:left;" id="TBL-750-2-3"  
+class="td11"> a function that can show unsigned values  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-750-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-750-3-1"  
+class="td11"> <span 
+class="pcrb8t-">-&gt; </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-750-3-2"  
+class="td11"> <span 
+class="pcrb8t-">Int          </span></td><td  style="white-space:normal; text-align:left;" id="TBL-750-3-3"  
+class="td11"> the precedence of the enclosing context     </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-750-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-750-4-1"  
+class="td11"> <span 
+class="pcrb8t-">-&gt; </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-750-4-2"  
+class="td11"> <span 
+class="pcrb8t-">a            </span></td><td  style="white-space:normal; text-align:left;" id="TBL-750-4-3"  
+class="td11"> the value to show                                        </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-750-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-750-5-1"  
+class="td11"> <span 
+class="pcrb8t-">-&gt; </span></td> <td  style="white-space:nowrap; text-align:left;" id="TBL-750-5-2"  
+class="td11"> <span 
+class="pcrb8t-">ShowS </span></td> <td  style="white-space:normal; text-align:left;" id="TBL-750-5-3"  
+class="td11"></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-750-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-750-6-1"  
+class="td11">    </td></tr></table>                                                                  </div>
+     <p class="noindent"> Converts a possibly-negative <span 
+class="pcrr8t-">Real</span><a 
+ id="dx46-482001"></a> value to a string.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-751" class="tabular" 
+ 
+><colgroup id="TBL-751-1g"><col 
+id="TBL-751-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-751-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-751-1-1"  
+class="td11"><span 
+class="pcrb8t-">showIntAtBase :: Integral a =&gt; a -&gt; (Int -&gt; Char) -&gt; a -&gt; ShowS </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Shows  a  <span 
+class="ptmri8t-">non-negative  </span><span 
+class="pcrr8t-">Integral</span><a 
+ id="dx46-482002"></a> number  using  the  base  specified  by  the  first  argument,  and  the
+     character representation specified by the second.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-752" class="tabular" 
+ 
+><colgroup id="TBL-752-1g"><col 
+id="TBL-752-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-752-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-752-1-1"  
+class="td11"><span 
+class="pcrb8t-">showInt :: Integral a =&gt; a -&gt; ShowS </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Show <span 
+class="ptmri8t-">non-negative </span><span 
+class="pcrr8t-">Integral</span><a 
+ id="dx46-482003"></a> numbers in base 10.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-753" class="tabular" 
+ 
+><colgroup id="TBL-753-1g"><col 
+id="TBL-753-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-753-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-753-1-1"  
+class="td11"><span 
+class="pcrb8t-">showHex :: Integral a =&gt; a -&gt; ShowS </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Show <span 
+class="ptmri8t-">non-negative </span><span 
+class="pcrr8t-">Integral</span><a 
+ id="dx46-482004"></a> numbers in base 16.
+     </dl>
+                                                                                   
+
+                                                                                   
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-754" class="tabular" 
+ 
+><colgroup id="TBL-754-1g"><col 
+id="TBL-754-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-754-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-754-1-1"  
+class="td11"><span 
+class="pcrb8t-">showOct :: Integral a =&gt; a -&gt; ShowS </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Show <span 
+class="ptmri8t-">non-negative </span><span 
+class="pcrr8t-">Integral</span><a 
+ id="dx46-482005"></a> numbers in base 8.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-755" class="tabular" 
+ 
+><colgroup id="TBL-755-1g"><col 
+id="TBL-755-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-755-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-755-1-1"  
+class="td11"><span 
+class="pcrb8t-">showEFloat :: RealFloat a =&gt; Maybe Int -&gt; a -&gt; ShowS </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Show a signed <span 
+class="pcrr8t-">RealFloat</span><a 
+ id="dx46-482006"></a> value using scientific (exponential) notation (e.g. <span 
+class="pcrr8t-">2.45e2</span>, <span 
+class="pcrr8t-">1.5e-3</span>).
+     <p class="noindent"> In the call <span 
+class="pcrr8t-">showEFloat</span><a 
+ id="dx46-482007"></a> <span 
+class="pcrr8t-">digs val</span>, if <span 
+class="pcrr8t-">digs </span>is <span 
+class="pcrr8t-">Nothing</span><a 
+ id="dx46-482008"></a>, the value is shown to full precision; if
+     <span 
+class="pcrr8t-">digs </span>is <span 
+class="pcrr8t-">Just</span><a 
+ id="dx46-482009"></a> <span 
+class="pcrr8t-">d</span>, then at most <span 
+class="pcrr8t-">d </span>digits after the decimal point are shown.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-756" class="tabular" 
+ 
+><colgroup id="TBL-756-1g"><col 
+id="TBL-756-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-756-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-756-1-1"  
+class="td11"><span 
+class="pcrb8t-">showFFloat :: RealFloat a =&gt; Maybe Int -&gt; a -&gt; ShowS </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Show a signed <span 
+class="pcrr8t-">RealFloat</span><a 
+ id="dx46-482010"></a> value using standard decimal notation (e.g. <span 
+class="pcrr8t-">245000</span>, <span 
+class="pcrr8t-">0.0015</span>).
+     <p class="noindent"> In the call <span 
+class="pcrr8t-">showFFloat</span><a 
+ id="dx46-482011"></a> <span 
+class="pcrr8t-">digs val</span>, if <span 
+class="pcrr8t-">digs </span>is <span 
+class="pcrr8t-">Nothing</span><a 
+ id="dx46-482012"></a>, the value is shown to full precision; if
+     <span 
+class="pcrr8t-">digs </span>is <span 
+class="pcrr8t-">Just</span><a 
+ id="dx46-482013"></a> <span 
+class="pcrr8t-">d</span>, then at most <span 
+class="pcrr8t-">d </span>digits after the decimal point are shown.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-757" class="tabular" 
+ 
+><colgroup id="TBL-757-1g"><col 
+id="TBL-757-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-757-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-757-1-1"  
+class="td11"><span 
+class="pcrb8t-">showGFloat :: RealFloat a =&gt; Maybe Int -&gt; a -&gt; ShowS </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Show  a  signed  <span 
+class="pcrr8t-">RealFloat</span><a 
+ id="dx46-482014"></a> value  using  standard  decimal  notation  for  arguments  whose  absolute
+     value lies between <span 
+class="pcrr8t-">0.1 </span>and <span 
+class="pcrr8t-">9,999,999</span>, and scientific notation otherwise.
+     <p class="noindent"> In the call <span 
+class="pcrr8t-">showGFloat</span><a 
+ id="dx46-482015"></a> <span 
+class="pcrr8t-">digs val</span>, if <span 
+class="pcrr8t-">digs </span>is <span 
+class="pcrr8t-">Nothing</span><a 
+ id="dx46-482016"></a>, the value is shown to full precision; if
+     <span 
+class="pcrr8t-">digs </span>is <span 
+class="pcrr8t-">Just</span><a 
+ id="dx46-482017"></a> <span 
+class="pcrr8t-">d</span>, then at most <span 
+class="pcrr8t-">d </span>digits after the decimal point are shown.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-758" class="tabular" 
+ 
+><colgroup id="TBL-758-1g"><col 
+id="TBL-758-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-758-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-758-1-1"  
+class="td11"><span 
+class="pcrb8t-">showFloat :: RealFloat a =&gt; a -&gt; ShowS </span></td></tr></table>                                   </div> <dd class="haddockdesc">
+     Show a signed <span 
+class="pcrr8t-">RealFloat</span><a 
+ id="dx46-482018"></a> value to full precision using standard decimal notation for arguments
+     whose absolute value lies between <span 
+class="pcrr8t-">0.1 </span>and <span 
+class="pcrr8t-">9,999,999</span>, and scientific notation otherwise.
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-759" class="tabular" 
+ 
+><colgroup id="TBL-759-1g"><col 
+id="TBL-759-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-759-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-759-1-1"  
+class="td11"><span 
+class="pcrb8t-">floatToDigits :: RealFloat a =&gt; Integer -&gt; a -&gt; ([Int], Int) </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     <span 
+class="pcrr8t-">floatToDigits</span><a 
+ id="dx46-482019"></a> takes a base and a non-negative <span 
+class="pcrr8t-">RealFloat</span><a 
+ id="dx46-482020"></a> number, and returns a list of digits
+     and an exponent. In particular, if <span 
+class="pcrr8t-">x&gt;=0</span>, and
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-943">
+floatToDigits&#x00A0;base&#x00A0;x&#x00A0;=&#x00A0;([d1,d2,...,dn],&#x00A0;e)
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent"> then<p class="noindent">
+         <ol  class="enumerate1" >
+<li 
+  class="enumerate" id="x46-482022x1">
+         <p class="noindent">
+             <blockquote class="quote">
+             <pre class="verbatim" id="verbatim-944">
+n&#x00A0;&gt;=&#x00A0;1</pre>
+             <p class="noindent"></blockquote>
+         </li>
+<li 
+  class="enumerate" id="x46-482024x2">
+         <p class="noindent">
+             <blockquote class="quote">
+             <pre class="verbatim" id="verbatim-945">
+x&#x00A0;=&#x00A0;0.d1d2...dn&#x00A0;*&#x00A0;(base**e)
+</pre>
+             <p class="noindent"></blockquote>
+         </li>
+<li 
+  class="enumerate" id="x46-482026x3">
+         <p class="noindent">
+             <blockquote class="quote">
+             <pre class="verbatim" id="verbatim-946">
+0&#x00A0;&lt;=&#x00A0;di&#x00A0;&lt;=&#x00A0;base-1</pre>
+             <p class="noindent"></blockquote>
+         </li></ol>
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+<h3 class="sectionHead"><span class="titlemark">38.2    </span> <a 
+ id="x46-48300038.2"></a>Reading</h3>
+<p class="noindent"> NB: <span 
+class="pcrr8t-">readInt </span>is the &#8217;dual&#8217; of <span 
+class="pcrr8t-">showIntAtBase</span>, and <span 
+class="pcrr8t-">readDec </span>is the &#8216;dual&#8217; of <span 
+class="pcrr8t-">showInt</span>. The inconsistent
+naming is a historical accident.
+ <p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-760" class="tabular" 
+ 
+><colgroup id="TBL-760-1g"><col 
+id="TBL-760-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-760-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-760-1-1"  
+class="td11"><span 
+class="pcrb8t-">readSigned :: Real a =&gt; ReadS a -&gt; ReadS a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Reads a <span 
+class="ptmri8t-">signed </span><span 
+class="pcrr8t-">Real</span><a 
+ id="dx46-483001"></a> value, given a reader for an unsigned value.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-761" class="tabular" 
+ 
+><colgroup id="TBL-761-1g"><col 
+id="TBL-761-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-761-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-761-1-1"  
+class="td11"><span 
+class="pcrb8t-">readInt </span></td></tr></table>                                                                      </div> <dd class="haddockdesc">
+     <!--tex4ht:inline--><div class="tabular"><table id="TBL-762" class="tabulary" 
+ 
+><colgroup id="TBL-762-1g"><col 
+id="TBL-762-1" /><col 
+id="TBL-762-2" /><col 
+id="TBL-762-3" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-762-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-762-1-1"  
+class="td11"> <span 
+class="pcrb8t-">:: </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-762-1-2"  
+class="td11"> <span 
+class="pcrb8t-">Num a          </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-762-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-762-2-1"  
+class="td11"> <span 
+class="pcrb8t-">=&gt; </span></td> <td  style="white-space:nowrap; text-align:left;" id="TBL-762-2-2"  
+class="td11"> <span 
+class="pcrb8t-">a</span></td><td  style="white-space:normal; text-align:left;" id="TBL-762-2-3"  
+class="td11"> the base                                                                            </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-762-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-762-3-1"  
+class="td11"> <span 
+class="pcrb8t-">-&gt; </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-762-3-2"  
+class="td11"> <span 
+class="pcrb8t-">(Char -&gt; Bool) </span></td><td  style="white-space:normal; text-align:left;" id="TBL-762-3-3"  
+class="td11"> a predicate distinguishing valid digits in this base          </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-762-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-762-4-1"  
+class="td11"> <span 
+class="pcrb8t-">-&gt; </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-762-4-2"  
+class="td11"> <span 
+class="pcrb8t-">(Char -&gt; Int)  </span></td><td  style="white-space:normal; text-align:left;" id="TBL-762-4-3"  
+class="td11"> a function converting a valid digit character to an <span 
+class="pcrr8t-">Int</span><a 
+ id="dx46-483002"></a> </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-762-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-762-5-1"  
+class="td11"> <span 
+class="pcrb8t-">-&gt; </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-762-5-2"  
+class="td11"> <span 
+class="pcrb8t-">ReadS a        </span></td><td  style="white-space:normal; text-align:left;" id="TBL-762-5-3"  
+class="td11">                                      </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-762-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-762-6-1"  
+class="td11"> </td>
+</tr></table>                                                                        </div>
+     <p class="noindent"> Reads an <span 
+class="ptmri8t-">unsigned </span>integral value in an arbitrary base.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-763" class="tabular" 
+ 
+><colgroup id="TBL-763-1g"><col 
+id="TBL-763-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-763-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-763-1-1"  
+class="td11"><span 
+class="pcrb8t-">readDec :: (Eq a, Num a) =&gt; ReadS a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Read an unsigned number in decimal notation.
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-947">
+&gt;&gt;&gt;&#x00A0;readDec&#x00A0;"0644"
+[(644,"")]
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-764" class="tabular" 
+ 
+><colgroup id="TBL-764-1g"><col 
+id="TBL-764-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-764-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-764-1-1"  
+class="td11"><span 
+class="pcrb8t-">readOct :: (Eq a, Num a) =&gt; ReadS a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Read an unsigned number in octal notation.
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-948">
+&gt;&gt;&gt;&#x00A0;readOct&#x00A0;"0644"
+[(420,"")]
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-765" class="tabular" 
+ 
+><colgroup id="TBL-765-1g"><col 
+id="TBL-765-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-765-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-765-1-1"  
+class="td11"><span 
+class="pcrb8t-">readHex :: (Eq a, Num a) =&gt; ReadS a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Read an unsigned number in hexadecimal notation. Both upper or lower case letters are allowed.
+     <p class="noindent">
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-949">
+&gt;&gt;&gt;&#x00A0;readHex&#x00A0;"deadbeef"
+[(3735928559,"")]
+
+</pre>
+         <p class="noindent"></blockquote>
+     </dl>
+<p class="noindent">
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-766" class="tabular" 
+ 
+><colgroup id="TBL-766-1g"><col 
+id="TBL-766-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-766-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-766-1-1"  
+class="td11"><span 
+class="pcrb8t-">readFloat :: RealFrac a =&gt; ReadS a </span></td></tr></table>                                       </div> <dd class="haddockdesc">
+     Reads an <span 
+class="ptmri8t-">unsigned </span><span 
+class="pcrr8t-">RealFrac</span><a 
+ id="dx46-483003"></a> value, expressed in decimal scientific notation.
+     <p class="noindent"> Note that this function takes time linear in the magnitude of its input which can scale exponentially
+     with input size (e.g. <span 
+class="pcrr8t-">"1e100000000" </span>is a very large number while having a very small textual form).
+     For this reason, users should take care to avoid using this function on untrusted input. Users needing
+     to parse floating point values (e.g. <span 
+class="pcrr8t-">Float</span><a 
+ id="dx46-483004"></a>) are encouraged to instead use <span 
+class="pcrr8t-">read</span>, which does not suffer
+     from this issue.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-767" class="tabular" 
+ 
+><colgroup id="TBL-767-1g"><col 
+id="TBL-767-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-767-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-767-1-1"  
+class="td11"><span 
+class="pcrb8t-">lexDigits :: ReadS String </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Reads a non-empty string of decimal digits.
+     </dl>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">38.3    </span> <a 
+ id="x46-48400038.3"></a>Miscellaneous</h3>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-768" class="tabular" 
+ 
+><colgroup id="TBL-768-1g"><col 
+id="TBL-768-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-768-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-768-1-1"  
+class="td11"><span 
+class="pcrb8t-">fromRat :: RealFloat a =&gt; Rational -&gt; a </span></td></tr></table>                                 </div> <dd class="haddockdesc">
+     Converts a <span 
+class="pcrr8t-">Rational</span><a 
+ id="dx46-484001"></a> value into any type in class <span 
+class="pcrr8t-">RealFloat</span><a 
+ id="dx46-484002"></a>.
+     </dl>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch39.html" >next</a>] [<a 
+href="haskellch37.html" >prev</a>] [<a 
+href="haskellch37.html#tailhaskellch37.html" >prev-tail</a>] [<a 
+href="haskellch38.html" >front</a>] [<a 
+href="haskellpa2.html#haskellch38.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellch38.html"></a>   
+</body> </html> 

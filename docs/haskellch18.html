@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>18 Data.Int</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch19.html" >next</a>] [<a 
+href="haskellch17.html" >prev</a>] [<a 
+href="haskellch17.html#tailhaskellch17.html" >prev-tail</a>] [<a 
+href="#tailhaskellch18.html">tail</a>] [<a 
+href="haskellpa2.html#haskellch18.html" >up</a>] </p></div>
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;18</span><br /><a 
+ id="x26-27500018"></a><span 
+class="pcrr8t-">Data.Int</span></h2>
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-515">
+module&#x00A0;Data.Int&#x00A0;(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Int,&#x00A0;Int8,&#x00A0;Int16,&#x00A0;Int32,&#x00A0;Int64
+&#x00A0;&#x00A0;)&#x00A0;where
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> This module provides signed integer types of unspecified width (<span 
+class="pcrr8t-">Int</span><a 
+ id="dx26-275001"></a>) and fixed widths (<span 
+class="pcrr8t-">Int8</span><a 
+ id="dx26-275002"></a>, <span 
+class="pcrr8t-">Int16</span><a 
+ id="dx26-275003"></a>,
+<span 
+class="pcrr8t-">Int32</span><a 
+ id="dx26-275004"></a> and <span 
+class="pcrr8t-">Int64</span><a 
+ id="dx26-275005"></a>). All arithmetic is performed modulo 2^n, where n is the number of bits in the
+type.
+ <p class="noindent"> For coercing between any two integer types, use <span 
+class="pcrr8t-">fromIntegral</span>. Coercing word types (see <span 
+class="pcrr8t-">Word</span><a 
+ id="dx26-275006"></a>) to and from
+integer types preserves representation, not sign.
+ <p class="noindent"> The rules that hold for <span 
+class="pcrr8t-">Enum </span>instances over a bounded type such as <span 
+class="pcrr8t-">Int</span><a 
+ id="dx26-275007"></a> (see the section of the Haskell language
+report dealing with arithmetic sequences) also hold for the <span 
+class="pcrr8t-">Enum </span>instances over the various Int types defined
+here.
+ <p class="noindent"> Right and left shifts by amounts greater than or equal to the width of the type result in either zero or -1, depending
+on the sign of the value being shifted. This is contrary to the behaviour in C, which is undefined; a common
+interpretation is to truncate the shift count to the width of the type, for example 1 « 32 == 1 in some C
+implementations.
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-270" class="tabular" 
+ 
+><colgroup id="TBL-270-1g"><col 
+id="TBL-270-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-270-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-270-1-1"  
+class="td11"><span 
+class="pcrb8t-">data Int </span></td></tr></table>                                                                     </div> <dd class="haddockdesc">
+     A fixed-precision integer type with at least the range <span 
+class="pcrr8t-">[-2^29 .. 2^29-1]</span>. The exact range for a
+     given implementation can be determined by using <span 
+class="pcrr8t-">minBound</span><a 
+ id="dx26-275008"></a> and <span 
+class="pcrr8t-">maxBound</span><a 
+ id="dx26-275009"></a> from the <span 
+class="pcrr8t-">Bounded</span><a 
+ id="dx26-275010"></a>
+     class.
+     </dl>
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-271" class="tabular" 
+ 
+><colgroup id="TBL-271-1g"><col 
+id="TBL-271-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-271-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-271-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits Int    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-271-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-271-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable Int</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-271-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-271-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix Int       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-271-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-271-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num Int</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-271-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-271-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read Int     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-271-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-271-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral Int</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-271-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-271-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real Int     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-271-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-271-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show Int     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-271-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-271-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq Int       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-271-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-271-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord Int      </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-271-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-271-11-1"  
+class="td11">                      </td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-272" class="tabular" 
+ 
+><colgroup id="TBL-272-1g"><col 
+id="TBL-272-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-272-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-272-1-1"  
+class="td11"><span 
+class="pcrb8t-">data Int8 </span></td></tr></table>                                                                    </div> <dd class="haddockdesc">
+     8-bit signed integer type
+     </dl>
+     <dl> <dt class="haddockdesc">
+                                                                                   
+
+                                                                                   
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-273" class="tabular" 
+ 
+><colgroup id="TBL-273-1g"><col 
+id="TBL-273-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-273-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-273-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits Int8    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-273-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-273-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded Int8</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-273-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-273-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum Int8     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-273-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-273-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable Int8</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-273-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-273-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix Int8       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-273-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-273-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num Int8</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-273-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-273-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read Int8     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-273-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-273-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral Int8 </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-273-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-273-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real Int8     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-273-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-273-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show Int8     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-273-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-273-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq Int8       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-273-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-273-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord Int8      </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-273-13-"><td  style="white-space:nowrap; text-align:left;" id="TBL-273-13-1"  
+class="td11">                       </td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-274" class="tabular" 
+ 
+><colgroup id="TBL-274-1g"><col 
+id="TBL-274-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-274-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-274-1-1"  
+class="td11"><span 
+class="pcrb8t-">data Int16 </span></td></tr></table>                                                                   </div> <dd class="haddockdesc">
+     16-bit signed integer type
+     </dl>
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-275" class="tabular" 
+ 
+><colgroup id="TBL-275-1g"><col 
+id="TBL-275-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-275-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-275-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits Int16    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-275-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-275-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded Int16</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-275-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-275-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum Int16     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-275-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-275-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable Int16</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-275-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-275-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix Int16       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-275-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-275-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num Int16</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-275-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-275-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read Int16     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-275-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-275-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral Int16 </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-275-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-275-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real Int16     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-275-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-275-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show Int16     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-275-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-275-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq Int16       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-275-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-275-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord Int16      </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-275-13-"><td  style="white-space:nowrap; text-align:left;" id="TBL-275-13-1"  
+class="td11">                        </td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-276" class="tabular" 
+ 
+><colgroup id="TBL-276-1g"><col 
+id="TBL-276-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-276-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-276-1-1"  
+class="td11"><span 
+class="pcrb8t-">data Int32 </span></td></tr></table>                                                                   </div> <dd class="haddockdesc">
+     32-bit signed integer type
+     </dl>
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-277" class="tabular" 
+ 
+><colgroup id="TBL-277-1g"><col 
+id="TBL-277-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-277-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-277-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits Int32    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-277-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-277-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded Int32</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-277-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-277-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum Int32     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-277-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-277-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable Int32</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-277-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-277-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix Int32       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-277-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-277-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num Int32</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-277-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-277-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read Int32     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-277-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-277-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral Int32 </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-277-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-277-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real Int32     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-277-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-277-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show Int32     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-277-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-277-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq Int32       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-277-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-277-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord Int32      </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-277-13-"><td  style="white-space:nowrap; text-align:left;" id="TBL-277-13-1"  
+class="td11">                        </td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-278" class="tabular" 
+ 
+><colgroup id="TBL-278-1g"><col 
+id="TBL-278-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-278-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-278-1-1"  
+class="td11"><span 
+class="pcrb8t-">data Int64 </span></td></tr></table>                                                                   </div> <dd class="haddockdesc">
+     64-bit signed integer type
+     </dl>
+     <dl> <dt class="haddockdesc">
+                                                                                   
+
+                                                                                   
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-279" class="tabular" 
+ 
+><colgroup id="TBL-279-1g"><col 
+id="TBL-279-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-279-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-279-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bits Int64    </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-279-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-279-2-1"  
+class="td11"><span 
+class="pcrb8t-">instance Bounded Int64</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-279-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-279-3-1"  
+class="td11"><span 
+class="pcrb8t-">instance Enum Int64     </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-279-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-279-4-1"  
+class="td11"><span 
+class="pcrb8t-">instance Storable Int64</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-279-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-279-5-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ix Int64       </span></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-279-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-279-6-1"  
+class="td11"><span 
+class="pcrb8t-">instance Num Int64</span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-279-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-279-7-1"  
+class="td11"><span 
+class="pcrb8t-">instance Read Int64     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-279-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-279-8-1"  
+class="td11"><span 
+class="pcrb8t-">instance Integral Int64 </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-279-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-279-9-1"  
+class="td11"><span 
+class="pcrb8t-">instance Real Int64     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-279-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-279-10-1"  
+class="td11"><span 
+class="pcrb8t-">instance Show Int64     </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-279-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-279-11-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq Int64       </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-279-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-279-12-1"  
+class="td11"><span 
+class="pcrb8t-">instance Ord Int64      </span></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-279-13-"><td  style="white-space:nowrap; text-align:left;" id="TBL-279-13-1"  
+class="td11">                        </td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch19.html" >next</a>] [<a 
+href="haskellch17.html" >prev</a>] [<a 
+href="haskellch17.html#tailhaskellch17.html" >prev-tail</a>] [<a 
+href="haskellch18.html" >front</a>] [<a 
+href="haskellpa2.html#haskellch18.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellch18.html"></a>  
+</body></html> 

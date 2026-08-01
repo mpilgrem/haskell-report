@@ -1,0 +1,1540 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>26 Foreign.C.Error</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch27.html" >next</a>] [<a 
+href="haskellch25.html" >prev</a>] [<a 
+href="haskellch25.html#tailhaskellch25.html" >prev-tail</a>] [<a 
+href="#tailhaskellch26.html">tail</a>] [<a 
+href="haskellpa2.html#haskellch26.html" >up</a>] </p></div>
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;26</span><br /><a 
+ id="x34-43100026"></a><span 
+class="pcrr8t-">Foreign.C.Error</span></h2>
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-919">
+module&#x00A0;Foreign.C.Error&#x00A0;(
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;Errno(Errno),&#x00A0;eOK,&#x00A0;e2BIG,&#x00A0;eACCES,&#x00A0;eADDRINUSE,&#x00A0;eADDRNOTAVAIL,&#x00A0;eADV,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;eAFNOSUPPORT,&#x00A0;eAGAIN,&#x00A0;eALREADY,&#x00A0;eBADF,&#x00A0;eBADMSG,&#x00A0;eBADRPC,&#x00A0;eBUSY,&#x00A0;eCHILD,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;eCOMM,&#x00A0;eCONNABORTED,&#x00A0;eCONNREFUSED,&#x00A0;eCONNRESET,&#x00A0;eDEADLK,&#x00A0;eDESTADDRREQ,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;eDIRTY,&#x00A0;eDOM,&#x00A0;eDQUOT,&#x00A0;eEXIST,&#x00A0;eFAULT,&#x00A0;eFBIG,&#x00A0;eFTYPE,&#x00A0;eHOSTDOWN,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;eHOSTUNREACH,&#x00A0;eIDRM,&#x00A0;eILSEQ,&#x00A0;eINPROGRESS,&#x00A0;eINTR,&#x00A0;eINVAL,&#x00A0;eIO,&#x00A0;eISCONN,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;eISDIR,&#x00A0;eLOOP,&#x00A0;eMFILE,&#x00A0;eMLINK,&#x00A0;eMSGSIZE,&#x00A0;eMULTIHOP,&#x00A0;eNAMETOOLONG,&#x00A0;eNETDOWN,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;eNETRESET,&#x00A0;eNETUNREACH,&#x00A0;eNFILE,&#x00A0;eNOBUFS,&#x00A0;eNODATA,&#x00A0;eNODEV,&#x00A0;eNOENT,&#x00A0;eNOEXEC,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;eNOLCK,&#x00A0;eNOLINK,&#x00A0;eNOMEM,&#x00A0;eNOMSG,&#x00A0;eNONET,&#x00A0;eNOPROTOOPT,&#x00A0;eNOSPC,&#x00A0;eNOSR,&#x00A0;eNOSTR,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;eNOSYS,&#x00A0;eNOTBLK,&#x00A0;eNOTCONN,&#x00A0;eNOTDIR,&#x00A0;eNOTEMPTY,&#x00A0;eNOTSOCK,&#x00A0;eNOTTY,&#x00A0;eNXIO,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;eOPNOTSUPP,&#x00A0;ePERM,&#x00A0;ePFNOSUPPORT,&#x00A0;ePIPE,&#x00A0;ePROCLIM,&#x00A0;ePROCUNAVAIL,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;ePROGMISMATCH,&#x00A0;ePROGUNAVAIL,&#x00A0;ePROTO,&#x00A0;ePROTONOSUPPORT,&#x00A0;ePROTOTYPE,&#x00A0;eRANGE,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;eREMCHG,&#x00A0;eREMOTE,&#x00A0;eROFS,&#x00A0;eRPCMISMATCH,&#x00A0;eRREMOTE,&#x00A0;eSHUTDOWN,&#x00A0;eSOCKTNOSUPPORT,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;eSPIPE,&#x00A0;eSRCH,&#x00A0;eSRMNT,&#x00A0;eSTALE,&#x00A0;eTIME,&#x00A0;eTIMEDOUT,&#x00A0;eTOOMANYREFS,&#x00A0;eTXTBSY,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;eUSERS,&#x00A0;eWOULDBLOCK,&#x00A0;eXDEV,&#x00A0;isValidErrno,&#x00A0;getErrno,&#x00A0;resetErrno,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;errnoToIOError,&#x00A0;throwErrno,&#x00A0;throwErrnoIf,&#x00A0;throwErrnoIf_,&#x00A0;throwErrnoIfRetry,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;throwErrnoIfRetry_,&#x00A0;throwErrnoIfMinus1,&#x00A0;throwErrnoIfMinus1_,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;throwErrnoIfMinus1Retry,&#x00A0;throwErrnoIfMinus1Retry_,&#x00A0;throwErrnoIfNull,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;throwErrnoIfNullRetry,&#x00A0;throwErrnoIfRetryMayBlock,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;throwErrnoIfRetryMayBlock_,&#x00A0;throwErrnoIfMinus1RetryMayBlock,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;throwErrnoIfMinus1RetryMayBlock_,&#x00A0;throwErrnoIfNullRetryMayBlock,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;throwErrnoPath,&#x00A0;throwErrnoPathIf,&#x00A0;throwErrnoPathIf_,&#x00A0;throwErrnoPathIfNull,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;throwErrnoPathIfMinus1,&#x00A0;throwErrnoPathIfMinus1_
+&#x00A0;&#x00A0;)&#x00A0;where
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> The module <span 
+class="pcrr8t-">Foreign.C.Error </span>facilitates C-specific error handling of <span 
+class="pcrr8t-">errno</span>.
+<h3 class="sectionHead"><span class="titlemark">26.1    </span> <a 
+ id="x34-43200026.1"></a>Haskell representation of errno values</h3>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-433" class="tabular" 
+ 
+><colgroup id="TBL-433-1g"><col 
+id="TBL-433-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-433-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-433-1-1"  
+class="td11"><span 
+class="pcrb8t-">newtype Errno </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Haskell representation for <span 
+class="pcrr8t-">errno </span>values. The implementation is deliberately exposed, to allow users
+     to add their own definitions of <span 
+class="pcrr8t-">Errno</span><a 
+ id="dx34-432001"></a> values.
+     <p class="noindent">   <span 
+class="ptmri8t-">Constructors</span>
+     <div class="tabular"> <table id="TBL-434" class="tabulary" 
+ 
+><colgroup id="TBL-434-1g"><col 
+id="TBL-434-1" /><col 
+id="TBL-434-2" /><col 
+id="TBL-434-3" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-434-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-434-1-1"  
+class="td11"> <span 
+class="pcrb8t-">= </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-434-1-2"  
+class="td11"> <span 
+class="pcrb8t-">Errno CInt </span></td><td  style="white-space:normal; text-align:left;" id="TBL-434-1-3"  
+class="td11">  </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-434-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-434-2-1"  
+class="td11"> </td></tr></table>                                                </div>
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl><dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-435" class="tabular" 
+ 
+><colgroup id="TBL-435-1g"><col 
+id="TBL-435-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-435-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-435-1-1"  
+class="td11"><span 
+class="pcrb8t-">instance Eq Errno </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">26.1.1    </span> <a 
+ id="x34-43300026.1.1"></a>Common errno symbols</h4>
+<p class="noindent"> Different operating systems and/or C libraries often support different values of <span 
+class="pcrr8t-">errno</span>. This module defines
+the common values, but due to the open definition of <span 
+class="pcrr8t-">Errno</span><a 
+ id="dx34-433001"></a> users may add definitions which are not
+predefined.
+ <p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-436" class="tabular" 
+ 
+><colgroup id="TBL-436-1g"><col 
+id="TBL-436-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-436-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-436-1-1"  
+class="td11"><span 
+class="pcrb8t-">eOK :: Errno </span></td></tr></table>                                                                </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-437" class="tabular" 
+ 
+><colgroup id="TBL-437-1g"><col 
+id="TBL-437-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-437-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-437-1-1"  
+class="td11"><span 
+class="pcrb8t-">e2BIG :: Errno </span></td></tr></table>                                                              </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-438" class="tabular" 
+ 
+><colgroup id="TBL-438-1g"><col 
+id="TBL-438-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-438-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-438-1-1"  
+class="td11"><span 
+class="pcrb8t-">eACCES :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-439" class="tabular" 
+ 
+><colgroup id="TBL-439-1g"><col 
+id="TBL-439-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-439-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-439-1-1"  
+class="td11"><span 
+class="pcrb8t-">eADDRINUSE :: Errno </span></td></tr></table>                                                        </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-440" class="tabular" 
+ 
+><colgroup id="TBL-440-1g"><col 
+id="TBL-440-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-440-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-440-1-1"  
+class="td11"><span 
+class="pcrb8t-">eADDRNOTAVAIL :: Errno </span></td></tr></table>                                                     </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-441" class="tabular" 
+ 
+><colgroup id="TBL-441-1g"><col 
+id="TBL-441-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-441-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-441-1-1"  
+class="td11"><span 
+class="pcrb8t-">eADV :: Errno </span></td></tr></table>                                                               </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-442" class="tabular" 
+ 
+><colgroup id="TBL-442-1g"><col 
+id="TBL-442-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-442-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-442-1-1"  
+class="td11"><span 
+class="pcrb8t-">eAFNOSUPPORT :: Errno </span></td></tr></table>                                                      </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-443" class="tabular" 
+ 
+><colgroup id="TBL-443-1g"><col 
+id="TBL-443-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-443-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-443-1-1"  
+class="td11"><span 
+class="pcrb8t-">eAGAIN :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+                                                                                   
+
+                                                                                   
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-444" class="tabular" 
+ 
+><colgroup id="TBL-444-1g"><col 
+id="TBL-444-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-444-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-444-1-1"  
+class="td11"><span 
+class="pcrb8t-">eALREADY :: Errno </span></td></tr></table>                                                           </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-445" class="tabular" 
+ 
+><colgroup id="TBL-445-1g"><col 
+id="TBL-445-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-445-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-445-1-1"  
+class="td11"><span 
+class="pcrb8t-">eBADF :: Errno </span></td></tr></table>                                                              </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-446" class="tabular" 
+ 
+><colgroup id="TBL-446-1g"><col 
+id="TBL-446-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-446-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-446-1-1"  
+class="td11"><span 
+class="pcrb8t-">eBADMSG :: Errno </span></td></tr></table>                                                            </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-447" class="tabular" 
+ 
+><colgroup id="TBL-447-1g"><col 
+id="TBL-447-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-447-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-447-1-1"  
+class="td11"><span 
+class="pcrb8t-">eBADRPC :: Errno </span></td></tr></table>                                                            </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-448" class="tabular" 
+ 
+><colgroup id="TBL-448-1g"><col 
+id="TBL-448-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-448-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-448-1-1"  
+class="td11"><span 
+class="pcrb8t-">eBUSY :: Errno </span></td></tr></table>                                                              </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-449" class="tabular" 
+ 
+><colgroup id="TBL-449-1g"><col 
+id="TBL-449-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-449-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-449-1-1"  
+class="td11"><span 
+class="pcrb8t-">eCHILD :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-450" class="tabular" 
+ 
+><colgroup id="TBL-450-1g"><col 
+id="TBL-450-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-450-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-450-1-1"  
+class="td11"><span 
+class="pcrb8t-">eCOMM :: Errno </span></td></tr></table>                                                              </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-451" class="tabular" 
+ 
+><colgroup id="TBL-451-1g"><col 
+id="TBL-451-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-451-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-451-1-1"  
+class="td11"><span 
+class="pcrb8t-">eCONNABORTED :: Errno </span></td></tr></table>                                                      </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-452" class="tabular" 
+ 
+><colgroup id="TBL-452-1g"><col 
+id="TBL-452-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-452-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-452-1-1"  
+class="td11"><span 
+class="pcrb8t-">eCONNREFUSED :: Errno </span></td></tr></table>                                                      </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-453" class="tabular" 
+ 
+><colgroup id="TBL-453-1g"><col 
+id="TBL-453-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-453-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-453-1-1"  
+class="td11"><span 
+class="pcrb8t-">eCONNRESET :: Errno </span></td></tr></table>                                                        </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-454" class="tabular" 
+ 
+><colgroup id="TBL-454-1g"><col 
+id="TBL-454-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-454-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-454-1-1"  
+class="td11"><span 
+class="pcrb8t-">eDEADLK :: Errno </span></td></tr></table>                                                            </div> <dd class="haddockdesc">
+                                                                                   
+
+                                                                                   
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-455" class="tabular" 
+ 
+><colgroup id="TBL-455-1g"><col 
+id="TBL-455-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-455-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-455-1-1"  
+class="td11"><span 
+class="pcrb8t-">eDESTADDRREQ :: Errno </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-456" class="tabular" 
+ 
+><colgroup id="TBL-456-1g"><col 
+id="TBL-456-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-456-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-456-1-1"  
+class="td11"><span 
+class="pcrb8t-">eDIRTY :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-457" class="tabular" 
+ 
+><colgroup id="TBL-457-1g"><col 
+id="TBL-457-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-457-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-457-1-1"  
+class="td11"><span 
+class="pcrb8t-">eDOM :: Errno </span></td></tr></table>                                                               </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-458" class="tabular" 
+ 
+><colgroup id="TBL-458-1g"><col 
+id="TBL-458-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-458-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-458-1-1"  
+class="td11"><span 
+class="pcrb8t-">eDQUOT :: Errno </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-459" class="tabular" 
+ 
+><colgroup id="TBL-459-1g"><col 
+id="TBL-459-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-459-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-459-1-1"  
+class="td11"><span 
+class="pcrb8t-">eEXIST :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-460" class="tabular" 
+ 
+><colgroup id="TBL-460-1g"><col 
+id="TBL-460-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-460-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-460-1-1"  
+class="td11"><span 
+class="pcrb8t-">eFAULT :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-461" class="tabular" 
+ 
+><colgroup id="TBL-461-1g"><col 
+id="TBL-461-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-461-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-461-1-1"  
+class="td11"><span 
+class="pcrb8t-">eFBIG :: Errno </span></td></tr></table>                                                              </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-462" class="tabular" 
+ 
+><colgroup id="TBL-462-1g"><col 
+id="TBL-462-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-462-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-462-1-1"  
+class="td11"><span 
+class="pcrb8t-">eFTYPE :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-463" class="tabular" 
+ 
+><colgroup id="TBL-463-1g"><col 
+id="TBL-463-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-463-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-463-1-1"  
+class="td11"><span 
+class="pcrb8t-">eHOSTDOWN :: Errno </span></td></tr></table>                                                         </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-464" class="tabular" 
+ 
+><colgroup id="TBL-464-1g"><col 
+id="TBL-464-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-464-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-464-1-1"  
+class="td11"><span 
+class="pcrb8t-">eHOSTUNREACH :: Errno </span></td></tr></table>                                                      </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-465" class="tabular" 
+ 
+><colgroup id="TBL-465-1g"><col 
+id="TBL-465-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-465-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-465-1-1"  
+class="td11"><span 
+class="pcrb8t-">eIDRM :: Errno </span></td></tr></table>                                                              </div> <dd class="haddockdesc">
+                                                                                   
+
+                                                                                   
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-466" class="tabular" 
+ 
+><colgroup id="TBL-466-1g"><col 
+id="TBL-466-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-466-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-466-1-1"  
+class="td11"><span 
+class="pcrb8t-">eILSEQ :: Errno </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-467" class="tabular" 
+ 
+><colgroup id="TBL-467-1g"><col 
+id="TBL-467-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-467-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-467-1-1"  
+class="td11"><span 
+class="pcrb8t-">eINPROGRESS :: Errno </span></td></tr></table>                                                       </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-468" class="tabular" 
+ 
+><colgroup id="TBL-468-1g"><col 
+id="TBL-468-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-468-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-468-1-1"  
+class="td11"><span 
+class="pcrb8t-">eINTR :: Errno </span></td></tr></table>                                                              </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-469" class="tabular" 
+ 
+><colgroup id="TBL-469-1g"><col 
+id="TBL-469-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-469-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-469-1-1"  
+class="td11"><span 
+class="pcrb8t-">eINVAL :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-470" class="tabular" 
+ 
+><colgroup id="TBL-470-1g"><col 
+id="TBL-470-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-470-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-470-1-1"  
+class="td11"><span 
+class="pcrb8t-">eIO :: Errno </span></td></tr></table>                                                                </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-471" class="tabular" 
+ 
+><colgroup id="TBL-471-1g"><col 
+id="TBL-471-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-471-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-471-1-1"  
+class="td11"><span 
+class="pcrb8t-">eISCONN :: Errno </span></td></tr></table>                                                            </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-472" class="tabular" 
+ 
+><colgroup id="TBL-472-1g"><col 
+id="TBL-472-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-472-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-472-1-1"  
+class="td11"><span 
+class="pcrb8t-">eISDIR :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-473" class="tabular" 
+ 
+><colgroup id="TBL-473-1g"><col 
+id="TBL-473-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-473-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-473-1-1"  
+class="td11"><span 
+class="pcrb8t-">eLOOP :: Errno </span></td></tr></table>                                                              </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-474" class="tabular" 
+ 
+><colgroup id="TBL-474-1g"><col 
+id="TBL-474-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-474-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-474-1-1"  
+class="td11"><span 
+class="pcrb8t-">eMFILE :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-475" class="tabular" 
+ 
+><colgroup id="TBL-475-1g"><col 
+id="TBL-475-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-475-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-475-1-1"  
+class="td11"><span 
+class="pcrb8t-">eMLINK :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-476" class="tabular" 
+ 
+><colgroup id="TBL-476-1g"><col 
+id="TBL-476-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-476-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-476-1-1"  
+class="td11"><span 
+class="pcrb8t-">eMSGSIZE :: Errno </span></td></tr></table>                                                           </div> <dd class="haddockdesc">
+                                                                                   
+
+                                                                                   
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-477" class="tabular" 
+ 
+><colgroup id="TBL-477-1g"><col 
+id="TBL-477-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-477-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-477-1-1"  
+class="td11"><span 
+class="pcrb8t-">eMULTIHOP :: Errno </span></td></tr></table>                                                         </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-478" class="tabular" 
+ 
+><colgroup id="TBL-478-1g"><col 
+id="TBL-478-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-478-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-478-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNAMETOOLONG :: Errno </span></td></tr></table>                                                      </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-479" class="tabular" 
+ 
+><colgroup id="TBL-479-1g"><col 
+id="TBL-479-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-479-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-479-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNETDOWN :: Errno </span></td></tr></table>                                                           </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-480" class="tabular" 
+ 
+><colgroup id="TBL-480-1g"><col 
+id="TBL-480-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-480-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-480-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNETRESET :: Errno </span></td></tr></table>                                                         </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-481" class="tabular" 
+ 
+><colgroup id="TBL-481-1g"><col 
+id="TBL-481-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-481-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-481-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNETUNREACH :: Errno </span></td></tr></table>                                                       </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-482" class="tabular" 
+ 
+><colgroup id="TBL-482-1g"><col 
+id="TBL-482-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-482-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-482-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNFILE :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-483" class="tabular" 
+ 
+><colgroup id="TBL-483-1g"><col 
+id="TBL-483-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-483-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-483-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNOBUFS :: Errno </span></td></tr></table>                                                            </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-484" class="tabular" 
+ 
+><colgroup id="TBL-484-1g"><col 
+id="TBL-484-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-484-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-484-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNODATA :: Errno </span></td></tr></table>                                                            </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-485" class="tabular" 
+ 
+><colgroup id="TBL-485-1g"><col 
+id="TBL-485-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-485-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-485-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNODEV :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-486" class="tabular" 
+ 
+><colgroup id="TBL-486-1g"><col 
+id="TBL-486-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-486-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-486-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNOENT :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-487" class="tabular" 
+ 
+><colgroup id="TBL-487-1g"><col 
+id="TBL-487-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-487-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-487-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNOEXEC :: Errno </span></td></tr></table>                                                            </div> <dd class="haddockdesc">
+                                                                                   
+
+                                                                                   
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-488" class="tabular" 
+ 
+><colgroup id="TBL-488-1g"><col 
+id="TBL-488-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-488-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-488-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNOLCK :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-489" class="tabular" 
+ 
+><colgroup id="TBL-489-1g"><col 
+id="TBL-489-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-489-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-489-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNOLINK :: Errno </span></td></tr></table>                                                            </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-490" class="tabular" 
+ 
+><colgroup id="TBL-490-1g"><col 
+id="TBL-490-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-490-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-490-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNOMEM :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-491" class="tabular" 
+ 
+><colgroup id="TBL-491-1g"><col 
+id="TBL-491-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-491-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-491-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNOMSG :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-492" class="tabular" 
+ 
+><colgroup id="TBL-492-1g"><col 
+id="TBL-492-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-492-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-492-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNONET :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-493" class="tabular" 
+ 
+><colgroup id="TBL-493-1g"><col 
+id="TBL-493-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-493-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-493-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNOPROTOOPT :: Errno </span></td></tr></table>                                                       </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-494" class="tabular" 
+ 
+><colgroup id="TBL-494-1g"><col 
+id="TBL-494-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-494-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-494-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNOSPC :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-495" class="tabular" 
+ 
+><colgroup id="TBL-495-1g"><col 
+id="TBL-495-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-495-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-495-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNOSR :: Errno </span></td></tr></table>                                                              </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-496" class="tabular" 
+ 
+><colgroup id="TBL-496-1g"><col 
+id="TBL-496-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-496-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-496-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNOSTR :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-497" class="tabular" 
+ 
+><colgroup id="TBL-497-1g"><col 
+id="TBL-497-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-497-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-497-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNOSYS :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-498" class="tabular" 
+ 
+><colgroup id="TBL-498-1g"><col 
+id="TBL-498-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-498-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-498-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNOTBLK :: Errno </span></td></tr></table>                                                            </div> <dd class="haddockdesc">
+                                                                                   
+
+                                                                                   
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-499" class="tabular" 
+ 
+><colgroup id="TBL-499-1g"><col 
+id="TBL-499-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-499-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-499-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNOTCONN :: Errno </span></td></tr></table>                                                           </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-500" class="tabular" 
+ 
+><colgroup id="TBL-500-1g"><col 
+id="TBL-500-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-500-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-500-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNOTDIR :: Errno </span></td></tr></table>                                                            </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-501" class="tabular" 
+ 
+><colgroup id="TBL-501-1g"><col 
+id="TBL-501-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-501-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-501-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNOTEMPTY :: Errno </span></td></tr></table>                                                         </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-502" class="tabular" 
+ 
+><colgroup id="TBL-502-1g"><col 
+id="TBL-502-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-502-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-502-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNOTSOCK :: Errno </span></td></tr></table>                                                           </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-503" class="tabular" 
+ 
+><colgroup id="TBL-503-1g"><col 
+id="TBL-503-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-503-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-503-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNOTTY :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-504" class="tabular" 
+ 
+><colgroup id="TBL-504-1g"><col 
+id="TBL-504-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-504-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-504-1-1"  
+class="td11"><span 
+class="pcrb8t-">eNXIO :: Errno </span></td></tr></table>                                                              </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-505" class="tabular" 
+ 
+><colgroup id="TBL-505-1g"><col 
+id="TBL-505-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-505-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-505-1-1"  
+class="td11"><span 
+class="pcrb8t-">eOPNOTSUPP :: Errno </span></td></tr></table>                                                        </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-506" class="tabular" 
+ 
+><colgroup id="TBL-506-1g"><col 
+id="TBL-506-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-506-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-506-1-1"  
+class="td11"><span 
+class="pcrb8t-">ePERM :: Errno </span></td></tr></table>                                                              </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-507" class="tabular" 
+ 
+><colgroup id="TBL-507-1g"><col 
+id="TBL-507-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-507-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-507-1-1"  
+class="td11"><span 
+class="pcrb8t-">ePFNOSUPPORT :: Errno </span></td></tr></table>                                                      </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-508" class="tabular" 
+ 
+><colgroup id="TBL-508-1g"><col 
+id="TBL-508-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-508-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-508-1-1"  
+class="td11"><span 
+class="pcrb8t-">ePIPE :: Errno </span></td></tr></table>                                                              </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-509" class="tabular" 
+ 
+><colgroup id="TBL-509-1g"><col 
+id="TBL-509-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-509-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-509-1-1"  
+class="td11"><span 
+class="pcrb8t-">ePROCLIM :: Errno </span></td></tr></table>                                                           </div> <dd class="haddockdesc">
+                                                                                   
+
+                                                                                   
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-510" class="tabular" 
+ 
+><colgroup id="TBL-510-1g"><col 
+id="TBL-510-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-510-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-510-1-1"  
+class="td11"><span 
+class="pcrb8t-">ePROCUNAVAIL :: Errno </span></td></tr></table>                                                      </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-511" class="tabular" 
+ 
+><colgroup id="TBL-511-1g"><col 
+id="TBL-511-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-511-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-511-1-1"  
+class="td11"><span 
+class="pcrb8t-">ePROGMISMATCH :: Errno </span></td></tr></table>                                                     </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-512" class="tabular" 
+ 
+><colgroup id="TBL-512-1g"><col 
+id="TBL-512-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-512-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-512-1-1"  
+class="td11"><span 
+class="pcrb8t-">ePROGUNAVAIL :: Errno </span></td></tr></table>                                                      </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-513" class="tabular" 
+ 
+><colgroup id="TBL-513-1g"><col 
+id="TBL-513-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-513-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-513-1-1"  
+class="td11"><span 
+class="pcrb8t-">ePROTO :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-514" class="tabular" 
+ 
+><colgroup id="TBL-514-1g"><col 
+id="TBL-514-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-514-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-514-1-1"  
+class="td11"><span 
+class="pcrb8t-">ePROTONOSUPPORT :: Errno </span></td></tr></table>                                                   </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-515" class="tabular" 
+ 
+><colgroup id="TBL-515-1g"><col 
+id="TBL-515-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-515-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-515-1-1"  
+class="td11"><span 
+class="pcrb8t-">ePROTOTYPE :: Errno </span></td></tr></table>                                                        </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-516" class="tabular" 
+ 
+><colgroup id="TBL-516-1g"><col 
+id="TBL-516-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-516-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-516-1-1"  
+class="td11"><span 
+class="pcrb8t-">eRANGE :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-517" class="tabular" 
+ 
+><colgroup id="TBL-517-1g"><col 
+id="TBL-517-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-517-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-517-1-1"  
+class="td11"><span 
+class="pcrb8t-">eREMCHG :: Errno </span></td></tr></table>                                                            </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-518" class="tabular" 
+ 
+><colgroup id="TBL-518-1g"><col 
+id="TBL-518-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-518-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-518-1-1"  
+class="td11"><span 
+class="pcrb8t-">eREMOTE :: Errno </span></td></tr></table>                                                            </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-519" class="tabular" 
+ 
+><colgroup id="TBL-519-1g"><col 
+id="TBL-519-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-519-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-519-1-1"  
+class="td11"><span 
+class="pcrb8t-">eROFS :: Errno </span></td></tr></table>                                                              </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-520" class="tabular" 
+ 
+><colgroup id="TBL-520-1g"><col 
+id="TBL-520-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-520-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-520-1-1"  
+class="td11"><span 
+class="pcrb8t-">eRPCMISMATCH :: Errno </span></td></tr></table>                                                      </div> <dd class="haddockdesc">
+                                                                                   
+
+                                                                                   
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-521" class="tabular" 
+ 
+><colgroup id="TBL-521-1g"><col 
+id="TBL-521-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-521-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-521-1-1"  
+class="td11"><span 
+class="pcrb8t-">eRREMOTE :: Errno </span></td></tr></table>                                                           </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-522" class="tabular" 
+ 
+><colgroup id="TBL-522-1g"><col 
+id="TBL-522-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-522-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-522-1-1"  
+class="td11"><span 
+class="pcrb8t-">eSHUTDOWN :: Errno </span></td></tr></table>                                                         </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-523" class="tabular" 
+ 
+><colgroup id="TBL-523-1g"><col 
+id="TBL-523-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-523-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-523-1-1"  
+class="td11"><span 
+class="pcrb8t-">eSOCKTNOSUPPORT :: Errno </span></td></tr></table>                                                   </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-524" class="tabular" 
+ 
+><colgroup id="TBL-524-1g"><col 
+id="TBL-524-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-524-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-524-1-1"  
+class="td11"><span 
+class="pcrb8t-">eSPIPE :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-525" class="tabular" 
+ 
+><colgroup id="TBL-525-1g"><col 
+id="TBL-525-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-525-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-525-1-1"  
+class="td11"><span 
+class="pcrb8t-">eSRCH :: Errno </span></td></tr></table>                                                              </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-526" class="tabular" 
+ 
+><colgroup id="TBL-526-1g"><col 
+id="TBL-526-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-526-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-526-1-1"  
+class="td11"><span 
+class="pcrb8t-">eSRMNT :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-527" class="tabular" 
+ 
+><colgroup id="TBL-527-1g"><col 
+id="TBL-527-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-527-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-527-1-1"  
+class="td11"><span 
+class="pcrb8t-">eSTALE :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-528" class="tabular" 
+ 
+><colgroup id="TBL-528-1g"><col 
+id="TBL-528-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-528-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-528-1-1"  
+class="td11"><span 
+class="pcrb8t-">eTIME :: Errno </span></td></tr></table>                                                              </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-529" class="tabular" 
+ 
+><colgroup id="TBL-529-1g"><col 
+id="TBL-529-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-529-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-529-1-1"  
+class="td11"><span 
+class="pcrb8t-">eTIMEDOUT :: Errno </span></td></tr></table>                                                         </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-530" class="tabular" 
+ 
+><colgroup id="TBL-530-1g"><col 
+id="TBL-530-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-530-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-530-1-1"  
+class="td11"><span 
+class="pcrb8t-">eTOOMANYREFS :: Errno </span></td></tr></table>                                                      </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-531" class="tabular" 
+ 
+><colgroup id="TBL-531-1g"><col 
+id="TBL-531-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-531-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-531-1-1"  
+class="td11"><span 
+class="pcrb8t-">eTXTBSY :: Errno </span></td></tr></table>                                                            </div> <dd class="haddockdesc">
+                                                                                   
+
+                                                                                   
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-532" class="tabular" 
+ 
+><colgroup id="TBL-532-1g"><col 
+id="TBL-532-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-532-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-532-1-1"  
+class="td11"><span 
+class="pcrb8t-">eUSERS :: Errno </span></td></tr></table>                                                             </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-533" class="tabular" 
+ 
+><colgroup id="TBL-533-1g"><col 
+id="TBL-533-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-533-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-533-1-1"  
+class="td11"><span 
+class="pcrb8t-">eWOULDBLOCK :: Errno </span></td></tr></table>                                                       </div> <dd class="haddockdesc">
+     <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-534" class="tabular" 
+ 
+><colgroup id="TBL-534-1g"><col 
+id="TBL-534-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-534-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-534-1-1"  
+class="td11"><span 
+class="pcrb8t-">eXDEV :: Errno </span></td></tr></table>                                                              </div> <dd class="haddockdesc">
+     </dl>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">26.1.2    </span> <a 
+ id="x34-43400026.1.2"></a>Errno functions</h4>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-535" class="tabular" 
+ 
+><colgroup id="TBL-535-1g"><col 
+id="TBL-535-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-535-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-535-1-1"  
+class="td11"><span 
+class="pcrb8t-">isValidErrno :: Errno -&gt; Bool </span></td></tr></table>                                             </div> <dd class="haddockdesc">
+     Yield <span 
+class="pcrr8t-">True</span><a 
+ id="dx34-434001"></a> if the given <span 
+class="pcrr8t-">Errno</span><a 
+ id="dx34-434002"></a> value is valid on the system. This implies that the <span 
+class="pcrr8t-">Eq</span><a 
+ id="dx34-434003"></a> instance of
+     <span 
+class="pcrr8t-">Errno</span><a 
+ id="dx34-434004"></a> is also system dependent as it is only defined for valid values of <span 
+class="pcrr8t-">Errno</span><a 
+ id="dx34-434005"></a>.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-536" class="tabular" 
+ 
+><colgroup id="TBL-536-1g"><col 
+id="TBL-536-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-536-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-536-1-1"  
+class="td11"><span 
+class="pcrb8t-">getErrno :: IO Errno </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Get the current value of <span 
+class="pcrr8t-">errno </span>in the current thread.
+     <p class="noindent"> On GHC, the runtime will ensure that any Haskell thread will only see "its own" <span 
+class="pcrr8t-">errno</span>, by saving
+     and restoring the value when Haskell threads are scheduled across OS threads.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-537" class="tabular" 
+ 
+><colgroup id="TBL-537-1g"><col 
+id="TBL-537-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-537-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-537-1-1"  
+class="td11"><span 
+class="pcrb8t-">resetErrno :: IO () </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Reset the current thread&#8217;s <span 
+class="pcrr8t-">errno </span>value to <span 
+class="pcrr8t-">eOK</span><a 
+ id="dx34-434006"></a>.
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-538" class="tabular" 
+ 
+><colgroup id="TBL-538-1g"><col 
+id="TBL-538-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-538-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-538-1-1"  
+class="td11"><span 
+class="pcrb8t-">errnoToIOError </span></td></tr></table>                                                              </div> <dd class="haddockdesc">
+     <!--tex4ht:inline--><div class="tabular"><table id="TBL-539" class="tabulary" 
+ 
+><colgroup id="TBL-539-1g"><col 
+id="TBL-539-1" /><col 
+id="TBL-539-2" /><col 
+id="TBL-539-3" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-539-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-539-1-1"  
+class="td11"> <span 
+class="pcrb8t-">:: </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-539-1-2"  
+class="td11"> <span 
+class="pcrb8t-">String       </span></td><td  style="white-space:normal; text-align:left;" id="TBL-539-1-3"  
+class="td11"> the location where the error occurred           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-539-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-539-2-1"  
+class="td11"> <span 
+class="pcrb8t-">-&gt; </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-539-2-2"  
+class="td11"> <span 
+class="pcrb8t-">Errno        </span></td><td  style="white-space:normal; text-align:left;" id="TBL-539-2-3"  
+class="td11"> the error number                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-539-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-539-3-1"  
+class="td11"> <span 
+class="pcrb8t-">-&gt; </span></td> <td  style="white-space:nowrap; text-align:left;" id="TBL-539-3-2"  
+class="td11"> <span 
+class="pcrb8t-">Maybe Handle </span></td> <td  style="white-space:normal; text-align:left;" id="TBL-539-3-3"  
+class="td11"> optional handle associated with the error</td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-539-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-539-4-1"  
+class="td11"> <span 
+class="pcrb8t-">-&gt; </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-539-4-2"  
+class="td11"> <span 
+class="pcrb8t-">Maybe String </span></td><td  style="white-space:normal; text-align:left;" id="TBL-539-4-3"  
+class="td11"> optional filename associated with the error  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-539-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-539-5-1"  
+class="td11"> <span 
+class="pcrb8t-">-&gt; </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-539-5-2"  
+class="td11"> <span 
+class="pcrb8t-">IOError      </span></td><td  style="white-space:normal; text-align:left;" id="TBL-539-5-3"  
+class="td11">                              </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-539-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-539-6-1"  
+class="td11"> </td>
+</tr></table>                                                                        </div>
+     <p class="noindent"> Construct an <span 
+class="pcrr8t-">IOError</span><a 
+ id="dx34-434007"></a> based on the given <span 
+class="pcrr8t-">Errno</span><a 
+ id="dx34-434008"></a> value. The optional information can be used to improve
+     the accuracy of error messages.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-540" class="tabular" 
+ 
+><colgroup id="TBL-540-1g"><col 
+id="TBL-540-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-540-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-540-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrno </span></td></tr></table>                                                                   </div> <dd class="haddockdesc">
+     <!--tex4ht:inline--><div class="tabular"><table id="TBL-541" class="tabulary" 
+ 
+><colgroup id="TBL-541-1g"><col 
+id="TBL-541-1" /><col 
+id="TBL-541-2" /><col 
+id="TBL-541-3" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-541-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-541-1-1"  
+class="td11"> <span 
+class="pcrb8t-">:: </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-541-1-2"  
+class="td11"> <span 
+class="pcrb8t-">String </span></td><td  style="white-space:normal; text-align:left;" id="TBL-541-1-3"  
+class="td11"> textual description of the error location  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-541-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-541-2-1"  
+class="td11"> <span 
+class="pcrb8t-">-&gt; </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-541-2-2"  
+class="td11"> <span 
+class="pcrb8t-">IO a   </span></td><td  style="white-space:normal; text-align:left;" id="TBL-541-2-3"  
+class="td11">                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-541-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-541-3-1"  
+class="td11"> </td>
+</tr></table>                                                                        </div>
+     <p class="noindent"> Throw an <span 
+class="pcrr8t-">IOError</span><a 
+ id="dx34-434009"></a> corresponding to the current value of <span 
+class="pcrr8t-">getErrno</span><a 
+ id="dx34-434010"></a>.
+     </dl>
+<p class="noindent">
+<h4 class="subsectionHead"><span class="titlemark">26.1.3    </span> <a 
+ id="x34-43500026.1.3"></a>Guards for IO operations that may fail</h4>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-542" class="tabular" 
+ 
+><colgroup id="TBL-542-1g"><col 
+id="TBL-542-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-542-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-542-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoIf </span></td></tr></table>                                                                </div> <dd class="haddockdesc">
+     <!--tex4ht:inline--><div class="tabular"><table id="TBL-543" class="tabulary" 
+ 
+><colgroup id="TBL-543-1g"><col 
+id="TBL-543-1" /><col 
+id="TBL-543-2" /><col 
+id="TBL-543-3" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-543-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-543-1-1"  
+class="td11"> <span 
+class="pcrb8t-">:: </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-543-1-2"  
+class="td11"> <span 
+class="pcrb8t-">(a -&gt; Bool) </span></td><td  style="white-space:normal; text-align:left;" id="TBL-543-1-3"  
+class="td11"> predicate to apply to the result value of the <span 
+class="pcrr8t-">IO</span><a 
+ id="dx34-435001"></a> operation  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-543-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-543-2-1"  
+class="td11"> <span 
+class="pcrb8t-">-&gt; </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-543-2-2"  
+class="td11"> <span 
+class="pcrb8t-">String      </span></td><td  style="white-space:normal; text-align:left;" id="TBL-543-2-3"  
+class="td11"> textual description of the location                                       </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-543-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-543-3-1"  
+class="td11"> <span 
+class="pcrb8t-">-&gt; </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-543-3-2"  
+class="td11"> <span 
+class="pcrb8t-">IO a        </span></td><td  style="white-space:normal; text-align:left;" id="TBL-543-3-3"  
+class="td11"> the <span 
+class="pcrr8t-">IO</span><a 
+ id="dx34-435002"></a> operation to be executed                                          </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-543-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-543-4-1"  
+class="td11"> <span 
+class="pcrb8t-">-&gt; </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-543-4-2"  
+class="td11"> <span 
+class="pcrb8t-">IO a        </span></td><td  style="white-space:normal; text-align:left;" id="TBL-543-4-3"  
+class="td11">                                        </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-543-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-543-5-1"  
+class="td11"> </td>
+</tr></table>                                                                        </div>
+     <p class="noindent"> Throw an <span 
+class="pcrr8t-">IOError</span><a 
+ id="dx34-435003"></a> corresponding to the current value of <span 
+class="pcrr8t-">getErrno</span><a 
+ id="dx34-435004"></a> if the result value of the <span 
+class="pcrr8t-">IO</span><a 
+ id="dx34-435005"></a> action
+     meets the given predicate.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-544" class="tabular" 
+ 
+><colgroup id="TBL-544-1g"><col 
+id="TBL-544-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-544-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-544-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoIf_ :: (a -&gt; Bool) -&gt; String -&gt; IO a -&gt; IO () </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     as <span 
+class="pcrr8t-">throwErrnoIf</span><a 
+ id="dx34-435006"></a>, but discards the result of the <span 
+class="pcrr8t-">IO</span><a 
+ id="dx34-435007"></a> action after error handling.
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-545" class="tabular" 
+ 
+><colgroup id="TBL-545-1g"><col 
+id="TBL-545-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-545-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-545-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoIfRetry :: (a -&gt; Bool) -&gt; String -&gt; IO a -&gt; IO a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     as <span 
+class="pcrr8t-">throwErrnoIf</span><a 
+ id="dx34-435008"></a>, but retry the <span 
+class="pcrr8t-">IO</span><a 
+ id="dx34-435009"></a> action when it yields the error code <span 
+class="pcrr8t-">eINTR</span><a 
+ id="dx34-435010"></a> - this amounts to the
+     standard retry loop for interrupted POSIX system calls.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-546" class="tabular" 
+ 
+><colgroup id="TBL-546-1g"><col 
+id="TBL-546-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-546-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-546-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoIfRetry_ :: (a -&gt; Bool) -&gt; String -&gt; IO a -&gt; IO () </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     as <span 
+class="pcrr8t-">throwErrnoIfRetry</span><a 
+ id="dx34-435011"></a>, but discards the result.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-547" class="tabular" 
+ 
+><colgroup id="TBL-547-1g"><col 
+id="TBL-547-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-547-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-547-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoIfMinus1 :: (Eq a, Num a) =&gt; String -&gt; IO a -&gt; IO a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Throw an <span 
+class="pcrr8t-">IOError</span><a 
+ id="dx34-435012"></a> corresponding to the current value of <span 
+class="pcrr8t-">getErrno</span><a 
+ id="dx34-435013"></a> if the <span 
+class="pcrr8t-">IO</span><a 
+ id="dx34-435014"></a> action returns a result
+     of <span 
+class="pcrr8t-">-1</span>.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-548" class="tabular" 
+ 
+><colgroup id="TBL-548-1g"><col 
+id="TBL-548-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-548-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-548-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoIfMinus1_ :: (Eq a, Num a) =&gt; String -&gt; IO a -&gt; IO () </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     as <span 
+class="pcrr8t-">throwErrnoIfMinus1</span><a 
+ id="dx34-435015"></a>, but discards the result.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-549" class="tabular" 
+ 
+><colgroup id="TBL-549-1g"><col 
+id="TBL-549-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-549-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-549-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoIfMinus1Retry :: (Eq a, Num a) =&gt; String -&gt; IO a -&gt; IO a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Throw an <span 
+class="pcrr8t-">IOError</span><a 
+ id="dx34-435016"></a> corresponding to the current value of <span 
+class="pcrr8t-">getErrno</span><a 
+ id="dx34-435017"></a> if the <span 
+class="pcrr8t-">IO</span><a 
+ id="dx34-435018"></a> action returns a result
+     of <span 
+class="pcrr8t-">-1</span>, but retries in case of an interrupted operation.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-550" class="tabular" 
+ 
+><colgroup id="TBL-550-1g"><col 
+id="TBL-550-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-550-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-550-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoIfMinus1Retry_ :: (Eq a, Num a) =&gt; String -&gt; IO a -&gt; IO () </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     as <span 
+class="pcrr8t-">throwErrnoIfMinus1</span><a 
+ id="dx34-435019"></a>, but discards the result.
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-551" class="tabular" 
+ 
+><colgroup id="TBL-551-1g"><col 
+id="TBL-551-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-551-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-551-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoIfNull :: String -&gt; IO (Ptr a) -&gt; IO (Ptr a) </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Throw  an  <span 
+class="pcrr8t-">IOError</span><a 
+ id="dx34-435020"></a> corresponding  to  the  current  value  of  <span 
+class="pcrr8t-">getErrno</span><a 
+ id="dx34-435021"></a> if  the  <span 
+class="pcrr8t-">IO</span><a 
+ id="dx34-435022"></a> action  returns
+     <span 
+class="pcrr8t-">nullPtr</span><a 
+ id="dx34-435023"></a>.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-552" class="tabular" 
+ 
+><colgroup id="TBL-552-1g"><col 
+id="TBL-552-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-552-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-552-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoIfNullRetry :: String -&gt; IO (Ptr a) -&gt; IO (Ptr a) </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     Throw  an  <span 
+class="pcrr8t-">IOError</span><a 
+ id="dx34-435024"></a> corresponding  to  the  current  value  of  <span 
+class="pcrr8t-">getErrno</span><a 
+ id="dx34-435025"></a> if  the  <span 
+class="pcrr8t-">IO</span><a 
+ id="dx34-435026"></a> action  returns
+     <span 
+class="pcrr8t-">nullPtr</span><a 
+ id="dx34-435027"></a>, but retry in case of an interrupted operation.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-553" class="tabular" 
+ 
+><colgroup id="TBL-553-1g"><col 
+id="TBL-553-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-553-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-553-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoIfRetryMayBlock </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     <!--tex4ht:inline--><div class="tabular"><table id="TBL-554" class="tabulary" 
+ 
+><colgroup id="TBL-554-1g"><col 
+id="TBL-554-1" /><col 
+id="TBL-554-2" /><col 
+id="TBL-554-3" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-554-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-554-1-1"  
+class="td11"> <span 
+class="pcrb8t-">:: </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-554-1-2"  
+class="td11"> <span 
+class="pcrb8t-">(a -&gt; Bool) </span></td><td  style="white-space:normal; text-align:left;" id="TBL-554-1-3"  
+class="td11"> predicate to apply to the result value of the <span 
+class="pcrr8t-">IO</span><a 
+ id="dx34-435028"></a> operation                    </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-554-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-554-2-1"  
+class="td11"> <span 
+class="pcrb8t-">-&gt; </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-554-2-2"  
+class="td11"> <span 
+class="pcrb8t-">String      </span></td><td  style="white-space:normal; text-align:left;" id="TBL-554-2-3"  
+class="td11"> textual description of the location                                                        </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-554-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-554-3-1"  
+class="td11"> <span 
+class="pcrb8t-">-&gt; </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-554-3-2"  
+class="td11"> <span 
+class="pcrb8t-">IO a        </span></td><td  style="white-space:normal; text-align:left;" id="TBL-554-3-3"  
+class="td11"> the <span 
+class="pcrr8t-">IO</span><a 
+ id="dx34-435029"></a> operation to be executed                                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-554-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-554-4-1"  
+class="td11"> <span 
+class="pcrb8t-">-&gt; </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-554-4-2"  
+class="td11"> <span 
+class="pcrb8t-">IO b        </span></td><td  style="white-space:normal; text-align:left;" id="TBL-554-4-3"  
+class="td11"> action to execute before retrying if an immediate retry would block  </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-554-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-554-5-1"  
+class="td11"> <span 
+class="pcrb8t-">-&gt; </span></td><td  style="white-space:nowrap; text-align:left;" id="TBL-554-5-2"  
+class="td11"> <span 
+class="pcrb8t-">IO a        </span></td><td  style="white-space:normal; text-align:left;" id="TBL-554-5-3"  
+class="td11">                                               </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-554-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-554-6-1"  
+class="td11"> </td>
+</tr></table>                                                                        </div>
+     <p class="noindent"> as <span 
+class="pcrr8t-">throwErrnoIfRetry</span><a 
+ id="dx34-435030"></a>, but additionally if the operation yields the error code <span 
+class="pcrr8t-">eAGAIN</span><a 
+ id="dx34-435031"></a> or
+     <span 
+class="pcrr8t-">eWOULDBLOCK</span><a 
+ id="dx34-435032"></a>, an alternative action is executed before retrying.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-555" class="tabular" 
+ 
+><colgroup id="TBL-555-1g"><col 
+id="TBL-555-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-555-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-555-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoIfRetryMayBlock_ :: (a -&gt; Bool) -&gt; String -&gt; IO a -&gt; IO b -&gt; IO () </span></td>
+</tr></table>                                                                                           </div> <dd class="haddockdesc">
+     as <span 
+class="pcrr8t-">throwErrnoIfRetryMayBlock</span><a 
+ id="dx34-435033"></a>, but discards the result.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-556" class="tabular" 
+ 
+><colgroup id="TBL-556-1g"><col 
+id="TBL-556-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-556-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-556-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoIfMinus1RetryMayBlock :: (Eq a, Num a) =&gt; String -&gt; IO a -&gt; IO b -&gt; IO a </span></td>
+</tr></table>                                                                                                  </div> <dd class="haddockdesc">
+     as <span 
+class="pcrr8t-">throwErrnoIfMinus1Retry</span><a 
+ id="dx34-435034"></a>, but checks for operations that would block.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-557" class="tabular" 
+ 
+><colgroup id="TBL-557-1g"><col 
+id="TBL-557-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-557-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-557-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoIfMinus1RetryMayBlock_ :: (Eq a, Num a) =&gt; String -&gt; IO a -&gt; IO b -&gt; IO () </span></td>
+</tr></table>                                                                                                     </div> <dd class="haddockdesc">
+     as <span 
+class="pcrr8t-">throwErrnoIfMinus1RetryMayBlock</span><a 
+ id="dx34-435035"></a>, but discards the result.
+     </dl>
+                                                                                   
+
+                                                                                   
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-558" class="tabular" 
+ 
+><colgroup id="TBL-558-1g"><col 
+id="TBL-558-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-558-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-558-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoIfNullRetryMayBlock :: String -&gt; IO (Ptr a) -&gt; IO b -&gt; IO (Ptr a) </span></td>
+</tr></table>                                                                                          </div> <dd class="haddockdesc">
+     as <span 
+class="pcrr8t-">throwErrnoIfNullRetry</span><a 
+ id="dx34-435036"></a>, but checks for operations that would block.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-559" class="tabular" 
+ 
+><colgroup id="TBL-559-1g"><col 
+id="TBL-559-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-559-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-559-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoPath :: String -&gt; FilePath -&gt; IO a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     as <span 
+class="pcrr8t-">throwErrno</span><a 
+ id="dx34-435037"></a>, but exceptions include the given path when appropriate.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-560" class="tabular" 
+ 
+><colgroup id="TBL-560-1g"><col 
+id="TBL-560-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-560-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-560-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoPathIf :: (a -&gt; Bool) -&gt; String -&gt; FilePath -&gt; IO a -&gt; IO a </span></td>
+</tr></table>                                                                                   </div> <dd class="haddockdesc">
+     as <span 
+class="pcrr8t-">throwErrnoIf</span><a 
+ id="dx34-435038"></a>, but exceptions include the given path when appropriate.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-561" class="tabular" 
+ 
+><colgroup id="TBL-561-1g"><col 
+id="TBL-561-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-561-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-561-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoPathIf_ :: (a -&gt; Bool) -&gt; String -&gt; FilePath -&gt; IO a -&gt; IO () </span></td>
+</tr></table>                                                                                      </div> <dd class="haddockdesc">
+     as <span 
+class="pcrr8t-">throwErrnoIf_</span><a 
+ id="dx34-435039"></a>, but exceptions include the given path when appropriate.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-562" class="tabular" 
+ 
+><colgroup id="TBL-562-1g"><col 
+id="TBL-562-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-562-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-562-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoPathIfNull :: String -&gt; FilePath -&gt; IO (Ptr a) -&gt; IO (Ptr a) </span></td>
+</tr></table>                                                                                     </div> <dd class="haddockdesc">
+     as <span 
+class="pcrr8t-">throwErrnoIfNull</span><a 
+ id="dx34-435040"></a>, but exceptions include the given path when appropriate.
+     </dl>
+<p class="noindent">
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-563" class="tabular" 
+ 
+><colgroup id="TBL-563-1g"><col 
+id="TBL-563-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-563-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-563-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoPathIfMinus1 :: (Eq a, Num a) =&gt; String -&gt; FilePath -&gt; IO a -&gt; IO a </span></td>
+</tr></table>                                                                                             </div> <dd class="haddockdesc">
+     as <span 
+class="pcrr8t-">throwErrnoIfMinus1</span><a 
+ id="dx34-435041"></a>, but exceptions include the given path when appropriate.
+     </dl>
+<p class="noindent">
+                                                                                   
+
+                                                                                   
+     <dl> <dt class="haddockdesc">
+<!--tex4ht:inline--><div class="tabular"> <table id="TBL-564" class="tabular" 
+ 
+><colgroup id="TBL-564-1g"><col 
+id="TBL-564-1" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-564-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-564-1-1"  
+class="td11"><span 
+class="pcrb8t-">throwErrnoPathIfMinus1_ :: (Eq a, Num a) =&gt; String -&gt; FilePath -&gt; IO a -&gt; IO () </span></td>
+</tr></table>                                                                                               </div> <dd class="haddockdesc">
+     as <span 
+class="pcrr8t-">throwErrnoIfMinus1_</span><a 
+ id="dx34-435042"></a>, but exceptions include the given path when appropriate.
+     </dl>
+<!--l. 1--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch27.html" >next</a>] [<a 
+href="haskellch25.html" >prev</a>] [<a 
+href="haskellch25.html#tailhaskellch25.html" >prev-tail</a>] [<a 
+href="haskellch26.html" >front</a>] [<a 
+href="haskellpa2.html#haskellch26.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellch26.html"></a>    
+</body> </html> 

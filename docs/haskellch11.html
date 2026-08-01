@@ -1,0 +1,1693 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>11 Specification of Derived Instances</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<meta name="originator" content="TeX4ht (https://tug.org/tex4ht/)" /> 
+<!-- 2,html,xhtml --> 
+<meta name="src" content="haskell.tex" /> 
+<link rel="stylesheet" type="text/css" href="haskell.css" /> 
+</head><body 
+>
+<!--l. 13--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch12.html" >next</a>] [<a 
+href="haskellch10.html" >prev</a>] [<a 
+href="haskellch10.html#tailhaskellch10.html" >prev-tail</a>] [<a 
+href="#tailhaskellch11.html">tail</a>] [<a 
+href="haskellpa1.html#haskellch11.html" >up</a>] </p></div>
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;11</span><br /><a 
+ id="x18-19200011"></a>Specification of Derived Instances</h2>
+<a 
+ id="dx18-192001"></a>
+<p class="noindent"> A <span 
+class="ptmri8t-">derived instance </span>is an instance declaration that is generated automatically in conjunction with a <span 
+class="pcrr8t-">data</span> or
+<span 
+class="pcrr8t-">newtype</span> declaration (including by means of a standalone deriving declaration). The body of a derived instance
+declaration is derived syntactically from the definition of the associated type. Derived instances are possible only for
+classes known to the compiler. In this chapter, we describe the derivation of classes defined by the Prelude and other
+classes.
+<h3 class="sectionHead"><span class="titlemark">11.1    </span> <a 
+ id="x18-19300011.1"></a>Deriving strategies</h3>
+<p class="noindent"> Each derived instance is derived in accordance with a <span 
+class="ptmri8t-">deriving strategy</span>.
+ <p class="noindent"> A deriving strategy is one of <span 
+class="pcrr8t-">newtype</span> or <span 
+class="pcrr8t-">stock</span>.
+ <p class="noindent"> If a deriving strategy is not specified:
+     <ul class="itemize1">
+     <li class="itemize">
+     <p class="noindent"> The <span 
+class="pcrr8t-">newtype</span> strategy is used for <span 
+class="pcrr8t-">newtype</span> instances, if it succeeds.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> Otherwise, the <span 
+class="pcrr8t-">stock</span> strategy is used.</li></ul>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">11.2    </span> <a 
+ id="x18-19400011.2"></a>The <span 
+class="pcrr8t-">newtype</span> deriving strategy</h3>
+<p class="noindent"> A derived instance is derived only for declarations of these forms (after expansion of any type synonyms):
+ <p class="noindent">
+                                                                                   
+
+                                                                                   
+<div class="array"> <table id="TBL-116" class="array" 
+ 
+><colgroup id="TBL-116-1g"><col 
+id="TBL-116-1" /><col 
+id="TBL-116-2" /><col 
+id="TBL-116-3" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">newtype</span><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">T</span><span 
+class="cmmi-10">&#x00A0;v</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;v</span><sub><span 
+class="cmmi-7">n</span></sub>  </div></td><td  style="white-space:nowrap; text-align:center;" 
+><div class="td11"> <span 
+class="cmr-10">=</span> </div></td><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">MkT</span><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">(</span><span 
+class="cmmi-10">&#x00A0;t</span><span 
+class="cmmi-10">&#x00A0;v</span><sub><span 
+class="cmmi-7">k</span><span 
+class="cmr-7">+1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;v</span><sub><span 
+class="cmmi-7">n</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">)</span><span 
+class="pcrr8t-">&#x00A0;deriving</span><span 
+class="pcrr8t-">&#x00A0;(</span><span 
+class="pcrr8t-">&#x00A0;C</span><span 
+class="cmmi-10">&#x00A0;t</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;t</span><sub><span 
+class="cmmi-7">j</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">)</span> </div></td>
+</tr></table>                                                                                   </div>
+<p class="noindent"> where
+ <p class="noindent">
+     <ol  class="enumerate1" >
+<li 
+  class="enumerate" id="x18-194002x1">
+     <p class="noindent"> <span 
+class="cmmi-10">v</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;v</span><sub><span 
+class="cmmi-7">n</span></sub> are type variables, and <span 
+class="cmmi-10">t</span>, <span 
+class="cmmi-10">s</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;s</span><sub><span 
+class="cmmi-7">k</span></sub>, <span 
+class="cmmi-10">t</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;t</span><sub><span 
+class="cmmi-7">j</span></sub> are types.
+     </li>
+<li 
+  class="enumerate" id="x18-194004x2">
+     <p class="noindent"> The <span 
+class="pcrr8t-">(</span><span 
+class="pcrr8t-">&#x00A0;C</span> <span 
+class="cmmi-10">t</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;t</span><sub><span 
+class="cmmi-7">j</span></sub> <span 
+class="pcrr8t-">)</span> is a partial applications of the class <span 
+class="pcrr8t-">C</span>, where the arity of <span 
+class="pcrr8t-">C</span> is exactly <span 
+class="cmmi-10">j </span><span 
+class="cmr-10">+ 1</span>. That
+     is, <span 
+class="pcrr8t-">C</span> lacks exactly one type argument.
+     </li>
+<li 
+  class="enumerate" id="x18-194006x3">
+     <p class="noindent"> <span 
+class="cmmi-10">k</span> is chosen so that <span 
+class="pcrr8t-">C</span> <span 
+class="cmmi-10">t</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;t</span><sub><span 
+class="cmmi-7">j</span></sub> <span 
+class="pcrr8t-">(</span><span 
+class="pcrr8t-">&#x00A0;T</span> <span 
+class="cmmi-10">v</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;v</span><sub><span 
+class="cmmi-7">k</span></sub> <span 
+class="pcrr8t-">)</span> is well-kinded. (Or, in the case of a data instance, so
+     that <span 
+class="pcrr8t-">C</span> <span 
+class="cmmi-10">t</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;t</span><sub><span 
+class="cmmi-7">j</span></sub> <span 
+class="pcrr8t-">(</span><span 
+class="pcrr8t-">&#x00A0;T</span> <span 
+class="cmmi-10">s</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;s</span><sub><span 
+class="cmmi-7">k</span></sub> <span 
+class="pcrr8t-">)</span> is well kinded.)
+     </li>
+<li 
+  class="enumerate" id="x18-194008x4">
+     <p class="noindent"> The type <span 
+class="cmmi-10">t</span> is an arbitrary type.
+     </li>
+<li 
+  class="enumerate" id="x18-194010x5">
+     <p class="noindent"> The type variables <span 
+class="cmmi-10">v</span><sub><span 
+class="cmmi-7">k</span><span 
+class="cmr-7">+1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;v</span><sub><span 
+class="cmmi-7">n</span></sub> do not occur in the types <span 
+class="cmmi-10">t</span>, <span 
+class="cmmi-10">s</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;s</span><sub><span 
+class="cmmi-7">k</span></sub>, or <span 
+class="cmmi-10">t</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;t</span><sub><span 
+class="cmmi-7">j</span></sub>.
+     </li>
+<li 
+  class="enumerate" id="x18-194012x6">
+     <p class="noindent"> <span 
+class="pcrr8t-">C</span> is not <span 
+class="pcrr8t-">Data</span>, <span 
+class="pcrr8t-">Read</span>, <span 
+class="pcrr8t-">Show</span> or <span 
+class="pcrr8t-">Typeable</span>.
+     </li>
+<li 
+  class="enumerate" id="x18-194014x7">
+     <p class="noindent"> It is safe to coerce each of the methods of <span 
+class="pcrr8t-">C</span>. That is, the missing last argument to <span 
+class="pcrr8t-">C</span> is not used at a
+     nominal role in any of the <span 
+class="pcrr8t-">C</span>&#8217;s methods.
+     </li></ol>
+                                                                                   
+
+                                                                                   
+ <p class="noindent"> Then the derived instance declaration is of the form
+ <p class="noindent">
+<div class="array"> <table id="TBL-117" class="array" 
+ 
+><colgroup id="TBL-117-1g"><col 
+id="TBL-117-1" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">instance</span><span 
+class="pcrr8t-">&#x00A0;C</span><span 
+class="cmmi-10">&#x00A0;t</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;t</span><sub><span 
+class="cmmi-7">j</span></sub><span 
+class="cmmi-10">&#x00A0;t</span><span 
+class="cmmi-10">&#x00A0; </span><span 
+class="cmr-10">=</span><span 
+class="cmmi-10">&#x003E;</span> <span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">C</span><span 
+class="cmmi-10">&#x00A0;t</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;t</span><sub><span 
+class="cmmi-7">j</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">(</span><span 
+class="pcrr8t-">&#x00A0;T</span><span 
+class="cmmi-10">&#x00A0;v</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;v</span><sub><span 
+class="cmmi-7">k</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">)</span> </div></td>
+</tr></table>                                                                                   </div>
+<p class="noindent"> If <span 
+class="pcrr8t-">C</span> does not contain any class methods, the instance context is unnecessary, and the derived instance will
+be:
+ <p class="noindent">
+<div class="array"> <table id="TBL-118" class="array" 
+ 
+><colgroup id="TBL-118-1g"><col 
+id="TBL-118-1" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">instance</span><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">C</span><span 
+class="cmmi-10">&#x00A0;t</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;t</span><sub><span 
+class="cmmi-7">j</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">(</span><span 
+class="pcrr8t-">&#x00A0;T</span><span 
+class="cmmi-10">&#x00A0;v</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;v</span><sub><span 
+class="cmmi-7">k</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">)</span> </div></td>
+</tr></table>                                                                                   </div>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">11.3    </span> <a 
+ id="x18-19500011.3"></a>The <span 
+class="pcrr8t-">stock</span> deriving strategies</h3>
+ <p class="noindent"> If <span 
+class="cmmi-10">T</span> is an algebraic datatype declared by:<a 
+ id="dx18-195001"></a>
+                                                                                   
+
+                                                                                   
+<div class="array"> <table id="TBL-119" class="array" 
+ 
+><colgroup id="TBL-119-1g"><col 
+id="TBL-119-1" /><col 
+id="TBL-119-2" /><col 
+id="TBL-119-3" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">data</span><span 
+class="cmmi-10">&#x00A0;T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span></sub>  </div></td><td  style="white-space:nowrap; text-align:center;" 
+><div class="td11"> <span 
+class="pcrr8t-">=</span> </div></td><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="cmmi-10">K</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;t</span><sub><span 
+class="cmr-7">11</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;t</span><sub><span 
+class="cmr-7">1</span><span 
+class="cmmi-7">k</span><sub><span 
+class="cmr-5">1</span></sub></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">|</span><span 
+class="cmmi-10">&#x00A0;</span><img 
+src="haskell3x.png" alt="&#x22C5;&#x22C5;&#x22C5;"  class="cdots"  /><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">|</span><span 
+class="cmmi-10">&#x00A0;K</span><sub><span 
+class="cmmi-7">n</span></sub><span 
+class="cmmi-10">&#x00A0;t</span><sub><span 
+class="cmmi-7">n</span><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;t</span><sub><span 
+class="cmmi-7">nk</span><sub><span 
+class="cmmi-5">n</span></sub></sub>  </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11">                </div></td><td  style="white-space:nowrap; text-align:center;" 
+><div class="td11">   </div></td><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">deriving</span><span 
+class="pcrr8t-">&#x00A0;(</span><span 
+class="cmmi-10">C</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="pcrr8t-">,</span><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="pcrr8t-">,</span><span 
+class="cmmi-10">&#x00A0;C</span><sub><span 
+class="cmmi-7">m</span></sub><span 
+class="pcrr8t-">)</span>           </div></td>
+</tr></table>                                                                                   </div>
+ (where <span 
+class="cmmi-10">m </span><span 
+class="cmsy-10">&#x2265; </span><span 
+class="cmr-10">0</span> and the parentheses may be omitted if <span 
+class="cmmi-10">m </span><span 
+class="cmr-10">= 1</span>) then a derived instance declaration is possible for a
+class <span 
+class="cmmi-10">C</span> if these conditions hold:
+     <ol  class="enumerate1" >
+<li 
+  class="enumerate" id="x18-195003x1">
+     <p class="noindent"> <span 
+class="cmmi-10">C</span> is one of <span 
+class="pcrr8t-">Eq</span>, <span 
+class="pcrr8t-">Ord</span>, <span 
+class="pcrr8t-">Enum</span>, <span 
+class="pcrr8t-">Bounded</span>, <span 
+class="pcrr8t-">Functor</span>, <span 
+class="pcrr8t-">Foldable</span>, <span 
+class="pcrr8t-">Traversable</span>, <span 
+class="pcrr8t-">Show</span>, <span 
+class="pcrr8t-">Read</span>,
+     <span 
+class="pcrr8t-">Generic</span> or <span 
+class="pcrr8t-">Generic1</span>.
+     </li>
+<li 
+  class="enumerate" id="x18-195005x2">
+     <p class="noindent"> There is a context <span 
+class="cmmi-10">cx</span><span 
+class="cmsy-10">&#x2032;</span> such that <span 
+class="cmmi-10">cx</span><span 
+class="cmsy-10">&#x2032;</span><span 
+class="cmmi-10">&#x00A0; </span><span 
+class="cmsy-10">&#x21D2;</span> <span 
+class="cmmi-10">&#x00A0;C</span><span 
+class="cmmi-10">&#x00A0;t</span><sub><span 
+class="cmmi-7">ij</span></sub> holds for each of the constituent types <span 
+class="cmmi-10">t</span><sub><span 
+class="cmmi-7">ij</span></sub>.
+     </li>
+<li 
+  class="enumerate" id="x18-195007x3">
+     <p class="noindent"> If <span 
+class="cmmi-10">C</span> is <span 
+class="pcrr8t-">Bounded</span>, the type must be either an enumeration (all constructors must be nullary) or have
+     only one constructor.
+     </li>
+<li 
+  class="enumerate" id="x18-195009x4">
+     <p class="noindent"> If <span 
+class="cmmi-10">C</span> is <span 
+class="pcrr8t-">Enum</span>, the type must be an enumeration.
+  5. If <span 
+class="cmmi-10">C</span> is <span 
+class="pcrr8t-">Generic</span>, the type must be of kind <span 
+class="cmsy-10">*</span>.
+  6. If <span 
+class="cmmi-10">C</span> is <span 
+class="pcrr8t-">Generic1</span>, the type bust be of kind <span 
+class="cmsy-10">*&#x2192;*</span>. 
+     </li>
+<li 
+  class="enumerate" id="x18-195013x7">
+     <p class="noindent"> There must be no explicit instance declaration elsewhere in the program that makes <span 
+class="cmmi-10">T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span></sub> an instance
+     of <span 
+class="cmmi-10">C</span>.
+     </li>
+<li 
+  class="enumerate" id="x18-195015x8">
+     <p class="noindent"> Unless <span 
+class="cmmi-10">C</span> is <span 
+class="pcrr8t-">Bounded</span> or <span 
+class="pcrr8t-">Enum</span>, the data declaration has no constructors (i.e. when <span 
+class="cmmi-10">n </span><span 
+class="cmr-10">= 0</span>).</li></ol>
+<p class="noindent"> For the purposes of derived instances, a <span 
+class="pcrr8t-">newtype</span> declaration is treated as a <span 
+class="pcrr8t-">data</span> declaration with a single
+constructor.
+                                                                                   
+
+                                                                                   
+ <p class="noindent"> If the <span 
+class="pcrr8t-">deriving</span> form is present, an instance declaration is automatically generated for <span 
+class="cmmi-10">T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span></sub> over
+each class <span 
+class="cmmi-10">C</span><sub><span 
+class="cmmi-7">i</span></sub>. If the derived instance declaration is impossible for any of the <span 
+class="cmmi-10">C</span><sub><span 
+class="cmmi-7">i</span></sub> then a static error
+results.
+ <p class="noindent"> Each derived instance declaration will have the form:
+                   <span 
+class="pcrr8t-">instance</span><span 
+class="cmmi-10">&#x00A0;cx</span><span 
+class="cmsy-10">&#x2032;</span><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">=&gt;</span><span 
+class="cmmi-10">&#x00A0;C</span><sub><span 
+class="cmmi-7">i</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmr-10">(</span><span 
+class="cmmi-10">T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span></sub><span 
+class="cmr-10">)</span><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">where</span><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">{</span><span 
+class="cmmi-10">&#x00A0;d</span><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">}</span>
+ where <span 
+class="cmmi-10">d</span> is derived automatically depending on <span 
+class="cmmi-10">C</span><sub><span 
+class="cmmi-7">i</span></sub> and the data type declaration for <span 
+class="cmmi-10">T</span> (as will be described in the
+remainder of this section).
+ <p class="noindent"> The context <span 
+class="cmmi-10">cx</span><span 
+class="cmsy-10">&#x2032;</span> is the smallest context satisfying point (2) above. For mutually recusive data types, the compiler
+may need to perform a fixpoint calculation to compute it.
+ <p class="noindent"> The remaining details of the <span 
+class="pcrr8t-">stock</span> derived instances for each of the derivable Prelude classes are now
+given. Free variables and constructors used in these translations always refer to entities defined by the
+<span 
+class="pcrr8t-">Prelude</span>.
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">11.4    </span> <a 
+ id="x18-19600011.4"></a><span 
+class="pcrr8t-">stock</span> derived instances of <span 
+class="pcrr8t-">Eq</span> and <span 
+class="pcrr8t-">Ord</span></h3>
+<a 
+ id="dx18-196001"></a>
+<a 
+ id="dx18-196002"></a>
+<p class="noindent"> The class methods automatically introduced by derived instances of <span 
+class="pcrr8t-">Eq</span> and <span 
+class="pcrr8t-">Ord</span> are <span 
+class="pcrr8t-">(==)</span>, <a 
+ id="dx18-196003"></a><span 
+class="pcrr8t-">(/=)</span>, <a 
+ id="dx18-196004"></a><span 
+class="pcrr8t-">compare</span><a 
+ id="dx18-196005"></a>,
+<span 
+class="pcrr8t-">(&lt;)</span>, <a 
+ id="dx18-196006"></a><span 
+class="pcrr8t-">(&lt;=)</span>, <a 
+ id="dx18-196007"></a><span 
+class="pcrr8t-">(&gt;)</span>, <a 
+ id="dx18-196008"></a><span 
+class="pcrr8t-">(&gt;=)</span>, <a 
+ id="dx18-196009"></a><span 
+class="pcrr8t-">max</span><a 
+ id="dx18-196010"></a>, and <span 
+class="pcrr8t-">min</span><a 
+ id="dx18-196011"></a>. The latter seven operators are defined so as to compare their
+arguments lexicographically with respect to the constructor set given, with earlier constructors in the
+datatype declaration counting as smaller than later ones. For example, for the <span 
+class="pcrr8t-">Bool</span> datatype, we have that
+<span 
+class="pcrr8t-">(True</span><span 
+class="pcrr8t-">&#x00A0;&gt;</span><span 
+class="pcrr8t-">&#x00A0;False)</span><span 
+class="pcrr8t-">&#x00A0;==</span><span 
+class="pcrr8t-">&#x00A0;True</span>.
+ <p class="noindent"> Derived comparisons always traverse constructors from left to right. These examples illustrate this
+property:
+     <blockquote class="quote">
+     <p class="noindent"> <span 
+class="pcrr8t-">(1,undefined)</span><span 
+class="pcrr8t-">&#x00A0;==</span><span 
+class="pcrr8t-">&#x00A0;(2,undefined)</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="cmsy-10">&#x21D2;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;False</span><br 
+class="newline" /><span 
+class="pcrr8t-">(undefined,1)</span><span 
+class="pcrr8t-">&#x00A0;==</span><span 
+class="pcrr8t-">&#x00A0;(undefined,2)</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="cmsy-10">&#x21D2;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="cmsy-10">&#x22A5;</span></blockquote>
+                                                                                   
+
+                                                                                   
+<p class="noindent"> The derived instance declarations of a datatype <span 
+class="cmmi-10">T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span></sub> that has no constructors are:
+ <p class="noindent">
+<div class="array"> <table id="TBL-120" class="array" 
+ 
+><colgroup id="TBL-120-1g"><col 
+id="TBL-120-1" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">instance</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;Eq</span><span 
+class="pcrr8t-">&#x00A0;(</span><span 
+class="cmmi-10">&#x00A0;T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">)</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;where</span> </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;_</span><span 
+class="pcrr8t-">&#x00A0;==</span><span 
+class="pcrr8t-">&#x00A0;_</span><span 
+class="pcrr8t-">&#x00A0;=</span><span 
+class="pcrr8t-">&#x00A0;True</span>                 </div></td>
+</tr></table>                                                                                   </div>
+<p class="noindent">
+<div class="array"><table id="TBL-121" class="array" 
+ 
+><colgroup id="TBL-121-1g"><col 
+id="TBL-121-1" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">instance</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;Ord</span><span 
+class="pcrr8t-">&#x00A0;(</span><span 
+class="cmmi-10">&#x00A0;T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">)</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;where</span> </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;_</span><span 
+class="pcrr8t-">&#x00A0;==</span><span 
+class="pcrr8t-">&#x00A0;_</span><span 
+class="pcrr8t-">&#x00A0;=</span><span 
+class="pcrr8t-">&#x00A0;EQ</span>                    </div></td>
+</tr></table>                                                                                   </div>
+
+<p class="noindent"> All derived operations of class <span 
+class="pcrr8t-">Eq</span> and <span 
+class="pcrr8t-">Ord</span> are strict in both arguments. For example, <span 
+class="pcrr8t-">False</span><span 
+class="pcrr8t-">&#x00A0;&lt;=</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="cmsy-10">&#x22A5;</span> is <span 
+class="cmsy-10">&#x22A5;</span>, even
+though <span 
+class="pcrr8t-">False</span> is the first constructor of the <span 
+class="pcrr8t-">Bool</span> type.
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">11.5    </span> <a 
+ id="x18-19700011.5"></a><span 
+class="pcrr8t-">stock</span> derived instances of <span 
+class="pcrr8t-">Enum</span></h3>
+<a 
+ id="dx18-197001"></a>
+<p class="noindent"> Derived instance declarations for the class <span 
+class="pcrr8t-">Enum</span> are only possible for enumerations (data types with only nullary
+constructors).
+ <p class="noindent"> The nullary constructors are assumed to be numbered left-to-right with the indices 0 through <span 
+class="cmmi-10">n </span><span 
+class="cmsy-10">- </span><span 
+class="cmr-10">1</span>.
+The <span 
+class="pcrr8t-">succ</span> and <span 
+class="pcrr8t-">pred</span> operators give the successor and predecessor respectively of a value, under this
+numbering scheme. It is an error to apply <span 
+class="pcrr8t-">succ</span> to the maximum element, or <span 
+class="pcrr8t-">pred</span> to the minimum
+element.
+                                                                                   
+
+                                                                                   
+ <p class="noindent"> The <span 
+class="pcrr8t-">toEnum</span> and <span 
+class="pcrr8t-">fromEnum</span> operators map enumerated values to and from the <span 
+class="pcrr8t-">Int</span> type; <span 
+class="pcrr8t-">toEnum</span> raises a
+runtime error if the <span 
+class="pcrr8t-">Int</span> argument is not the index of one of the constructors.
+ <p class="noindent"> The definitions of the remaining methods are
+ <p class="noindent">
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-362">
+&#x00A0;&#x00A0;enumFrom&#x00A0;x&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;enumFromTo&#x00A0;x&#x00A0;lastCon
+&#x00A0;&#x00A0;enumFromThen&#x00A0;x&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;enumFromThenTo&#x00A0;x&#x00A0;y&#x00A0;bound
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;bound&#x00A0;|&#x00A0;fromEnum&#x00A0;y&#x00A0;&gt;=&#x00A0;fromEnum&#x00A0;x&#x00A0;=&#x00A0;lastCon
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;|&#x00A0;otherwise&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;firstCon
+&#x00A0;&#x00A0;enumFromTo&#x00A0;x&#x00A0;y&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;map&#x00A0;toEnum&#x00A0;[fromEnum&#x00A0;x&#x00A0;..&#x00A0;fromEnum&#x00A0;y]
+&#x00A0;&#x00A0;enumFromThenTo&#x00A0;x&#x00A0;y&#x00A0;z&#x00A0;=&#x00A0;map&#x00A0;toEnum&#x00A0;[fromEnum&#x00A0;x,&#x00A0;fromEnum&#x00A0;y&#x00A0;..&#x00A0;fromEnum&#x00A0;z]
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> where <span 
+class="pcrr8t-">firstCon</span> and <span 
+class="pcrr8t-">lastCon</span> are respectively the first and last constructors listed in the <span 
+class="pcrr8t-">data</span> declaration. For
+example, given the datatype:
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-363">
+&#x00A0;&#x00A0;data&#x00A0;&#x00A0;Color&#x00A0;=&#x00A0;Red&#x00A0;|&#x00A0;Orange&#x00A0;|&#x00A0;Yellow&#x00A0;|&#x00A0;Green&#x00A0;&#x00A0;deriving&#x00A0;(Enum)
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> we would have:
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-364">
+&#x00A0;&#x00A0;[Orange&#x00A0;..]&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;==&#x00A0;&#x00A0;[Orange,&#x00A0;Yellow,&#x00A0;Green]
+&#x00A0;&#x00A0;fromEnum&#x00A0;Yellow&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;==&#x00A0;&#x00A0;2
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">11.6    </span> <a 
+ id="x18-19800011.6"></a><span 
+class="pcrr8t-">stock</span> derived instances of <span 
+class="pcrr8t-">Bounded</span></h3>
+<a 
+ id="dx18-198001"></a>
+<p class="noindent"> The <span 
+class="pcrr8t-">Bounded</span> class introduces the class methods <span 
+class="pcrr8t-">minBound</span><a 
+ id="dx18-198002"></a> and <span 
+class="pcrr8t-">maxBound</span><a 
+ id="dx18-198003"></a>, which define the minimal and
+maximal elements of the type. For an enumeration, the first and last constructors listed in the <span 
+class="pcrr8t-">data</span> declaration are
+the bounds. For a type with a single constructor, the constructor is applied to the bounds for the constituent types. For
+example, the following datatype:
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-365">
+&#x00A0;&#x00A0;data&#x00A0;&#x00A0;Pair&#x00A0;a&#x00A0;b&#x00A0;=&#x00A0;Pair&#x00A0;a&#x00A0;b&#x00A0;deriving&#x00A0;Bounded
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> would generate the following <span 
+class="pcrr8t-">Bounded</span> instance:
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-366">
+&#x00A0;&#x00A0;instance&#x00A0;(Bounded&#x00A0;a,Bounded&#x00A0;b)&#x00A0;=&gt;&#x00A0;Bounded&#x00A0;(Pair&#x00A0;a&#x00A0;b)&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;minBound&#x00A0;=&#x00A0;Pair&#x00A0;minBound&#x00A0;minBound
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;maxBound&#x00A0;=&#x00A0;Pair&#x00A0;maxBound&#x00A0;maxBound
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">11.7    </span> <a 
+ id="x18-19900011.7"></a><span 
+class="pcrr8t-">stock</span> derived instances of <span 
+class="pcrr8t-">Functor</span></h3>
+<a 
+ id="dx18-199001"></a>
+<p class="noindent"><span 
+class="pcrr8t-">Functor</span> instances can be derived for data types of kind <span 
+class="cmsy-10">*&#x2192;*</span>.
+ <p class="noindent"> The basic algorithm walks the arguments of each constructor of a data type, applying a mapping function depending
+on the type of each argument. If a plain type variable is found that is syntactically equivalent to the last type
+parameter of the data type, then we apply the function f directly to it. If a type is encountered that is not syntactically
+equivalent to the last type parameter but does mention the last type parameter somewhere in it, then a recursive call to
+<span 
+class="pcrr8t-">fmap</span> is made. If a type is found which doesn&#8217;t mention the last type parameter at all, then it is left
+alone.
+ <p class="noindent"> As a general rule, if a data type has a derived <span 
+class="pcrr8t-">Functor</span> instance and its last type parameter occurs on the right-hand
+side of the data declaration, then either it must (1) occur bare (e.g., <span 
+class="pcrr8t-">newtype</span><span 
+class="pcrr8t-">&#x00A0;Id</span><span 
+class="pcrr8t-">&#x00A0;a</span><span 
+class="pcrr8t-">&#x00A0;=</span><span 
+class="pcrr8t-">&#x00A0;Id</span><span 
+class="pcrr8t-">&#x00A0;a</span>), or (2) occur as the
+last argument of a type constructor.
+ <p class="noindent"> There are two exceptions to this rule:
+ <p class="noindent">
+     <ol  class="enumerate1" >
+<li 
+  class="enumerate" id="x18-199003x1">
+     <p class="noindent"> Tuple types. When a non-unit tuple is used on the right-hand side of a data declaration, it is treated
+     as a product of distinct types. That is, the derivation pattern-matches its way into tuples and maps over
+     each type that constitutes the tuple.
+     </li>
+<li 
+  class="enumerate" id="x18-199005x2">
+     <p class="noindent"> Function types. The last type parameter can appear anywhere in a function type as long as it occurs in a
+     covariant position. Intuitively, a covariant type is produced, and a contravariant type is consumed. Most
+     types in Haskell are covariant, but the function type is special in that the lefthand side of a function
+     arrow reverses variance. If a function type <span 
+class="pcrr8t-">a</span><span 
+class="pcrr8t-">&#x00A0;-&gt;</span><span 
+class="pcrr8t-">&#x00A0;b</span> appears in a covariant position, then <span 
+class="pcrr8t-">a</span> is in a
+     contravariant position and <span 
+class="pcrr8t-">b</span> is in a covariant position. Similarly, if <span 
+class="pcrr8t-">a</span><span 
+class="pcrr8t-">&#x00A0;-&gt;</span><span 
+class="pcrr8t-">&#x00A0;b</span> appears in a contravariant
+     position, then <span 
+class="pcrr8t-">a</span> is in a covariant position and <span 
+class="pcrr8t-">b</span> is in a contravariant position.</li></ol>
+                                                                                   
+
+                                                                                   
+ <p class="noindent"> When the last type parameter has a phantom role, the derived <span 
+class="pcrr8t-">Functor</span> instance will not be produced using the
+usual algorithm. Instead, the entire value will be coerced.
+ <p class="noindent"> The derived instance declaration of a datatype <span 
+class="cmmi-10">T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span></sub> that has no constructors is:
+ <p class="noindent">
+<div class="array"> <table id="TBL-122" class="array" 
+ 
+><colgroup id="TBL-122-1g"><col 
+id="TBL-122-1" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">instance</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;Functor</span><span 
+class="pcrr8t-">&#x00A0;(</span><span 
+class="cmmi-10">&#x00A0;T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span><span 
+class="cmsy-7">-</span><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">)</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;where</span> </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;fmap</span><span 
+class="pcrr8t-">&#x00A0;_</span><span 
+class="pcrr8t-">&#x00A0;x</span><span 
+class="pcrr8t-">&#x00A0;=</span><span 
+class="pcrr8t-">&#x00A0;case</span><span 
+class="pcrr8t-">&#x00A0;x</span><span 
+class="pcrr8t-">&#x00A0;of</span><span 
+class="pcrr8t-">&#x00A0;{}</span>             </div></td>
+</tr></table>                                                                                   </div>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">11.8    </span> <a 
+ id="x18-20000011.8"></a><span 
+class="pcrr8t-">stock</span> derived instances of <span 
+class="pcrr8t-">Foldable</span></h3>
+<a 
+ id="dx18-200001"></a>
+<p class="noindent"> The algorithm for deriving <span 
+class="pcrr8t-">Foldable</span> is adapted from the algorithm for deriving <span 
+class="pcrr8t-">Functor</span>, but it generates
+definitions for <span 
+class="pcrr8t-">foldMap</span> and <span 
+class="pcrr8t-">foldr</span> instead of <span 
+class="pcrr8t-">fmap</span>. In addition, it filters out all constructor arguments on the
+righthand side expression whose types do not mention the last type parameter, since those arguments do not need to
+be folded over.
+ <p class="noindent"> When the type parameter has a phantom role, a trivial instance is derived.
+ <p class="noindent"> When the type has no constructors, a trivial instance is derived.
+ <p class="noindent"> Differences between the generated code for <span 
+class="pcrr8t-">Functor</span> and <span 
+class="pcrr8t-">Foldable</span> are:
+ <p class="noindent">
+     <ol  class="enumerate1" >
+<li 
+  class="enumerate" id="x18-200003x1">
+     <p class="noindent"> When a bare type variable <span 
+class="pcrr8t-">a</span> is encountered, the algorithm would generate <span 
+class="pcrr8t-">f</span><span 
+class="pcrr8t-">&#x00A0;a</span><span 
+class="pcrr8t-">&#x00A0;z</span> for <span 
+class="pcrr8t-">foldr</span> and
+     <span 
+class="pcrr8t-">f</span><span 
+class="pcrr8t-">&#x00A0;a</span> for <span 
+class="pcrr8t-">foldMap</span>.
+     </li>
+<li 
+  class="enumerate" id="x18-200005x2">
+     <p class="noindent"> When a type that is not syntactically equivalent to <span 
+class="pcrr8t-">a</span>, but which does contain <span 
+class="pcrr8t-">a</span>, is encountered, the
+     algorithm would recursively call <span 
+class="pcrr8t-">foldr</span> and <span 
+class="pcrr8t-">foldMap</span>.
+                                                                                   
+
+                                                                                   
+     </li>
+<li 
+  class="enumerate" id="x18-200007x3">
+      <p class="noindent">  The  algorithm  builds  up  a  value  of  some  type.  For  <span 
+class="pcrr8t-">foldr</span>,  this  is  accomplished  by  chaining
+     applications  of  <span 
+class="pcrr8t-">f</span> and  recursive  <span 
+class="pcrr8t-">foldr</span> calls  on  the  state  value  <span 
+class="pcrr8t-">z</span>.  For  <span 
+class="pcrr8t-">foldMap</span>,  this  happens  by
+     combining all values with <span 
+class="pcrr8t-">mappend</span>.
+     </li></ol>
+ <p class="noindent"> There are some other differences regarding what data types can have derived <span 
+class="pcrr8t-">Foldable</span> instances:
+ <p class="noindent">
+     <ol  class="enumerate1" >
+<li 
+  class="enumerate" id="x18-200009x1">
+     <p class="noindent"> Data types containing function types on the right-hand side cannot have derived <span 
+class="pcrr8t-">Foldable</span> instances.
+     </li></ol>
+ <p class="noindent"> The derived instance declaration of a datatype <span 
+class="cmmi-10">T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span></sub> that has no constructors is:
+ <p class="noindent">
+<div class="array"> <table id="TBL-123" class="array" 
+ 
+><colgroup id="TBL-123-1g"><col 
+id="TBL-123-1" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">instance</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;Foldable</span><span 
+class="pcrr8t-">&#x00A0;(</span><span 
+class="cmmi-10">&#x00A0;T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span><span 
+class="cmsy-7">-</span><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">)</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;where</span> </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;foldMap</span><span 
+class="pcrr8t-">&#x00A0;_</span><span 
+class="pcrr8t-">&#x00A0;_</span><span 
+class="pcrr8t-">&#x00A0;=</span><span 
+class="pcrr8t-">&#x00A0;mempty</span>                 </div></td>
+</tr></table>                                                                                   </div>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">11.9    </span> <a 
+ id="x18-20100011.9"></a><span 
+class="pcrr8t-">stock</span> derived instances of <span 
+class="pcrr8t-">Traversable</span></h3>
+<a 
+ id="dx18-201001"></a>
+<p class="noindent"><span 
+class="pcrr8t-">Traversable</span> instances can be derived for data types of kind <span 
+class="cmsy-10">*&#x2192;*</span>.
+ <p class="noindent"> The algorithm for deriving <span 
+class="pcrr8t-">Traversable</span> is adapted from the algorithm for deriving <span 
+class="pcrr8t-">Functor</span>, but it generates a
+definition for <span 
+class="pcrr8t-">traverse</span> instead of <span 
+class="pcrr8t-">fmap</span>. In addition, it filters out all constructor arguments on the righthand side
+expression whose types do not mention the last type parameter, since those arguments do not produce any effects in a
+traversal.
+                                                                                   
+
+                                                                                   
+ <p class="noindent"> When the type parameter has a phantom role, the algorithm coerces its argument.
+ <p class="noindent"> When the type has no constructors, the algorithm will derive the laziest instance it can.
+ <p class="noindent"> Differences between the generated code for <span 
+class="pcrr8t-">Functor</span> and <span 
+class="pcrr8t-">Traverable</span> are:
+ <p class="noindent">
+     <ol  class="enumerate1" >
+<li 
+  class="enumerate" id="x18-201003x1">
+     <p class="noindent"> When a bare type variable <span 
+class="pcrr8t-">a</span> is encountered, the algorithm would generate <span 
+class="pcrr8t-">f</span><span 
+class="pcrr8t-">&#x00A0;a</span> for a <span 
+class="pcrr8t-">traverse</span>
+     definition.
+     </li>
+<li 
+  class="enumerate" id="x18-201005x2">
+     <p class="noindent"> When a type that is not syntactically equivalent to <span 
+class="pcrr8t-">a</span>, but which does contain <span 
+class="pcrr8t-">a</span>, is encountered, the
+     algorthim would recursively call <span 
+class="pcrr8t-">traverse</span>.
+     </li>
+<li 
+  class="enumerate" id="x18-201007x3">
+     <p class="noindent">  The  algorithm  puts  everything  back  together  again  at  the  end  by  working  in  an  <span 
+class="pcrr8t-">Applicative</span>
+     context by chaining everything together with <span 
+class="pcrr8t-">(&lt;*&gt;)</span>.
+     </li></ol>
+ <p class="noindent"> There are some other differences regarding what data types can have derived <span 
+class="pcrr8t-">Traversable</span> instances:
+ <p class="noindent">
+     <ol  class="enumerate1" >
+<li 
+  class="enumerate" id="x18-201009x1">
+     <p class="noindent"> Data types containing function types on the right-hand side cannot have derived <span 
+class="pcrr8t-">Traversable</span>
+     instances.
+     </li></ol>
+ <p class="noindent"> The derived instance declaration of a datatype <span 
+class="cmmi-10">T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span></sub> that has no constructors is:
+ <p class="noindent">
+                                                                                   
+
+                                                                                   
+<div class="array"> <table id="TBL-124" class="array" 
+ 
+><colgroup id="TBL-124-1g"><col 
+id="TBL-124-1" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">instance</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;Traversable</span><span 
+class="pcrr8t-">&#x00A0;(</span><span 
+class="cmmi-10">&#x00A0;T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span><span 
+class="cmsy-7">-</span><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">)</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;where</span> </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;traverse</span><span 
+class="pcrr8t-">&#x00A0;_</span><span 
+class="pcrr8t-">&#x00A0;x</span><span 
+class="pcrr8t-">&#x00A0;=</span><span 
+class="pcrr8t-">&#x00A0;pure</span><span 
+class="pcrr8t-">&#x00A0;(</span><span 
+class="pcrr8t-">&#x00A0;case</span><span 
+class="pcrr8t-">&#x00A0;x</span><span 
+class="pcrr8t-">&#x00A0;of</span><span 
+class="pcrr8t-">&#x00A0;{}</span><span 
+class="pcrr8t-">&#x00A0;)</span>    </div></td>
+</tr></table>                                                                                   </div>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">11.10    </span> <a 
+ id="x18-20200011.10"></a><span 
+class="pcrr8t-">stock</span> derived instances of <span 
+class="pcrr8t-">Read</span> and <span 
+class="pcrr8t-">Show</span></h3>
+<a 
+ id="dx18-202001"></a>
+<a 
+ id="dx18-202002"></a>
+<p class="noindent"> The class methods automatically introduced by derived instances of <span 
+class="pcrr8t-">Read</span> and <span 
+class="pcrr8t-">Show</span> are <span 
+class="pcrr8t-">showsPrec</span><a 
+ id="dx18-202003"></a>,
+<span 
+class="pcrr8t-">readsPrec</span><a 
+ id="dx18-202004"></a>, <span 
+class="pcrr8t-">showList</span><a 
+ id="dx18-202005"></a>, and <span 
+class="pcrr8t-">readList</span><a 
+ id="dx18-202006"></a>. They are used to coerce values into strings and parse strings into
+values.
+ <p class="noindent"> The function <span 
+class="pcrr8t-">showsPrec</span><span 
+class="pcrr8t-">&#x00A0;d</span><span 
+class="pcrr8t-">&#x00A0;x</span><span 
+class="pcrr8t-">&#x00A0;r</span> accepts a precedence level <span 
+class="pcrr8t-">d</span> (a number from <span 
+class="pcrr8t-">0</span> to <span 
+class="pcrr8t-">11</span>), a value <span 
+class="pcrr8t-">x</span>, and a string <span 
+class="pcrr8t-">r</span>.
+It returns a string representing <span 
+class="pcrr8t-">x</span> concatenated to <span 
+class="pcrr8t-">r</span>. <span 
+class="pcrr8t-">showsPrec</span> satisfies the law:
+              <span 
+class="pcrr8t-">showsPrec</span><span 
+class="pcrr8t-">&#x00A0;d</span><span 
+class="pcrr8t-">&#x00A0;x</span><span 
+class="pcrr8t-">&#x00A0;r</span><span 
+class="pcrr8t-">&#x00A0;++</span><span 
+class="pcrr8t-">&#x00A0;s</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;==</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;showsPrec</span><span 
+class="pcrr8t-">&#x00A0;d</span><span 
+class="pcrr8t-">&#x00A0;x</span><span 
+class="pcrr8t-">&#x00A0;(r</span><span 
+class="pcrr8t-">&#x00A0;++</span><span 
+class="pcrr8t-">&#x00A0;s)</span>
+ The representation will be enclosed in parentheses if the precedence of the top-level constructor in <span 
+class="pcrr8t-">x</span> is less than <span 
+class="pcrr8t-">d</span>.
+Thus, if <span 
+class="pcrr8t-">d</span> is <span 
+class="pcrr8t-">0</span> then the result is never surrounded in parentheses; if <span 
+class="pcrr8t-">d</span> is <span 
+class="pcrr8t-">11</span> it is always surrounded in parentheses,
+unless it is an atomic expression (recall that function application has precedence <span 
+class="pcrr8t-">10</span>). The extra parameter <span 
+class="pcrr8t-">r</span> is
+essential if tree-like structures are to be printed in linear time rather than time quadratic in the size of the
+tree.
+ <p class="noindent"> The function <span 
+class="pcrr8t-">readsPrec</span><span 
+class="pcrr8t-">&#x00A0;d</span><span 
+class="pcrr8t-">&#x00A0;s</span> accepts a precedence level <span 
+class="pcrr8t-">d</span> (a number from <span 
+class="pcrr8t-">0</span> to <span 
+class="pcrr8t-">10</span>) and a string <span 
+class="pcrr8t-">s</span>,
+and attempts to parse a value from the front of the string, returning a list of (parsed value, remaining
+string) pairs. If there is no successful parse, the returned list is empty. Parsing of an un-parenthesised
+infix operator application succeeds only if the precedence of the operator is greater than or equal to
+<span 
+class="pcrr8t-">d</span>.
+ <p class="noindent"> It should be the case that
+<div class="center" 
+>
+ <p class="noindent">
+ <p class="noindent"> <span 
+class="pcrr8t-">(x,"")</span> is an element of <span 
+class="pcrr8t-">(readsPrec</span><span 
+class="pcrr8t-">&#x00A0;d</span><span 
+class="pcrr8t-">&#x00A0;(showsPrec</span><span 
+class="pcrr8t-">&#x00A0;d</span><span 
+class="pcrr8t-">&#x00A0;x</span><span 
+class="pcrr8t-">&#x00A0;""))</span></div>
+                                                                                   
+
+                                                                                   
+<p class="noindent"> That is, <span 
+class="pcrr8t-">readsPrec</span> should be able to parse the string produced by <span 
+class="pcrr8t-">showsPrec</span>, and should deliver the value that
+<span 
+class="pcrr8t-">showsPrec</span> started with.
+ <p class="noindent"> <span 
+class="pcrr8t-">showList</span> and <span 
+class="pcrr8t-">readList</span> allow lists of objects to be represented using non-standard denotations. This is
+especially useful for strings (lists of <span 
+class="pcrr8t-">Char</span>).
+ <p class="noindent"> <span 
+class="pcrr8t-">readsPrec</span> will parse any valid representation of the standard types apart from strings, for which only quoted
+strings are accepted, and other lists, for which only the bracketed form <span 
+class="pcrr8t-">[</span>&#x2026;<span 
+class="pcrr8t-">]</span> is accepted. See Chapter&#x00A0;<a 
+href="haskellch9.html#x16-1810009">9<!--tex4ht:ref: stdprelude --></a> for full
+details.
+ <p class="noindent"> The result of <span 
+class="pcrr8t-">show</span> is a syntactically correct Haskell expression containing only constants, given the fixity
+declarations in force at the point where the type is declared. It contains only the constructor names
+defined in the data type, parentheses, and spaces. When labelled constructor fields are used, braces,
+commas, field names, and equal signs are also used. Parentheses are only added where needed, <span 
+class="ptmri8t-">ignoring</span>
+<span 
+class="ptmri8t-">associativity</span>. No line breaks are added. The result of <span 
+class="pcrr8t-">show</span> is readable by <span 
+class="pcrr8t-">read</span> if all component types
+are readable. (This is true for all instances defined in the Prelude but may not be true for user-defined
+instances.)
+ <p class="noindent"> Derived instances of <span 
+class="pcrr8t-">Read</span> make the following assumptions, which derived instances of <span 
+class="pcrr8t-">Show</span> obey:
+     <ul class="itemize1">
+     <li class="itemize">
+     <p class="noindent"> If the constructor is defined to be an infix operator, then the derived <span 
+class="pcrr8t-">Read</span> instance will parse only
+     infix applications of the constructor (not the prefix form).
+     </li>
+     <li class="itemize">
+     <p class="noindent"> Associativity is not used to reduce the occurrence of parentheses, although precedence may be. For example,
+     given
+         <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+         <pre class="verbatim" id="verbatim-367">
+&#x00A0;&#x00A0;infixr&#x00A0;4&#x00A0;:$
+&#x00A0;&#x00A0;data&#x00A0;T&#x00A0;=&#x00A0;Int&#x00A0;:$&#x00A0;T&#x00A0;&#x00A0;|&#x00A0;&#x00A0;NT
+</pre>
+         <p class="noindent"></blockquote>
+     <p class="noindent"> then:
+         <ul class="itemize2">
+         <li class="itemize">
+         <p class="noindent"> <span 
+class="pcrr8t-">show</span><span 
+class="pcrr8t-">&#x00A0;(1</span><span 
+class="pcrr8t-">&#x00A0;:$</span><span 
+class="pcrr8t-">&#x00A0;2</span><span 
+class="pcrr8t-">&#x00A0;:$</span><span 
+class="pcrr8t-">&#x00A0;NT)</span> produces the string <span 
+class="pcrr8t-">"1</span><span 
+class="pcrr8t-">&#x00A0;:$</span><span 
+class="pcrr8t-">&#x00A0;(2</span><span 
+class="pcrr8t-">&#x00A0;:$</span><span 
+class="pcrr8t-">&#x00A0;NT)"</span>.
+         </li>
+         <li class="itemize">
+         <p class="noindent"> <span 
+class="pcrr8t-">read</span><span 
+class="pcrr8t-">&#x00A0;"1</span><span 
+class="pcrr8t-">&#x00A0;:$</span><span 
+class="pcrr8t-">&#x00A0;(2</span><span 
+class="pcrr8t-">&#x00A0;:$</span><span 
+class="pcrr8t-">&#x00A0;NT)"</span> succeeds, with the obvious result.
+         </li>
+         <li class="itemize">
+         <p class="noindent"> <span 
+class="pcrr8t-">read</span><span 
+class="pcrr8t-">&#x00A0;"1</span><span 
+class="pcrr8t-">&#x00A0;:$</span><span 
+class="pcrr8t-">&#x00A0;2</span><span 
+class="pcrr8t-">&#x00A0;:$</span><span 
+class="pcrr8t-">&#x00A0;NT"</span> fails.</li></ul>
+     </li>
+     <li class="itemize">
+     <p class="noindent"> If the constructor is defined using record syntax, the derived <span 
+class="pcrr8t-">Read</span> will parse only the record-syntax form, and
+     furthermore, the fields must be given in the same order as the original declaration.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> The derived <span 
+class="pcrr8t-">Read</span> instance allows arbitrary Haskell whitespace between tokens of the input string. Extra
+     parentheses are also allowed.</li></ul>
+ <p class="noindent"> The derived <span 
+class="pcrr8t-">Read</span> and <span 
+class="pcrr8t-">Show</span> instances may be unsuitable for some uses. Some problems include:
+     <ul class="itemize1">
+     <li class="itemize">
+     <p class="noindent"> Circular structures cannot be printed or read by these instances.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> The printer loses shared substructure; the printed representation of an object may be much larger than
+     necessary.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> The parsing techniques used by the reader are very inefficient; reading a large structure may be quite
+     slow.
+     </li>
+     <li class="itemize">
+     <p class="noindent"> There is no user control over the printing of types defined in the Prelude. For example, there is no way
+     to change the formatting of floating point numbers.</li></ul>
+                                                                                   
+
+                                                                                   
+ <p class="noindent"> The derived instance declarations of a datatype <span 
+class="cmmi-10">T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span></sub> that has no constructors are:
+ <p class="noindent">
+<div class="array"> <table id="TBL-125" class="array" 
+ 
+><colgroup id="TBL-125-1g"><col 
+id="TBL-125-1" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">instance</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;Read</span><span 
+class="pcrr8t-">&#x00A0;(</span><span 
+class="cmmi-10">&#x00A0;T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">)</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;where</span> </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;readPrec</span><span 
+class="pcrr8t-">&#x00A0;=</span><span 
+class="pcrr8t-">&#x00A0;pfail</span>                </div></td>
+</tr></table>                                                                                   </div>
+<p class="noindent">
+<div class="array"><table id="TBL-126" class="array" 
+ 
+><colgroup id="TBL-126-1g"><col 
+id="TBL-126-1" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">instance</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;Show</span><span 
+class="pcrr8t-">&#x00A0;(</span><span 
+class="cmmi-10">&#x00A0;T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">)</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;where</span> </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;showsPrec</span><span 
+class="pcrr8t-">&#x00A0;_</span><span 
+class="pcrr8t-">&#x00A0;x</span><span 
+class="pcrr8t-">&#x00A0;=</span><span 
+class="pcrr8t-">&#x00A0;case</span><span 
+class="pcrr8t-">&#x00A0;x</span><span 
+class="pcrr8t-">&#x00A0;of</span><span 
+class="pcrr8t-">&#x00A0;{}</span>    </div></td>
+</tr></table>                                                                                   </div>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">11.11    </span> <a 
+ id="x18-20300011.11"></a><span 
+class="pcrr8t-">stock</span> derived instances of <span 
+class="pcrr8t-">Generic</span> and <span 
+class="pcrr8t-">Generic1</span></h3>
+<a 
+ id="dx18-203001"></a>
+<a 
+ id="dx18-203002"></a>
+<p class="noindent"> The paper Jose Pedro Magalhaes, Atze Dijkstra, Johan Jeuring, and Andres Loeh. A generic deriving mechanism for
+Haskell. Proceedings of the third ACM Haskell symposium on Haskell (Haskell&#8217;2010), pp. 37-48, ACM, 2010.
+defines the classes <span 
+class="cmmi-10">Representable</span><sub><span 
+class="cmr-7">0</span></sub> (with methods <span 
+class="cmmi-10">from</span><sub><span 
+class="cmr-7">0</span></sub> and <span 
+class="cmmi-10">to</span><sub><span 
+class="cmr-7">0</span></sub>) and <span 
+class="cmmi-10">Representable</span><sub><span 
+class="cmr-7">1</span></sub> (with methods <span 
+class="cmmi-10">from</span><sub><span 
+class="cmr-7">1</span></sub> and
+<span 
+class="cmmi-10">to</span><sub><span 
+class="cmr-7">1</span></sub>), and algorithms for deriving instances of them.
+ <p class="noindent"> <span 
+class="pcrr8t-">Generic</span> (with methods <span 
+class="pcrr8t-">from</span> and <span 
+class="pcrr8t-">to</span>) is a renaming of <span 
+class="cmmi-10">Representable</span><sub><span 
+class="cmr-7">0</span></sub> and <span 
+class="pcrr8t-">Generic1</span> (with methods <span 
+class="pcrr8t-">from1</span>
+and <span 
+class="pcrr8t-">to1</span>) is a renaming of <span 
+class="cmmi-10">Representable</span><sub><span 
+class="cmr-7">1</span></sub>.
+ <p class="noindent"> The derived instance declarations of a datatype <span 
+class="cmmi-10">T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span></sub> that has no constructors are:
+ <p class="noindent">
+                                                                                   
+
+                                                                                   
+<div class="array"> <table id="TBL-127" class="array" 
+ 
+><colgroup id="TBL-127-1g"><col 
+id="TBL-127-1" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">instance</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;Generic</span><span 
+class="pcrr8t-">&#x00A0;(</span><span 
+class="cmmi-10">&#x00A0;T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">)</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;where</span> </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;from</span><span 
+class="pcrr8t-">&#x00A0;x</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;=</span><span 
+class="pcrr8t-">&#x00A0;M1</span><span 
+class="pcrr8t-">&#x00A0;(</span><span 
+class="pcrr8t-">&#x00A0;case</span><span 
+class="pcrr8t-">&#x00A0;x</span><span 
+class="pcrr8t-">&#x00A0;of</span><span 
+class="pcrr8t-">&#x00A0;{}</span><span 
+class="pcrr8t-">&#x00A0;)</span>  </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;to</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;(M1</span><span 
+class="pcrr8t-">&#x00A0;x)</span><span 
+class="pcrr8t-">&#x00A0;=</span><span 
+class="pcrr8t-">&#x00A0;case</span><span 
+class="pcrr8t-">&#x00A0;x</span><span 
+class="pcrr8t-">&#x00A0;of</span><span 
+class="pcrr8t-">&#x00A0;{}</span>         </div></td>
+</tr></table>                                                                                   </div>
+<p class="noindent">
+<div class="array"><table id="TBL-128" class="array" 
+ 
+><colgroup id="TBL-128-1g"><col 
+id="TBL-128-1" /></colgroup><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">instance</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;Generic1</span><span 
+class="pcrr8t-">&#x00A0;(</span><span 
+class="cmmi-10">&#x00A0;T</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="cmmi-10">&#x2026;</span><span 
+class="cmmi-10">&#x00A0;u</span><sub><span 
+class="cmmi-7">k</span><span 
+class="cmsy-7">-</span><span 
+class="cmr-7">1</span></sub><span 
+class="cmmi-10">&#x00A0;</span><span 
+class="pcrr8t-">)</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;where</span> </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;from1</span><span 
+class="pcrr8t-">&#x00A0;x</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;=</span><span 
+class="pcrr8t-">&#x00A0;M1</span><span 
+class="pcrr8t-">&#x00A0;(</span><span 
+class="pcrr8t-">&#x00A0;case</span><span 
+class="pcrr8t-">&#x00A0;x</span><span 
+class="pcrr8t-">&#x00A0;of</span><span 
+class="pcrr8t-">&#x00A0;{}</span><span 
+class="pcrr8t-">&#x00A0;)</span>   </div></td>
+</tr><tr  
+ style="vertical-align:baseline;"><td  style="white-space:nowrap; text-align:left;" 
+><div class="td11"> <span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;to1</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;</span><span 
+class="pcrr8t-">&#x00A0;(M1</span><span 
+class="pcrr8t-">&#x00A0;x)</span><span 
+class="pcrr8t-">&#x00A0;=</span><span 
+class="pcrr8t-">&#x00A0;case</span><span 
+class="pcrr8t-">&#x00A0;x</span><span 
+class="pcrr8t-">&#x00A0;of</span><span 
+class="pcrr8t-">&#x00A0;{}</span>          </div></td>
+</tr></table>                                                                                   </div>
+<p class="noindent">
+<h3 class="sectionHead"><span class="titlemark">11.12    </span> <a 
+ id="x18-20400011.12"></a>An Example</h3>
+<p class="noindent"> As a complete example, consider a tree datatype:
+     <blockquote class="quote">
+                                                                                   
+
+                                                                                   
+     <pre class="verbatim" id="verbatim-368">
+&#x00A0;&#x00A0;data&#x00A0;Tree&#x00A0;a&#x00A0;=&#x00A0;Leaf&#x00A0;a&#x00A0;|&#x00A0;Tree&#x00A0;a&#x00A0;:^:&#x00A0;Tree&#x00A0;a
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;deriving&#x00A0;(Eq,&#x00A0;Ord,&#x00A0;Read,&#x00A0;Show)
+</pre>
+     <p class="noindent"></blockquote>
+<p class="noindent"> Automatic derivation of instance declarations for <span 
+class="pcrr8t-">Bounded</span> and <span 
+class="pcrr8t-">Enum</span> are not possible, as <span 
+class="pcrr8t-">Tree</span> is not an
+enumeration or single-constructor datatype. The complete instance declarations for <span 
+class="pcrr8t-">Tree</span> are shown in Figure&#x00A0;<a 
+href="#x18-2040021">11.1<!--tex4ht:ref: tree-inst --></a>,
+Note the implicit use of default class method <a 
+ id="dx18-204001"></a>definitions&#8212;for example, only <span 
+class="pcrr8t-">&lt;=</span> is defined for <span 
+class="pcrr8t-">Ord</span>, with the other
+class methods (<span 
+class="pcrr8t-">&lt;</span>, <span 
+class="pcrr8t-">&gt;</span>, <span 
+class="pcrr8t-">&gt;=</span>, <span 
+class="pcrr8t-">max</span>, and <span 
+class="pcrr8t-">min</span>) being defined by the defaults given in the class declaration shown in
+Figure&#x00A0;<a 
+href="haskellch6.html#x13-1310011">6.1<!--tex4ht:ref: standard-classes --></a>.
+<hr class="figure" /><div class="figure" 
+>
+                                                                                   
+
+                                                                                   
+<a 
+ id="x18-2040021"></a>
+                                                                                   
+
+                                                                                   
+<div class="center" 
+>
+ <p class="noindent">
+<div class="fbox"><div class="minipage"><pre class="verbatim" id="verbatim-369">
+infixr&#x00A0;5&#x00A0;:^:
+data&#x00A0;Tree&#x00A0;a&#x00A0;=&#x00A0;&#x00A0;Leaf&#x00A0;a&#x00A0;&#x00A0;|&#x00A0;&#x00A0;Tree&#x00A0;a&#x00A0;:^:&#x00A0;Tree&#x00A0;a
+
+instance&#x00A0;(Eq&#x00A0;a)&#x00A0;=&gt;&#x00A0;Eq&#x00A0;(Tree&#x00A0;a)&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Leaf&#x00A0;m&#x00A0;==&#x00A0;Leaf&#x00A0;n&#x00A0;&#x00A0;=&#x00A0;&#x00A0;m==n
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;u:^:v&#x00A0;&#x00A0;==&#x00A0;x:^:y&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;u==x&#x00A0;&amp;&amp;&#x00A0;v==y
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;_&#x00A0;==&#x00A0;_&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;False
+
+instance&#x00A0;(Ord&#x00A0;a)&#x00A0;=&gt;&#x00A0;Ord&#x00A0;(Tree&#x00A0;a)&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Leaf&#x00A0;m&#x00A0;&lt;=&#x00A0;Leaf&#x00A0;n&#x00A0;&#x00A0;=&#x00A0;&#x00A0;m&lt;=n
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;Leaf&#x00A0;m&#x00A0;&lt;=&#x00A0;x:^:y&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;True
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;u:^:v&#x00A0;&#x00A0;&lt;=&#x00A0;Leaf&#x00A0;n&#x00A0;&#x00A0;=&#x00A0;&#x00A0;False
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;u:^:v&#x00A0;&#x00A0;&lt;=&#x00A0;x:^:y&#x00A0;&#x00A0;&#x00A0;=&#x00A0;&#x00A0;u&lt;x&#x00A0;||&#x00A0;u==x&#x00A0;&amp;&amp;&#x00A0;v&lt;=y
+
+instance&#x00A0;(Show&#x00A0;a)&#x00A0;=&gt;&#x00A0;Show&#x00A0;(Tree&#x00A0;a)&#x00A0;where
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;showsPrec&#x00A0;d&#x00A0;(Leaf&#x00A0;m)&#x00A0;=&#x00A0;showParen&#x00A0;(d&#x00A0;&gt;&#x00A0;app_prec)&#x00A0;showStr
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;showStr&#x00A0;=&#x00A0;showString&#x00A0;"Leaf&#x00A0;"&#x00A0;.&#x00A0;showsPrec&#x00A0;(app_prec+1)&#x00A0;m
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;showsPrec&#x00A0;d&#x00A0;(u&#x00A0;:^:&#x00A0;v)&#x00A0;=&#x00A0;showParen&#x00A0;(d&#x00A0;&gt;&#x00A0;up_prec)&#x00A0;showStr
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;where
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;showStr&#x00A0;=&#x00A0;showsPrec&#x00A0;(up_prec+1)&#x00A0;u&#x00A0;.
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;showString&#x00A0;"&#x00A0;:^:&#x00A0;"&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;.
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;showsPrec&#x00A0;(up_prec+1)&#x00A0;v
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Note:&#x00A0;right-associativity&#x00A0;of&#x00A0;:^:&#x00A0;ignored
+
+instance&#x00A0;(Read&#x00A0;a)&#x00A0;=&gt;&#x00A0;Read&#x00A0;(Tree&#x00A0;a)&#x00A0;where
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;readsPrec&#x00A0;d&#x00A0;r&#x00A0;=&#x00A0;&#x00A0;readParen&#x00A0;(d&#x00A0;&gt;&#x00A0;up_prec)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(\r&#x00A0;-&gt;&#x00A0;[(u:^:v,w)&#x00A0;|
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(u,s)&#x00A0;&lt;-&#x00A0;readsPrec&#x00A0;(up_prec+1)&#x00A0;r,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(":^:",t)&#x00A0;&lt;-&#x00A0;lex&#x00A0;s,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(v,w)&#x00A0;&lt;-&#x00A0;readsPrec&#x00A0;(up_prec+1)&#x00A0;t])&#x00A0;r
+
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;++&#x00A0;readParen&#x00A0;(d&#x00A0;&gt;&#x00A0;app_prec)
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(\r&#x00A0;-&gt;&#x00A0;[(Leaf&#x00A0;m,t)&#x00A0;|
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;("Leaf",s)&#x00A0;&lt;-&#x00A0;lex&#x00A0;r,
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;(m,t)&#x00A0;&lt;-&#x00A0;readsPrec&#x00A0;(app_prec+1)&#x00A0;s])&#x00A0;r
+
+up_prec&#x00A0;&#x00A0;=&#x00A0;5&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Precedence&#x00A0;of&#x00A0;:^:
+app_prec&#x00A0;=&#x00A0;10&#x00A0;&#x00A0;&#x00A0;--&#x00A0;Application&#x00A0;has&#x00A0;precedence&#x00A0;one&#x00A0;more&#x00A0;than
+&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;&#x00A0;--&#x00A0;the&#x00A0;most&#x00A0;tightly-binding&#x00A0;operator
+</pre>
+<p class="noindent">                                                                               </div></div>
+</div>
+<br /><div class="caption" 
+><span class="id">Figure&#x00A0;11.1: </span><span  
+class="content">Example of Derived Instances</span></div><!--tex4ht:label?: x18-2040021 -->
+                                                                                   
+
+                                                                                   
+</div><hr class="endfigure" />
+                                                                                   
+
+                                                                                   
+                                                                                   
+
+                                                                                   
+<!--l. 6--><div class="crosslinks"><p class="noindent">[<a 
+href="haskellch12.html" >next</a>] [<a 
+href="haskellch10.html" >prev</a>] [<a 
+href="haskellch10.html#tailhaskellch10.html" >prev-tail</a>] [<a 
+href="haskellch11.html" >front</a>] [<a 
+href="haskellpa1.html#haskellch11.html" >up</a>] </p></div>
+ <p class="noindent"> <a 
+ id="tailhaskellch11.html"></a>   
+</body></html> 
