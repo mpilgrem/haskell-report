@@ -357,6 +357,12 @@
 \newcommand{\hprime}[1]{\color{prime}#1\normalcolor}
 \newenvironment{haskellprime}{\color{prime}}{\normalcolor}
 
+% Haskell 2024 markup: this annotates parts of the report that are modified
+% compared to the Haskell 2010 Language Report.
+\definecolor{tf}{named}{OliveGreen}
+\newcommand{\htf}[1]{\color{tf}#1\normalcolor}
+\newenvironment{haskelltf}{\color{tf}}{\normalcolor}
+
 %\sloppy
 
 % a few hyphenation patterns, anyone?
@@ -399,15 +405,19 @@
 % badly with centering.  Hence dropping the box around the title in HTML:
 \ifhtml{%
 \begin{center}
-{\LARGE\bf Haskell 2010} \\[.1in]
+{\LARGE\bf [DRAFT] Haskell 2024} \\[.1in]
 {\LARGE\bf Language Report} \\[.3in]
+{\LARGE\bf A modified version of the} \\[.1in]
+{\LARGE\bf Haskell 2010 Language Report} \\[.3in]
 \end{center}
 }{%
 \outline{
 \vspace{.3in}
 \begin{center}
-{\LARGE\bf Haskell 2010} \\[.1in]
+{\LARGE\bf [DRAFT] Haskell 2024} \\[.1in]
 {\LARGE\bf Language Report} \\[.3in]
+{\LARGE\bf A modified version of the} \\[.1in]
+{\LARGE\bf Haskell 2010 Language Report} \\[.3in]
 \end{center}
 \vspace{.3in}
 }
@@ -416,13 +426,19 @@
 \vspace{.15in}
 \begin{center} \large
 Simon Marlow\\
-(editor)
+(editor of the Haskell 2010 Language Report)\\
+Mike Pilgrem\\
+(acting editor of modifications)
 \end{center}
 \vspace{.15in}
 
-\vspace{3in}
+\vspace{1.5in}
 
 \begin{center} \emph{Copyright notice.} \end{center}
+
+\begin{haskelltf}
+The Haskell 2010 Language Report states:
+\end{haskelltf}
 
 The authors and publisher intend this Report to belong to the entire Haskell
 community, and grant permission to copy and distribute it for any
@@ -432,6 +448,12 @@ also be copied and distributed for any
 purpose,
 provided that the modified version is clearly presented as such, and
 that it does not claim to be a definition of the language Haskell 2010.
+
+\begin{haskelltf}
+To the extent that Mike Pilgrem holds any copyright in the Haskell 2024 Language
+Report, he releases it under CC0 1.0. The Haskell 2024 Language Report does not
+claim to be a definition of the languages Haskell 98 or Haskell 2010.
+\end{haskelltf}
 \end{titlepage}
 
 % ------------------------- Preface -----------------------------------
@@ -455,7 +477,7 @@ that it does not claim to be a definition of the language Haskell 2010.
 \startnewstuff
 \pagenumbering{arabic}
 
-\part{The Haskell 2010 Language}
+\part{The Haskell 2024 Language}
 
 \input{intro}\startnewsection
 \input{lexemes}\startnewsection
@@ -476,7 +498,7 @@ that it does not claim to be a definition of the language Haskell 2010.
 
 % ------------------------- Part II: libraries report -----------------------------------
 
-\part{The Haskell 2010 Libraries}
+\part{The Haskell 2024 Libraries}
 \label{libraries}
 
 \input{libs/Control-Monad}

@@ -54,12 +54,12 @@ satisfied these constraints:
       syntax and semantics.
 \item It should be freely available.  Anyone should be permitted to
       implement the language and distribute it to whomever they please.
-\item It should be based on ideas that enjoy a wide consensus.  
-\item It should reduce unnecessary diversity in functional 
+\item It should be based on ideas that enjoy a wide consensus.
+\item It should reduce unnecessary diversity in functional
       programming languages.
 \end{enumerate}
 
-\section*{\Haskell{} 2010: language and libraries}
+\section*{\Haskell{} 2024: language and libraries}
 
 The committee intended that \Haskell{} would serve as a basis for
 future research in language design, and hoped that extensions or
@@ -68,7 +68,7 @@ features.
 
 \Haskell{} has indeed evolved continuously since its original publication.
 By the middle of 1997, there had been five versions of the language design
-(from \Haskell{} 1.0 -- 1.4).  At the 1997 \Haskell{} Workshop 
+(from \Haskell{} 1.0 -- 1.4).  At the 1997 \Haskell{} Workshop
 in Amsterdam, it was decided that a stable variant of \Haskell{} was
 needed; this became ``\Haskell{} 98'' and was published in February
 1999.  The fixing of minor bugs led to the \emph{Revised} \Haskell{} 98 Report
@@ -96,6 +96,28 @@ revision to be created in this way, and new revisions are expected
 once per year.
 \end{haskellprime}
 
+\begin{haskelltf}
+The Haskell 2010 Language Report has been, and continues to be, a valued
+reference for users of Haskell. However, much has happened since it was first
+published. There has been further progress in research on language design and
+Haskell has continued to evolve.
+
+Despite that progress, the hope that the report would be the first of annual
+incremental revisions to the language has not been realised.
+
+Although not the only Haskell compiler, the Glasgow Haskell Compiler (GHC) is,
+by some margin, the most popular one today. It has used the @LANGUAGE@ pragma
+to introduce many extensions to the Haskell 2010 language. With the release of
+GHC 9.2.1 in October 2021, it introduced the language feature @GHC2021@
+(a {\em language edition}) to specify a set of enabled extensions. GHC 9.10.1,
+released in May 2024, introduced the further language edition @GHC2024@.
+
+The Haskell 2024 Language Report aims to modify the Haskell 2010 Language Report
+as if the extensions in @GHC2024@ were part of the language. In doing so, it
+draws upon each extension's approved proposal and the documentation in, or
+referred to, by the relevant part of the GHC User's Guide.
+\end{haskelltf}
+
 \section*{Extensions to \Haskell{} 98}
 
 \begin{haskellprime}
@@ -115,6 +137,64 @@ Removed language features:
 \end{itemize}
 
 \end{haskellprime}
+
+\section*{Extensions to \Haskell{} 2010}
+
+\begin{haskelltf}
+
+@GHC2024@ removes two language features that were part of Haskell 2010:
+\begin{itemize}
+\item Datatype contexts
+\item Deep subsumption
+\end{itemize}
+
+[The report is not yet modified for these matters.]
+
+@GHC2024@ replaces CUSKS ({\em complete user-supplied kind signatures}) with
+standalone kind signatures. [The report is not yet modified for this matter.]
+
+@GHC2024@ also enables the following new features (the classification is that of
+the GHC User's Guide):
+
+\begin{tabular}{lll}
+Classification & Feature & [Report modified?] \\
+\hline
+Syntax & Empty case alternatives & No \\
+Syntax & Lambda-case & No \\
+Syntax & Postfix operators & No \\
+Syntax & Tuple sections & No \\
+Import/export & Writing qualified in postpositive position & No \\
+Literals & Binary integer literals & No \\
+Literals & Hexadecimal floating point literals & No \\
+Literals & Numeric underscores & No \\
+Types	& Datatype promotion & No \\
+Types	& Existentially quantified data constructors (explicit forall) & No \\
+Types	& GADTs (GADT Syntax, Mono local binds) & No \\
+Types & Allow kind polymorphic types (kind signatures) & No \\
+Types & Rank-n types (explicit forall) & No \\
+Types	& Role annotations & No \\
+Types & Visible type application & No \\
+Types & Type operators (explicit namespaces) & No \\
+Records & Disambiguate record fields & No \\
+Records & Named field puns & No \\
+Records & Named wild cards & No \\
+Deriving & Derive @Data@ and @Typeable@ instances & No \\
+Deriving & Derive @Generic@ instances & No \\
+Deriving & Derive @Lift@ instances & No \\
+Deriving & Derive @Traversable@ instances (derive @Foldable@, derive @Functor@) & No \\
+Deriving & Deriving strategies & No \\
+Deriving & Derive instances for empty data types & No \\
+Deriving & Generalised derived instances for newtypes & No \\
+Deriving & Stand-alone deriving declarations & No \\
+Class/instance & Flexible instances (type synonym instances) & No \\
+Class/instance & Type signatures in instance declarations & No \\
+Class/instance & Multi-parameter type classes (constrained class methods) & No \\
+Constraints & The @Constraint@ kind & No \\
+Constraints & Loosening restractions on class contexts & No \\
+Type signatures &	Lexically scoped type variables (explicit forall) & No \\
+Bang patterns & Bang patterns & No \\
+\end{tabular}
+\end{haskelltf}
 
 \section*{\Haskell{} Resources}
 \label{sect:resources}
@@ -214,11 +294,11 @@ Craig Dickson,
 Chris Dornan,
 Laura Dutton,
 Chris Fasel,
-Pat Fasel, 
+Pat Fasel,
 Sigbjorn Finne,
 Michael Fryers,
 Peter Gammie,
-Andy Gill, 
+Andy Gill,
 Mike Gunter,
 Cordy Hall,
 Mark Hall,
@@ -229,14 +309,14 @@ Fergus Henderson,
 Dean Herington,
 Bob Hiromoto,
 Nic Holt,
-Ian Holyer, 
+Ian Holyer,
 Randy Hudson,
 Alexander Jacobson,
 Patrik Jansson,
 Robert Jeschofnik,
 Orjan Johansen,
-Simon B.~Jones, 
-Stef Joosten, 
+Simon B.~Jones,
+Stef Joosten,
 Mike Joy,
 Wolfram Kahl,
 Stefan Kahrs,
@@ -245,8 +325,8 @@ Jerzy Karczmarczuk,
 Kent Karlsson,
 Martin D. Kealey,
 Richard Kelsey,
-Siau-Cheng Khoo, 
-Amir Kishon, 
+Siau-Cheng Khoo,
+Amir Kishon,
 Feliks Kluzniak,
 Jan Kort,
 Marcin Kowalczyk,
@@ -258,7 +338,7 @@ Mark Lillibridge,
 Bjorn Lisper,
 Sandra Loosemore,
 Pablo Lopez,
-Olaf Lubeck, 
+Olaf Lubeck,
 Christian Maeder,
 Ketil Malde,
 Michael Marte,
@@ -266,7 +346,7 @@ Jim Mattson,
 John Meacham,
 Sergey Mechveliani,
 Gary Memovich,
-Randy Michelsen, 
+Randy Michelsen,
 Rick Mohr,
 Andy Moran,
 Graeme Moss,
@@ -274,14 +354,14 @@ Arthur Norman,
 Nick North,
 Chris Okasaki,
 Bjarte M. {\O}stvold,
-Paul Otto, 
+Paul Otto,
 Sven Panne,
 Dave Parrott,
 Larne Pekowsky,
 Rinus Plasmeijer,
 Ian Poole,
 Stephen Price,
-John Robson, 
+John Robson,
 Andreas Rossberg,
 George Russell,
 Patrick Sansom,
@@ -292,7 +372,7 @@ Nimish Shah,
 Christian Sievers,
 Libor Skarvada,
 Jan Skibinski,
-Lauren Smith, 
+Lauren Smith,
 Raman Sundaresh,
 Josef Svenningsson,
 Ken Takusagawa,
@@ -320,7 +400,7 @@ origin of many ideas, the following languages were particularly influential:
 Lisp (and its modern-day incarnations Common Lisp and
 Scheme); Landin's ISWIM; APL; Backus's FP
 \cite{back78}; ML and Standard ML; Hope and Hope$^{+}$; Clean; Id; Gofer;
-Sisal; and Turner's series of languages culminating in 
+Sisal; and Turner's series of languages culminating in
 Miranda\footnote{{\rm Miranda} is a trademark of Research
 Software Ltd.}. Without these forerunners \Haskell{} would not have
 been possible.
@@ -329,4 +409,11 @@ been possible.
 
 Simon Marlow \\
 Cambridge, April 2010
+
+\vspace{0.2in}
+
+\begin{haskelltf}
+Mike Pilgrem \\
+London, August 2026
+\end{haskelltf}
 %**~sfooter
