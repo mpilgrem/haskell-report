@@ -6,10 +6,10 @@
 
 module Main where
 
-import Data.Char
-import Data.List
+import Data.Char ( isAlpha, isSpace )
+import Data.List ( stripPrefix )
 import Data.Maybe ( fromMaybe )
-import System.IO.Error
+import System.IO.Error ( catchIOError )
 
 main :: IO ()
 main = do refs <- readRefFile "reportrefs"
