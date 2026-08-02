@@ -386,14 +386,13 @@ aexp 	->   @(@ \hprime{infixexp qop} @)@        & (\tr{left section})
 \indexsyn{qop}%
 
 \noindent
-{\em Sections} are written as "@(@ op e @)@" or "@(@ e op @)@", where
-"op" is a binary operator and "e" is an expression.  Sections are a
-convenient syntax for partial application of binary operators.
+{\em Sections} are written as "@(@ op e @)@" \htf{({\em right})} or "@(@ e op @)@" \htf{({\em left})}, where
+"op" is a binary operator \htf{or (for left sections only) a unary operator} and "e" is an expression.  Sections are a
+convenient syntax for partial application of binary operators \htf{or the application of postfix operators}.
 
 Syntactic precedence rules apply to sections as follows.
 "@(@op~e@)@" is legal if and only if "@(x@~op~e@)@" parses
-in the same way as "@(x@~op~@(@e@))@";
-and similarly for  "@(@e~op@)@".
+in the same way as "@(x@~op~@(@e@))@".
 For example, @(*a+b)@ is syntactically invalid, but @(+a*b)@ and
 @(*(a+b))@ are valid.  Because @(+)@ is left associative, @(a+b+)@ is syntactically correct,
 but @(+a+b)@ is not; the latter may legally be written as @(+(a+b))@.
@@ -434,23 +433,26 @@ function defined in the Prelude such that
 "@(subtract@ exp@)@" is equivalent to the disallowed section.
 The expression "@(+ (-@ exp@))@" can serve the same purpose.
 
-
-% Changed to allow postfix operators.  That is, in (op x), we no
-% longer add a \x -> which would require op to be binary instead
-% of unary.
-
 \outline{
 \paragraph*{Translation:}
 The following identities hold:
 \begin{center}
 \bt{lcl}%
 \struthack{17pt}%
-"@(@op e@)@" & "=" & "@\@ x @->@ x op e" \\
-"@(@e op@)@" & "=" & "@\@ x @->@ e op x"
+"@(@op e@)@" & "=" & "@\@ x @->@ x op e"
 \et
 \end{center}
 where "op" is a binary operator, "e" is an expression, and "x" is a variable
-that does not occur free in "e".
+that does not occur free in "e"; \htf{and:}
+\begin{haskelltf}
+\begin{center}
+\bt{lcl}%
+\struthack{17pt}%
+"@(@e op@)@" & "=" & "@((@op@)@ e @)@"
+\et
+\end{center}
+where "op" is a unary or binary operator, and "e" is an expression.
+\end{haskelltf}
 }
 
 \subsection{Conditionals}

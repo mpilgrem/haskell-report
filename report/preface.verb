@@ -161,7 +161,7 @@ Classification & Feature & [Report modified?] \\
 \hline
 Syntax & Empty case alternatives & No \\
 Syntax & Lambda-case & No \\
-Syntax & Postfix operators & No \\
+Syntax & Postfix operators & Section~\ref{sections} \\
 Syntax & Tuple sections & No \\
 Import/export & Writing qualified in postpositive position & No \\
 Literals & Binary integer literals & Sections~\ref{lexemes}, \ref{lexemes-numeric}, \ref{lexical-syntax} \\
