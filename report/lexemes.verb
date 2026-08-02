@@ -265,35 +265,49 @@ definition of @+@ in the Prelude (Section~\ref{fixity}).
 \label{lexemes-numeric}
 
 @@@
-decimal		-> digit\{digit\}
-octal		-> octit\{octit\}
-hexadecimal	-> hexit\{hexit\}
+\htf{numSpacer} -> \htf{\{ @_@ \}}
+
+decimal		-> digit \{ \htf{numSpacer} digit \}
+\htf{binary} -> \htf{ binit \{ numSpacer binit \} }
+octal		-> octit \{ \htf{numSpacer} octit \}
+hexadecimal	-> hexit \{ \htf{numSpacer} hexit \}
 @@@
+\indexsyn{numSpacer}%
 \indexsyn{decimal}%
+\indexsyn{binary}%
 \indexsyn{octal}%
 \indexsyn{hexadecimal}%
 @@@
 integer		-> decimal
-                |  @0o@ octal | @0O@ octal
-                |  @0x@ hexadecimal | @0X@ hexadecimal
+                | \htf{@0@ ( @b@ | @B@ ) numSpacer binary}
+                |  @0@ ( @o@ | @O@ ) \htf{numSpacer} octal
+                |  @0@ ( @x@ | @X@ ) \htf{numSpacer} hexadecimal
 
 
-float		-> decimal @.@ decimal [exponent]
+float		-> decimal @.@ decimal [ exponent ]
 	        |  decimal exponent
+          | \htf{@0@ ( @x@ | @X@ ) numSpacer hexadecimal . hexadecimal [ binExponent ]}
+          | \htf{@0@ ( @x@ | @X@ ) numSpacer hexadecimal binExponent}
 
-exponent	-> (@e@ | @E@) [@+@ | @-@] decimal
+exponent	-> ( @e@ | @E@ ) [ @+@ | @-@ ] decimal
+\htf{binExponent}	-> \htf{( @p@ | @P@ ) [ @+@ | @-@ ] decimal}
 @@@
 \indexsyn{integer}%
 \indexsyn{float}%
+\indexsyn{exponent}%
+\indexsyn{binExponent}%
 There are two distinct kinds of numeric literals: integer and
 floating.  Integer literals may be given in decimal (the default),
-octal (prefixed by @0o@ or @0O@) or hexadecimal notation (prefixed by
-@0x@ or @0X@).
-Floating literals are always decimal.
+octal (prefixed by @0o@ or @0O@), hexadecimal notation (prefixed by
+@0x@ or @0X@) \htf{or binary notation (prefixed by @0b@ or @0B@)}.
+Floating literals may be given in decimal (with any exponent prefixed by @e@ or
+@E@) \htf{or hexidecimal notation (with any exponent prefixed by @p@ or @P@; any
+exponent is written in base @10@ and its base is @2@).}
 A floating literal must contain digits both before and after the
 decimal point; this ensures that a decimal point cannot be mistaken
-for another use of the dot character.  Negative numeric literals are
-discussed in Section~\ref{operators}.  The typing of numeric literals
+for another use of the dot character. Negative numeric literals are
+discussed in Section~\ref{operators}. \htf{Underscores may be used in expressing
+numeric literals; such underscores are ignored.} The typing of numeric literals
 is discussed in Section~\ref{numeric-literals}.
 
 \subsection{Character and String Literals}

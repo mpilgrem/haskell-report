@@ -39,7 +39,7 @@ lambda abstractions extend to the right as far as possible.
 
 %*anchor on
 \subsection{Lexical Syntax}
-
+\label{lexical-syntax}
 % This covers only part of the lexical syntax.  The rest is directly
 % included since it is much more scattered.
 
@@ -71,16 +71,23 @@ qtycls   -> [ modid @.@ ] tycls
 qvarsym  -> [ modid @.@ ] varsym
 qconsym  -> [ modid @.@ ] consym
 
-decimal		-> digit\{digit\}
-octal		-> octit\{octit\}
-hexadecimal	-> hexit\{hexit\}
+\htf{numSpacer} -> \htf{\{ @_@ \}}
+
+decimal		-> digit \{ \htf{numSpacer} digit \}
+\htf{binary}    -> \htf{binit \{ numSpacer binit \}}
+octal		-> octit \{ \htf{numSpacer} octit \}
+hexadecimal	-> hexit \{ \htf{numSpacer} hexit \}
 
 integer		-> decimal
-                |  @0o@ octal | @0O@ octal
-                |  @0x@ hexadecimal | @0X@ hexadecimal
-float		-> decimal @.@ decimal [exponent]
+                |  \htf{@0@ ( @b@ | @B@ ) numSpacer binary}
+                |  @0@ ( @o@ | @O@ ) \htf{numSpacer} octal
+                |  @0@ ( @x@ | @X@ ) \htf{numSpacer} hexadecimal
+float		-> decimal @.@ decimal [ exponent ]
 	        |  decimal exponent
-exponent	-> (@e@ | @E@) [@+@ | @-@] decimal
+                | \htf{@0@ ( @x@ | @X@ ) numSpacer  hexadecimal . hexadecimal [ binExponent ]}
+                | \htf{@0@ ( @x@ | @X@ ) numSpacer  hexadecimal binExponent}
+exponent	-> ( @e@ | @E@ ) [ @+@ | @-@ ] decimal
+\htf{binExponent} -> \htf{( @p@ | @P@ ) [ @+@ | @-@ ] decimal}
 
 char    ->  @'@ (graphic_{\langle{}@'@ | @\@\rangle{}} | space | escape_{\langle{}@\&@\rangle{}}) @'@
 string  ->  @"@ \{graphic_{\langle{}@"@  | @\@\rangle{}} | space | escape | gap\} @"@
