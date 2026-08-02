@@ -47,6 +47,7 @@ uniSymbol       -> \tr{any Unicode symbol or punctuation}
 digit          -> ascDigit | uniDigit
 ascDigit	-> @0@ | @1@ | ... | @9@
 uniDigit        -> \tr{any Unicode decimal digit}
+\htf{binit}   -> \htf{@0@ | @1@}
 octit   -> @0@ | @1@ | ... | @7@
 hexit   -> digit | @A@ | ... | @F@ | @a@ | ... | @f@
 
@@ -87,5 +88,6 @@ hexit   -> digit | @A@ | ... | @F@ | @a@ | ... | @f@
 \indexsyn{digit}%
 \indexsyn{ascDigit}%
 \indexsyn{uniDigit}%
+\indexsyn{binit}%
 \indexsyn{octit}%
 \indexsyn{hexit}%
