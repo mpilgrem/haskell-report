@@ -1,3 +1,6 @@
+\[DRAFT\] Haskell 2024 Language Report
+--------------------------------------
+
 This is a fork of the repository for the Haskell 2010 Report. The original is
 preserved in locked branch `master`.
 
@@ -8,10 +11,8 @@ extensions in the `GHC2024` language edition were part of the language.
 The document does not claim to be a definition of the languages Haskell 98 or
 Haskell 2010.
 
---------------------------------------------------------------------------------
-
 Building the PDF and HTML report on Windows
-===========================================
+-------------------------------------------
 
 The MSYS2 project provides the `make` and `flex` tools, and
 [Stack](https://docs.haskellstack.org/en/stable/) provides an MSYS2 environment.
@@ -32,15 +33,16 @@ stack exec -- make
 There is an important `README` file in the `report` directory.
 
 GitHub Pages
-============
+------------
 
 The `docs` directory in the `github-pages` branch is used to publish the HTML
 report at https://mpilgrem.github.io/haskell-report/.
 
 `index.html` redirects to `haskell.html`.
 
---------------------------------------------------------------------------------
-
+Haskell 2010 Report README
+--------------------------
+```
 Haskell Report README
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -117,3 +119,4 @@ SOURCE FILES
 
 .verb files
 ~~~~~~~~~~~
+```
