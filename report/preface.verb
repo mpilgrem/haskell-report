@@ -164,9 +164,9 @@ Syntax & Lambda-case & No \\
 Syntax & Postfix operators & No \\
 Syntax & Tuple sections & No \\
 Import/export & Writing qualified in postpositive position & No \\
-Literals & Binary integer literals & No \\
-Literals & Hexadecimal floating point literals & No \\
-Literals & Numeric underscores & No \\
+Literals & Binary integer literals & Sections~\ref{lexemes}, \ref{lexemes-numeric}, \ref{lexical-syntax} \\
+Literals & Hexadecimal floating point literals & Sections~\ref{lexemes-numeric}, \ref{lexical-syntax} \\
+Literals & Numeric underscores & Sections~\ref{lexemes-numeric}, \ref{lexical-syntax} \\
 Types	& Datatype promotion & No \\
 Types	& Existentially quantified data constructors (explicit forall) & No \\
 Types	& GADTs (GADT Syntax, Mono local binds) & No \\
