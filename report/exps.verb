@@ -768,11 +768,19 @@ Section~\ref{pattern-bindings}.
 \label{case}
 %
 @@@
-lexp	->  @case@ exp @of@ @{@ alts @}@
+lexp  ->  @case@ exp @of@ @{@ \htf{[} alts \htf{]} @}@ & \htf{(\tr{case expression})}
+      |  \htf{@\@ @case@ @{@ [ alts ] @}@} & \htf{(\tr{lambda-case expression})}
+      |  \htf{@\@ @cases@ @{@ nalts @}@} & \htf{(\tr{lambda-cases expression})}
+
 alts	->  alt_1 @;@ ... @;@ alt_n 		& (n>=1)
 alt	->  pat @->@ exp [@where@ decls]
 	|   pat gdpat [@where@ decls]
-	|					& (empty alternative)
+	|					& (\tr{empty alternative})
+
+\htf{nalts}	-> \htf{nalt_1 @;@ ... @;@ nalt_n} & \htf{(n>=1)}
+\htf{nalt} -> \htf{[ apat_1 ... apat_n ] @->@ exp [ @where@ decls ]} & \htf{(n>=0)}
+	         |  \htf{[ apat_1 ... apat_n ] gdpat [ @where@ decls ]} & \htf{(n>=0)}
+           |    & \htf{(\tr{empty alternative})}
 
 gdpat   ->  \hprime{guards} @->@ exp [ gdpat ]
 \hprime{guards}	->  \hprime{@|@ guard_1, ..., guard_n}             & \hprime{(n>=1)}
@@ -783,6 +791,8 @@ gdpat   ->  \hprime{guards} @->@ exp [ gdpat ]
 \indexsyn{exp}%
 \indexsyn{alts}%
 \indexsyn{alt}%
+\indexsyn{nalts}%
+\indexsyn{nalt}%
 \indexsyn{gdpat}%
 \indexsyn{guards}%
 \indexsyn{guard}%
@@ -837,7 +847,9 @@ is treated as shorthand for:
  & \multicolumn{2}{l}{"@where@ decls"}
 \ea\]
 
-A case expression must have at least one alternative and each alternative must
+\htf{A case expression may have no alternatives or, equivalently, one empty alternative.}
+A case expression \htf{with alternatives} must have at least one \htf{non-empty}
+alternative and each \htf{non-empty} alternative must
 have at least one body.  Each body must have the same type, and the
 type of the whole expression is that type.
 
@@ -884,6 +896,52 @@ parsers with limited lookahead may incorrectly commit to this choice, and hence
 reject the program.  Programmers are advised, therefore, to avoid guards that
 end with a type signature --- indeed that is why a "guard" contains
 an "infixexp" not an "exp".
+
+\begin{haskelltf}
+A {\em lambda-case expression}\index{lambda-case expression} has the general form
+\[
+"@\@ @case@ @{@ p_1 match_1 @;@ ... @;@ p_n  match_n @}@"
+\]
+
+\outline{
+\paragraph*{Translation:}
+The following identity holds:
+\begin{center}
+\bt{lcl}%
+\struthack{17pt}%
+"@\@ @case@ @{@ p_1 match_1 @;@ ... @;@ p_n match_n @}@" \\
+"$=$ @\x@ -> @case@ @x@ @of@ @{@ p_1 match_1 @;@ ... @;@ p_n match_n @}@"
+\et
+\end{center}
+where the "x" is a new identifier.
+}
+
+A {\em lambda-cases expression}\index{lambda-cases expression} allows
+expressions with multiple scrutinees. Such an expression must have at least one
+non-empty alternative.
+
+\outline{
+\paragraph*{Translation:}
+The following identity holds:
+\begin{center}
+\bt{lcl}%
+\struthack{17pt}%
+"@\@ @cases@ @{@ p_{1,1} ... p_{m,1} -> e_1 @;@ ... @;@ p_{1,n} ... p_{m,n} -> e_n @}@"
+\et
+\end{center}
+is equivalent to a function defined as:
+\begin{center}
+\bt{lcl}%
+\struthack{17pt}%
+"@f@ p_{1,1} ... p_{m,1}" & "=" & "e_1" \\
+"..." \\
+"@f@ p_{1,n} ... p_{m,n}" & "=" & "e_n"
+\et
+\end{center}
+}
+
+@cases@ is not a keyword.
+\end{haskelltf}
 
 \subsection{Do Expressions}
 \index{do expression}
