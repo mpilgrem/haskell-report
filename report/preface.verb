@@ -163,7 +163,7 @@ Syntax & Empty case alternatives & Sections~\ref{case}, \ref{bnf} \\
 Syntax & Lambda-case &  Sections~\ref{case}, \ref{layout}, \ref{bnf} \\
 Syntax & Postfix operators & Section~\ref{sections} \\
 Syntax & Tuple sections & Section~\ref{sections}, \ref{bnf} \\
-Import/export & Writing qualified in postpositive position & No \\
+Import/export & Writing qualified in postpositive position & Section~\ref{import}, \ref{bnf} \\
 Literals & Binary integer literals & Sections~\ref{lexemes}, \ref{lexemes-numeric}, \ref{lexical-syntax} \\
 Literals & Hexadecimal floating point literals & Sections~\ref{lexemes-numeric}, \ref{lexical-syntax} \\
 Literals & Numeric underscores & Sections~\ref{lexemes-numeric}, \ref{lexical-syntax} \\
