@@ -150,7 +150,8 @@ The input to "L" is:
 A stream of lexemes as specified by the lexical syntax in the Haskell report,
 with the following additional tokens:
 \begin{itemize}
-\item If a @let@, @where@, @do@, or @of@ keyword is not followed by the lexeme @{@,
+\item If a @let@, @where@, @do@, or @of@ keyword, \htf{or the @\@ @case@ or
+@\@ @cases@ lexemes,} is not followed by the lexeme @{@,
 the token "\{n\}" is inserted after the keyword, where "n" is the indentation of the
 next lexeme if there is one, or "0" if the end of file has been reached.
 \item If the first lexeme of a module is not @{@ or @module@,
@@ -537,7 +538,9 @@ callconv -> @ccall@ | @stdcall@ | @cplusplus@  & (\tr{calling convention})
 \indexsyn{lexp}\hprime{lexp}    ->  @\@ apat_1 ... apat_n @->@ exp	& (\tr{lambda abstraction}, n>=1)
 	|   @let@ decls @in@ exp	        & ({\tr{let expression}})
 	|   @if@ exp \hprime{[@;@]} @then@ exp \hprime{[@;@]} @else@ exp	& (\tr{conditional})
-	|   @case@ exp @of@ @{@ alts @}@	& (\tr{case expression})
+	|   @case@ exp @of@ @{@ \htf{[} alts \htf{]} @}@	& (\tr{case expression})
+	|   \htf{@\@ @case@ @{@ [ alts ] @}@} & \htf{(\tr{lambda-case expression})}
+	|   \htf{@\@ @cases@ @{@ nalts @}@} & \htf{(\tr{lambda-cases expression})}
         |   @do@ @{@ stmts  @}@            & (\tr{do expression})
 	|   fexp
 \indexsyn{fexp}fexp	->  [fexp] aexp				& (\tr{function application})
@@ -562,7 +565,12 @@ callconv -> @ccall@ | @stdcall@ | @cplusplus@  & (\tr{calling convention})
 \indexsyn{alts}alts	->  alt_1 @;@ ... @;@ alt_n 		&  (n>=1)
 \indexsyn{alt}alt	->  pat @->@ exp [@where@ decls]
 	|   pat gdpat [@where@ decls]
-	|					& (empty alternative)
+	|     & (\tr{empty alternative})
+
+\indexsyn{nalts}\htf{nalts} -> \htf{nalt_1 @;@ ... @;@ nalt_n} & \htf{(n>=1)}
+\indexsyn{nalt}\htf{nalt} -> \htf{[ apat_1 ... apat_n ] @->@ exp [ @where@ decls ]} & \htf{(n>=0)}
+                          |  \htf{[ apat_1 ... apat_n ] gdpat [ @where@ decls ]} & \htf{(n>=0)}
+                          |    & \htf{(\tr{empty alternative})}
 
 \indexsyn{gdpat}gdpat   ->  \hprime{guards} @->@ exp [ gdpat ]
 

@@ -159,8 +159,8 @@ the GHC User's Guide):
 \begin{tabular}{lll}
 Classification & Feature & [Report modified?] \\
 \hline
-Syntax & Empty case alternatives & No \\
-Syntax & Lambda-case & No \\
+Syntax & Empty case alternatives & Sections~\ref{case}, \ref{bnf} \\
+Syntax & Lambda-case &  Sections~\ref{case}, \ref{layout}, \ref{bnf} \\
 Syntax & Postfix operators & Section~\ref{sections} \\
 Syntax & Tuple sections & No \\
 Import/export & Writing qualified in postpositive position & No \\
