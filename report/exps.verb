@@ -381,12 +381,13 @@ The following identities hold:
 @@@
 aexp 	->   @(@ \hprime{infixexp qop} @)@        & (\tr{left section})
         |   @(@ \hprime{qop_{\langle@-@\rangle} infixexp} @)@        & (\tr{right section})
+      |   \htf{@(@ ( exp_1 | ) @,@ ... @,@ ( exp_n | ) @)@} & \htf{(\tr{tuple section}, n>=2)}
 @@@
 \indexsyn{infixexp}%
 \indexsyn{qop}%
 
 \noindent
-{\em Sections} are written as "@(@ op e @)@" \htf{({\em right})} or "@(@ e op @)@" \htf{({\em left})}, where
+{\em \htf{Left or right} sections} are written as "@(@ op e @)@" \htf{({\em right})} or "@(@ e op @)@" \htf{({\em left})}, where
 "op" is a binary operator \htf{or (for left sections only) a unary operator} and "e" is an expression.  Sections are a
 convenient syntax for partial application of binary operators \htf{or the application of postfix operators}.
 
@@ -454,6 +455,24 @@ that does not occur free in "e"; \htf{and:}
 where "op" is a unary or binary operator, and "e" is an expression.
 \end{haskelltf}
 }
+
+\begin{haskelltf}
+{\em Tuple sections}\index{tuple section} are a convenient syntax for partially
+applied tuple constructors.
+\outline{
+\paragraph*{Translation:}
+The following identity holds:
+\begin{center}
+\bt{lcl}%
+\struthack{17pt}%
+"@(@ ( exp_1 | ) @,@ ... @,@ (exp_n | ) @)@ = @\@ x_1 ... x_n @->@ @(@ ( exp_1 | x_1 ) @,@ ... @,@ ( exp_n | x_n ) @)@"
+\et
+\end{center}
+where, for each "exp_i" that is absent from the left-hand side, the corresponding
+"x_i" on the right-hand side is a new identifier.
+}
+
+\end{haskelltf}
 
 \subsection{Conditionals}
 \label{conditionals}\index{conditional expression}
