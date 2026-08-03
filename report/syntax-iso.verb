@@ -555,6 +555,7 @@ callconv -> @ccall@ | @stdcall@ | @cplusplus@  & (\tr{calling convention})
 	|   @[@ exp @|@ qual_1 @,@ ... @,@ qual_n @]@	& (\tr{list comprehension}, n>=1)
 	|   @(@ \hprime{infixexp qop} @)@        & (\tr{left section})
         |   @(@ \hprime{qop_{\langle@-@\rangle} infixexp} @)@        & (\tr{right section})
+        |   \htf{@(@ ( exp_1 | ) @,@ ... @,@ ( exp_n | ) @)@} & \htf{(\tr{tuple section}, n>=2)}
         |   qcon @{@ fbind_1 @,@ ... @,@ fbind_n @}@ & (\tr{labeled construction}, n>=0)
         |   aexp_{\langle{}qcon\rangle{}} @{@ fbind_1 @,@ ... @,@ fbind_n @}@ & (\tr{labeled update}, n >= 1)
 
