@@ -417,7 +417,7 @@ impdecls     -> impdecl_1 @;@ ... @;@ impdecl_n 	&  (n>=1)\indexsyn{impdecls}
 	 |  qtycls [@(..)@ | @(@ qvar_1 @,@ ... @,@ qvar_n @)@] & (n>=0)
          |  @module@ modid
 
-\indexsyn{impdecl}impdecl   -> @import@ [@qualified@] modid [@as@ modid] [impspec]
+\indexsyn{impdecl}impdecl   -> @import@ \htf{(} [ @qualified@ ] modid \htf{| modid [ @qualified@ ] )} [@as@ modid] [impspec]
 	  | 	& (\tr{empty declaration})
 
 \indexsyn{impspec}impspec   -> @(@ import_1 @,@ ... @,@ import_n [ @,@ ] @)@ & (n>=0)

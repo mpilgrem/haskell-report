@@ -291,7 +291,7 @@ can import each other recursively), and between @module B@ and @C.f@
 \index{import declaration}
 
 @@@
-impdecl   -> @import@ [@qualified@] modid [@as@ modid] [impspec]
+impdecl   -> @import@ \htf{(} [ @qualified@ ] modid \htf{| modid [ @qualified@ ] )} [@as@ modid] [impspec]
 	  | 	& (empty declaration)
 impspec   -> @(@ import_1 @,@ ... @,@ import_n [ @,@ ] @)@ & (n>=0)
              |  @hiding@ @(@ import_1 @,@ ... @,@ import_n [ @,@ ] @)@ & (n>=0)
@@ -383,7 +383,8 @@ all the entities exported by the specified module are imported.
 
 For each entity imported under the rules of Section~\ref{whatisimported},
 the top-level environment is extended.  If the import declaration used
-the @qualified@ keyword, only the {\em qualified name} of the entity is
+the @qualified@ keyword \htf{(either before or after the module name)},
+only the {\em qualified name} of the entity is
 brought into scope.  If the @qualified@ keyword is omitted, then {\em both} the
 qualified {\em and} unqualified name of the entity is brought into scope.
 Section~\ref{qualifiers} describes qualified names in more detail.
