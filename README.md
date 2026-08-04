@@ -1,12 +1,13 @@
 \[DRAFT\] Haskell 2024 Language Report
 --------------------------------------
 
-This is a fork of the repository for the Haskell 2010 Report. The original is
-preserved in locked branch `master`.
+This is a fork of the repository for the Haskell 2010 Language Report. The
+original is preserved in locked branch `master`.
 
-The purpose of the fork is to explore the creation of a 'Haskell 2024 Report': a
-report that corresponds to the Haskell 2010 Report, if the GHC language
-extensions in the `GHC2024` language edition were part of the language.
+The purpose of the fork is to explore the creation of a 'Haskell 2024 Lanaguage 
+Report': a report that corresponds to the Haskell 2010 Language Report, if the 
+GHC language extensions in the `GHC2024` language edition were part of the 
+language.
 
 The document does not claim to be a definition of the languages Haskell 98 or
 Haskell 2010.
@@ -40,8 +41,8 @@ report at https://mpilgrem.github.io/haskell-report/.
 
 `index.html` redirects to `haskell.html`.
 
-Haskell 2010 Report README
---------------------------
+Haskell 2010 Language Report README
+-----------------------------------
 ```
 Haskell Report README
 ~~~~~~~~~~~~~~~~~~~~~
