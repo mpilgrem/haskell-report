@@ -36,10 +36,14 @@ There is an important `README` file in the `report` directory.
 GitHub Pages
 ------------
 
-The `docs` directory in the `github-pages` branch is used to publish the HTML
-report at https://mpilgrem.github.io/haskell-report/.
+The `docs` directory in the `github-pages` branch is used to publish:
 
-`index.html` redirects to `haskell.html`.
+1.  the draft HTML report at https://mpilgrem.github.io/haskell-report/. 
+    `index.html` redirects to `haskell.html`; and
+
+2.  the draft PDF report at 
+    https://mpilgrem.github.io/haskell-report/haskell.pdf. Modifications to the
+    Haskell 2010 Language Report are identified using olive green.
 
 Haskell 2010 Language Report README
 -----------------------------------
