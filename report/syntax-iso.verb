@@ -430,8 +430,8 @@ impdecls     -> impdecl_1 @;@ ... @;@ impdecl_n 	&  (n>=1)\indexsyn{impdecls}
 
 \indexsyn{topdecls}topdecls -> topdecl_1 @;@ ... @;@ topdecl_n 	&  (n>=0)
 \indexsyn{topdecl}topdecl	-> @type@ simpletype @=@ type
-	|  @data@ [context @=>@] simpletype \hprime{[}@=@ constrs\hprime{]} [deriving]
-        |  @newtype@ [context @=>@] simpletype @=@ newconstr [deriving]
+	|  @data@ simpletype \hprime{[}@=@ constrs\hprime{]} [deriving]
+        |  @newtype@ simpletype @=@ newconstr [deriving]
 	|  @class@ [scontext @=>@] tycls tyvar [@where@ cdecls]
 	|  @instance@ [scontext @=>@] qtycls inst [@where@ idecls]
 	|  @default@ @(@type_1 @,@ ... @,@ type_n@)@ & (n>=0)

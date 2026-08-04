@@ -142,13 +142,9 @@ Removed language features:
 
 \begin{haskelltf}
 
-@GHC2024@ removes two language features that were part of Haskell 2010:
-\begin{itemize}
-\item Datatype contexts
-\item Deep subsumption
-\end{itemize}
-
-[The report is not yet modified for these matters.]
+@GHC2024@ removes contexts from the declarations of algebraic datatypes (see
+Section~\ref{user-defined-datatypes}) and datatype renamings (see
+Section~\ref{datatype-renaming}), which was a part of Haskell 2010.
 
 @GHC2024@ replaces CUSKS ({\em complete user-supplied kind signatures}) with
 standalone kind signatures. [The report is not yet modified for this matter.]
