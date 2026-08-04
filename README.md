@@ -4,9 +4,9 @@
 This is a fork of the repository for the Haskell 2010 Language Report. The
 original is preserved in locked branch `master`.
 
-The purpose of the fork is to explore the creation of a 'Haskell 2024 Lanaguage 
-Report': a report that corresponds to the Haskell 2010 Language Report, if the 
-GHC language extensions in the `GHC2024` language edition were part of the 
+The purpose of the fork is to explore the creation of a 'Haskell 2024 Lanaguage
+Report': a report that corresponds to the Haskell 2010 Language Report, if the
+GHC language extensions in the `GHC2024` language edition were part of the
 language.
 
 The document does not claim to be a definition of the languages Haskell 98 or
@@ -38,12 +38,29 @@ GitHub Pages
 
 The `docs` directory in the `github-pages` branch is used to publish:
 
-1.  the draft HTML report at https://mpilgrem.github.io/haskell-report/. 
+1.  the draft HTML report at https://mpilgrem.github.io/haskell-report/.
     `index.html` redirects to `haskell.html`; and
 
-2.  the draft PDF report at 
+2.  the draft PDF report at
     https://mpilgrem.github.io/haskell-report/haskell.pdf. Modifications to the
     Haskell 2010 Language Report are identified using olive green.
+
+Haskell 2010 Language Report (Revised)
+--------------------------------------
+
+How does this project relate to the
+[Haskell 2010 Language Report (Revised)](https://github.com/haskellfoundation/haskell-2010-revised-report)
+initiative? That initiative is being undertaken as a
+[working group](https://gitlab.haskell.org/hf/meta/-/blob/main/working_groups/revised-haskell-2010-report.md?ref_type=heads) of the
+[Haskell Foundation](https://haskell.foundation/). It aims to narrow the gap
+between what the Haskell 2010 Language Report specifies and what modern versions
+of GHC with language edition `Haskell2010` (only) and the `base` boot package
+actually provide.
+
+This project does not seek to duplicate that initiative. The publication of an
+authoritative Haskell 2010 Language Report (Revised) would see it replace the
+Haskell 2010 Language Report as the foundation on which the Haskell 2024
+Language Report is being built.
 
 Haskell 2010 Language Report README
 -----------------------------------
