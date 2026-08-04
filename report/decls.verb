@@ -24,8 +24,8 @@ body   -> @{@ impdecls @;@ topdecls @}@
 
 topdecls -> topdecl_1 @;@ ... @;@ topdecl_n 	& (n>=1)
 topdecl	-> @type@ simpletype @=@ type
-	|  @data@ [context @=>@] simpletype \hprime{[}@=@ constrs\hprime{]} [deriving]
-        |  @newtype@ [context @=>@] simpletype @=@ newconstr [deriving]
+	|  @data@ simpletype \hprime{[}@=@ constrs\hprime{]} [deriving]
+        |  @newtype@ simpletype @=@ newconstr [deriving]
 	|  @class@ [scontext @=>@] tycls tyvar [@where@ cdecls]
 	|  @instance@ [scontext @=>@] qtycls inst [@where@ idecls]
 	|  @default@ @(@type_1 @,@ ... @,@ type_n@)@ & \qquad (n>=0)
@@ -480,7 +480,7 @@ the top level of a module.
 \label{datatype-decls}
 
 @@@
-topdecl	   -> @data@ [context @=>@] simpletype \hprime{[}@=@ constrs\hprime{]} [deriving]
+topdecl	   -> @data@ simpletype \hprime{[}@=@ constrs\hprime{]} [deriving]
 
 simpletype -> tycon tyvar_1 ... tyvar_k	 & (k>=0)
 
@@ -508,10 +508,9 @@ than infix constructor application (thus @a : Foo a@ parses as
 
 An algebraic datatype declaration has the form:
 \[
-"@data@ cx @=>@ T u_1 ... u_k @=@ K_1 t_{11} ... t_{1k_1} @|@ \cdots @|@ \
+"@data@ T u_1 ... u_k @=@ K_1 t_{11} ... t_{1k_1} @|@ \cdots @|@ \
                                 K_n t_{n1} ... t_{nk_n}"
 \]
-where "cx" is a context.
 %\index{context!in data declaration@@in {\tt data} declaration}
 This declaration
 introduces a new {\em type constructor} "T" with \hprime{zero} or more constituent {\em data
@@ -521,13 +520,11 @@ In this Report, the unqualified term ``constructor'' always means ``data constru
 
 The types of the data constructors are given by:
 \[
-"K_i :: \forall u_1 ... u_k.~ cx_i \Rightarrow t_{i1} \rightarrow \cdots \rightarrow t_{ik_i} \rightarrow (T u_1 ... u_k)"
+"K_i :: \forall u_1 ... u_k.~ t_{i1} \rightarrow \cdots \rightarrow t_{ik_i} \rightarrow (T u_1 ... u_k)"
 \]
-where "cx_i" is the largest subset of "cx" that constrains only those type
-variables free in the types "t_{i1}, ..., t_{ik_i}".
 The type variables "u_1" through "u_k" must be distinct and may appear
-in "cx" and the "t_{ij}"; it is a static error
-for any other type variable to appear in "cx" or on the right-hand-side.
+in the "t_{ij}"; it is a static error
+for any other type variable to appear on the right-hand-side.
 The new type constant "T" has a kind of the form
 $\kappa_1\rightarrow\ldots\rightarrow\kappa_k\rightarrow\ast$
 where the kinds "\kappa_i" of the argument variables "u_i" are
@@ -539,27 +536,15 @@ between "0" and "k" arguments.
 For example, the declaration
 \bprog
 @
-  data Eq a => Set a = NilSet | ConsSet a (Set a)
+  data Set a = NilSet | ConsSet a (Set a)
 @
 \eprog
 introduces a type constructor @Set@ of kind $\ast\rightarrow\ast$, and constructors @NilSet@ and
 @ConsSet@ with types
 \[\ba{ll}
 @NilSet@  & ":: \forall a.~ @Set@~ a" \\
-@ConsSet@ & ":: \forall a.~ @Eq@~ a \Rightarrow a \rightarrow @Set@~ a \rightarrow @Set@~ a"
+@ConsSet@ & ":: \forall a.~ a \rightarrow @Set@~ a \rightarrow @Set@~ a"
 \ea\]
-In the example given, the overloaded
-type for @ConsSet@ ensures that @ConsSet@ can only be applied to values whose
-type is an instance of the class @Eq@.
-Pattern matching against @ConsSet@ also gives rise to an @Eq a@ constraint.
-For example:
-\bprog
-@
-  f (ConsSet a s) = a
-@
-\eprog
-the function @f@ has inferred type @Eq a => Set a -> a@.
-The context in the @data@ declaration has no other effect whatsoever.
 
 The visibility of a datatype's constructors (i.e.~the ``abstractness''
 \index{abstract datatype}
@@ -629,7 +614,7 @@ a data declaration.
 \paragraph*{Translation:}
 A declaration of the form
 \[
-"@data@ cx @=>@ T u_1 ... u_k @=@ ... @|@ K s_{1} ... s_{n} @|@ ... "
+"@data@ T u_1 ... u_k @=@ ... @|@ K s_{1} ... s_{n} @|@ ... "
 \]
 where each "s_i" is either of the form @!@" t_i" or "t_i", replaces
 every occurrence of "K" in an expression by
@@ -707,7 +692,7 @@ interchangeable, except in the instance type of an @instance@ declaration (Secti
 \label{datatype-renaming}
 
 @@@
-topdecl    -> @newtype@ [context @=>@] simpletype @=@ newconstr [deriving]
+topdecl    -> @newtype@ simpletype @=@ newconstr [deriving]
 newconstr  -> con atype
 	   |  con @{@ var @::@ type @}@
 simpletype ->  tycon tyvar_1 ... tyvar_k		& (k>=0)
@@ -718,7 +703,7 @@ simpletype ->  tycon tyvar_1 ... tyvar_k		& (k>=0)
 
 \noindent \noindent A declaration of the form
 \[
-"@newtype@ cx @=>@ T u_1 ... u_k @=@ N t"
+"@newtype@ T u_1 ... u_k @=@ N t"
 \]
 introduces a new type whose
 representation is the same as an existing type.  The type "@(@T u_1
