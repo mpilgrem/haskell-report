@@ -430,8 +430,8 @@ impdecls     -> impdecl_1 @;@ ... @;@ impdecl_n 	&  (n>=1)\indexsyn{impdecls}
 
 \indexsyn{topdecls}topdecls -> topdecl_1 @;@ ... @;@ topdecl_n 	&  (n>=0)
 \indexsyn{topdecl}topdecl	-> @type@ simpletype @=@ type
-	|  @data@ simpletype \hprime{[}@=@ constrs\hprime{]} [deriving]
-        |  @newtype@ simpletype @=@ newconstr [deriving]
+	|  @data@ simpletype \hprime{[}@=@ constrs\hprime{]} \htf{\{} deriving \htf{\}}
+        |  @newtype@ simpletype @=@ newconstr \htf{\{} deriving \htf{\}}
 	|  @class@ [scontext @=>@] tycls tyvar [@where@ cdecls]
 	|  @instance@ [scontext @=>@] qtycls inst [@where@ idecls]
 	|  @default@ @(@type_1 @,@ ... @,@ type_n@)@ & (n>=0)
@@ -490,8 +490,10 @@ impdecls     -> impdecl_1 @;@ ... @;@ impdecl_n 	&  (n>=1)\indexsyn{impdecls}
 \indexsyn{newconstr}newconstr  -> con atype
 	   |  con @{@ var @::@ type @}@
 \indexsyn{fielddecl}fielddecl  -> vars @::@ (type | @!@ atype)
-\indexsyn{deriving}deriving   -> @deriving@ (dclass | @(@dclass_1@,@ ... @,@ dclass_n@)@)&  (n>=0)
+\indexsyn{deriving}deriving   -> @deriving@ \htf{[ derivStrat ]} ( dclass | dclasses )
+\indexsyn{derivStrat}\htf{derivStrat} -> \htf{@newtype@ | @stock@}
 \indexsyn{dclass}dclass     -> qtycls
+\indexsyn{dclasses}dclasses -> @(@ dclass_1 @,@ ... @,@ dclass_n @)@ & (n>=0)
 
 \indexsyn{inst}inst	-> gtycon
 	|  @(@ gtycon tyvar_1 ... tyvar_k @)@	& (k>=0, tyvars \tr{distinct})

@@ -24,8 +24,8 @@ body   -> @{@ impdecls @;@ topdecls @}@
 
 topdecls -> topdecl_1 @;@ ... @;@ topdecl_n 	& (n>=1)
 topdecl	-> @type@ simpletype @=@ type
-	|  @data@ simpletype \hprime{[}@=@ constrs\hprime{]} [deriving]
-        |  @newtype@ simpletype @=@ newconstr [deriving]
+	|  @data@ simpletype \hprime{[}@=@ constrs\hprime{]} \htf{\{} deriving \htf{\}}
+        |  @newtype@ simpletype @=@ newconstr \htf{\{} deriving \htf{\}}
 	|  @class@ [scontext @=>@] tycls tyvar [@where@ cdecls]
 	|  @instance@ [scontext @=>@] qtycls inst [@where@ idecls]
 	|  @default@ @(@type_1 @,@ ... @,@ type_n@)@ & \qquad (n>=0)
@@ -480,7 +480,7 @@ the top level of a module.
 \label{datatype-decls}
 
 @@@
-topdecl	   -> @data@ simpletype \hprime{[}@=@ constrs\hprime{]} [deriving]
+topdecl	   -> @data@ simpletype \hprime{[}@=@ constrs\hprime{]} \htf{\{} deriving \htf{\}}
 
 simpletype -> tycon tyvar_1 ... tyvar_k	 & (k>=0)
 
@@ -490,8 +490,10 @@ constr	   -> con [@!@] atype_1 ... [@!@] atype_k	& (\tr{arity} con = k, k>=0)
            |  con @{@ fielddecl_1 @,@ ... @,@ fielddecl_n @}@ & (n>=0)
 fielddecl  -> vars @::@ (type | @!@ atype)
 
-deriving   -> @deriving@ (dclass | @(@dclass_1@,@ ... @,@ dclass_n@)@)& (n>=0)
+deriving   -> @deriving@ \htf{[ derivStrat ]} ( dclass | dclasses )
+\htf{derivStrat} -> \htf{@newtype@ | @stock@}
 dclass     -> qtycls
+dclasses -> @(@ dclass_1@,@ ... @,@ dclass_n @)@ & (n>=0)
 @@@
 \index{topdecl@@{\em topdecl} (@data@)}%
 \indexsyn{simpletype}%
@@ -500,6 +502,7 @@ dclass     -> qtycls
 \indexsyn{fielddecl}%
 \indexsyn{deriving}%
 \indexsyn{dclass}%
+\indexsyn{dclasses}%
 \index{data declaration@@{\tt data} declaration}
 The precedence\index{precedence} for "constr" is the same as that for
 expressions---normal constructor application has higher precedence
@@ -552,8 +555,8 @@ of the datatype) outside of the module in which the datatype is
 defined is controlled by the form of the datatype's name in the export
 list as described in Section~\ref{abstract-types}.
 
-The optional "@deriving@" part of a @data@ declaration has to do
-with {\em derived instances}, and is described in
+The optional "@deriving@" \htf{parts} of a @data@ declaration \htf{have} to do
+with {\em derived instances}, and \htf{are} described in
 Section~\ref{derived-decls}.
 
 \paragraph{Labelled Fields}
@@ -692,7 +695,7 @@ interchangeable, except in the instance type of an @instance@ declaration (Secti
 \label{datatype-renaming}
 
 @@@
-topdecl    -> @newtype@ simpletype @=@ newconstr [deriving]
+topdecl    -> @newtype@ simpletype @=@ newconstr \htf{\{} deriving \htf{\}}
 newconstr  -> con atype
 	   |  con @{@ var @::@ type @}@
 simpletype ->  tycon tyvar_1 ... tyvar_k		& (k>=0)
@@ -752,8 +755,8 @@ equivalent to "\bot", whereas "@(n@ \bot@)@", "@(n (N@ \bot@))@",
 are all equivalent to @42@.  In particular, "@(N@ \bot@)@" is equivalent to
 "\bot" while "@(D1@ \bot@)@" is not equivalent to "\bot".
 
-The optional deriving part of a @newtype@ declaration is treated in
-the same way as the deriving component of a @data@ declaration; see
+The optional deriving \htf{parts} of a @newtype@ declaration \htf{are} treated in
+the same way as the deriving \htf{components} of a @data@ declaration; see
 Section~\ref{derived-decls}.
 
 A @newtype@ declaration may use field-naming syntax, though of course
@@ -1085,7 +1088,7 @@ Further examples of
 
 As mentioned in Section~\ref{datatype-decls}, @data@ and @newtype@
 declarations
-contain an optional @deriving@ form.  If the form is included, then
+contain optional @deriving@ \htf{forms}.  If \htf{a} form is included, then
 {\em derived instance declarations} are automatically generated for
 the datatype in each of the named classes.
 These instances are subject to the same restrictions as user-defined
@@ -1126,10 +1129,13 @@ a class that is also derived.
 %These rules also apply to the superclasses
 %of the class in question.
 
-If the @deriving@ form is omitted from a @data@ or @newtype@
+\htf{A deriving form can specify an optional {\em deriving strategy}, either @stock@ or
+@newtype@.}
+
+If @deriving@ \htf{forms are} omitted from a @data@ or @newtype@
 declaration, then {\em no} instance declarations
 are derived for
-that datatype; that is, omitting a @deriving@ form is equivalent to
+that datatype; that is, omitting @deriving@ \htf{forms} is equivalent to
 including an empty deriving form: @deriving ()@.
 
 % OLD:

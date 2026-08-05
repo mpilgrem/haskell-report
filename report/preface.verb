@@ -152,7 +152,7 @@ standalone kind signatures. [The report is not yet modified for this matter.]
 @GHC2024@ also enables the following new features (the classification is that of
 the GHC User's Guide):
 
-\begin{tabular}{lll}
+\begin{tabular}{llp{4cm}}
 Classification & Feature & [Report modified?] \\
 \hline
 Syntax & Empty case alternatives & Sections~\ref{case}, \ref{bnf} \\
@@ -178,9 +178,12 @@ Deriving & Derive @Data@ and @Typeable@ instances & No \\
 Deriving & Derive @Generic@ instances & No \\
 Deriving & Derive @Lift@ instances & No \\
 Deriving & Derive @Traversable@ instances (derive @Foldable@, derive @Functor@) & No \\
-Deriving & Deriving strategies & No \\
+Deriving & Deriving strategies & Sections~\ref{declarations},
+\ref{datatype-decls}, \ref{datatype-renaming}, \ref{derived-decls}, \ref{bnf},
+\ref{deriving-strategies}, \ref{stock-deriving} \\
 Deriving & Derive instances for empty data types & No \\
-Deriving & Generalised derived instances for newtypes & No \\
+Deriving & Generalised derived instances for newtypes & Sections~\ref{derived-appendix},
+\ref{newtype-deriving} \\
 Deriving & Stand-alone deriving declarations & No \\
 Class/instance & Flexible instances (type synonym instances) & No \\
 Class/instance & Type signatures in instance declarations & No \\
