@@ -28,6 +28,7 @@ topdecl	-> @type@ simpletype @=@ type
         |  @newtype@ simpletype @=@ newconstr \htf{\{} deriving \htf{\}}
 	|  @class@ [scontext @=>@] tycls tyvar [@where@ cdecls]
 	|  @instance@ [scontext @=>@] qtycls inst [@where@ idecls]
+  |  \htf{@deriving@ [ derivStrat ] [scontext @=>@] qtycls inst}
 	|  @default@ @(@type_1 @,@ ... @,@ type_n@)@ & \qquad (n>=0)
         |  @foreign@ fdecl
 	|  decl
@@ -1084,7 +1085,13 @@ Further examples of
 
 \subsubsection{Derived Instances}
 \index{derived instance}
+\index{standalone deriving}
 \label{derived-decls}
+
+@@@
+\htf{topdecl}	-> \htf{@deriving@ [ derivStrat ] [scontext @=>@] qtycls inst} & \htf{(\tr{standalone deriving})}
+@@@
+\index{topdecl@@{\em topdecl} (@deriving@)}
 
 As mentioned in Section~\ref{datatype-decls}, @data@ and @newtype@
 declarations
@@ -1137,6 +1144,22 @@ declaration, then {\em no} instance declarations
 are derived for
 that datatype; that is, omitting @deriving@ \htf{forms} is equivalent to
 including an empty deriving form: @deriving ()@.
+
+\begin{haskelltf}
+Standalone deriving declarations are also allowed. They differ from a
+@deriving@ clause in that:
+\begin{itemize}
+
+\item A standalone deriving declaration does not need to be in the same module
+as the data type declaration.
+
+\item In most cases, an explicit context must be supplied. (In a @deriving@
+clause the context is inferred.)
+
+\item You cannot use standalone deriving to create an instance for a data type
+whose constructors are not all in scope.
+\end{itemize}
+\end{haskelltf}
 
 % OLD:
 %On the other hand, if the @deriving@ form is omitted from a @data@
