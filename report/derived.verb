@@ -17,10 +17,77 @@
 A {\em derived instance} is an instance declaration that is generated
 automatically in conjunction with a @data@ or @newtype@ declaration.
 The body of a derived instance declaration is derived syntactically from
-the definition of the associated type.  Derived instances are
-possible only for classes known to the compiler: those defined in
-either the Prelude or a standard library.  In this chapter, we
-describe the derivation of classes defined by the Prelude.
+the definition of the associated type. Derived instances are
+possible only for classes known to the compiler. In this chapter, we
+describe the derivation of classes defined by the Prelude \htf{and other
+classes}.
+
+\begin{haskelltf}
+\subsection{Deriving strategies}
+\label{deriving-strategies}
+
+Each derived instance is derived in accordance with a {\em deriving strategy}.
+
+A deriving strategy is one of @newtype@ or @stock@.
+
+If a deriving strategy is not specified:
+\begin{itemize}
+\item The @newtype@ strategy is used for @newtype@ instances, if it succeeds.
+\item Otherwise, the @stock@ strategy is used.
+\end{itemize}
+
+\subsection{The @newtype@ deriving strategy}
+\label{newtype-deriving}
+
+A derived instance is derived only for declarations of these forms (after
+expansion of any type synonyms):
+
+\[\ba{lcl}
+"@newtype@ @T@ v_1 ... v_n" & "=" & "@MkT@ @(@ t v_{k+1} ... v_n @) deriving ( C@ t_1 ... t_j @)@"
+\ea\]
+
+where
+
+\begin{enumerate}
+\item "v_1 ... v_n" are type variables, and "t", "s_1 ... s_k", "t_1 ... t_j"
+are types.
+
+\item The @( C@ "t_1 ... t_j" @)@ is a partial applications of the class @C@,
+where the arity of @C@ is exactly "j+1". That is, @C@ lacks exactly one type
+argument.
+
+\item "k" is chosen so that @C@ "t_1 ... t_j" @( T@ "v_1 ... v_k" @)@ is
+well-kinded. (Or, in the case of a data instance, so that @C@ "t_1 ... t_j"
+@( T@ "s_1 ... s_k" @)@ is well kinded.)
+
+\item The type "t" is an arbitrary type.
+
+\item The type variables "v_{k+1} ... v_n" do not occur in the types "t",
+"s_1 ... s_k", or "t_1 ... t_j".
+
+\item @C@ is not @Data@, @Read@, @Show@ or @Typeable@.
+
+\item It is safe to coerce each of the methods of @C@. That is, the missing last
+argument to @C@ is not used at a nominal role in any of the @C@’s methods.
+
+\end{enumerate}
+
+Then the derived instance declaration is of the form
+
+\[\ba{l}
+"@instance C@ t_1 ... t_j t => @C@ t_1 ... t_j @( T@ v_1 ... v_k @)@"
+\ea\]
+
+If @C@ does not contain any class methods, the instance context is unnecessary,
+and the derived instance will be:
+
+\[\ba{l}
+"@instance@ @C@ t_1 ... t_j @( T@ v_1 ... v_k @)@"
+\ea\]
+
+\subsection{The @stock@ deriving strategies}
+\label{stock-deriving}
+\end{haskelltf}
 
 If "T" is an algebraic datatype declared by:\index{algebraic datatype}
 \[\ba{lcl}
@@ -62,8 +129,6 @@ an instance declaration is automatically generated for "T u_1 ... u_k"
 over each class "C_i".
 If the derived instance declaration is impossible for any of the "C_i"
 then a static error results.
-If no derived instances are required, the @deriving@ form may be
-omitted or the form @deriving ()@ may be used.
 
 % OLD:
 %If the @deriving@ form is omitted then instance
@@ -125,12 +190,12 @@ The context "cx'" is the smallest context satisfying point (2) above.
 For mutually recusive data types, the compiler may need to perform a
 fixpoint calculation to compute it.
 
-The remaining details of the derived
+The remaining details of the \htf{@stock@} derived
 instances for each of the derivable Prelude classes are now given.
 Free variables and constructors used in these translations
 always refer to entities defined by the @Prelude@.
 
-\subsection{Derived instances of \texorpdfstring{@Eq@}{Eq} and \texorpdfstring{@Ord@}{Ord}}
+\subsection{@stock@ derived instances of \texorpdfstring{@Eq@}{Eq} and \texorpdfstring{@Ord@}{Ord}}
 \indexdi{Eq}
 \indexdi{Ord}
 The class methods automatically introduced by derived instances
@@ -164,7 +229,7 @@ All derived operations of class @Eq@ and @Ord@ are strict in both arguments.
 For example, "@False <= @\bot" is "\bot", even though @False@ is the first constructor
 of the @Bool@ type.
 
-\subsection{Derived instances of \texorpdfstring{@Enum@}{Enum}}
+\subsection{@stock@ derived instances of \texorpdfstring{@Enum@}{Enum}}
 \indexdi{Enum}
 Derived instance declarations for the class @Enum@ are only
 possible for enumerations (data types with only nullary constructors).
@@ -212,7 +277,7 @@ we would have:
 @
 \eprog
 
-\subsection{Derived instances of \texorpdfstring{@Bounded@}{Bounded}}
+\subsection{@stock@ derived instances of \texorpdfstring{@Bounded@}{Bounded}}
 \indexdi{Bounded}
 The @Bounded@ class introduces the class
 methods
@@ -237,7 +302,7 @@ would generate the following @Bounded@ instance:
 @
 \eprog
 
-\subsection{Derived instances of \texorpdfstring{@Read@}{Read} and \texorpdfstring{@Show@}{Show}}
+\subsection{@stock@ derived instances of \texorpdfstring{@Read@}{Read} and \texorpdfstring{@Show@}{Show}}
 \label{derived-text}
 \indexdi{Read}
 \indexdi{Show}
