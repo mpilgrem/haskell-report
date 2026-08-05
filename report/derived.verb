@@ -15,7 +15,8 @@
 \index{derived instance}
 
 A {\em derived instance} is an instance declaration that is generated
-automatically in conjunction with a @data@ or @newtype@ declaration.
+automatically in conjunction with a @data@ or @newtype@ declaration
+\htf{(including by means of a standalone deriving declaration)}.
 The body of a derived instance declaration is derived syntactically from
 the definition of the associated type. Derived instances are
 possible only for classes known to the compiler. In this chapter, we
