@@ -184,7 +184,8 @@ Deriving & Deriving strategies & Sections~\ref{declarations},
 Deriving & Derive instances for empty data types & No \\
 Deriving & Generalised derived instances for newtypes & Sections~\ref{derived-appendix},
 \ref{newtype-deriving} \\
-Deriving & Stand-alone deriving declarations & No \\
+Deriving & Stand-alone deriving declarations & Section~\ref{declarations},
+\ref{derived-decls}, \ref{bnf}, \ref{derived-appendix} \\
 Class/instance & Flexible instances (type synonym instances) & No \\
 Class/instance & Type signatures in instance declarations & No \\
 Class/instance & Multi-parameter type classes (constrained class methods) & No \\

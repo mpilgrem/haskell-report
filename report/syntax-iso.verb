@@ -434,6 +434,7 @@ impdecls     -> impdecl_1 @;@ ... @;@ impdecl_n 	&  (n>=1)\indexsyn{impdecls}
         |  @newtype@ simpletype @=@ newconstr \htf{\{} deriving \htf{\}}
 	|  @class@ [scontext @=>@] tycls tyvar [@where@ cdecls]
 	|  @instance@ [scontext @=>@] qtycls inst [@where@ idecls]
+        | \htf{@deriving@ [ derivStrat ] [scontext @=>@] qtycls inst}
 	|  @default@ @(@type_1 @,@ ... @,@ type_n@)@ & (n>=0)
         |  @foreign@ fdecl
 	|  decl
