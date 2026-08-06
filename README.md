@@ -7,7 +7,10 @@ original is preserved in locked branch `master`.
 The purpose of the fork is to explore the creation of a 'Haskell 2024 Lanaguage
 Report': a report that corresponds to the Haskell 2010 Language Report, if the
 GHC language extensions in the `GHC2024` language edition were part of the
-language.
+language. In respect of changes to modules since the earlier report, its
+approach is to make only changes that are strictly necessary to be
+consistent with those language extensions and by reference to the boot packages
+of GHC 9.10.3 as published on Hackage.
 
 The document does not claim to be a definition of the languages Haskell 98 or
 Haskell 2010.
