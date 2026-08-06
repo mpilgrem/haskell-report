@@ -100,7 +100,7 @@ once per year.
 The Haskell 2010 Language Report has been, and continues to be, a valued
 reference for users of Haskell. However, much has happened since it was first
 published. There has been further progress in research on language design and
-Haskell has continued to evolve.
+Haskell, and Haskell modules, have continued to evolve.
 
 Despite that progress, the hope that the report would be the first of annual
 incremental revisions to the language has not been realised.
@@ -116,6 +116,13 @@ The Haskell 2024 Language Report aims to modify the Haskell 2010 Language Report
 as if the extensions in @GHC2024@ were part of the language. In doing so, it
 draws upon each extension's approved proposal and the documentation in, or
 referred to, by the relevant part of the GHC User's Guide.
+
+The Prelude and other Haskell modules have also changed since the Haskell 2010
+Language Report. The Haskell 2024 Language Report aims to reflect such changes
+only to the extent strictly necessary to be consistent with the extensions in 
+@GHC2024@ and by reference to the boot packages of GHC 9.10.3 as published on
+Hackage.
+
 \end{haskelltf}
 
 \section*{Extensions to \Haskell{} 98}
