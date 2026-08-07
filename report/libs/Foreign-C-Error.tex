@@ -3,634 +3,588 @@
 \haddockbeginheader
 {\haddockverb\begin{verbatim}
 module Foreign.C.Error (
-    Errno(Errno),  eOK,  e2BIG,  eACCES,  eADDRINUSE,  eADDRNOTAVAIL,  eADV, 
-    eAFNOSUPPORT,  eAGAIN,  eALREADY,  eBADF,  eBADMSG,  eBADRPC,  eBUSY, 
-    eCHILD,  eCOMM,  eCONNABORTED,  eCONNREFUSED,  eCONNRESET,  eDEADLK, 
-    eDESTADDRREQ,  eDIRTY,  eDOM,  eDQUOT,  eEXIST,  eFAULT,  eFBIG,  eFTYPE, 
-    eHOSTDOWN,  eHOSTUNREACH,  eIDRM,  eILSEQ,  eINPROGRESS,  eINTR,  eINVAL, 
-    eIO,  eISCONN,  eISDIR,  eLOOP,  eMFILE,  eMLINK,  eMSGSIZE,  eMULTIHOP, 
-    eNAMETOOLONG,  eNETDOWN,  eNETRESET,  eNETUNREACH,  eNFILE,  eNOBUFS, 
-    eNODATA,  eNODEV,  eNOENT,  eNOEXEC,  eNOLCK,  eNOLINK,  eNOMEM,  eNOMSG, 
-    eNONET,  eNOPROTOOPT,  eNOSPC,  eNOSR,  eNOSTR,  eNOSYS,  eNOTBLK, 
-    eNOTCONN,  eNOTDIR,  eNOTEMPTY,  eNOTSOCK,  eNOTTY,  eNXIO,  eOPNOTSUPP, 
-    ePERM,  ePFNOSUPPORT,  ePIPE,  ePROCLIM,  ePROCUNAVAIL,  ePROGMISMATCH, 
-    ePROGUNAVAIL,  ePROTO,  ePROTONOSUPPORT,  ePROTOTYPE,  eRANGE,  eREMCHG, 
-    eREMOTE,  eROFS,  eRPCMISMATCH,  eRREMOTE,  eSHUTDOWN,  eSOCKTNOSUPPORT, 
-    eSPIPE,  eSRCH,  eSRMNT,  eSTALE,  eTIME,  eTIMEDOUT,  eTOOMANYREFS, 
-    eTXTBSY,  eUSERS,  eWOULDBLOCK,  eXDEV,  isValidErrno,  getErrno, 
-    resetErrno,  errnoToIOError,  throwErrno,  throwErrnoIf,  throwErrnoIf_, 
-    throwErrnoIfRetry,  throwErrnoIfRetry_,  throwErrnoIfMinus1, 
-    throwErrnoIfMinus1_,  throwErrnoIfMinus1Retry,  throwErrnoIfMinus1Retry_, 
-    throwErrnoIfNull,  throwErrnoIfNullRetry,  throwErrnoIfRetryMayBlock, 
-    throwErrnoIfRetryMayBlock_,  throwErrnoIfMinus1RetryMayBlock, 
-    throwErrnoIfMinus1RetryMayBlock_,  throwErrnoIfNullRetryMayBlock, 
-    throwErrnoPath,  throwErrnoPathIf,  throwErrnoPathIf_, 
-    throwErrnoPathIfNull,  throwErrnoPathIfMinus1,  throwErrnoPathIfMinus1_
+    Errno(Errno), eOK, e2BIG, eACCES, eADDRINUSE, eADDRNOTAVAIL, eADV,
+    eAFNOSUPPORT, eAGAIN, eALREADY, eBADF, eBADMSG, eBADRPC, eBUSY, eCHILD,
+    eCOMM, eCONNABORTED, eCONNREFUSED, eCONNRESET, eDEADLK, eDESTADDRREQ,
+    eDIRTY, eDOM, eDQUOT, eEXIST, eFAULT, eFBIG, eFTYPE, eHOSTDOWN,
+    eHOSTUNREACH, eIDRM, eILSEQ, eINPROGRESS, eINTR, eINVAL, eIO, eISCONN,
+    eISDIR, eLOOP, eMFILE, eMLINK, eMSGSIZE, eMULTIHOP, eNAMETOOLONG, eNETDOWN,
+    eNETRESET, eNETUNREACH, eNFILE, eNOBUFS, eNODATA, eNODEV, eNOENT, eNOEXEC,
+    eNOLCK, eNOLINK, eNOMEM, eNOMSG, eNONET, eNOPROTOOPT, eNOSPC, eNOSR, eNOSTR,
+    eNOSYS, eNOTBLK, eNOTCONN, eNOTDIR, eNOTEMPTY, eNOTSOCK, eNOTTY, eNXIO,
+    eOPNOTSUPP, ePERM, ePFNOSUPPORT, ePIPE, ePROCLIM, ePROCUNAVAIL,
+    ePROGMISMATCH, ePROGUNAVAIL, ePROTO, ePROTONOSUPPORT, ePROTOTYPE, eRANGE,
+    eREMCHG, eREMOTE, eROFS, eRPCMISMATCH, eRREMOTE, eSHUTDOWN, eSOCKTNOSUPPORT,
+    eSPIPE, eSRCH, eSRMNT, eSTALE, eTIME, eTIMEDOUT, eTOOMANYREFS, eTXTBSY,
+    eUSERS, eWOULDBLOCK, eXDEV, isValidErrno, getErrno, resetErrno,
+    errnoToIOError, throwErrno, throwErrnoIf, throwErrnoIf_, throwErrnoIfRetry,
+    throwErrnoIfRetry_, throwErrnoIfMinus1, throwErrnoIfMinus1_,
+    throwErrnoIfMinus1Retry, throwErrnoIfMinus1Retry_, throwErrnoIfNull,
+    throwErrnoIfNullRetry, throwErrnoIfRetryMayBlock,
+    throwErrnoIfRetryMayBlock_, throwErrnoIfMinus1RetryMayBlock,
+    throwErrnoIfMinus1RetryMayBlock_, throwErrnoIfNullRetryMayBlock,
+    throwErrnoPath, throwErrnoPathIf, throwErrnoPathIf_, throwErrnoPathIfNull,
+    throwErrnoPathIfMinus1, throwErrnoPathIfMinus1_
   ) where\end{verbatim}}
 \haddockendheader
 
-The module \haddocktt{Foreign.C.Error} facilitates C-specific error
- handling of \haddocktt{errno}.
-\par
-
-\section{Haskell representations of \haddocktt{errno} values
-}
+The module \haddocktt{Foreign.C.Error} facilitates C-specific error handling of
+ \haddocktt{errno}.\par
+\section{Haskell representation of errno values}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-newtype\ Errno
-\end{tabular}]\haddockbegindoc
-\haddockbeginconstrs
-\haddockdecltt{=} & \haddockdecltt{Errno CInt} & \\
-\end{tabulary}\par
+newtype Errno
+\end{tabular}]
+{\haddockbegindoc
 Haskell representation for \haddocktt{errno} values.
  The implementation is deliberately exposed, to allow users to add
- their own definitions of \haddockid{Errno} values.
-\par
-
+ their own definitions of \haddockid{Errno} values.\par
+\enspace \emph{Constructors}\par
+\haddockbeginconstrs
+\haddockdecltt{=} & \haddockdecltt{Errno CInt} & \\
+\end{tabulary}\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance\ Eq\ Errno
+instance Eq Errno
 \end{tabular}]
 \end{haddockdesc}
-\subsection{Common \haddocktt{errno} symbols
-}
-Different operating systems and/or C libraries often support
- different values of \haddocktt{errno}.  This module defines the common values,
- but due to the open definition of \haddockid{Errno} users may add definitions
- which are not predefined.
-\par
-
-\begin{haddockdesc}
-\item[
-eOK\ ::\ Errno
-]
-\item[
-e2BIG\ ::\ Errno
-]
-\item[
-eACCES\ ::\ Errno
-]
-\item[
-eADDRINUSE\ ::\ Errno
-]
-\item[
-eADDRNOTAVAIL\ ::\ Errno
-]
-\item[
-eADV\ ::\ Errno
-]
-\item[
-eAFNOSUPPORT\ ::\ Errno
-]
-\item[
-eAGAIN\ ::\ Errno
-]
-\item[
-eALREADY\ ::\ Errno
-]
-\item[
-eBADF\ ::\ Errno
-]
-\item[
-eBADMSG\ ::\ Errno
-]
-\item[
-eBADRPC\ ::\ Errno
-]
-\item[
-eBUSY\ ::\ Errno
-]
-\item[
-eCHILD\ ::\ Errno
-]
-\item[
-eCOMM\ ::\ Errno
-]
-\item[
-eCONNABORTED\ ::\ Errno
-]
-\item[
-eCONNREFUSED\ ::\ Errno
-]
-\item[
-eCONNRESET\ ::\ Errno
-]
-\item[
-eDEADLK\ ::\ Errno
-]
-\item[
-eDESTADDRREQ\ ::\ Errno
-]
-\item[
-eDIRTY\ ::\ Errno
-]
-\item[
-eDOM\ ::\ Errno
-]
-\item[
-eDQUOT\ ::\ Errno
-]
-\item[
-eEXIST\ ::\ Errno
-]
-\item[
-eFAULT\ ::\ Errno
-]
-\item[
-eFBIG\ ::\ Errno
-]
-\item[
-eFTYPE\ ::\ Errno
-]
-\item[
-eHOSTDOWN\ ::\ Errno
-]
-\item[
-eHOSTUNREACH\ ::\ Errno
-]
-\item[
-eIDRM\ ::\ Errno
-]
-\item[
-eILSEQ\ ::\ Errno
-]
-\item[
-eINPROGRESS\ ::\ Errno
-]
-\item[
-eINTR\ ::\ Errno
-]
-\item[
-eINVAL\ ::\ Errno
-]
-\item[
-eIO\ ::\ Errno
-]
-\item[
-eISCONN\ ::\ Errno
-]
-\item[
-eISDIR\ ::\ Errno
-]
-\item[
-eLOOP\ ::\ Errno
-]
-\item[
-eMFILE\ ::\ Errno
-]
-\item[
-eMLINK\ ::\ Errno
-]
-\item[
-eMSGSIZE\ ::\ Errno
-]
-\item[
-eMULTIHOP\ ::\ Errno
-]
-\item[
-eNAMETOOLONG\ ::\ Errno
-]
-\item[
-eNETDOWN\ ::\ Errno
-]
-\item[
-eNETRESET\ ::\ Errno
-]
-\item[
-eNETUNREACH\ ::\ Errno
-]
-\item[
-eNFILE\ ::\ Errno
-]
-\item[
-eNOBUFS\ ::\ Errno
-]
-\item[
-eNODATA\ ::\ Errno
-]
-\item[
-eNODEV\ ::\ Errno
-]
-\item[
-eNOENT\ ::\ Errno
-]
-\item[
-eNOEXEC\ ::\ Errno
-]
-\item[
-eNOLCK\ ::\ Errno
-]
-\item[
-eNOLINK\ ::\ Errno
-]
-\item[
-eNOMEM\ ::\ Errno
-]
-\item[
-eNOMSG\ ::\ Errno
-]
-\item[
-eNONET\ ::\ Errno
-]
-\item[
-eNOPROTOOPT\ ::\ Errno
-]
-\item[
-eNOSPC\ ::\ Errno
-]
-\item[
-eNOSR\ ::\ Errno
-]
-\item[
-eNOSTR\ ::\ Errno
-]
-\item[
-eNOSYS\ ::\ Errno
-]
-\item[
-eNOTBLK\ ::\ Errno
-]
-\item[
-eNOTCONN\ ::\ Errno
-]
-\item[
-eNOTDIR\ ::\ Errno
-]
-\item[
-eNOTEMPTY\ ::\ Errno
-]
-\item[
-eNOTSOCK\ ::\ Errno
-]
-\item[
-eNOTTY\ ::\ Errno
-]
-\item[
-eNXIO\ ::\ Errno
-]
-\item[
-eOPNOTSUPP\ ::\ Errno
-]
-\item[
-ePERM\ ::\ Errno
-]
-\item[
-ePFNOSUPPORT\ ::\ Errno
-]
-\item[
-ePIPE\ ::\ Errno
-]
-\item[
-ePROCLIM\ ::\ Errno
-]
-\item[
-ePROCUNAVAIL\ ::\ Errno
-]
-\item[
-ePROGMISMATCH\ ::\ Errno
-]
-\item[
-ePROGUNAVAIL\ ::\ Errno
-]
-\item[
-ePROTO\ ::\ Errno
-]
-\item[
-ePROTONOSUPPORT\ ::\ Errno
-]
-\item[
-ePROTOTYPE\ ::\ Errno
-]
-\item[
-eRANGE\ ::\ Errno
-]
-\item[
-eREMCHG\ ::\ Errno
-]
-\item[
-eREMOTE\ ::\ Errno
-]
-\item[
-eROFS\ ::\ Errno
-]
-\item[
-eRPCMISMATCH\ ::\ Errno
-]
-\item[
-eRREMOTE\ ::\ Errno
-]
-\item[
-eSHUTDOWN\ ::\ Errno
-]
-\item[
-eSOCKTNOSUPPORT\ ::\ Errno
-]
-\item[
-eSPIPE\ ::\ Errno
-]
-\item[
-eSRCH\ ::\ Errno
-]
-\item[
-eSRMNT\ ::\ Errno
-]
-\item[
-eSTALE\ ::\ Errno
-]
-\item[
-eTIME\ ::\ Errno
-]
-\item[
-eTIMEDOUT\ ::\ Errno
-]
-\item[
-eTOOMANYREFS\ ::\ Errno
-]
-\item[
-eTXTBSY\ ::\ Errno
-]
-\item[
-eUSERS\ ::\ Errno
-]
-\item[
-eWOULDBLOCK\ ::\ Errno
-]
-\item[
-eXDEV\ ::\ Errno
-]
-\end{haddockdesc}
-\subsection{\haddockid{Errno} functions
-}
+\subsection{Common errno symbols}
+Different operating systems and/or C libraries often support different
+ values of \haddocktt{errno}. This module defines the common values, but due to the
+ open definition of \haddockid{Errno} users may add definitions which are not
+ predefined.\par
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isValidErrno\ ::\ Errno\ ->\ Bool
-\end{tabular}]\haddockbegindoc
+eOK :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+e2BIG :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eACCES :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eADDRINUSE :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eADDRNOTAVAIL :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eADV :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eAFNOSUPPORT :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eAGAIN :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eALREADY :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eBADF :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eBADMSG :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eBADRPC :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eBUSY :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eCHILD :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eCOMM :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eCONNABORTED :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eCONNREFUSED :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eCONNRESET :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eDEADLK :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eDESTADDRREQ :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eDIRTY :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eDOM :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eDQUOT :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eEXIST :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eFAULT :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eFBIG :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eFTYPE :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eHOSTDOWN :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eHOSTUNREACH :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eIDRM :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eILSEQ :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eINPROGRESS :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eINTR :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eINVAL :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eIO :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eISCONN :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eISDIR :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eLOOP :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eMFILE :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eMLINK :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eMSGSIZE :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eMULTIHOP :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNAMETOOLONG :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNETDOWN :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNETRESET :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNETUNREACH :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNFILE :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNOBUFS :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNODATA :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNODEV :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNOENT :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNOEXEC :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNOLCK :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNOLINK :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNOMEM :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNOMSG :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNONET :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNOPROTOOPT :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNOSPC :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNOSR :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNOSTR :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNOSYS :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNOTBLK :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNOTCONN :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNOTDIR :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNOTEMPTY :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNOTSOCK :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNOTTY :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eNXIO :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eOPNOTSUPP :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+ePERM :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+ePFNOSUPPORT :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+ePIPE :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+ePROCLIM :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+ePROCUNAVAIL :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+ePROGMISMATCH :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+ePROGUNAVAIL :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+ePROTO :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+ePROTONOSUPPORT :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+ePROTOTYPE :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eRANGE :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eREMCHG :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eREMOTE :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eROFS :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eRPCMISMATCH :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eRREMOTE :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eSHUTDOWN :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eSOCKTNOSUPPORT :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eSPIPE :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eSRCH :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eSRMNT :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eSTALE :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eTIME :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eTIMEDOUT :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eTOOMANYREFS :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eTXTBSY :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eUSERS :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eWOULDBLOCK :: Errno
+\end{tabular}]
+\item[\begin{tabular}{@{}l}
+eXDEV :: Errno
+\end{tabular}]
+\end{haddockdesc}
+\subsection{Errno functions}
+\begin{haddockdesc}
+\item[\begin{tabular}{@{}l}
+isValidErrno :: Errno -> Bool
+\end{tabular}]
+{\haddockbegindoc
 Yield \haddockid{True} if the given \haddockid{Errno} value is valid on the system.
  This implies that the \haddockid{Eq} instance of \haddockid{Errno} is also system dependent
- as it is only defined for valid values of \haddockid{Errno}.
-\par
-
+ as it is only defined for valid values of \haddockid{Errno}.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-getErrno\ ::\ IO\ Errno
-\end{tabular}]\haddockbegindoc
-Get the current value of \haddocktt{errno} in the current thread.
-\par
-
+getErrno :: IO Errno
+\end{tabular}]
+{\haddockbegindoc
+Get the current value of \haddocktt{errno} in the current thread.\par
+On GHC, the runtime will ensure that any Haskell thread will only see "its own"
+ \haddocktt{errno}, by saving and restoring the value when Haskell threads are scheduled
+ across OS threads.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-resetErrno\ ::\ IO\ ()
-\end{tabular}]\haddockbegindoc
-Reset the current thread's \haddocktt{errno} value to \haddockid{eOK}.
-\par
-
+resetErrno :: IO ()
+\end{tabular}]
+{\haddockbegindoc
+Reset the current thread's \haddocktt{errno} value to \haddockid{eOK}.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
 errnoToIOError
-\end{tabular}]\haddockbegindoc
+\end{tabular}]
+{\haddockbegindoc
 \haddockbeginargs
-\haddockdecltt{::} & \haddockdecltt{String} & the location where the error occurred
- \\
-                                              \haddockdecltt{->} & \haddockdecltt{Errno} & the error number
- \\
-                                                                                           \haddockdecltt{->} & \haddockdecltt{Maybe Handle} & optional handle associated with the error
- \\
-                                                                                                                                               \haddockdecltt{->} & \haddockdecltt{Maybe String} & optional filename associated with the error
- \\
-                                                                                                                                                                                                   \haddockdecltt{->} & \haddockdecltt{IOError} & \\
+\haddockdecltt{::} & \haddockdecltt{String} & the location where the error occurred \\
+\haddockdecltt{->} & \haddockdecltt{Errno} & the error number \\
+\haddockdecltt{->} & \haddockdecltt{Maybe Handle} & optional handle associated with the error \\
+\haddockdecltt{->} & \haddockdecltt{Maybe String} & optional filename associated with the error \\
+\haddockdecltt{->} & \haddockdecltt{IOError} & \\
 \end{tabulary}\par
 Construct an \haddockid{IOError} based on the given \haddockid{Errno} value.
  The optional information can be used to improve the accuracy of
- error messages.
-\par
-
+ error messages.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
 throwErrno
-\end{tabular}]\haddockbegindoc
+\end{tabular}]
+{\haddockbegindoc
 \haddockbeginargs
-\haddockdecltt{::} & \haddockdecltt{String} & textual description of the error location
- \\
-                                              \haddockdecltt{->} & \haddockdecltt{IO a} & \\
+\haddockdecltt{::} & \haddockdecltt{String} & textual description of the error location \\
+\haddockdecltt{->} & \haddockdecltt{IO a} & \\
 \end{tabulary}\par
-Throw an \haddockid{IOError} corresponding to the current value of \haddockid{getErrno}.
-\par
-
+Throw an \haddockid{IOError} corresponding to the current value of \haddockid{getErrno}.\par}
 \end{haddockdesc}
-\subsection{Guards for IO operations that may fail
-}
+\subsection{Guards for IO operations that may fail}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
 throwErrnoIf
-\end{tabular}]\haddockbegindoc
+\end{tabular}]
+{\haddockbegindoc
 \haddockbeginargs
-\haddockdecltt{::} & \haddockdecltt{(a
-                                     -> Bool)} & predicate to apply to the result value
- of the \haddockid{IO} operation
- \\
-                                                 \haddockdecltt{->} & \haddockdecltt{String} & textual description of the location
- \\
-                                                                                               \haddockdecltt{->} & \haddockdecltt{IO a} & the \haddockid{IO} operation to be executed
- \\
-                                                                                                                                           \haddockdecltt{->} & \haddockdecltt{IO a} & \\
+\haddockdecltt{::} & \haddockdecltt{(a -> Bool)} & predicate to apply to the result value
+ of the \haddockid{IO} operation \\
+\haddockdecltt{->} & \haddockdecltt{String} & textual description of the location \\
+\haddockdecltt{->} & \haddockdecltt{IO a} & the \haddockid{IO} operation to be executed \\
+\haddockdecltt{->} & \haddockdecltt{IO a} & \\
 \end{tabulary}\par
 Throw an \haddockid{IOError} corresponding to the current value of \haddockid{getErrno}
- if the result value of the \haddockid{IO} action meets the given predicate.
-\par
-
+ if the result value of the \haddockid{IO} action meets the given predicate.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoIf{\char '137}\ ::\ (a\ ->\ Bool)\ ->\ String\ ->\ IO\ a\ ->\ IO\ ()
-\end{tabular}]\haddockbegindoc
+throwErrnoIf{\char '137} :: (a -> Bool) -> String -> IO a -> IO ()
+\end{tabular}]
+{\haddockbegindoc
 as \haddockid{throwErrnoIf}, but discards the result of the \haddockid{IO} action after
- error handling.
-\par
-
+ error handling.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoIfRetry\ ::\ (a\ ->\ Bool)\ ->\ String\ ->\ IO\ a\ ->\ IO\ a
-\end{tabular}]\haddockbegindoc
+throwErrnoIfRetry :: (a -> Bool) -> String -> IO a -> IO a
+\end{tabular}]
+{\haddockbegindoc
 as \haddockid{throwErrnoIf}, but retry the \haddockid{IO} action when it yields the
  error code \haddockid{eINTR} - this amounts to the standard retry loop for
- interrupted POSIX system calls.
-\par
-
+ interrupted POSIX system calls.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoIfRetry{\char '137}\ ::\ (a\ ->\ Bool)\ ->\ String\ ->\ IO\ a\ ->\ IO\ ()
-\end{tabular}]\haddockbegindoc
-as \haddockid{throwErrnoIfRetry}, but discards the result.
-\par
-
+throwErrnoIfRetry{\char '137} :: (a -> Bool) -> String -> IO a -> IO ()
+\end{tabular}]
+{\haddockbegindoc
+as \haddockid{throwErrnoIfRetry}, but discards the result.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoIfMinus1\ ::\ Num\ a\ =>\ String\ ->\ IO\ a\ ->\ IO\ a
-\end{tabular}]\haddockbegindoc
+throwErrnoIfMinus1 :: (Eq a, Num a) => String -> IO a -> IO a
+\end{tabular}]
+{\haddockbegindoc
 Throw an \haddockid{IOError} corresponding to the current value of \haddockid{getErrno}
- if the \haddockid{IO} action returns a result of \haddocktt{-1}.
-\par
-
+ if the \haddockid{IO} action returns a result of \haddocktt{-1}.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoIfMinus1{\char '137}\ ::\ Num\ a\ =>\ String\ ->\ IO\ a\ ->\ IO\ ()
-\end{tabular}]\haddockbegindoc
-as \haddockid{throwErrnoIfMinus1}, but discards the result.
-\par
-
+throwErrnoIfMinus1{\char '137} :: (Eq a, Num a) => String -> IO a -> IO ()
+\end{tabular}]
+{\haddockbegindoc
+as \haddockid{throwErrnoIfMinus1}, but discards the result.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoIfMinus1Retry\ ::\ Num\ a\ =>\ String\ ->\ IO\ a\ ->\ IO\ a
-\end{tabular}]\haddockbegindoc
+throwErrnoIfMinus1Retry :: (Eq a, Num a) => String -> IO a -> IO a
+\end{tabular}]
+{\haddockbegindoc
 Throw an \haddockid{IOError} corresponding to the current value of \haddockid{getErrno}
  if the \haddockid{IO} action returns a result of \haddocktt{-1}, but retries in case of
- an interrupted operation.
-\par
-
+ an interrupted operation.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoIfMinus1Retry{\char '137}\ ::\ Num\ a\ =>\ String\ ->\ IO\ a\ ->\ IO\ ()
-\end{tabular}]\haddockbegindoc
-as \haddockid{throwErrnoIfMinus1}, but discards the result.
-\par
-
+throwErrnoIfMinus1Retry{\char '137} :: (Eq a, Num a) => String -> IO a -> IO ()
+\end{tabular}]
+{\haddockbegindoc
+as \haddockid{throwErrnoIfMinus1}, but discards the result.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoIfNull\ ::\ String\ ->\ IO\ (Ptr\ a)\ ->\ IO\ (Ptr\ a)
-\end{tabular}]\haddockbegindoc
+throwErrnoIfNull :: String -> IO (Ptr a) -> IO (Ptr a)
+\end{tabular}]
+{\haddockbegindoc
 Throw an \haddockid{IOError} corresponding to the current value of \haddockid{getErrno}
- if the \haddockid{IO} action returns \haddockid{nullPtr}.
-\par
-
+ if the \haddockid{IO} action returns \haddockid{nullPtr}.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoIfNullRetry\ ::\ String\ ->\ IO\ (Ptr\ a)\ ->\ IO\ (Ptr\ a)
-\end{tabular}]\haddockbegindoc
+throwErrnoIfNullRetry :: String -> IO (Ptr a) -> IO (Ptr a)
+\end{tabular}]
+{\haddockbegindoc
 Throw an \haddockid{IOError} corresponding to the current value of \haddockid{getErrno}
  if the \haddockid{IO} action returns \haddockid{nullPtr},
- but retry in case of an interrupted operation.
-\par
-
+ but retry in case of an interrupted operation.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
 throwErrnoIfRetryMayBlock
-\end{tabular}]\haddockbegindoc
+\end{tabular}]
+{\haddockbegindoc
 \haddockbeginargs
-\haddockdecltt{::} & \haddockdecltt{(a
-                                     -> Bool)} & predicate to apply to the result value
- of the \haddockid{IO} operation
- \\
-                                                 \haddockdecltt{->} & \haddockdecltt{String} & textual description of the location
- \\
-                                                                                               \haddockdecltt{->} & \haddockdecltt{IO a} & the \haddockid{IO} operation to be executed
- \\
-                                                                                                                                           \haddockdecltt{->} & \haddockdecltt{IO b} & action to execute before retrying if
- an immediate retry would block
- \\
-                                                                                                                                                                                       \haddockdecltt{->} & \haddockdecltt{IO a} & \\
+\haddockdecltt{::} & \haddockdecltt{(a -> Bool)} & predicate to apply to the result value
+ of the \haddockid{IO} operation \\
+\haddockdecltt{->} & \haddockdecltt{String} & textual description of the location \\
+\haddockdecltt{->} & \haddockdecltt{IO a} & the \haddockid{IO} operation to be executed \\
+\haddockdecltt{->} & \haddockdecltt{IO b} & action to execute before retrying if
+ an immediate retry would block \\
+\haddockdecltt{->} & \haddockdecltt{IO a} & \\
 \end{tabulary}\par
-as \haddockid{throwErrnoIfRetry}, but additionally if the operation 
+as \haddockid{throwErrnoIfRetry}, but additionally if the operation
  yields the error code \haddockid{eAGAIN} or \haddockid{eWOULDBLOCK}, an alternative
- action is executed before retrying.
-\par
-
+ action is executed before retrying.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoIfRetryMayBlock{\char '137}\ ::\ (a\ ->\ Bool)\\\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ->\ String\ ->\ IO\ a\ ->\ IO\ b\ ->\ IO\ ()
-\end{tabular}]\haddockbegindoc
-as \haddockid{throwErrnoIfRetryMayBlock}, but discards the result.
-\par
-
+throwErrnoIfRetryMayBlock{\char '137} :: (a -> Bool) -> String -> IO a -> IO b -> IO ()
+\end{tabular}]
+{\haddockbegindoc
+as \haddockid{throwErrnoIfRetryMayBlock}, but discards the result.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoIfMinus1RetryMayBlock\ ::\ Num\ a\ =>\ String\\\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ->\ IO\ a\ ->\ IO\ b\ ->\ IO\ a
-\end{tabular}]\haddockbegindoc
-as \haddockid{throwErrnoIfMinus1Retry}, but checks for operations that would block.
-\par
-
+throwErrnoIfMinus1RetryMayBlock :: (Eq a, Num a) => String -> IO a -> IO b -> IO a
+\end{tabular}]
+{\haddockbegindoc
+as \haddockid{throwErrnoIfMinus1Retry}, but checks for operations that would block.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoIfMinus1RetryMayBlock{\char '137}\ ::\ Num\ a\ =>\ String\\\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ->\ IO\ a\ ->\ IO\ b\ ->\ IO\ ()
-\end{tabular}]\haddockbegindoc
-as \haddockid{throwErrnoIfMinus1RetryMayBlock}, but discards the result.
-\par
-
+throwErrnoIfMinus1RetryMayBlock{\char '137} :: (Eq a, Num a) => String -> IO a -> IO b -> IO ()
+\end{tabular}]
+{\haddockbegindoc
+as \haddockid{throwErrnoIfMinus1RetryMayBlock}, but discards the result.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoIfNullRetryMayBlock\ ::\ String\\\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ->\ IO\ (Ptr\ a)\ ->\ IO\ b\ ->\ IO\ (Ptr\ a)
-\end{tabular}]\haddockbegindoc
-as \haddockid{throwErrnoIfNullRetry}, but checks for operations that would block.
-\par
-
+throwErrnoIfNullRetryMayBlock :: String -> IO (Ptr a) -> IO b -> IO (Ptr a)
+\end{tabular}]
+{\haddockbegindoc
+as \haddockid{throwErrnoIfNullRetry}, but checks for operations that would block.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoPath\ ::\ String\ ->\ FilePath\ ->\ IO\ a
-\end{tabular}]\haddockbegindoc
-as \haddockid{throwErrno}, but exceptions include the given path when appropriate.
-\par
-
+throwErrnoPath :: String -> FilePath -> IO a
+\end{tabular}]
+{\haddockbegindoc
+as \haddockid{throwErrno}, but exceptions include the given path when appropriate.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoPathIf\ ::\ (a\ ->\ Bool)\\\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ->\ String\ ->\ FilePath\ ->\ IO\ a\ ->\ IO\ a
-\end{tabular}]\haddockbegindoc
+throwErrnoPathIf :: (a -> Bool) -> String -> FilePath -> IO a -> IO a
+\end{tabular}]
+{\haddockbegindoc
 as \haddockid{throwErrnoIf}, but exceptions include the given path when
-   appropriate.
-\par
-
+   appropriate.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoPathIf{\char '137}\ ::\ (a\ ->\ Bool)\\\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ->\ String\ ->\ FilePath\ ->\ IO\ a\ ->\ IO\ ()
-\end{tabular}]\haddockbegindoc
+throwErrnoPathIf{\char '137} :: (a -> Bool) -> String -> FilePath -> IO a -> IO ()
+\end{tabular}]
+{\haddockbegindoc
 as \haddockid{throwErrnoIf{\char '137}}, but exceptions include the given path when
-   appropriate.
-\par
-
+   appropriate.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoPathIfNull\ ::\ String\\\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ->\ FilePath\ ->\ IO\ (Ptr\ a)\ ->\ IO\ (Ptr\ a)
-\end{tabular}]\haddockbegindoc
+throwErrnoPathIfNull :: String -> FilePath -> IO (Ptr a) -> IO (Ptr a)
+\end{tabular}]
+{\haddockbegindoc
 as \haddockid{throwErrnoIfNull}, but exceptions include the given path when
-   appropriate.
-\par
-
+   appropriate.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoPathIfMinus1\ ::\ Num\ a\ =>\ String\\\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ->\ FilePath\ ->\ IO\ a\ ->\ IO\ a
-\end{tabular}]\haddockbegindoc
+throwErrnoPathIfMinus1 :: (Eq a, Num a) => String -> FilePath -> IO a -> IO a
+\end{tabular}]
+{\haddockbegindoc
 as \haddockid{throwErrnoIfMinus1}, but exceptions include the given path when
-   appropriate.
-\par
-
+   appropriate.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-throwErrnoPathIfMinus1{\char '137}\ ::\ Num\ a\ =>\ String\\\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ->\ FilePath\ ->\ IO\ a\ ->\ IO\ ()
-\end{tabular}]\haddockbegindoc
+throwErrnoPathIfMinus1{\char '137} :: (Eq a, Num a) => String -> FilePath -> IO a -> IO ()
+\end{tabular}]
+{\haddockbegindoc
 as \haddockid{throwErrnoIfMinus1{\char '137}}, but exceptions include the given path when
-   appropriate.
-\par
-
+   appropriate.\par}
 \end{haddockdesc}

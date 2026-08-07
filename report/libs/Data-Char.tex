@@ -3,10 +3,10 @@
 \haddockbeginheader
 {\haddockverb\begin{verbatim}
 module Data.Char (
-    Char,  String,  isControl,  isSpace,  isLower,  isUpper,  isAlpha, 
-    isAlphaNum,  isPrint,  isDigit,  isOctDigit,  isHexDigit,  isLetter, 
-    isMark,  isNumber,  isPunctuation,  isSymbol,  isSeparator,  isAscii, 
-    isLatin1,  isAsciiUpper,  isAsciiLower, 
+    Char, String, isControl, isSpace, isLower, isUpper, isAlpha, isAlphaNum,
+    isPrint, isDigit, isOctDigit, isHexDigit, isLetter, isMark, isNumber,
+    isPunctuation, isSymbol, isSeparator, isAscii, isLatin1, isAsciiUpper,
+    isAsciiLower,
     GeneralCategory(UppercaseLetter,
                     LowercaseLetter,
                     TitlecaseLetter,
@@ -36,437 +36,891 @@ module Data.Char (
                     Format,
                     Surrogate,
                     PrivateUse,
-                    NotAssigned), 
-    generalCategory,  toUpper,  toLower,  toTitle,  digitToInt,  intToDigit, 
-    ord,  chr,  showLitChar,  lexLitChar,  readLitChar
+                    NotAssigned),
+    generalCategory, toUpper, toLower, toTitle, digitToInt, intToDigit, ord,
+    chr, showLitChar, lexLitChar, readLitChar
   ) where\end{verbatim}}
 \haddockendheader
 
-\section{Characters and strings
-}
+\section{Characters and strings}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-data\ Char
-\end{tabular}]\haddockbegindoc
-The character type \haddockid{Char} is an enumeration whose values represent
-Unicode (or equivalently ISO/IEC 10646) characters
-(see \url{http://www.unicode.org/} for details).
-This set extends the ISO 8859-1 (Latin-1) character set
-(the first 256 charachers), which is itself an extension of the ASCII
-character set (the first 128 characters).
-A character literal in Haskell has type \haddockid{Char}.
-\par
-To convert a \haddockid{Char} to or from the corresponding \haddockid{Int} value defined
-by Unicode, use \haddocktt{Prelude.toEnum} and \haddocktt{Prelude.fromEnum} from the
-\haddocktt{Prelude.Enum} class respectively (or equivalently \haddocktt{ord} and \haddocktt{chr}).
-\par
-
+data Char
+\end{tabular}]
+{\haddockbegindoc
+The character type \haddockid{Char} represents Unicode codespace
+and its elements are code points as in definitions
+\href{https://www.unicode.org/versions/Unicode15.0.0/ch03.pdf#G2212}{D9 and D10 of the Unicode Standard}.\par
+Character literals in Haskell are single-quoted: \haddocktt{'Q'}, \haddocktt{'Я'} or \haddocktt{'Ω'}.
+To represent a single quote itself use \haddocktt{'{\char '134}''}, and to represent a backslash
+use \haddocktt{'{\char '134}{\char '134}'}. The full grammar can be found in the section 2.6 of the
+\href{https://www.haskell.org/definition/haskell2010.pdf#section.2.6}{Haskell 2010 Language Report}.\par
+To specify a character by its code point one can use decimal, hexadecimal
+or octal notation: \haddocktt{'{\char '134}65'}, \haddocktt{'{\char '134}x41'} and \haddocktt{'{\char '134}o101'} are all alternative forms
+of \haddocktt{'A'}. The largest code point is \haddocktt{'{\char '134}x10ffff'}.\par
+There is a special escape syntax for ASCII control characters:\par
+{TODO: Table}
+\href{https://hackage.haskell.org/package/base/docs/Data-Char.html}{Data.Char} provides utilities to work with \haddockid{Char}.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance\ Bounded\ Char\\instance\ Enum\ Char\\instance\ Eq\ Char\\instance\ Ord\ Char\\instance\ Read\ Char\\instance\ Show\ Char\\instance\ Ix\ Char\\instance\ Storable\ Char
+instance IsChar Char\\instance PrintfArg Char\\instance Storable Char\\instance Ix Char\\instance Read Char\\instance Show Char\\instance Eq Char\\instance Ord Char\\instance IArray UArray Char\\instance MArray IOUArray Char IO\\instance Foldable (UChar :: Type -> Type)\\instance Traversable (UChar :: Type -> Type)\\instance MArray STUArray s Char ST s
 \end{tabular}]
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-type\ String\ =\ {\char 91}Char{\char 93}
-\end{tabular}]\haddockbegindoc
-A \haddockid{String} is a list of characters.  String constants in Haskell are values
- of type \haddockid{String}.
-\par
-
+type String = {\char 91}Char{\char 93}
+\end{tabular}]
+{\haddockbegindoc
+\haddockid{String} is an alias for a list of characters.\par
+String constants in Haskell are values of type \haddockid{String}.
+ That means if you write a string literal like \haddocktt{"hello world"},
+ it will have the type \haddocktt{{\char 91}Char{\char 93}}, which is the same as \haddocktt{String}.\par
+\textbf{Note:} You can ask the compiler to automatically infer different types
+ with the \haddocktt{-XOverloadedStrings} language extension, for example
+  \haddocktt{"hello world" :: Text}. See \haddockid{IsString} for more information.\par
+Because \haddocktt{String} is just a list of characters, you can use normal list functions
+ to do basic string manipulation. See \haddocktt{Data.List} for operations on lists.\par
+\subsubsection*{\textbf{Performance considerations}}
+\haddocktt{{\char 91}Char{\char 93}} is a relatively memory-inefficient type.
+ It is a linked list of boxed word-size characters, internally it looks something like:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+╭─────┬───┬──╮  ╭─────┬───┬──╮  ╭─────┬───┬──╮  ╭────╮
+│ (:) │   │ ─┼─>│ (:) │   │ ─┼─>│ (:) │   │ ─┼─>│ [] │
+╰─────┴─┼─┴──╯  ╰─────┴─┼─┴──╯  ╰─────┴─┼─┴──╯  ╰────╯
+        v               v               v
+       'a'             'b'             'c'\end{verbatim}}
+\end{quote}
+The \haddocktt{String} "abc" will use \haddocktt{5*3+1 = 16} (in general \haddocktt{5n+1})
+ words of space in memory.\par
+Furthermore, operations like \haddockid{(++)} (string concatenation) are \haddocktt{O(n)}
+ (in the left argument).\par
+For historical reasons, the \haddocktt{base} library uses \haddocktt{String} in a lot of places
+ for the conceptual simplicity, but library code dealing with user-data
+ should use the \href{https://hackage.haskell.org/package/text}{text}
+ package for Unicode text, or the the
+ \href{https://hackage.haskell.org/package/bytestring}{bytestring} package
+ for binary data.\par}
 \end{haddockdesc}
-\section{Character classification
-}
+\section{Character classification}
 Unicode characters are divided into letters, numbers, marks,
- punctuation, symbols, separators (including spaces) and others
- (including control characters).
-\par
-
+ punctuation, symbols, separators (including spaces) and others (including
+ control characters).\par
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isControl\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
+isControl :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
 Selects control characters, which are the non-printing characters of
- the Latin-1 subset of Unicode.
-\par
-
+ the Latin-1 subset of Unicode.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isSpace\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
+isSpace :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
 Returns \haddockid{True} for any Unicode space character, and the control
- characters \haddocktt{{\char '134}t}, \haddocktt{{\char '134}n}, \haddocktt{{\char '134}r}, \haddocktt{{\char '134}f}, \haddocktt{{\char '134}v}.
-\par
-
+ characters \haddocktt{{\char '134}t}, \haddocktt{{\char '134}n}, \haddocktt{{\char '134}r}, \haddocktt{{\char '134}f}, \haddocktt{{\char '134}v}.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isLower\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
-Selects lower-case alphabetic Unicode characters (letters).
-\par
-
+isLower :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
+Selects lower-case alphabetic Unicode characters (letters).\par
+\textbf{Note:} this predicate does \emph{not} work for letter-like characters such as:
+ \haddocktt{'ⓐ'} (\haddocktt{U+24D0} circled Latin small letter a) and
+ \haddocktt{'ⅳ'} (\haddocktt{U+2173} small Roman numeral four). This is due to selecting only
+ characters with the \haddockid{GeneralCategory} \haddockid{LowercaseLetter}.\par
+See \haddockid{isLowerCase} for a more intuitive predicate.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isUpper\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
+isUpper :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
 Selects upper-case or title-case alphabetic Unicode characters (letters).
  Title case is used by a small number of letter ligatures like the
- single-character form of \emph{Lj}.
-\par
-
+ single-character form of \emph{Lj}.\par
+\textbf{Note:} this predicate does \emph{not} work for letter-like characters such as:
+ \haddocktt{'Ⓐ'} (\haddocktt{U+24B6} circled Latin capital letter A) and
+ \haddocktt{'Ⅳ'} (\haddocktt{U+2163} Roman numeral four). This is due to selecting only
+ characters with the \haddockid{GeneralCategory} \haddockid{UppercaseLetter} or \haddockid{TitlecaseLetter}.\par
+See \haddockid{isUpperCase} for a more intuitive predicate. Note that
+ unlike \haddockid{isUpperCase}, \haddockid{isUpper} does select \emph{title-case} characters such as
+ \haddocktt{'ǅ'} (\haddocktt{U+01C5} Latin capital letter d with small letter z with caron) or
+ \haddocktt{'ᾯ'} (\haddocktt{U+1FAF} Greek capital letter omega with dasia and perispomeni and
+ prosgegrammeni).\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isAlpha\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
+isAlpha :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
 Selects alphabetic Unicode characters (lower-case, upper-case and
  title-case letters, plus letters of caseless scripts and modifiers letters).
- This function is equivalent to \haddocktt{Data.Char.isLetter}.
-\par
-
+ This function is equivalent to \haddockid{isLetter}.\par
+This function returns \haddockid{True} if its argument has one of the
+ following \haddockid{GeneralCategory}s, or \haddockid{False} otherwise:\par
+\vbox{\begin{itemize}
+\item
+\haddockid{UppercaseLetter}\par
+\item
+\haddockid{LowercaseLetter}\par
+\item
+\haddockid{TitlecaseLetter}\par
+\item
+\haddockid{ModifierLetter}\par
+\item
+\haddockid{OtherLetter}\par
+\end{itemize}}
+These classes are defined in the
+ \href{http://www.unicode.org/reports/tr44/tr44-14.html#GC_Values_Table}{Unicode Character Database},
+ part of the Unicode standard. The same document defines what is
+ and is not a "Letter".\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isAlphaNum\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
-Selects alphabetic or numeric digit Unicode characters.
-\par
-Note that numeric digits outside the ASCII range are selected by this
- function but not by \haddockid{isDigit}.  Such digits may be part of identifiers
- but are not used by the printer and reader to represent numbers.
-\par
-
+isAlphaNum :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
+Selects alphabetic or numeric Unicode characters.\par
+Note that numeric digits outside the ASCII range, as well as numeric
+ characters which aren't digits, are selected by this function but not by
+ \haddockid{isDigit}. Such characters may be part of identifiers but are not used by
+ the printer and reader to represent numbers, e.g., Roman numerals like \haddocktt{\haddocktt{V}},
+ full-width digits like \haddocktt{'１'} (aka \haddocktt{'65297'}).\par
+This function returns \haddockid{True} if its argument has one of the
+ following \haddockid{GeneralCategory}s, or \haddockid{False} otherwise:\par
+\vbox{\begin{itemize}
+\item
+\haddockid{UppercaseLetter}\par
+\item
+\haddockid{LowercaseLetter}\par
+\item
+\haddockid{TitlecaseLetter}\par
+\item
+\haddockid{ModifierLetter}\par
+\item
+\haddockid{OtherLetter}\par
+\item
+\haddockid{DecimalNumber}\par
+\item
+\haddockid{LetterNumber}\par
+\item
+\haddockid{OtherNumber}\par
+\end{itemize}}}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isPrint\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
+isPrint :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
 Selects printable Unicode characters
- (letters, numbers, marks, punctuation, symbols and spaces).
-\par
-
+ (letters, numbers, marks, punctuation, symbols and spaces).\par
+This function returns \haddockid{False} if its argument has one of the
+ following \haddockid{GeneralCategory}s, or \haddockid{True} otherwise:\par
+\vbox{\begin{itemize}
+\item
+\haddockid{LineSeparator}\par
+\item
+\haddockid{ParagraphSeparator}\par
+\item
+\haddockid{Control}\par
+\item
+\haddockid{Format}\par
+\item
+\haddockid{Surrogate}\par
+\item
+\haddockid{PrivateUse}\par
+\item
+\haddockid{NotAssigned}\par
+\end{itemize}}}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isDigit\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
-Selects ASCII digits, i.e. \haddocktt{'0'}..\haddocktt{'9'}.
-\par
-
+isDigit :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
+Selects ASCII digits, i.e. \haddocktt{'0'}..\haddocktt{'9'}.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isOctDigit\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
-Selects ASCII octal digits, i.e. \haddocktt{'0'}..\haddocktt{'7'}.
-\par
-
+isOctDigit :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
+Selects ASCII octal digits, i.e. \haddocktt{'0'}..\haddocktt{'7'}.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isHexDigit\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
+isHexDigit :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
 Selects ASCII hexadecimal digits,
- i.e. \haddocktt{'0'}..\haddocktt{'9'}, \haddocktt{'a'}..\haddocktt{'f'}, \haddocktt{'A'}..\haddocktt{'F'}.
-\par
-
+ i.e. \haddocktt{'0'}..\haddocktt{'9'}, \haddocktt{'a'}..\haddocktt{'f'}, \haddocktt{'A'}..\haddocktt{'F'}.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isLetter\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
+isLetter :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
 Selects alphabetic Unicode characters (lower-case, upper-case and
- title-case letters, plus letters of caseless scripts and modifiers letters).
- This function is equivalent to \haddocktt{Data.Char.isAlpha}.
-\par
+ title-case letters, plus letters of caseless scripts and
+ modifiers letters). This function is equivalent to
+ \haddockid{isAlpha}.\par
+This function returns \haddockid{True} if its argument has one of the
+ following \haddockid{GeneralCategory}s, or \haddockid{False} otherwise:\par
+\vbox{\begin{itemize}
+\item
+\haddockid{UppercaseLetter}\par
+\item
+\haddockid{LowercaseLetter}\par
+\item
+\haddockid{TitlecaseLetter}\par
+\item
+\haddockid{ModifierLetter}\par
+\item
+\haddockid{OtherLetter}\par
+\end{itemize}}
+These classes are defined in the
+ \href{http://www.unicode.org/reports/tr44/tr44-14.html#GC_Values_Table}{Unicode Character Database},
+ part of the Unicode standard. The same document defines what is
+ and is not a "Letter".\par
+\subsubsection*{\textbf{Examples}}
+Basic usage:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> isLetter 'a'
+True
 
+>>> isLetter 'A'
+True
+
+>>> isLetter 'λ'
+True
+
+>>> isLetter '0'
+False
+
+>>> isLetter '%'
+False
+
+>>> isLetter '♥'
+False
+
+>>> isLetter '\31'
+False
+
+\end{verbatim}}
+\end{quote}
+Ensure that \haddockid{isLetter} and \haddockid{isAlpha} are equivalent.\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> let chars = [(chr 0)..]
+
+>>> let letters = map isLetter chars
+
+>>> let alphas = map isAlpha chars
+
+>>> letters == alphas
+True
+
+\end{verbatim}}
+\end{quote}}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isMark\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
-Selects Unicode mark characters, e.g. accents and the like, which
- combine with preceding letters.
-\par
+isMark :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
+Selects Unicode mark characters, for example accents and the
+ like, which combine with preceding characters.\par
+This function returns \haddockid{True} if its argument has one of the
+ following \haddockid{GeneralCategory}s, or \haddockid{False} otherwise:\par
+\vbox{\begin{itemize}
+\item
+\haddockid{NonSpacingMark}\par
+\item
+\haddockid{SpacingCombiningMark}\par
+\item
+\haddockid{EnclosingMark}\par
+\end{itemize}}
+These classes are defined in the
+ \href{http://www.unicode.org/reports/tr44/tr44-14.html#GC_Values_Table}{Unicode Character Database},
+ part of the Unicode standard. The same document defines what is
+ and is not a "Mark".\par
+\subsubsection*{\textbf{Examples}}
+Basic usage:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> isMark 'a'
+False
 
+>>> isMark '0'
+False
+
+\end{verbatim}}
+\end{quote}
+Combining marks such as accent characters usually need to follow
+ another character before they become printable:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> map isMark "ò"
+[False,True]
+
+\end{verbatim}}
+\end{quote}
+Puns are not necessarily supported:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> isMark '✓'
+False
+
+\end{verbatim}}
+\end{quote}}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isNumber\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
+isNumber :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
 Selects Unicode numeric characters, including digits from various
- scripts, Roman numerals, etc.
-\par
+ scripts, Roman numerals, et cetera.\par
+This function returns \haddockid{True} if its argument has one of the
+ following \haddockid{GeneralCategory}s, or \haddockid{False} otherwise:\par
+\vbox{\begin{itemize}
+\item
+\haddockid{DecimalNumber}\par
+\item
+\haddockid{LetterNumber}\par
+\item
+\haddockid{OtherNumber}\par
+\end{itemize}}
+These classes are defined in the
+ \href{http://www.unicode.org/reports/tr44/tr44-14.html#GC_Values_Table}{Unicode Character Database},
+ part of the Unicode standard. The same document defines what is
+ and is not a "Number".\par
+\subsubsection*{\textbf{Examples}}
+Basic usage:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> isNumber 'a'
+False
 
+>>> isNumber '%'
+False
+
+>>> isNumber '3'
+True
+
+\end{verbatim}}
+\end{quote}
+ASCII \haddocktt{'0'} through \haddocktt{'9'} are all numbers:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> and $ map isNumber ['0'..'9']
+True
+
+\end{verbatim}}
+\end{quote}
+Unicode Roman numerals are "numbers" as well:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> isNumber 'Ⅸ'
+True
+
+\end{verbatim}}
+\end{quote}}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isPunctuation\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
+isPunctuation :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
 Selects Unicode punctuation characters, including various kinds
- of connectors, brackets and quotes.
-\par
+ of connectors, brackets and quotes.\par
+This function returns \haddockid{True} if its argument has one of the
+ following \haddockid{GeneralCategory}s, or \haddockid{False} otherwise:\par
+\vbox{\begin{itemize}
+\item
+\haddockid{ConnectorPunctuation}\par
+\item
+\haddockid{DashPunctuation}\par
+\item
+\haddockid{OpenPunctuation}\par
+\item
+\haddockid{ClosePunctuation}\par
+\item
+\haddockid{InitialQuote}\par
+\item
+\haddockid{FinalQuote}\par
+\item
+\haddockid{OtherPunctuation}\par
+\end{itemize}}
+These classes are defined in the
+ \href{http://www.unicode.org/reports/tr44/tr44-14.html#GC_Values_Table}{Unicode Character Database},
+ part of the Unicode standard. The same document defines what is
+ and is not a "Punctuation".\par
+\subsubsection*{\textbf{Examples}}
+Basic usage:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> isPunctuation 'a'
+False
 
+>>> isPunctuation '7'
+False
+
+>>> isPunctuation '♥'
+False
+
+>>> isPunctuation '"'
+True
+
+>>> isPunctuation '?'
+True
+
+>>> isPunctuation '—'
+True
+
+\end{verbatim}}
+\end{quote}}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isSymbol\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
+isSymbol :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
 Selects Unicode symbol characters, including mathematical and
- currency symbols.
-\par
+ currency symbols.\par
+This function returns \haddockid{True} if its argument has one of the
+ following \haddockid{GeneralCategory}s, or \haddockid{False} otherwise:\par
+\vbox{\begin{itemize}
+\item
+\haddockid{MathSymbol}\par
+\item
+\haddockid{CurrencySymbol}\par
+\item
+\haddockid{ModifierSymbol}\par
+\item
+\haddockid{OtherSymbol}\par
+\end{itemize}}
+These classes are defined in the
+ \href{http://www.unicode.org/reports/tr44/tr44-14.html#GC_Values_Table}{Unicode Character Database},
+ part of the Unicode standard. The same document defines what is
+ and is not a "Symbol".\par
+\subsubsection*{\textbf{Examples}}
+Basic usage:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> isSymbol 'a'
+False
 
+>>> isSymbol '6'
+False
+
+>>> isSymbol '='
+True
+
+\end{verbatim}}
+\end{quote}
+The definition of "math symbol" may be a little
+ counter-intuitive depending on one's background:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> isSymbol '+'
+True
+
+>>> isSymbol '-'
+False
+
+\end{verbatim}}
+\end{quote}}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isSeparator\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
-Selects Unicode space and separator characters.
-\par
+isSeparator :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
+Selects Unicode space and separator characters.\par
+This function returns \haddockid{True} if its argument has one of the
+ following \haddockid{GeneralCategory}s, or \haddockid{False} otherwise:\par
+\vbox{\begin{itemize}
+\item
+\haddockid{Space}\par
+\item
+\haddockid{LineSeparator}\par
+\item
+\haddockid{ParagraphSeparator}\par
+\end{itemize}}
+These classes are defined in the
+ \href{http://www.unicode.org/reports/tr44/tr44-14.html#GC_Values_Table}{Unicode Character Database},
+ part of the Unicode standard. The same document defines what is
+ and is not a "Separator".\par
+\subsubsection*{\textbf{Examples}}
+Basic usage:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> isSeparator 'a'
+False
 
+>>> isSeparator '6'
+False
+
+>>> isSeparator ' '
+True
+
+\end{verbatim}}
+\end{quote}
+Warning: newlines and tab characters are not considered
+ separators.\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> isSeparator '\n'
+False
+
+>>> isSeparator '\t'
+False
+
+\end{verbatim}}
+\end{quote}
+But some more exotic characters are (like HTML's \haddocktt{{\char '46}nbsp;}):\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> isSeparator '\160'
+True
+
+\end{verbatim}}
+\end{quote}}
 \end{haddockdesc}
-\subsection{Subranges
-}
+\section{Subranges}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isAscii\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
+isAscii :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
 Selects the first 128 characters of the Unicode character set,
- corresponding to the ASCII character set.
-\par
-
+ corresponding to the ASCII character set.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isLatin1\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
+isLatin1 :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
 Selects the first 256 characters of the Unicode character set,
- corresponding to the ISO 8859-1 (Latin-1) character set.
-\par
-
+ corresponding to the ISO 8859-1 (Latin-1) character set.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isAsciiUpper\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
+isAsciiUpper :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
 Selects ASCII upper-case letters,
- i.e. characters satisfying both \haddockid{isAscii} and \haddockid{isUpper}.
-\par
-
+ i.e. characters satisfying both \haddockid{isAscii} and \haddockid{isUpper}.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-isAsciiLower\ ::\ Char\ ->\ Bool
-\end{tabular}]\haddockbegindoc
+isAsciiLower :: Char -> Bool
+\end{tabular}]
+{\haddockbegindoc
 Selects ASCII lower-case letters,
- i.e. characters satisfying both \haddockid{isAscii} and \haddockid{isLower}.
-\par
-
+ i.e. characters satisfying both \haddockid{isAscii} and \haddockid{isLower}.\par}
 \end{haddockdesc}
-\subsection{Unicode general categories
-}
+\section{Unicode general categories}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-data\ GeneralCategory
-\end{tabular}]\haddockbegindoc
+data GeneralCategory
+\end{tabular}]
+{\haddockbegindoc
+Unicode General Categories (column 2 of the UnicodeData table) in
+ the order they are listed in the Unicode standard (the Unicode
+ Character Database, in particular).\par
+\subsubsection*{\textbf{Examples}}
+Basic usage:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> :t OtherLetter
+OtherLetter :: GeneralCategory
+
+\end{verbatim}}
+\end{quote}
+\haddockid{Eq} instance:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> UppercaseLetter == UppercaseLetter
+True
+
+>>> UppercaseLetter == LowercaseLetter
+False
+
+\end{verbatim}}
+\end{quote}
+\haddockid{Ord} instance:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> NonSpacingMark <= MathSymbol
+True
+
+\end{verbatim}}
+\end{quote}
+\haddockid{Enum} instance:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> enumFromTo ModifierLetter SpacingCombiningMark
+[ModifierLetter,OtherLetter,NonSpacingMark,SpacingCombiningMark]
+
+\end{verbatim}}
+\end{quote}
+\haddockid{Read} instance:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> read "DashPunctuation" :: GeneralCategory
+DashPunctuation
+
+>>> read "17" :: GeneralCategory
+*** Exception: Prelude.read: no parse
+
+\end{verbatim}}
+\end{quote}
+\haddockid{Show} instance:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> show EnclosingMark
+"EnclosingMark"
+
+\end{verbatim}}
+\end{quote}
+\haddockid{Bounded} instance:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> minBound :: GeneralCategory
+UppercaseLetter
+
+>>> maxBound :: GeneralCategory
+NotAssigned
+
+\end{verbatim}}
+\end{quote}
+\haddockid{Ix} instance:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> import GHC.Internal.Data.Ix ( index )
+
+>>> index (OtherLetter,Control) FinalQuote
+12
+
+>>> index (OtherLetter,Control) Format
+*** Exception: Error in array index
+
+\end{verbatim}}
+\end{quote}
+\enspace \emph{Constructors}\par
 \haddockbeginconstrs
-\haddockdecltt{=} & \haddockdecltt{UppercaseLetter} & Lu: Letter, Uppercase
- \\
-\haddockdecltt{|} & \haddockdecltt{LowercaseLetter} & Ll: Letter, Lowercase
- \\
-\haddockdecltt{|} & \haddockdecltt{TitlecaseLetter} & Lt: Letter, Titlecase
- \\
-\haddockdecltt{|} & \haddockdecltt{ModifierLetter} & Lm: Letter, Modifier
- \\
-\haddockdecltt{|} & \haddockdecltt{OtherLetter} & Lo: Letter, Other
- \\
-\haddockdecltt{|} & \haddockdecltt{NonSpacingMark} & Mn: Mark, Non-Spacing
- \\
-\haddockdecltt{|} & \haddockdecltt{SpacingCombiningMark} & Mc: Mark, Spacing Combining
- \\
-\haddockdecltt{|} & \haddockdecltt{EnclosingMark} & Me: Mark, Enclosing
- \\
-\haddockdecltt{|} & \haddockdecltt{DecimalNumber} & Nd: Number, Decimal
- \\
-\haddockdecltt{|} & \haddockdecltt{LetterNumber} & Nl: Number, Letter
- \\
-\haddockdecltt{|} & \haddockdecltt{OtherNumber} & No: Number, Other
- \\
-\haddockdecltt{|} & \haddockdecltt{ConnectorPunctuation} & Pc: Punctuation, Connector
- \\
-\haddockdecltt{|} & \haddockdecltt{DashPunctuation} & Pd: Punctuation, Dash
- \\
-\haddockdecltt{|} & \haddockdecltt{OpenPunctuation} & Ps: Punctuation, Open
- \\
-\haddockdecltt{|} & \haddockdecltt{ClosePunctuation} & Pe: Punctuation, Close
- \\
-\haddockdecltt{|} & \haddockdecltt{InitialQuote} & Pi: Punctuation, Initial quote
- \\
-\haddockdecltt{|} & \haddockdecltt{FinalQuote} & Pf: Punctuation, Final quote
- \\
-\haddockdecltt{|} & \haddockdecltt{OtherPunctuation} & Po: Punctuation, Other
- \\
-\haddockdecltt{|} & \haddockdecltt{MathSymbol} & Sm: Symbol, Math
- \\
-\haddockdecltt{|} & \haddockdecltt{CurrencySymbol} & Sc: Symbol, Currency
- \\
-\haddockdecltt{|} & \haddockdecltt{ModifierSymbol} & Sk: Symbol, Modifier
- \\
-\haddockdecltt{|} & \haddockdecltt{OtherSymbol} & So: Symbol, Other
- \\
-\haddockdecltt{|} & \haddockdecltt{Space} & Zs: Separator, Space
- \\
-\haddockdecltt{|} & \haddockdecltt{LineSeparator} & Zl: Separator, Line
- \\
-\haddockdecltt{|} & \haddockdecltt{ParagraphSeparator} & Zp: Separator, Paragraph
- \\
-\haddockdecltt{|} & \haddockdecltt{Control} & Cc: Other, Control
- \\
-\haddockdecltt{|} & \haddockdecltt{Format} & Cf: Other, Format
- \\
-\haddockdecltt{|} & \haddockdecltt{Surrogate} & Cs: Other, Surrogate
- \\
-\haddockdecltt{|} & \haddockdecltt{PrivateUse} & Co: Other, Private Use
- \\
-\haddockdecltt{|} & \haddockdecltt{NotAssigned} & Cn: Other, Not Assigned
- \\
-\end{tabulary}\par
-Unicode General Categories (column 2 of the UnicodeData table)
- in the order they are listed in the Unicode standard.
-\par
-
+\haddockdecltt{=} & \haddockdecltt{UppercaseLetter} & Lu: Letter, Uppercase \\
+\haddockdecltt{|} & \haddockdecltt{LowercaseLetter} & Ll: Letter, Lowercase \\
+\haddockdecltt{|} & \haddockdecltt{TitlecaseLetter} & Lt: Letter, Titlecase \\
+\haddockdecltt{|} & \haddockdecltt{ModifierLetter} & Lm: Letter, Modifier \\
+\haddockdecltt{|} & \haddockdecltt{OtherLetter} & Lo: Letter, Other \\
+\haddockdecltt{|} & \haddockdecltt{NonSpacingMark} & Mn: Mark, Non-Spacing \\
+\haddockdecltt{|} & \haddockdecltt{SpacingCombiningMark} & Mc: Mark, Spacing Combining \\
+\haddockdecltt{|} & \haddockdecltt{EnclosingMark} & Me: Mark, Enclosing \\
+\haddockdecltt{|} & \haddockdecltt{DecimalNumber} & Nd: Number, Decimal \\
+\haddockdecltt{|} & \haddockdecltt{LetterNumber} & Nl: Number, Letter \\
+\haddockdecltt{|} & \haddockdecltt{OtherNumber} & No: Number, Other \\
+\haddockdecltt{|} & \haddockdecltt{ConnectorPunctuation} & Pc: Punctuation, Connector \\
+\haddockdecltt{|} & \haddockdecltt{DashPunctuation} & Pd: Punctuation, Dash \\
+\haddockdecltt{|} & \haddockdecltt{OpenPunctuation} & Ps: Punctuation, Open \\
+\haddockdecltt{|} & \haddockdecltt{ClosePunctuation} & Pe: Punctuation, Close \\
+\haddockdecltt{|} & \haddockdecltt{InitialQuote} & Pi: Punctuation, Initial quote \\
+\haddockdecltt{|} & \haddockdecltt{FinalQuote} & Pf: Punctuation, Final quote \\
+\haddockdecltt{|} & \haddockdecltt{OtherPunctuation} & Po: Punctuation, Other \\
+\haddockdecltt{|} & \haddockdecltt{MathSymbol} & Sm: Symbol, Math \\
+\haddockdecltt{|} & \haddockdecltt{CurrencySymbol} & Sc: Symbol, Currency \\
+\haddockdecltt{|} & \haddockdecltt{ModifierSymbol} & Sk: Symbol, Modifier \\
+\haddockdecltt{|} & \haddockdecltt{OtherSymbol} & So: Symbol, Other \\
+\haddockdecltt{|} & \haddockdecltt{Space} & Zs: Separator, Space \\
+\haddockdecltt{|} & \haddockdecltt{LineSeparator} & Zl: Separator, Line \\
+\haddockdecltt{|} & \haddockdecltt{ParagraphSeparator} & Zp: Separator, Paragraph \\
+\haddockdecltt{|} & \haddockdecltt{Control} & Cc: Other, Control \\
+\haddockdecltt{|} & \haddockdecltt{Format} & Cf: Other, Format \\
+\haddockdecltt{|} & \haddockdecltt{Surrogate} & Cs: Other, Surrogate \\
+\haddockdecltt{|} & \haddockdecltt{PrivateUse} & Co: Other, Private Use \\
+\haddockdecltt{|} & \haddockdecltt{NotAssigned} & Cn: Other, Not Assigned \\
+\end{tabulary}\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance\ Bounded\ GeneralCategory\\instance\ Enum\ GeneralCategory\\instance\ Eq\ GeneralCategory\\instance\ Ord\ GeneralCategory\\instance\ Read\ GeneralCategory\\instance\ Show\ GeneralCategory\\instance\ Ix\ GeneralCategory
+instance Bounded GeneralCategory\\instance Enum GeneralCategory\\instance Ix GeneralCategory\\instance Read GeneralCategory\\instance Show GeneralCategory\\instance Eq GeneralCategory\\instance Ord GeneralCategory
 \end{tabular}]
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-generalCategory\ ::\ Char\ ->\ GeneralCategory
-\end{tabular}]\haddockbegindoc
-The Unicode general category of the character.
-\par
+generalCategory :: Char -> GeneralCategory
+\end{tabular}]
+{\haddockbegindoc
+The Unicode general category of the character. This relies on the
+ \haddockid{Enum} instance of \haddockid{GeneralCategory}, which must remain in the
+ same order as the categories are presented in the Unicode
+ standard.\par
+\subsubsection*{\textbf{Examples}}
+Basic usage:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> generalCategory 'a'
+LowercaseLetter
 
+>>> generalCategory 'A'
+UppercaseLetter
+
+>>> generalCategory '0'
+DecimalNumber
+
+>>> generalCategory '%'
+OtherPunctuation
+
+>>> generalCategory '♥'
+OtherSymbol
+
+>>> generalCategory '\31'
+Control
+
+>>> generalCategory ' '
+Space
+
+\end{verbatim}}
+\end{quote}}
 \end{haddockdesc}
-\section{Case conversion
-}
+\section{Case conversion}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-toUpper\ ::\ Char\ ->\ Char
-\end{tabular}]\haddockbegindoc
+toUpper :: Char -> Char
+\end{tabular}]
+{\haddockbegindoc
 Convert a letter to the corresponding upper-case letter, if any.
- Any other character is returned unchanged.
-\par
-
+ Any other character is returned unchanged.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-toLower\ ::\ Char\ ->\ Char
-\end{tabular}]\haddockbegindoc
+toLower :: Char -> Char
+\end{tabular}]
+{\haddockbegindoc
 Convert a letter to the corresponding lower-case letter, if any.
- Any other character is returned unchanged.
-\par
-
+ Any other character is returned unchanged.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-toTitle\ ::\ Char\ ->\ Char
-\end{tabular}]\haddockbegindoc
+toTitle :: Char -> Char
+\end{tabular}]
+{\haddockbegindoc
 Convert a letter to the corresponding title-case or upper-case
  letter, if any.  (Title case differs from upper case only for a small
  number of ligature letters.)
- Any other character is returned unchanged.
-\par
-
+ Any other character is returned unchanged.\par}
 \end{haddockdesc}
-\section{Single digit characters
-}
+\section{Single digit characters}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-digitToInt\ ::\ Char\ ->\ Int
-\end{tabular}]\haddockbegindoc
-Convert a single digit \haddockid{Char} to the corresponding \haddockid{Int}.  
- This function fails unless its argument satisfies \haddockid{isHexDigit},
- but recognises both upper and lower-case hexadecimal digits
- (i.e. \haddocktt{'0'}..\haddocktt{'9'}, \haddocktt{'a'}..\haddocktt{'f'}, \haddocktt{'A'}..\haddocktt{'F'}).
-\par
+digitToInt :: Char -> Int
+\end{tabular}]
+{\haddockbegindoc
+Convert a single digit \haddockid{Char} to the corresponding \haddockid{Int}.  This
+ function fails unless its argument satisfies \haddockid{isHexDigit}, but
+ recognises both upper- and lower-case hexadecimal digits (that
+ is, \haddocktt{'0'}..\haddocktt{'9'}, \haddocktt{'a'}..\haddocktt{'f'}, \haddocktt{'A'}..\haddocktt{'F'}).\par
+\subsubsection*{\textbf{Examples}}
+Characters \haddocktt{'0'} through \haddocktt{'9'} are converted properly to
+ \haddocktt{0..9}:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> map digitToInt ['0'..'9']
+[0,1,2,3,4,5,6,7,8,9]
 
+\end{verbatim}}
+\end{quote}
+Both upper- and lower-case \haddocktt{'A'} through \haddocktt{'F'} are converted
+ as well, to \haddocktt{10..15}.\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> map digitToInt ['a'..'f']
+[10,11,12,13,14,15]
+
+>>> map digitToInt ['A'..'F']
+[10,11,12,13,14,15]
+
+\end{verbatim}}
+\end{quote}
+Anything else throws an exception:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> digitToInt 'G'
+*** Exception: Char.digitToInt: not a digit 'G'
+
+>>> digitToInt '♥'
+*** Exception: Char.digitToInt: not a digit '\9829'
+
+\end{verbatim}}
+\end{quote}}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-intToDigit\ ::\ Int\ ->\ Char
-\end{tabular}]\haddockbegindoc
+intToDigit :: Int -> Char
+\end{tabular}]
+{\haddockbegindoc
 Convert an \haddockid{Int} in the range \haddocktt{0}..\haddocktt{15} to the corresponding single
  digit \haddockid{Char}.  This function fails on other inputs, and generates
- lower-case hexadecimal digits.
-\par
-
+ lower-case hexadecimal digits.\par}
 \end{haddockdesc}
-\section{Numeric representations
-}
+\section{Numeric representations}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-ord\ ::\ Char\ ->\ Int
-\end{tabular}]\haddockbegindoc
-The \haddocktt{Prelude.fromEnum} method restricted to the type \haddocktt{Data.Char.Char}.
-\par
-
+ord :: Char -> Int
+\end{tabular}]
+{\haddockbegindoc
+The \haddockid{fromEnum} method restricted to the type \haddockid{Char}.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-chr\ ::\ Int\ ->\ Char
-\end{tabular}]\haddockbegindoc
-The \haddocktt{Prelude.toEnum} method restricted to the type \haddocktt{Data.Char.Char}.
-\par
-
+chr :: Int -> Char
+\end{tabular}]
+{\haddockbegindoc
+The \haddockid{toEnum} method restricted to the type \haddockid{Char}.\par}
 \end{haddockdesc}
-\section{String representations
-}
+\section{String representations}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-showLitChar\ ::\ Char\ ->\ ShowS
-\end{tabular}]\haddockbegindoc
+showLitChar :: Char -> ShowS
+\end{tabular}]
+{\haddockbegindoc
 Convert a character to a string using only printable characters,
- using Haskell source-language escape conventions.  For example:
-\par
+ using Haskell source-language escape conventions.  For example:\par
 \begin{quote}
 {\haddockverb\begin{verbatim}
- showLitChar '\n' s  =  "\\n" ++ s
-\end{verbatim}}
-\end{quote}
-
+showLitChar '\n' s  =  "\\n" ++ s\end{verbatim}}
+\end{quote}}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-lexLitChar\ ::\ ReadS\ String
-\end{tabular}]\haddockbegindoc
+lexLitChar :: ReadS String
+\end{tabular}]
+{\haddockbegindoc
 Read a string representation of a character, using Haskell
- source-language escape conventions.  For example:
-\par
+ source-language escape conventions.  For example:\par
 \begin{quote}
 {\haddockverb\begin{verbatim}
- lexLitChar  "\\nHello"  =  [("\\n", "Hello")]
-\end{verbatim}}
-\end{quote}
-
+lexLitChar  "\\nHello"  =  [("\\n", "Hello")]\end{verbatim}}
+\end{quote}}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-readLitChar\ ::\ ReadS\ Char
-\end{tabular}]\haddockbegindoc
+readLitChar :: ReadS Char
+\end{tabular}]
+{\haddockbegindoc
 Read a string representation of a character, using Haskell
  source-language escape conventions, and convert it to the character
- that it encodes.  For example:
-\par
+ that it encodes.  For example:\par
 \begin{quote}
 {\haddockverb\begin{verbatim}
- readLitChar "\\nHello"  =  [('\n', "Hello")]
-\end{verbatim}}
-\end{quote}
-
+readLitChar "\\nHello"  =  [('\n', "Hello")]\end{verbatim}}
+\end{quote}}
 \end{haddockdesc}

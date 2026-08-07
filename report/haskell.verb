@@ -9,6 +9,36 @@
 \usepackage[dvipsnames,usenames]{color}
 \usepackage[bookmarks=true]{hyperref}
 
+% The Haddock documentation for module Data.Char has introduced characters that
+% pdflatex cannot render as characters:
+\DeclareUnicodeCharacter{0300}{\texttt{\string\x0300}}
+\DeclareUnicodeCharacter{03BB}{\texttt{\string\x03BB}}
+\DeclareUnicodeCharacter{042F}{\texttt{\string\x042F}}
+\DeclareUnicodeCharacter{03A9}{\texttt{\string\x03A9}}
+\DeclareUnicodeCharacter{1FAF}{\texttt{\string\x1FAF}}
+\DeclareUnicodeCharacter{2163}{\texttt{\string\x2163}}
+\DeclareUnicodeCharacter{2168}{\texttt{\string\x2168}}
+\DeclareUnicodeCharacter{2173}{\texttt{\string\x2173}}
+\DeclareUnicodeCharacter{2208}{\texttt{\string\x2208}}
+\DeclareUnicodeCharacter{22C6}{\texttt{\string\x22C6}}
+\DeclareUnicodeCharacter{24B6}{\texttt{\string\x24B6}}
+\DeclareUnicodeCharacter{24D0}{\texttt{\string\x24D0}}
+\DeclareUnicodeCharacter{2665}{\texttt{\string\x2665}}
+\DeclareUnicodeCharacter{26A0}{\texttt{\string\x26A0}}
+\DeclareUnicodeCharacter{2713}{\texttt{\string\x2713}}
+\DeclareUnicodeCharacter{FE0F}{\texttt{\string\xFE0F}}
+\DeclareUnicodeCharacter{FF11}{\texttt{\string\xFF11}}
+
+% The Haddock documentation for module Data.Char has introduced box drawing
+% characters that pdflatex cannot render. The package pmboxdraw can handle some
+% of them and others can be substituted by simpler versions that pmboxdraw can
+% handle:
+\usepackage{pmboxdraw}
+\DeclareUnicodeCharacter{256D}{┌}
+\DeclareUnicodeCharacter{256E}{┐}
+\DeclareUnicodeCharacter{256F}{┘}
+\DeclareUnicodeCharacter{2570}{└}
+
 % allegedly produces nicer spacing, see
 %     http://stackoverflow.com/questions/414179/what-are-the-relative-merits-of-pdflatex
 % However, it didn't seem to make any difference for me other than

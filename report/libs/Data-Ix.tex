@@ -7,125 +7,101 @@ module Data.Ix (
   ) where\end{verbatim}}
 \haddockendheader
 
-\section{The \haddockid{Ix} class
-}
+\section{The Ix class}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-class\ Ord\ a\ =>\ Ix\ a\ where
-\end{tabular}]\haddockbegindoc
+class Ord a => Ix a where
+\end{tabular}]
+{\haddockbegindoc
 The \haddockid{Ix} class is used to map a contiguous subrange of values in
  a type onto integers.  It is used primarily for array indexing
- (see the array package).
-\par
+ (see the array package).\par
 The first argument \haddocktt{(l,u)} of each of these operations is a pair
- specifying the lower and upper bounds of a contiguous subrange of values.
-\par
+ specifying the lower and upper bounds of a contiguous subrange of values.\par
 An implementation is entitled to assume the following laws about these
- operations:
-\par
-\begin{itemize}
+ operations:\par
+\vbox{\begin{itemize}
 \item
- \haddocktt{inRange\ (l,u)\ i\ ==\ elem\ i\ (range\ (l,u))} \haddocktt{\ }
-\par
-
+\haddocktt{\haddockid{inRange} (l,u) i == \haddocktt{elem} i (\haddockid{range} (l,u))} \haddocktt{ }\par
 \item
- \haddocktt{range\ (l,u)\ !!\ index\ (l,u)\ i\ ==\ i}, when \haddocktt{inRange\ (l,u)\ i}
-\par
-
+\haddocktt{\haddockid{range} (l,u) \haddocktt{!!} \haddockid{index} (l,u) i == i}, when \haddocktt{\haddockid{inRange} (l,u) i}\par
 \item
- \haddocktt{map\ (index\ (l,u))\ (range\ (l,u)))\ ==\ {\char 91}0..rangeSize\ (l,u)-1{\char 93}} \haddocktt{\ }
-\par
-
+\haddocktt{\haddockid{map} (\haddockid{index} (l,u)) (\haddockid{range} (l,u))) == {\char 91}0..\haddockid{rangeSize} (l,u)-1{\char 93}} \haddocktt{ }\par
 \item
- \haddocktt{rangeSize\ (l,u)\ ==\ length\ (range\ (l,u))} \haddocktt{\ }
-\par
-
-\end{itemize}
-Minimal complete instance: \haddockid{range}, \haddockid{index} and \haddockid{inRange}.
-\par
-
-\haddockpremethods{}\textbf{Methods}
+\haddocktt{\haddockid{rangeSize} (l,u) == \haddocktt{length} (\haddockid{range} (l,u))} \haddocktt{ }\par
+\end{itemize}}
+\haddockpremethods{}\emph{Methods}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-range\ ::\ (a,\ a)\ ->\ {\char 91}a{\char 93}
-\end{tabular}]\haddockbegindoc
-The list of values in the subrange defined by a bounding pair.
-\par
-
+range :: (a, a) -> {\char 91}a{\char 93}
+\end{tabular}]
+{\haddockbegindoc
+The list of values in the subrange defined by a bounding pair.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-index\ ::\ (a,\ a)\ ->\ a\ ->\ Int
-\end{tabular}]\haddockbegindoc
-The position of a subscript in the subrange.
-\par
-
+index :: (a, a) -> a -> Int
+\end{tabular}]
+{\haddockbegindoc
+The position of a subscript in the subrange.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-inRange\ ::\ (a,\ a)\ ->\ a\ ->\ Bool
-\end{tabular}]\haddockbegindoc
+inRange :: (a, a) -> a -> Bool
+\end{tabular}]
+{\haddockbegindoc
 Returns \haddockid{True} the given subscript lies in the range defined
- the bounding pair.
-\par
-
+ the bounding pair.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-rangeSize\ ::\ (a,\ a)\ ->\ Int
-\end{tabular}]\haddockbegindoc
-The size of the subrange defined by a bounding pair.
-\par
-
-\end{haddockdesc}
+rangeSize :: (a, a) -> Int
+\end{tabular}]
+{\haddockbegindoc
+The size of the subrange defined by a bounding pair.\par}
+\end{haddockdesc}}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance\ Ix\ Bool\\instance\ Ix\ Char\\instance\ Ix\ Int\\instance\ Ix\ Int8\\instance\ Ix\ Int16\\instance\ Ix\ Int32\\instance\ Ix\ Int64\\instance\ Ix\ Integer\\instance\ Ix\ Ordering\\instance\ Ix\ Word\\instance\ Ix\ Word8\\instance\ Ix\ Word16\\instance\ Ix\ Word32\\instance\ Ix\ Word64\\instance\ Ix\ ()\\instance\ Ix\ GeneralCategory\\instance\ Ix\ SeekMode\\instance\ Ix\ IOMode\\instance\ (Ix\ a,\ Ix\ b)\ =>\ Ix\ (a,\ b)\\instance\ (Ix\ a1,\ Ix\ a2,\ Ix\ a3)\ =>\ Ix\ (a1,\ a2,\ a3)\\instance\ (Ix\ a1,\ Ix\ a2,\ Ix\ a3,\ Ix\ a4)\ =>\ Ix\ (a1,\ a2,\ a3,\ a4)\\instance\ (Ix\ a1,\ Ix\ a2,\ Ix\ a3,\ Ix\ a4,\ Ix\ a5)\ =>\ Ix\ (a1,\ a2,\ a3,\ a4,\ a5)
+instance Ix Void\\instance Ix CBool\\instance Ix CChar\\instance Ix CInt\\instance Ix CIntMax\\instance Ix CIntPtr\\instance Ix CLLong\\instance Ix CLong\\instance Ix CPtrdiff\\instance Ix CSChar\\instance Ix CShort\\instance Ix CSigAtomic\\instance Ix CSize\\instance Ix CUChar\\instance Ix CUInt\\instance Ix CUIntMax\\instance Ix CUIntPtr\\instance Ix CULLong\\instance Ix CULong\\instance Ix CUShort\\instance Ix CWchar\\instance Ix IntPtr\\instance Ix WordPtr\\instance Ix SeekMode\\instance Ix IOMode\\instance Ix Int16\\instance Ix Int32\\instance Ix Int64\\instance Ix Int8\\instance Ix GeneralCategory\\instance Ix Word16\\instance Ix Word32\\instance Ix Word64\\instance Ix Word8\\instance Ix Ordering\\instance Ix Integer\\instance Ix Natural\\instance Ix ()\\instance Ix Bool\\instance Ix Char\\instance Ix Int\\instance Ix Word\\instance Ix a => Ix Solo a\\instance (Ix a, Ix b) => Ix (a, b)\\instance (Ix a1, Ix a2, Ix a3) => Ix (a1, a2, a3)\\instance (Ix a1, Ix a2, Ix a3, Ix a4) => Ix (a1, a2, a3, a4)\\instance (Ix a1, Ix a2, Ix a3, Ix a4, Ix a5) => Ix (a1, a2, a3, a4, a5)\\instance (Ix a1, Ix a2, Ix a3, Ix a4, Ix a5, Ix a6) => Ix (a1, a2, a3, a4, a5, a6)\\instance (Ix a1, Ix a2, Ix a3, Ix a4, Ix a5, Ix a6, Ix a7) => Ix (a1, a2, a3, a4, a5, a6, a7)\\instance (Ix a1, Ix a2, Ix a3, Ix a4, Ix a5, Ix a6, Ix a7, Ix a8) => Ix (a1, a2, a3, a4, a5, a6, a7, a8)\\instance (Ix a1, Ix a2, Ix a3, Ix a4, Ix a5, Ix a6, Ix a7, Ix a8, Ix a9) => Ix (a1, a2, a3, a4, a5, a6, a7, a8, a9)\\instance (Ix a1, Ix a2, Ix a3, Ix a4, Ix a5, Ix a6, Ix a7, Ix a8, Ix a9, Ix aA) => Ix (a1, a2, a3, a4, a5, a6, a7, a8, a9, aA)\\instance (Ix a1, Ix a2, Ix a3, Ix a4, Ix a5, Ix a6, Ix a7, Ix a8, Ix a9, Ix aA, Ix aB) => Ix (a1, a2, a3, a4, a5, a6, a7, a8, a9, aA, aB)\\instance (Ix a1, Ix a2, Ix a3, Ix a4, Ix a5, Ix a6, Ix a7, Ix a8, Ix a9, Ix aA, Ix aB, Ix aC) => Ix (a1, a2, a3, a4, a5, a6, a7, a8, a9, aA, aB, aC)\\instance (Ix a1, Ix a2, Ix a3, Ix a4, Ix a5, Ix a6, Ix a7, Ix a8, Ix a9, Ix aA, Ix aB, Ix aC, Ix aD) => Ix (a1, a2, a3, a4, a5, a6, a7, a8, a9, aA, aB, aC, aD)\\instance (Ix a1, Ix a2, Ix a3, Ix a4, Ix a5, Ix a6, Ix a7, Ix a8, Ix a9, Ix aA, Ix aB, Ix aC, Ix aD, Ix aE) => Ix (a1, a2, a3, a4, a5, a6, a7, a8, a9, aA, aB, aC, aD, aE)\\instance (Ix a1, Ix a2, Ix a3, Ix a4, Ix a5, Ix a6, Ix a7, Ix a8, Ix a9, Ix aA, Ix aB, Ix aC, Ix aD, Ix aE, Ix aF) => Ix (a1, a2, a3, a4, a5, a6, a7, a8, a9, aA, aB, aC, aD, aE, aF)
 \end{tabular}]
 \end{haddockdesc}
-\section{Deriving Instances of \haddocktt{Ix}
-}
-It is possible to derive an instance of \haddocktt{Ix} automatically, using
-a \haddocktt{deriving} clause on a \haddocktt{data} declaration.
-Such derived instance declarations for the class \haddocktt{Ix} are only possible
-for enumerations (i.e. datatypes having
-only nullary constructors) and single-constructor datatypes,
-whose constituent types are instances of \haddocktt{Ix}.   A Haskell implementation
-must provide \haddocktt{Ix} instances for tuples up to at least size 15.
-\par
-For an \emph{enumeration}, the nullary constructors are assumed to be
-numbered left-to-right with the indices being 0 to n-1 inclusive.
-This is the same numbering defined by the \haddocktt{Enum} class.  For example,
-given the datatype:
-\par
+\section{Deriving Instances of Ix}
+It is possible to derive an instance of \haddockid{Ix} automatically, using a
+ \haddocktt{deriving} clause on a \haddocktt{data} declaration. Such derived instance
+ declarations for the class \haddockid{Ix} are only possible for enumerations (i.e.
+ datatypes having only nullary constructors) and single-constructor
+ datatypes, whose constituent types are instances of \haddockid{Ix}. A Haskell
+ implementation must provide \haddockid{Ix} instances for tuples up to at least size
+ 15.\par
+For an \emph{enumeration}, the nullary constructors are assumed to be numbered
+ left-to-right with the indices being 0 to n-1 inclusive. This is the same
+ numbering defined by the \haddocktt{Enum} class. For example, given the datatype:\par
 \begin{quote}
 {\haddockverb\begin{verbatim}
- data Colour = Red | Orange | Yellow | Green | Blue | Indigo | Violet
+data Colour = Red | Orange | Yellow | Green | Blue | Indigo | Violet
 \end{verbatim}}
 \end{quote}
-we would have:
-\par
+we would have:\par
 \begin{quote}
 {\haddockverb\begin{verbatim}
- range   (Yellow,Blue)        ==  [Yellow,Green,Blue]
- index   (Yellow,Blue) Green  ==  1
- inRange (Yellow,Blue) Red    ==  False
+range   (Yellow,Blue)        ==  [Yellow,Green,Blue]
+index   (Yellow,Blue) Green  ==  1
+inRange (Yellow,Blue) Red    ==  False
 \end{verbatim}}
 \end{quote}
-For \emph{single-constructor datatypes}, the derived instance declarations
-are as shown for tuples:
-\par
+For \emph{single-constructor datatypes}, the derived instance declarations are
+ as shown for tuples:\par
 \begin{quote}
 {\haddockverb\begin{verbatim}
  instance  (Ix a, Ix b)  => Ix (a,b) where
          range ((l,l'),(u,u'))
                  = [(i,i') | i <- range (l,u), i' <- range (l',u')]
          index ((l,l'),(u,u')) (i,i')
-                 =  index (l,u) i * rangeSize (l',u') + index (l',u') i'
+                 =  index (l,u) i ⋆ rangeSize (l',u') + index (l',u') i'
          inRange ((l,l'),(u,u')) (i,i')
                  = inRange (l,u) i && inRange (l',u') i'
- 
+
  -- Instances for other tuples are obtained from this scheme:
  --
  --  instance  (Ix a1, Ix a2, ... , Ix ak) => Ix (a1,a2,...,ak)  where
@@ -136,8 +112,8 @@ are as shown for tuples:
  --                            ik <- range (lk,uk)]
  --
  --      index ((l1,l2,...,lk),(u1,u2,...,uk)) (i1,i2,...,ik) =
- --        index (lk,uk) ik + rangeSize (lk,uk) * (
- --         index (lk-1,uk-1) ik-1 + rangeSize (lk-1,uk-1) * (
+ --        index (lk,uk) ik + rangeSize (lk,uk) ⋆ (
+ --         index (lk-1,uk-1) ik-1 + rangeSize (lk-1,uk-1) ⋆ (
  --          ...
  --           index (l1,u1)))
  --

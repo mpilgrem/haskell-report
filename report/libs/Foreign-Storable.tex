@@ -16,21 +16,20 @@ module Foreign.Storable (
 
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-class\ Storable\ a\ where
-\end{tabular}]\haddockbegindoc
+class Storable a where
+\end{tabular}]
+{\haddockbegindoc
 The member functions of this class facilitate writing values of
 primitive types to raw memory (which may have been allocated with the
 above mentioned routines) and reading values from blocks of raw
 memory.  The class, furthermore, includes support for computing the
-storage requirements and alignment restrictions of storable types.
-\par
-Memory addresses are represented as values of type \haddocktt{Ptr\ a}, for some
+storage requirements and alignment restrictions of storable types.\par
+Memory addresses are represented as values of type \haddocktt{\haddockid{Ptr} a}, for some
 \haddocktt{a} which is an instance of class \haddockid{Storable}.  The type argument to
 \haddockid{Ptr} helps provide some valuable type safety in FFI code (you can't
 mix pointers of different types without an explicit cast), while
 helping the Haskell type system figure out which marshalling method is
-needed for a given pointer.
-\par
+needed for a given pointer.\par
 All marshalling between Haskell and a foreign language ultimately
 boils down to translating Haskell data structures into the binary
 representation of a corresponding data structure of the foreign
@@ -41,125 +40,107 @@ all types for which it is instantiated, which are the standard basic
 types of Haskell, the fixed size \haddocktt{Int} types (\haddockid{Int8}, \haddockid{Int16},
 \haddockid{Int32}, \haddockid{Int64}), the fixed size \haddocktt{Word} types (\haddockid{Word8}, \haddockid{Word16},
 \haddockid{Word32}, \haddockid{Word64}), \haddockid{StablePtr}, all types from \haddocktt{Foreign.C.Types},
-as well as \haddockid{Ptr}.
-\par
-Minimal complete definition: \haddockid{sizeOf}, \haddockid{alignment}, one of \haddockid{peek},
-\haddockid{peekElemOff} and \haddockid{peekByteOff}, and one of \haddockid{poke}, \haddockid{pokeElemOff} and
-\haddockid{pokeByteOff}.
-\par
-
-\haddockpremethods{}\textbf{Methods}
+as well as \haddockid{Ptr}.\par
+\haddockpremethods{}\emph{Methods}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-sizeOf\ ::\ a\ ->\ Int
-\end{tabular}]\haddockbegindoc
+sizeOf :: a -> Int
+\end{tabular}]
+{\haddockbegindoc
 Computes the storage requirements (in bytes) of the argument.
- The value of the argument is not used.
-\par
-
+ The value of the argument is not used.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-alignment\ ::\ a\ ->\ Int
-\end{tabular}]\haddockbegindoc
+alignment :: a -> Int
+\end{tabular}]
+{\haddockbegindoc
 Computes the alignment constraint of the argument.  An
  alignment constraint \haddocktt{x} is fulfilled by any address divisible
- by \haddocktt{x}.  The value of the argument is not used.
-\par
-
+ by \haddocktt{x}. The alignment must be a power of two if this instance
+ is to be used with \haddocktt{alloca} or \haddocktt{allocaArray}.  The value of
+ the argument is not used.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-peekElemOff\ ::\ Ptr\ a\ ->\ Int\ ->\ IO\ a
-\end{tabular}]\haddockbegindoc
+peekElemOff :: Ptr a -> Int -> IO a
+\end{tabular}]
+{\haddockbegindoc
 Read a value from a memory area regarded as an array
          of values of the same kind.  The first argument specifies
          the start address of the array and the second the index into
          the array (the first element of the array has index
-         \haddocktt{0}).  The following equality holds,
-\par
+         \haddocktt{0}).  The following equality holds,\par
 \begin{quote}
 {\haddockverb\begin{verbatim}
- peekElemOff addr idx = IOExts.fixIO $ \result ->
-   peek (addr `plusPtr` (idx * sizeOf result))
-\end{verbatim}}
+peekElemOff addr idx = IOExts.fixIO $ \result ->
+  peek (addr `plusPtr` (idx * sizeOf result))\end{verbatim}}
 \end{quote}
 Note that this is only a specification, not
          necessarily the concrete implementation of the
-         function.
-\par
-
+         function.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-pokeElemOff\ ::\ Ptr\ a\ ->\ Int\ ->\ a\ ->\ IO\ ()
-\end{tabular}]\haddockbegindoc
+pokeElemOff :: Ptr a -> Int -> a -> IO ()
+\end{tabular}]
+{\haddockbegindoc
 Write a value to a memory area regarded as an array of
-         values of the same kind.  The following equality holds:
-\par
+         values of the same kind.  The following equality holds:\par
 \begin{quote}
 {\haddockverb\begin{verbatim}
- pokeElemOff addr idx x = 
-   poke (addr `plusPtr` (idx * sizeOf x)) x
-\end{verbatim}}
-\end{quote}
-
+pokeElemOff addr idx x =
+  poke (addr `plusPtr` (idx * sizeOf x)) x\end{verbatim}}
+\end{quote}}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-peekByteOff\ ::\ Ptr\ b\ ->\ Int\ ->\ IO\ a
-\end{tabular}]\haddockbegindoc
+peekByteOff :: Ptr b -> Int -> IO a
+\end{tabular}]
+{\haddockbegindoc
 Read a value from a memory location given by a base
-         address and offset.  The following equality holds:
-\par
+         address and offset.  The following equality holds:\par
 \begin{quote}
 {\haddockverb\begin{verbatim}
- peekByteOff addr off = peek (addr `plusPtr` off)
-\end{verbatim}}
-\end{quote}
-
+peekByteOff addr off = peek (addr `plusPtr` off)\end{verbatim}}
+\end{quote}}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-pokeByteOff\ ::\ Ptr\ b\ ->\ Int\ ->\ a\ ->\ IO\ ()
-\end{tabular}]\haddockbegindoc
+pokeByteOff :: Ptr b -> Int -> a -> IO ()
+\end{tabular}]
+{\haddockbegindoc
 Write a value to a memory location given by a base
-         address and offset.  The following equality holds:
-\par
+         address and offset.  The following equality holds:\par
 \begin{quote}
 {\haddockverb\begin{verbatim}
- pokeByteOff addr off x = poke (addr `plusPtr` off) x
-\end{verbatim}}
-\end{quote}
-
+pokeByteOff addr off x = poke (addr `plusPtr` off) x\end{verbatim}}
+\end{quote}}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-peek\ ::\ Ptr\ a\ ->\ IO\ a
-\end{tabular}]\haddockbegindoc
-Read a value from the given memory location.
-\par
+peek :: Ptr a -> IO a
+\end{tabular}]
+{\haddockbegindoc
+Read a value from the given memory location.\par
 Note that the peek and poke functions might require properly
   aligned addresses to function correctly.  This is architecture
   dependent; thus, portable code should ensure that when peeking or
   poking values of some type \haddocktt{a}, the alignment
   constraint for \haddocktt{a}, as given by the function
-  \haddockid{alignment} is fulfilled.
-\par
-
+  \haddockid{alignment} is fulfilled.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-poke\ ::\ Ptr\ a\ ->\ a\ ->\ IO\ ()
-\end{tabular}]\haddockbegindoc
+poke :: Ptr a -> a -> IO ()
+\end{tabular}]
+{\haddockbegindoc
 Write the given value to the given memory location.  Alignment
- restrictions might apply; see \haddockid{peek}.
-\par
-
-\end{haddockdesc}
+ restrictions might apply; see \haddockid{peek}.\par}
+\end{haddockdesc}}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance\ Storable\ Bool\\instance\ Storable\ Char\\instance\ Storable\ Double\\instance\ Storable\ Float\\instance\ Storable\ Int\\instance\ Storable\ Int8\\instance\ Storable\ Int16\\instance\ Storable\ Int32\\instance\ Storable\ Int64\\instance\ Storable\ Word\\instance\ Storable\ Word8\\instance\ Storable\ Word16\\instance\ Storable\ Word32\\instance\ Storable\ Word64\\instance\ Storable\ WordPtr\\instance\ Storable\ IntPtr\\instance\ Storable\ CChar\\instance\ Storable\ CSChar\\instance\ Storable\ CUChar\\instance\ Storable\ CShort\\instance\ Storable\ CUShort\\instance\ Storable\ CInt\\instance\ Storable\ CUInt\\instance\ Storable\ CLong\\instance\ Storable\ CULong\\instance\ Storable\ CLLong\\instance\ Storable\ CULLong\\instance\ Storable\ CFloat\\instance\ Storable\ CDouble\\instance\ Storable\ CPtrdiff\\instance\ Storable\ CSize\\instance\ Storable\ CWchar\\instance\ Storable\ CSigAtomic\\instance\ Storable\ CClock\\instance\ Storable\ CTime\\instance\ Storable\ CIntPtr\\instance\ Storable\ CUIntPtr\\instance\ Storable\ CIntMax\\instance\ Storable\ CUIntMax\\instance\ Storable\ (StablePtr\ a)\\instance\ Storable\ (Ptr\ a)\\instance\ Storable\ (FunPtr\ a)
+instance Storable Fingerprint\\instance Storable CBool\\instance Storable CChar\\instance Storable CClock\\instance Storable CDouble\\instance Storable CFloat\\instance Storable CInt\\instance Storable CIntMax\\instance Storable CIntPtr\\instance Storable CLLong\\instance Storable CLong\\instance Storable CPtrdiff\\instance Storable CSChar\\instance Storable CSUSeconds\\instance Storable CShort\\instance Storable CSigAtomic\\instance Storable CSize\\instance Storable CTime\\instance Storable CUChar\\instance Storable CUInt\\instance Storable CUIntMax\\instance Storable CUIntPtr\\instance Storable CULLong\\instance Storable CULong\\instance Storable CUSeconds\\instance Storable CUShort\\instance Storable CWchar\\instance Storable IntPtr\\instance Storable WordPtr\\instance Storable Int16\\instance Storable Int32\\instance Storable Int64\\instance Storable Int8\\instance Storable Word16\\instance Storable Word32\\instance Storable Word64\\instance Storable Word8\\instance Storable ()\\instance Storable Bool\\instance Storable Char\\instance Storable Double\\instance Storable Float\\instance Storable Int\\instance Storable Word\\instance Storable a => Storable Complex a\\instance Storable ConstPtr a\\instance Storable FunPtr a\\instance Storable Ptr a\\instance (Storable a, Integral a) => Storable Ratio a\\instance Storable StablePtr a
 \end{tabular}]
 \end{haddockdesc}
