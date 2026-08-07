@@ -3,49 +3,43 @@
 \haddockbeginheader
 {\haddockverb\begin{verbatim}
 module System.Environment (
-    getArgs,  getProgName,  getEnv
+    getArgs, getProgName, getEnv
   ) where\end{verbatim}}
 \haddockendheader
 
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-getArgs\ ::\ IO\ {\char 91}String{\char 93}
-\end{tabular}]\haddockbegindoc
+getArgs :: IO {\char 91}String{\char 93}
+\end{tabular}]
+{\haddockbegindoc
 Computation \haddockid{getArgs} returns a list of the program's command
- line arguments (not including the program name).
-\par
-
+ line arguments (not including the program name).\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-getProgName\ ::\ IO\ String
-\end{tabular}]\haddockbegindoc
+getProgName :: IO String
+\end{tabular}]
+{\haddockbegindoc
 Computation \haddockid{getProgName} returns the name of the program as it was
-invoked.
-\par
+invoked.\par
 However, this is hard-to-impossible to implement on some non-Unix
 OSes, so instead, for maximum portability, we just return the leafname
 of the program as invoked. Even then there are some differences
 between platforms: on Windows, for example, a program invoked as foo
-is probably really \haddocktt{FOO.EXE}, and that is what \haddockid{getProgName} will return.
-\par
-
+is probably really \haddocktt{FOO.EXE}, and that is what \haddockid{getProgName} will return.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-getEnv\ ::\ String\ ->\ IO\ String
-\end{tabular}]\haddockbegindoc
+getEnv :: String -> IO String
+\end{tabular}]
+{\haddockbegindoc
 Computation \haddockid{getEnv} \haddocktt{var} returns the value
- of the environment variable \haddocktt{var}.  
-\par
-This computation may fail with:
-\par
-\begin{itemize}
+ of the environment variable \haddocktt{var}. For the inverse, the
+ \haddockid{setEnv} function can be used.\par
+This computation may fail with:\par
+\vbox{\begin{itemize}
 \item
- \haddocktt{System.IO.Error.isDoesNotExistError} if the environment variable
-    does not exist.
-\par
-
-\end{itemize}
-
+\haddockid{isDoesNotExistError} if the environment variable
+    does not exist.\par
+\end{itemize}}}
 \end{haddockdesc}
