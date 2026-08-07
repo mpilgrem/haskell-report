@@ -43,7 +43,7 @@ EXPAND = expand
 
 
 #########################################
-#	Files 
+#	Files
 #########################################
 
 RELEASE_DIR = ../haskell-prime-draft
@@ -211,7 +211,7 @@ jfp: h98-book.tex preface-jfp.tex ${PARTS_NO_PREFACE}
 	-mkdir $(JFP_DIR)
 	for n in h98-book.tex preface-jfp.tex \
 		${PARTS_NO_PREFACE}; do  \
-		../tools/subsection < $$n >  $(JFP_DIR)/$$n ; done 
+		../tools/subsection < $$n >  $(JFP_DIR)/$$n ; done
 	cp classes.eps $(JFP_DIR)
 	cp  haskell.bbl $(JFP_DIR)/h98-book.bbl
 	cp Makefile-jfp-book $(JFP_DIR)/Makefile
@@ -288,7 +288,7 @@ GHC_BUILD = /home/simonmar/builds/testing
 
 # Change these to match the current versions.  Use
 #
-#    $(GHC_BUILD)/inplace/bin/ghc-pkg list 
+#    $(GHC_BUILD)/inplace/bin/ghc-pkg list
 #
 # to find out what they should be.
 #
@@ -301,7 +301,7 @@ GHC_PRIM_PKG = ghc-prim
 HADDOCK = $(GHC_BUILD)/inplace/bin/haddock
 LIBDIR =  $(GHC_BUILD)/libraries
 
-haddock :
+haddock-original :
 	$(HADDOCK) --odir=$(HADDOCK_ODIR) --no-tmp-comp-dir \
 	   --latex --latex-style=NONE \
 	   --title="haskell2010-1.0.0.0: Compatibility with Haskell 2010" \
@@ -322,3 +322,30 @@ haddock :
 # classes that are not part of the Haskell standard, hence we remove
 # them manually here.  This seemed easier than trying to modify
 # Haddock to avoid generating them somehow.
+
+################################################################################
+# An update of haddock-original, making use of Stack's haddock command         #
+#                                                                              #
+# Although this use warns:                                                     #
+#                                                                              #
+#   haddock: --latex cannot be used with --gen-index or --gen-contents         #
+#                                                                              #
+# it still produces the required *.tex files (in addition to other files).     #
+################################################################################
+
+STACK = stack
+
+haddock :
+	cd modules && \
+	$(STACK) haddock --force-dirty --no-haddock-hyperlink-source --haddock-arguments="--odir $(HADDOCK_ODIR) --latex --latex-style=NONE" || true && \
+	for i in $(LIB_TEX); do \
+	   sed 's/instance\(\\ [^\]*\)*\\ ReadP\($$\|\\\\\)//g' $$i | \
+	   sed 's/instance\(\\ [^\]*\)*\\ P\($$\|\\\\\)//g' | \
+	   sed 's/instance\\ Typeable\(1\|\)\(\\ [^\]*\)*\($$\|\\\\\)//g' | \
+	   sed 's/instance\\ Exception\(\\ [^\]*\)*\($$\|\\\\\)//g' |  \
+	   sed 's/instance\\ (Data\(\\ [^\]*\)*\($$\|\\\\\)//g' >$$i.tmp \
+	   && mv $$i.tmp $$i; \
+	done
+	for i in $(LIB_TEX); do \
+	   cp modules/$$i $(HADDOCK_ODIR)/; \
+	done
