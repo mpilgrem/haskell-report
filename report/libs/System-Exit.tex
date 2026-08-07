@@ -3,65 +3,70 @@
 \haddockbeginheader
 {\haddockverb\begin{verbatim}
 module System.Exit (
-    ExitCode(ExitSuccess, ExitFailure),  exitWith,  exitFailure,  exitSuccess
+    ExitCode(ExitSuccess, ExitFailure), exitWith, exitFailure, exitSuccess
   ) where\end{verbatim}}
 \haddockendheader
 
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-data\ ExitCode
-\end{tabular}]\haddockbegindoc
+data ExitCode
+\end{tabular}]
+{\haddockbegindoc
+Defines the exit codes that a program can return.\par
+\enspace \emph{Constructors}\par
 \haddockbeginconstrs
-\haddockdecltt{=} & \haddockdecltt{ExitSuccess} & indicates successful termination;
- \\
+\haddockdecltt{=} & \haddockdecltt{ExitSuccess} & indicates successful termination; \\
 \haddockdecltt{|} & \haddockdecltt{ExitFailure Int} & indicates program failure with an exit code.
  The exact interpretation of the code is
  operating-system dependent.  In particular, some values
- may be prohibited (e.g. 0 on a POSIX-compliant system).
- \\
-\end{tabulary}\par
-Defines the exit codes that a program can return.
-\par
-
+ may be prohibited (e.g. 0 on a POSIX-compliant system). \\
+\end{tabulary}\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance\ Eq\ ExitCode\\instance\ Ord\ ExitCode\\instance\ Read\ ExitCode\\instance\ Show\ ExitCode\\
+instance Exception ExitCode\\instance Generic ExitCode\\instance Read ExitCode\\instance Show ExitCode\\instance Eq ExitCode\\instance Ord ExitCode\\type instance Rep ExitCode = D1 ('MetaData "ExitCode" "GHC.Internal.IO.Exception" "ghc-internal" 'False) (C1 ('MetaCons "ExitSuccess" 'PrefixI 'False) ((U1 :: Type\\\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -> Type)) :+: C1 ('MetaCons "ExitFailure" 'PrefixI 'False) (S1 ('MetaSel (('Nothing :: Maybe Symbol)) 'NoSourceUnpackedness 'NoSourceStrictness 'DecidedLazy) (Rec0 Int)))
 \end{tabular}]
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-exitWith\ ::\ ExitCode\ ->\ IO\ a
-\end{tabular}]\haddockbegindoc
-Computation \haddocktt{exitWith\ code} terminates the program, returning \haddocktt{code}
-to the program's caller.  
-The caller may interpret the return code as it wishes, but the program
-should return \haddockid{ExitSuccess} to mean normal completion, and
-\haddocktt{ExitFailure\ n} to mean that the program encountered a problem from
-which it could not recover.  The value \haddockid{exitFailure} is equal to
-\haddocktt{exitWith\ (ExitFailure\ exitfail)}, where \haddocktt{exitfail} is
-implementation-dependent.  \haddockid{exitWith} bypasses the error handling in
-the I/O monad and cannot be intercepted by \haddockid{catch} from the \haddocktt{Prelude}.
-\par
-
+exitWith :: ExitCode -> IO a
+\end{tabular}]
+{\haddockbegindoc
+Computation \haddockid{exitWith} \haddocktt{code} throws \haddockid{ExitCode} \haddocktt{code}.
+ Normally this terminates the program, returning \haddocktt{code} to the
+ program's caller.\par
+On program termination, the standard \haddockid{Handle}s \haddockid{stdout} and
+ \haddockid{stderr} are flushed automatically; any other buffered \haddockid{Handle}s
+ need to be flushed manually, otherwise the buffered data will be
+ discarded.\par
+A program that fails in any other way is treated as if it had
+ called \haddockid{exitFailure}.
+ A program that terminates successfully without calling \haddockid{exitWith}
+ explicitly is treated as if it had called \haddockid{exitWith} \haddockid{ExitSuccess}.\par
+As an \haddockid{ExitCode} is an \haddockid{Exception}, it can be
+ caught using the functions of \haddocktt{Control.Exception}.  This means that
+ cleanup computations added with \haddockid{bracket} (from
+ \haddocktt{Control.Exception}) are also executed properly on \haddockid{exitWith}.\par
+Note: in GHC, \haddockid{exitWith} should be called from the main program
+ thread in order to exit the process.  When called from another
+ thread, \haddockid{exitWith} will throw an \haddockid{ExitCode} as normal, but the
+ exception will not cause the process itself to exit.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-exitFailure\ ::\ IO\ a
-\end{tabular}]\haddockbegindoc
+exitFailure :: IO a
+\end{tabular}]
+{\haddockbegindoc
 The computation \haddockid{exitFailure} is equivalent to
  \haddockid{exitWith} \haddocktt{(}\haddockid{ExitFailure} \emph{exitfail}\haddocktt{)},
- where \emph{exitfail} is implementation-dependent.
-\par
-
+ where \emph{exitfail} is implementation-dependent.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-exitSuccess\ ::\ IO\ a
-\end{tabular}]\haddockbegindoc
+exitSuccess :: IO a
+\end{tabular}]
+{\haddockbegindoc
 The computation \haddockid{exitSuccess} is equivalent to
  \haddockid{exitWith} \haddockid{ExitSuccess}, It terminates the program
- successfully.
-\par
-
+ successfully.\par}
 \end{haddockdesc}

@@ -1,0 +1,5 @@
+# Stack-related
+.stack-work/
+
+# Build artefacts
+libs/
