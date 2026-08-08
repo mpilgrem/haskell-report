@@ -32,7 +32,7 @@ The type of immutable non-strict (boxed) arrays
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance IArray Array e\\instance Functor Array i\\instance Foldable Array i\\instance Ix i => Traversable Array i\\instance (Ix a, Read a, Read b) => Read Array a b\\instance (Ix a, Show a, Show b) => Show Array a b\\instance (Ix i, Eq e) => Eq Array i e\\instance (Ix i, Ord e) => Ord Array i e
+instance Functor Array i\\instance (Ix a, Read a, Read b) => Read Array a b\\instance (Ix a, Show a, Show b) => Show Array a b\\instance (Ix i, Eq e) => Eq Array i e\\instance (Ix i, Ord e) => Ord Array i e
 \end{tabular}]
 \end{haddockdesc}
 \section{Array construction}
@@ -265,11 +265,11 @@ ixmap b f a           = array b [(i, a ! f i) | i <- range b]
 instance  (Ix a)          => Functor (Array a) where
     fmap fn (MkArray b f) =  MkArray b (fn . f)
 
-instance  (Ix a, Eq b) => Eq (Array a b) where
-    a == a’ = assocs a == assocs a’
+instance  (Ix a, Eq b)  => Eq (Array a b) where
+    a == a’ =  assocs a == assocs a’
 
 instance  (Ix a, Ord b) => Ord (Array a b) where
-    a <= a’ = assocs a <= assocs a’
+    a <= a’ =  assocs a <= assocs a’
 
 instance  (Ix a, Show a, Show b) => Show (Array a b)  where
     showsPrec p a = showParen (p > arrPrec) (

@@ -339,12 +339,7 @@ haddock :
 	cd modules && \
 	$(STACK) haddock --force-dirty --no-haddock-hyperlink-source --haddock-arguments="--odir $(HADDOCK_ODIR) --latex --latex-style=NONE" || true && \
 	for i in $(LIB_TEX); do \
-	   sed 's/instance\(\\ [^\]*\)*\\ ReadP\($$\|\\\\\)//g' $$i | \
-	   sed 's/instance\(\\ [^\]*\)*\\ P\($$\|\\\\\)//g' | \
-	   sed 's/instance\\ Typeable\(1\|\)\(\\ [^\]*\)*\($$\|\\\\\)//g' | \
-	   sed 's/instance\\ Exception\(\\ [^\]*\)*\($$\|\\\\\)//g' |  \
-	   sed 's/instance\\ (Data\(\\ [^\]*\)*\($$\|\\\\\)//g' >$$i.tmp \
-	   && mv $$i.tmp $$i; \
+		perl -0777 -pi filter.pl "$$i"; \
 	done
 	for i in $(LIB_TEX); do \
 	   cp modules/$$i $(HADDOCK_ODIR)/; \
