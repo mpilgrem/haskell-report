@@ -30,19 +30,17 @@ The \haddockid{Maybe} type is also a monad.  It is a simple kind of error
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance MonadZip Maybe\\instance Eq1 Maybe\\instance Ord1 Maybe\\instance Read1 Maybe\\instance Show1 Maybe
 \end{tabular}]
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance Alternative Maybe
 \end{tabular}]
 {\haddockbegindoc
 Picks the leftmost \haddockid{Just} value, or, alternatively, \haddockid{Nothing}.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance Applicative Maybe\\instance Functor Maybe\\instance Monad Maybe
+instance Functor Maybe\\instance Monad Maybe
 \end{tabular}]
 \end{haddockdesc}
 \begin{haddockdesc}
@@ -59,19 +57,7 @@ instance MonadFail Maybe\\instance Foldable Maybe\\instance Traversable Maybe
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance Semigroup a => Monoid Maybe a
-\end{tabular}]
-{\haddockbegindoc
-Lift a semigroup into \haddockid{Maybe} forming a \haddockid{Monoid} according to
- \url{http://en.wikipedia.org/wiki/Monoid}: "Any semigroup \haddocktt{S} may be
- turned into a monoid simply by adjoining an element \haddocktt{e} not in \haddocktt{S}
- and defining \haddocktt{e*e = e} and \haddocktt{e*s = s = s*e} for all \haddocktt{s ∈ S}."\par
-\emph{Since 4.11.0}: constraint on inner \haddocktt{a} value generalised from
- \haddockid{Monoid} to \haddockid{Semigroup}.\par}
-\end{haddockdesc}
-\begin{haddockdesc}
-\item[\begin{tabular}{@{}l}
-instance Semigroup a => Semigroup Maybe a\\instance Read a => Read Maybe a\\instance Show a => Show Maybe a\\instance Eq a => Eq Maybe a\\instance Ord a => Ord Maybe a
+instance Read a => Read Maybe a\\instance Show a => Show Maybe a\\instance Eq a => Eq Maybe a\\instance Ord a => Ord Maybe a
 \end{tabular}]
 \end{haddockdesc}
 \begin{haddockdesc}
@@ -434,3 +420,48 @@ If we map the \haddockid{Just} constructor, the entire list should be returned:\
 \end{verbatim}}
 \end{quote}}
 \end{haddockdesc}
+\section{Specification}
+\begin{quote}
+{\haddockverb\begin{verbatim}
+module Data.Maybe(
+    Maybe(Nothing, Just),
+    isJust, isNothing,
+    fromJust, fromMaybe, listToMaybe, maybeToList,
+    catMaybes, mapMaybe,
+    maybe
+  ) where
+
+maybe                  :: b -> (a -> b) -> Maybe a -> b
+maybe n _ Nothing      =  n
+maybe _ f (Just x)     =  f x
+
+isJust                 :: Maybe a -> Bool
+isJust (Just a)        =  True
+isJust Nothing         =  False
+
+isNothing              :: Maybe a -> Bool
+isNothing              =  not . isJust
+
+fromJust               :: Maybe a -> a
+fromJust (Just a)      =  a
+fromJust Nothing       =  error "Maybe.fromJust: Nothing"
+
+fromMaybe              :: a -> Maybe a -> a
+fromMaybe d Nothing    =  d
+fromMaybe d (Just a)   =  a
+
+maybeToList            :: Maybe a -> [a]
+maybeToList Nothing    =  []
+maybeToList (Just a)   =  [a]
+
+listToMaybe            :: [a] -> Maybe a
+listToMaybe []         =  Nothing
+listToMaybe (a:_)      =  Just a
+
+catMaybes              :: [Maybe a] -> [a]
+catMaybes ms           =  [ m | Just m <- ms ]
+
+mapMaybe               :: (a -> Maybe b) -> [a] -> [b]
+mapMaybe f             =  catMaybes . map f
+\end{verbatim}}
+\end{quote}
