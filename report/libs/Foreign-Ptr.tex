@@ -31,8 +31,7 @@ The type \haddocktt{a} will often be an instance of class
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance IArray UArray Ptr a\\instance MArray IOUArray Ptr a IO\\instance Foldable (UAddr :: Type -> Type)\\instance Traversable (UAddr :: Type -> Type)\\instance Storable Ptr a\\instance Show Ptr a\\instance Eq Ptr a\\instance Ord Ptr a\\instance MArray STUArray s Ptr a ST s
-\end{tabular}]
+instance Storable Ptr a\\instance Show Ptr a\\instance Eq Ptr a\\instance Ord Ptr a\\\end{tabular}]
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
@@ -130,8 +129,7 @@ foreign import ccall "dynamic"
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance IArray UArray FunPtr a\\instance MArray IOUArray FunPtr a IO\\instance Storable FunPtr a\\instance Show FunPtr a\\instance Eq FunPtr a\\instance Ord FunPtr a\\instance MArray STUArray s FunPtr a ST s
-\end{tabular}]
+instance Storable FunPtr a\\instance Show FunPtr a\\instance Eq FunPtr a\\instance Ord FunPtr a\\\end{tabular}]
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
@@ -193,7 +191,7 @@ A signed integral type that can be losslessly converted to and from
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance Bits IntPtr\\instance FiniteBits IntPtr\\instance Bounded IntPtr\\instance Enum IntPtr\\instance Storable IntPtr\\instance Ix IntPtr\\instance Num IntPtr\\instance Read IntPtr\\instance Integral IntPtr\\instance Real IntPtr\\instance Show IntPtr\\instance Eq IntPtr\\instance Ord IntPtr
+instance Bits IntPtr\\instance Bounded IntPtr\\instance Enum IntPtr\\instance Storable IntPtr\\instance Ix IntPtr\\instance Num IntPtr\\instance Read IntPtr\\instance Integral IntPtr\\instance Real IntPtr\\instance Show IntPtr\\instance Eq IntPtr\\instance Ord IntPtr
 \end{tabular}]
 \end{haddockdesc}
 \begin{haddockdesc}
@@ -221,7 +219,7 @@ An unsigned integral type that can be losslessly converted to and from
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance Bits WordPtr\\instance FiniteBits WordPtr\\instance Bounded WordPtr\\instance Enum WordPtr\\instance Storable WordPtr\\instance Ix WordPtr\\instance Num WordPtr\\instance Read WordPtr\\instance Integral WordPtr\\instance Real WordPtr\\instance Show WordPtr\\instance Eq WordPtr\\instance Ord WordPtr
+instance Bits WordPtr\\instance Bounded WordPtr\\instance Enum WordPtr\\instance Storable WordPtr\\instance Ix WordPtr\\instance Num WordPtr\\instance Read WordPtr\\instance Integral WordPtr\\instance Real WordPtr\\instance Show WordPtr\\instance Eq WordPtr\\instance Ord WordPtr
 \end{tabular}]
 \end{haddockdesc}
 \begin{haddockdesc}
