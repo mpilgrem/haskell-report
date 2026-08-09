@@ -3,7 +3,7 @@
 \haddockbeginheader
 {\haddockverb\begin{verbatim}
 module Control.Monad (
-    Functor(fmap), Monad((>>=), (>>), return), MonadFail(fail),
+    Functor(fmap, (<$)), Monad((>>=), (>>), return), MonadFail(fail),
     MonadPlus(mzero, mplus), mapM, mapM_, forM, forM_, sequence, sequence_,
     (=<<), (>=>), (<=<), forever, void, join, msum, filterM, mapAndUnzipM,
     zipWithM, zipWithM_, foldM, foldM_, replicateM, replicateM_, guard, when,
@@ -98,6 +98,28 @@ It explains why \haddocktt{fmap} can be used with tuples containing values of di
 {\haddockverb\begin{verbatim}
 >>> fmap even ("hello", 1.0, 4)
 ("hello",1.0,True)
+
+\end{verbatim}}
+\end{quote}}
+\end{haddockdesc}
+\begin{haddockdesc}
+\item[\begin{tabular}{@{}l}
+(<{\char '44}) :: a -> f b -> f a
+\end{tabular}]
+{\haddockbegindoc
+Replace all locations in the input with the same value.
+ The default definition is \haddocktt{\haddockid{fmap} . \haddockid{const}}, but this may be
+ overridden with a more efficient version.\par
+\subsubsection*{\textbf{Examples}}
+Perform a computation with \haddockid{Maybe} and replace the result with a
+ constant value if it is \haddockid{Just}:\par
+\begin{quote}
+{\haddockverb\begin{verbatim}
+>>> 'a' <$ Just 2
+Just 'a'
+
+>>> 'a' <$ Nothing
+Nothing
 
 \end{verbatim}}
 \end{quote}}
