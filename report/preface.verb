@@ -123,6 +123,11 @@ only to the extent strictly necessary to be consistent with the extensions in
 @GHC2024@ and by reference to the boot packages of GHC 9.10.3 as published on
 Hackage. In that regard:
 \begin{itemize}
+\item The Prelude exports classes @Semigroup@, @Monoid@, @Applicative@,
+      @Foldable@ and @Traversable@
+\item Functions @null@, @length@, @notElem@, @and@, @or@, @any@, @all@,
+      @concat@, @concatMap@, @mapM_@ and @sequence\_@ (exported by the Prelude)
+      are more general than applying to lists
 \item @(<$) :: a -> f b -> fa@ is a method of the class @Functor@.
 \item @fail :: String -> m a@ is not a method of the class @Monad@ and is a
       method of the class @MonadFail@
