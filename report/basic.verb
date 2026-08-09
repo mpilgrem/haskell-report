@@ -560,6 +560,9 @@ family of functions are strict in all their arguments.
 @
 class  Functor f  where
     fmap    :: (a -> b) -> f a -> f b
+    (<$)    :: a        -> f b -> f a
+
+    (<$)    =  fmap . const
 @
 \eprog
 The @Functor@

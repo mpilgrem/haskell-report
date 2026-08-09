@@ -100,7 +100,7 @@ a derived instance declaration is possible for a class "C"
 if these conditions hold:
 \begin{enumerate}
 \item
-"C" is one of @Eq@, @Ord@, @Enum@, @Bounded@, @Show@, or @Read@.
+"C" is one of @Eq@, @Ord@, @Enum@, @Bounded@, htf{@Functor@,} @Show@, or @Read@.
 
 \item
 There is a context "cx'" such that "cx' \Rightarrow C t_{ij}"
@@ -302,6 +302,60 @@ would generate the following @Bounded@ instance:
     maxBound = Pair maxBound maxBound
 @
 \eprog
+
+\begin{haskelltf}
+\subsection{@stock@ derived instances of \texorpdfstring{@Functor@}{Functor}}
+\label{derived-functor}
+\indexdi{Functor}
+
+@Functor@ instances can be derived for data types of kind $\ast\rightarrow\ast$.
+
+The basic algorithm walks the arguments of each constructor of a data type,
+applying a mapping function depending on the type of each argument. If a plain
+type variable is found that is syntactically equivalent to the last type
+parameter of the data type, then we apply the function f directly to it. If a
+type is encountered that is not syntactically equivalent to the last type
+parameter but does mention the last type parameter somewhere in it, then a
+recursive call to @fmap@ is made. If a type is found which doesn’t mention the
+last type parameter at all, then it is left alone.
+
+As a general rule, if a data type has a derived @Functor@ instance and its last
+type parameter occurs on the right-hand side of the data declaration, then
+either it must (1) occur bare (e.g., @newtype Id a = Id a@), or (2) occur as the
+last argument of a type constructor.
+
+There are two exceptions to this rule:
+
+\begin{enumerate}
+\item Tuple types. When a non-unit tuple is used on the right-hand side of a
+      data declaration, it is treated as a product of distinct types. That is,
+      the derivation pattern-matches its way into tuples and maps over each type
+      that constitutes the tuple.
+
+\item Function types. The last type parameter can appear anywhere in a function
+      type as long as it occurs in a covariant position. Intuitively, a
+      covariant type is produced, and a contravariant type is consumed. Most
+      types in Haskell are covariant, but the function type is special in that
+      the lefthand side of a function arrow reverses variance. If a function
+      type @a -> b@ appears in a covariant position, then @a@ is in a
+      contravariant position and @b@ is in a covariant position. Similarly, if
+      @a -> b@ appears in a contravariant position, then
+      @a@ is in a covariant position and @b@ is in a contravariant position.
+\end{enumerate}
+
+There are scenarios in which a derived @Functor@ instance will fail to compile:
+
+\begin{enumerate}
+\item A data type has no type parameters.
+
+% NOT YET DOCUMENTED: A data type’s last type variable is used in an ExistentialQuantification
+% constraint, or is refined in a GADT.
+\end{enumerate}
+
+When the last type parameter has a phantom role, the derived @Functor@ instance
+will not be produced using the usual algorithm. Instead, the entire value will
+be coerced.
+\end{haskelltf}
 
 \subsection{@stock@ derived instances of \texorpdfstring{@Read@}{Read} and \texorpdfstring{@Show@}{Show}}
 \label{derived-text}
