@@ -1,44 +1,49 @@
-module Prelude (
-    module PreludeList, module PreludeText, module PreludeIO,
-    Bool(False, True),
-    Maybe(Nothing, Just),
-    Either(Left, Right),
-    Ordering(LT, EQ, GT),
-    Char, String, Int, Integer, Float, Double, Rational, IO,
+module Prelude
+  ( module PreludeList
+  , module PreludeText
+  , module PreludeIO
+  , Bool ( False, True )
+  , Maybe ( Nothing, Just )
+  , Either ( Left, Right )
+  , Ordering ( LT, EQ, GT )
+  , Char, String, Int, Integer, Float, Double, Rational, IO,
 
---      These built-in types are defined in the Prelude, but
---      are denoted by built-in syntax, and cannot legally
---      appear in an export list.
---  List type: []((:), [])
---  Tuple types: (,)((,)), (,,)((,,)), etc.
---  Trivial type: ()(())
---  Functions: (->)
+    -- These built-in types are defined in the Prelude, but are denoted by
+    -- built-in syntax, and cannot legally appear in an export list:
+    --     List type: []((:), [])
+    --     Tuple types: (,)((,)), (,,)((,,)), etc.
+    --     Trivial type: ()(())
+    --     Functions: (->)
 
-    Eq((==), (/=)),
-    Ord(compare, (<), (<=), (>=), (>), max, min),
-    Enum(succ, pred, toEnum, fromEnum, enumFrom, enumFromThen,
-         enumFromTo, enumFromThenTo),
-    Bounded(minBound, maxBound),
-    Num((+), (-), (*), negate, abs, signum, fromInteger),
-    Real(toRational),
-    Integral(quot, rem, div, mod, quotRem, divMod, toInteger),
-    Fractional((/), recip, fromRational),
-    Floating(pi, exp, log, sqrt, (**), logBase, sin, cos, tan,
-             asin, acos, atan, sinh, cosh, tanh, asinh, acosh, atanh),
-    RealFrac(properFraction, truncate, round, ceiling, floor),
-    RealFloat(floatRadix, floatDigits, floatRange, decodeFloat,
-              encodeFloat, exponent, significand, scaleFloat, isNaN,
-              isInfinite, isDenormalized, isIEEE, isNegativeZero, atan2),
-    Monad((>>=), (>>), return, fail),
-    Functor(fmap),
-    mapM, mapM_, sequence, sequence_, (=<<), 
-    maybe, either,
-    (&&), (||), not, otherwise,
-    subtract, even, odd, gcd, lcm, (^), (^^), 
-    fromIntegral, realToFrac, 
-    fst, snd, curry, uncurry, id, const, (.), flip, ($), until,
-    asTypeOf, error, undefined,
-    seq, ($!)
+  , Eq ( (==), (/=) )
+  , Ord ( compare, (<), (<=), (>=), (>), max, min )
+  , Enum ( succ, pred, toEnum, fromEnum, enumFrom, enumFromThen, enumFromTo
+      , enumFromThenTo
+      )
+  , Bounded ( minBound, maxBound )
+  , Num ( (+), (-), (*), negate, abs, signum, fromInteger )
+  , Real ( toRational )
+  , Integral ( quot, rem, div, mod, quotRem, divMod, toInteger )
+  , Fractional ( (/), recip, fromRational )
+  , Floating ( pi, exp, log, sqrt, (**), logBase, sin, cos, tan, asin, acos
+      , atan, sinh, cosh, tanh, asinh, acosh, atanh
+      )
+  , RealFrac ( properFraction, truncate, round, ceiling, floor )
+  , RealFloat ( floatRadix, floatDigits, floatRange, decodeFloat, encodeFloat
+      , exponent, significand, scaleFloat, isNaN, isInfinite, isDenormalized
+      , isIEEE, isNegativeZero, atan2
+      )
+  , Monad ( (>>=), (>>), return )
+  , MonadFail ( fail )
+  , Functor ( fmap, (<$) )
+  , mapM, mapM_, sequence, sequence_, (=<<),
+  , maybe, either,
+  , (&&), (||), not, otherwise,
+  , subtract, even, odd, gcd, lcm, (^), (^^),
+  , fromIntegral, realToFrac,
+  , fst, snd, curry, uncurry, id, const, (.), flip, ($), until,
+  , asTypeOf, error, undefined,
+  , seq, ($!)
   ) where
 
 import PreludeBuiltin                      -- Contains all `prim' values
@@ -95,7 +100,7 @@ class  (Eq a) => Ord a  where
     x >  y           =  compare x y == GT
 
 -- note that (min x y, max x y) = (x,y) or (y,x)
-    max x y 
+    max x y
          | x <= y    =  y
          | otherwise =  x
     min x y
@@ -124,7 +129,7 @@ class  Enum a  where
     enumFrom x       =  map toEnum [fromEnum x ..]
     enumFromTo x y   =  map toEnum [fromEnum x .. fromEnum y]
     enumFromThen x y =  map toEnum [fromEnum x, fromEnum y ..]
-    enumFromThenTo x y z = 
+    enumFromThenTo x y z =
                         map toEnum [fromEnum x, fromEnum y .. fromEnum z]
 
 class  Bounded a  where
@@ -148,7 +153,7 @@ class  (Num a, Ord a) => Real a  where
     toRational       ::  a -> Rational
 
 class  (Real a, Enum a) => Integral a  where
-    quot, rem        :: a -> a -> a   
+    quot, rem        :: a -> a -> a
     div, mod         :: a -> a -> a
     quotRem, divMod  :: a -> a -> (a,a)
     toInteger        :: a -> Integer
@@ -200,17 +205,17 @@ class  (Real a, Fractional a) => RealFrac a  where
         -- Minimal complete definition:
         --      properFraction
     truncate x       =  m  where (m,_) = properFraction x
-    
+
     round x          =  let (n,r) = properFraction x
                             m     = if r < 0 then n - 1 else n + 1
                           in case signum (abs r - 0.5) of
                                 -1 -> n
                                 0  -> if even n then n else m
                                 1  -> m
-    
+
     ceiling x        =  if r > 0 then n + 1 else n
                         where (n,r) = properFraction x
-    
+
     floor x          =  if r < 0 then n - 1 else n
                         where (n,r) = properFraction x
 
@@ -228,7 +233,7 @@ class  (RealFrac a, Floating a) => RealFloat a  where
     atan2            :: a -> a -> a
 
         -- Minimal complete definition:
-        --      All except exponent, significand, 
+        --      All except exponent, significand,
         --                 scaleFloat, atan2
     exponent x       =  if m == 0 then 0 else n + floatDigits x
                         where (m,n) = decodeFloat x
@@ -242,7 +247,7 @@ class  (RealFrac a, Floating a) => RealFloat a  where
     atan2 y x
       | x>0           =  atan (y/x)
       | x==0 && y>0   =  pi/2
-      | x<0  && y>0   =  pi + atan (y/x) 
+      | x<0  && y>0   =  pi + atan (y/x)
       |(x<=0 && y<0)  ||
        (x<0 && isNegativeZero y) ||
        (isNegativeZero x && isNegativeZero y)
@@ -294,6 +299,8 @@ realToFrac      =  fromRational . toRational
 
 class  Functor f  where
     fmap              :: (a -> b) -> f a -> f b
+    (<$)              :: a -> f b -> f a
+    (<$)              =  fmap . const
 
 class  Monad m  where
     (>>=)  :: m a -> (a -> m b) -> m b
@@ -306,11 +313,11 @@ class  Monad m  where
     m >> k  =  m >>= \_ -> k
     fail s  = error s
 
-sequence       :: Monad m => [m a] -> m [a] 
+sequence       :: Monad m => [m a] -> m [a]
 sequence       =  foldr mcons (return [])
                     where mcons p q = p >>= \x -> q >>= \y -> return (x:y)
 
-sequence_      :: Monad m => [m a] -> m () 
+sequence_      :: Monad m => [m a] -> m ()
 sequence_      =  foldr (>>) (return ())
 
 -- The xxxM functions take list arguments, but lift the function or
@@ -351,7 +358,7 @@ flip f x y       =  f y x
 seq :: a -> b -> b
 seq = ...       -- Primitive
 
--- right-associating infix application operators 
+-- right-associating infix application operators
 -- (useful in continuation-passing style)
 ($), ($!) :: (a -> b) -> a -> b
 f $  x    =  f x
@@ -369,7 +376,7 @@ True  && x       =  x
 False && _       =  False
 True  || _       =  True
 False || x       =  x
-                                        
+
 not              :: Bool -> Bool
 not True         =  False
 not False        =  True
@@ -415,7 +422,7 @@ maybe n f (Just x) =  f x
 instance  Functor Maybe  where
     fmap f Nothing    =  Nothing
     fmap f (Just x)   =  Just (f x)
-        
+
 instance  Monad Maybe  where
     (Just x) >>= k   =  k x
     Nothing  >>= k   =  Nothing
@@ -567,7 +574,7 @@ uncurry f p      =  f (fst p) (snd p)
 
 -- until p f  yields the result of applying f until p holds.
 until            :: (a -> Bool) -> (a -> a) -> a -> a
-until p f x 
+until p f x
      | p x       =  x
      | otherwise =  until p f (f x)
 
@@ -583,9 +590,8 @@ error            :: String -> a
 error            =  primError
 
 -- It is expected that compilers will recognize this and insert error
--- messages that are more appropriate to the context in which undefined 
--- appears. 
+-- messages that are more appropriate to the context in which undefined
+-- appears.
 
 undefined        :: a
 undefined        =  error "Prelude.undefined"
-

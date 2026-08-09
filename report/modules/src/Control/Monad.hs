@@ -8,7 +8,7 @@
 -- `MonadPlus` classes, together with some useful operations on monads.
 module Control.Monad
   ( -- * Functor and monad classes
-    Functor ( fmap )
+    Functor ( fmap, (<$) )
   , Monad ( (>>=), (>>), return )
   , MonadFail ( fail )
   , MonadPlus ( mzero, mplus )
