@@ -135,9 +135,17 @@ release: haskell.ps html
 publish-pdf: report.pdf
 	gzip < report.pdf > y:Haskell/haskell-report/report.pdf.gz
 
-#########################################
-#	HTML
-#########################################
+################################################################################
+#	HTML                                                                         #
+#                                                                              #
+# As of tex4ht.c (2023-10-13-15:32 Windows MiKTeX) certain                     #
+# ht-fonts/alias/adobe/courier *.htf files specify                             #
+#                                                                              #
+#     font-family: 'Nimbus Mono L', serif;                                     #
+#                                                                              #
+# This needs to be changed to font-family: monospace; to render like the HTML  #
+# version of the Haskell 2010 Language Report.                                 #
+################################################################################
 
 ht/classes.eps : classes.eps
 	$(CP) $< $@
