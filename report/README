@@ -47,7 +47,7 @@ repository.
 
 Right now, the only practical way to re-generate the library module
 documentation is to have a GHC build.  Fortunately building GHC isn't
-that hard these days: go to 
+that hard these days: go to
 
   http://hackage.haskell.org/trac/ghc/wiki/Building
 
@@ -88,8 +88,8 @@ libs/*.verb       -- documentation for each library module
 haddck.sty        -- definitions for macros used by Haddock
 
 Extra .verb files:
-iso-chars.verb    -- Some bogus definitions for ISO chars.  Probably not 
-                  -- needed since I removed them from the syntax. 
+iso-chars.verb    -- Some bogus definitions for ISO chars.  Probably not
+                  -- needed since I removed them from the syntax.
 index-extra.verb  -- extra stuff to get indexed (see also's)
 index-intro.verb  -- header for index
 
@@ -118,7 +118,7 @@ lambda.gif         -- (unused now) background for title page
 
 Other files:
 
-Makefile         -- Lots of extra cruft no longer used. 
+Makefile         -- Lots of extra cruft no longer used.
 
 Report any problems to the most recent editor, or failing that, one of
 the past editors of the report.
@@ -145,9 +145,5 @@ do the following:
 	%BoundingBox line
 
 You also need to do
-	Save As.. 
+	Save As..
 in Powerpoint, and save the thing as classes.gif, for the HTML version
-
-
-
-
