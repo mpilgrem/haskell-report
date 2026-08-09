@@ -105,8 +105,7 @@ It explains why \haddocktt{fmap} can be used with tuples containing values of di
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance Functor Complex\\instance Functor First\\instance Functor Last\\instance Functor Max\\instance Functor Min\\instance Functor ArgDescr\\instance Functor ArgOrder\\instance Functor OptDescr\\instance Functor NonEmpty\\instance Functor P\\instance Functor ReadP\\instance Functor IO\\instance Functor Maybe\\instance Functor Solo\\instance Functor List\\instance Monad m => Functor WrappedMonad m\\instance Functor Arg a\\instance Functor Array i\\instance Functor Tuple2 a\\instance Arrow a => Functor WrappedArrow a b\\instance Functor Tuple3 a b\\instance (Functor f, Functor g) => Functor Product f g\\instance (Functor f, Functor g) => Functor Sum f g\\instance Functor Tuple4 a b c\\instance Functor -> r\\instance (Functor f, Functor g) => Functor Compose f g\\instance Functor Tuple5 a b c d\\instance Functor Tuple6 a b c d e\\instance Functor Tuple7 a b c d e f
-\end{tabular}]
+instance Functor Complex\\instance Functor IO\\instance Functor Maybe\\instance Functor {[}{]}\\instance Functor Array i\\instance Functor -> r\\\end{tabular}]
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
@@ -216,7 +215,7 @@ Inject a value into the monadic type.
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance Monad Complex\\instance Monad First\\instance Monad Last\\instance Monad Max\\instance Monad Min\\instance Monad NonEmpty\\instance Monad P\\instance Monad ReadP\\instance Monad IO\\instance Monad Maybe\\instance Monad Solo\\instance Monad List\\instance Monad m => Monad WrappedMonad m\\instance Monoid a => Monad Tuple2 a\\instance (Monoid a, Monoid b) => Monad Tuple3 a b\\instance (Monad f, Monad g) => Monad Product f g\\instance (Monoid a, Monoid b, Monoid c) => Monad Tuple4 a b c\\instance Monad -> r
+instance Monad Complex\\instance Monad IO\\instance Monad Maybe\\instance Monad {[}{]}\\instance Monad -> r
 \end{tabular}]
 \end{haddockdesc}
 \begin{haddockdesc}
@@ -255,7 +254,7 @@ fail :: String -> m a
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance MonadFail P\\instance MonadFail ReadP\\instance MonadFail IO\\instance MonadFail Maybe\\instance MonadFail List
+instance MonadFail IO\\instance MonadFail Maybe\\instance MonadFail {[}{]}
 \end{tabular}]
 \end{haddockdesc}
 \begin{haddockdesc}
@@ -298,7 +297,6 @@ mplus = (<|>)
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance MonadPlus P\\instance MonadPlus ReadP
 \end{tabular}]
 \end{haddockdesc}
 \begin{haddockdesc}
@@ -318,14 +316,13 @@ Picks the leftmost \haddockid{Just} value, or, alternatively, \haddockid{Nothing
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance MonadPlus List
+instance MonadPlus {[}{]}
 \end{tabular}]
 {\haddockbegindoc
 Combines lists by concatenation, starting from the empty list.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance (MonadPlus f, MonadPlus g) => MonadPlus Product f g
 \end{tabular}]
 \end{haddockdesc}
 \section{Functions}

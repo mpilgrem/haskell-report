@@ -36,12 +36,10 @@ class.\par}
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance MonadIO IO
 \end{tabular}]
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance Alternative IO
 \end{tabular}]
 {\haddockbegindoc
 Takes the first non-throwing \haddockid{IO} action's result.
@@ -49,7 +47,7 @@ Takes the first non-throwing \haddockid{IO} action's result.
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance Applicative IO\\instance Functor IO\\instance Monad IO
+instance Functor IO\\instance Monad IO
 \end{tabular}]
 \end{haddockdesc}
 \begin{haddockdesc}
@@ -62,8 +60,7 @@ Takes the first non-throwing \haddockid{IO} action's result.
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
-instance MonadFail IO\\instance MArray IOUArray Int16 IO\\instance MArray IOUArray Int32 IO\\instance MArray IOUArray Int64 IO\\instance MArray IOUArray Int8 IO\\instance MArray IOUArray Word16 IO\\instance MArray IOUArray Word32 IO\\instance MArray IOUArray Word64 IO\\instance MArray IOUArray Word8 IO\\instance MArray IOUArray Bool IO\\instance MArray IOUArray Char IO\\instance MArray IOUArray Double IO\\instance MArray IOUArray Float IO\\instance MArray IOUArray Int IO\\instance MArray IOUArray Word IO\\instance Storable e => MArray StorableArray e IO\\instance MArray IOArray e IO\\instance MArray IOUArray FunPtr a IO\\instance MArray IOUArray Ptr a IO\\instance MArray IOUArray StablePtr a IO\\instance a {\char '176} () => HPrintfType IO a\\instance a {\char '176} () => PrintfType IO a\\instance Monoid a => Monoid IO a\\instance Semigroup a => Semigroup IO a
-\end{tabular}]
+instance MonadFail IO\\\end{tabular}]
 \end{haddockdesc}
 \begin{haddockdesc}
 \item[\begin{tabular}{@{}l}
