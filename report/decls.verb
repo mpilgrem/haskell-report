@@ -1117,6 +1117,7 @@ which derived instances are allowed are
 @Ord@\indexdi{Ord},
 @Enum@\indexdi{Enum},
 @Bounded@\indexdi{Bounded},
+\htf{@Functor@\indexdi{Functor},}
 @Show@\indexdi{Show},
 and @Read@\indexdi{Read},
 all mentioned in Figure~\ref{standard-classes}.

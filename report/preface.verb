@@ -119,10 +119,14 @@ referred to, by the relevant part of the GHC User's Guide.
 
 The Prelude and other Haskell modules have also changed since the Haskell 2010
 Language Report. The Haskell 2024 Language Report aims to reflect such changes
-only to the extent strictly necessary to be consistent with the extensions in 
+only to the extent strictly necessary to be consistent with the extensions in
 @GHC2024@ and by reference to the boot packages of GHC 9.10.3 as published on
-Hackage.
-
+Hackage. In that regard:
+\begin{itemize}
+\item @(<$) :: a -> f b -> fa@ is a method of the class @Functor@.
+\item @fail :: String -> m a@ is not a method of the class @Monad@ and is a
+      method of the class @MonadFail@
+\end{itemize}
 \end{haskelltf}
 
 \section*{Extensions to \Haskell{} 98}
