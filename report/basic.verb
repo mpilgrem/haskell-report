@@ -551,7 +551,65 @@ when the elements become greater than "e_3+i/2" for positive increment
 For all four of these Prelude numeric types, all of the @enumFrom@
 family of functions are strict in all their arguments.
 
+\begin{haskelltf}
+
+\subsubsection{The Semigroup Class}
+\label{semigroup-class}
+\indexclass{Semigroup}
+\indextt{<>}
+\index{semigroup}
+
+\bprog
+@
+class  Semigroup a  where
+    (<>)    :: a -> a -> a
+@
+\eprog
+The @Semigroup@ class is used with types with an associative binary operation.
+@()@, lists, @Either a b@, and 2-tuples to 4-tuples (where types are in this
+class) are in this class.
+
+Instances of @Semigroup@ should satisfy the following law:
+\[\ba{lcl}
+@x <> (y <> z)@&=&@(x <> y) <> z@\\
+\ea\]\ifhtml{\\}{}
+
+All instances of @Semigroup@ defined in the Prelude satisfy this law.
+
+\subsubsection{The Monoid Class}
+\label{monoid-class}
+\indexclass{Monoid}
+\indextt{mempty}
+\indextt{mappend}
+\indextt{mconcat}
+\index{monoid}
+
+\bprog
+@
+class  Semigroup a => Monoid a where
+    mempty    :: a
+    mappend   :: a -> a -> a
+    mconcat   :: [a] -> a
+
+    mempty    =  mconcat []
+    mappend   =  (<>)
+    mconcat   =  foldr mappend mempty
+@
+\eprog
+The @Monoid@ class is used with types with an associative binary operation that
+has an identity.
+
+Instances of @Monoid@ should satisfy the following laws:
+\[\ba{lclcl}
+@x <> mempty@&=&@mempty <> x@&=&@x@\\
+\ea\]\ifhtml{\\}{}
+
+All instances of @Monoid@ defined in the Prelude satisfy this law.
+
+\end{haskelltf}
+
 \subsubsection{The Functor Class}
+\label{functor-class}
 \indexclass{Functor}
 \indextt{fmap}
 \index{functor}
@@ -576,25 +634,61 @@ Instances of @Functor@ should satisfy the following laws:
 \ea\]\ifhtml{\\}{}
 All instances of @Functor@ defined in the Prelude satisfy these laws.
 
+\begin{haskelltf}
+
+\subsubsection{The Applicative Class}
+\label{applicative-class}
+\indexclass{Applicative}
+\indextt{}
+\index{applicative}
+
+\bprog
+@
+class  Functor f => Applicative f  where
+  pure       :: a -> f a
+  (<*>)      :: f (a -> b) -> f a -> f b
+  liftA2     :: (a -> b -> c) -> f a -> f b -> f c
+  (*>)       :: f a -> f b -> f b
+  (<*)       :: f a -> f b -> f a
+
+  (<*>)      =  liftA2 id
+  liftA2 f x =  (<*>) (fmap f x)
+  a1 *> a2   =  (id <$ a1) <*> a2
+  (<*)       = liftA2 const
+@
+\eprog
+
+The @Applicative@ class is used for types that can be mapped over and provide
+operations to embed pure expressions and sequence computations and combine their
+results.
+
+Instances of @Applicative@ should satisfy the following laws:
+\[\ba{lcl}
+@pure id <*> v@&=&@v@\\
+@pure (.) <*> u <*> v <*> w@&=&@u <*> (v <*> w)@\\
+@pure f <*> pure x@&=&@pure (f x)@\\
+@u <*> pure y@&=&@pure ($ y) <*> u@\\
+\ea\]\ifhtml{\\}{}
+
+All instances of @Applicative@ defined in the Prelude satisfy these laws.
+
+\end{haskelltf}
 
 \subsubsection{The Monad Class}
 \label{monad-class}
 \indexclass{Monad}
 \indextt{return}
-\indextt{fail}
 \indextt{>>}
 \indextt{>>=}
 \index{monad}
 \bprog
 @
-class  Monad m  where
+class  Applicative m => Monad m  where
     (>>=)   :: m a -> (a -> m b) -> m b
     (>>)    :: m a -> m b -> m b
     return  :: a -> m a
-    fail    :: String -> m a
 
     m >> k  =  m >>= \_ -> k
-    fail s  = error s
 @
 \eprog
 The @Monad@ class defines the basic operations over a {\em monad}.
@@ -602,14 +696,9 @@ See Chapter~\ref{io} for more information about monads.
 
 ``@do@'' expressions provide a convenient syntax for writing
 monadic expressions (see Section~\ref{do-expressions}).
-The @fail@ method is invoked on pattern-match failure in a @do@
-expression.
 
 In the Prelude, lists,
 @Maybe@, and @IO@ are all instances of @Monad@.
-The @fail@ method for lists returns the empty list @[]@,
-for @Maybe@ returns @Nothing@, and for @IO@ raises a user
-exception in the IO monad (see Section~\ref{io-exceptions}).
 
 Instances of @Monad@ should satisfy the following laws:
 \[\ba{lcl}
@@ -626,18 +715,136 @@ All instances of @Monad@ defined in the Prelude satisfy these laws.
 The Prelude provides the following auxiliary functions:
 \bprog
 @
-sequence  :: Monad m => [m a] -> m [a]
-sequence_ :: Monad m => [m a] -> m ()
 mapM      :: Monad m => (a -> m b) -> [a] -> m [b]
-mapM_     :: Monad m => (a -> m b) -> [a] -> m ()
 (=<<)     :: Monad m => (a -> m b) -> m a -> m b
 @
 \eprog
+\indextt{=<<}
+
+\begin{haskelltf}
+\subsubsection{The MonadFail Class}
+\label{monadfail-class}
+\indexclass{MonadFail}
+\indextt{fail}
+\bprog
+@
+class  Monad m => MonadFail m  where
+    fail    :: String -> m a
+
+    fail s  =  error s
+@
+\eprog
+\end{haskelltf}
+The @fail@ method is invoked on pattern-match failure in a @do@
+expression.
+
+The @fail@ method for lists returns the empty list @[]@,
+for @Maybe@ returns @Nothing@, and for @IO@ raises a user
+exception in the IO monad (see Section~\ref{io-exceptions}).
+
+\begin{haskelltf}
+\subsubsection{The Foldable Class}
+\label{foldable-class}
+\indexclass{Foldable}
+\indextt{foldMap}
+\indextt{foldr}
+\indextt{foldl}
+\indextt{foldl'}
+\indextt{foldr1}
+\indextt{foldl1}
+\indextt{elem}
+\indextt{maximum}
+\indextt{minimum}
+\indextt{sum}
+\indextt{product}
+\index{foldable}
+
+\bprog
+@
+class  Foldable t  where
+    foldMap :: Monoid m => (a -> m) -> t a -> m
+    foldr   :: (a -> b -> b) -> b -> t a -> b
+    foldl   :: (b -> a -> b) -> b -> t a -> b
+    foldl'  :: (b -> a -> b) -> b -> t a -> b
+    foldr1  :: (a -> a -> a) -> t a -> a
+    foldl1  :: (a -> a -> a) -> t a -> a
+    elem    :: Eq a => a -> t a -> Bool
+    maximum :: Ord a => t a -> a
+    minimum :: Ord a => t a -> a
+    sum     :: Num a => t a -> a
+    product :: Num a => t a -> a
+
+    foldMap f   = foldr (mappend . f) mempty
+    maximum     = foldr1 max
+    minimum     = foldr1 min
+    elem        = any . (==)
+    sum         = foldr (+) 0
+    product     = foldr (*) 1
+@
+\eprog
+
+The @Foldable@ class represents data structures that can be reduced to a
+summary value one element at a time.
+
+The Prelude provides the following auxiliary functions:
+@
+null      :: Foldable t => t a -> Bool
+length    :: Foldable t => t a -> Int
+notElem   :: Foldable t => a -> t a -> Bool
+and       :: Foldable t => t Bool -> Bool
+or        :: Foldable t => t Bool -> Bool
+any       :: Foldable t => (a -> Bool) -> t a -> Bool
+all       :: Foldable t => (a -> Bool) -> t a -> Bool
+concat    :: Foldable t => t [a] -> [a]
+concatMap :: Foldable t => (a -> [b]) -> t a -> t [b]
+@
+\indextt{null}
+\indextt{length}
+\indextt{notElem}
+\indextt{and}
+\indextt{or}
+\indextt{any}
+\indextt{all}
+\indextt{concat}
+\indextt{concatMap}
+
+\subsubsection{The Traversable Class}
+\label{traversable-class}
+\indexclass{Traversable}
+\index{traversable}
+\indextt{traverse}
+\indextt{sequenceA}
+\indextt{mapM}
 \indextt{sequence}
+
+\bprog
+@
+class  (Functor t, Foldable t) => Traversable t  where
+    traverse :: Applicative f => (a -> f b) -> t a -> f (t b)
+    sequenceA :: Applicative f => t (f a) -> f (t a)
+    mapM :: Monad m => (a -> m b) -> t a -> m (t b)
+    sequence :: Monad m => t (m a) -> m (t a)
+
+    traverse f = sequenceA . fmap f
+    sequenceA = traverse id
+    mapM = traverse
+    sequence = sequenceA
+@
+\eprog
+
+The @Traversable@ class represents data structures that can be transformed to
+structures of  the same shape by performing an @Applicative@ (or, therefore,
+@Monad@) action on each element from left to right.
+
+The Prelude provides the following auxiliary functions:
+@
+sequence_ :: (Foldable t, Monad m) => t (m a) -> m ()
+mapM_     :: (Foldable t, Monad m) => (a -> m b) -> t a -> m ()
+@
 \index{sequence{\char '137}@@{\tt  sequence{\char '137}}}
 \index{mapM{\char '137}@@{\tt  mapM{\char '137}}}
-\indextt{mapM}
-\indextt{=<<}
+
+\end{haskelltf}
 
 \subsubsection{The Bounded Class}
 \indexclass{Bounded}
