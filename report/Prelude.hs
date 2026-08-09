@@ -33,16 +33,26 @@ module Prelude
       , exponent, significand, scaleFloat, isNaN, isInfinite, isDenormalized
       , isIEEE, isNegativeZero, atan2
       )
+  , Semigroup ( (<>) )
+  , Monoid ( mempty, mappend, mconcat )
+  , Functor ( fmap, (<$) )
+  , Applicative ( pure, (<*>), liftA2, (*>), (<*) )
   , Monad ( (>>=), (>>), return )
   , MonadFail ( fail )
-  , Functor ( fmap, (<$) )
-  , mapM, mapM_, sequence, sequence_, (=<<),
-  , maybe, either,
-  , (&&), (||), not, otherwise,
-  , subtract, even, odd, gcd, lcm, (^), (^^),
-  , fromIntegral, realToFrac,
-  , fst, snd, curry, uncurry, id, const, (.), flip, ($), until,
-  , asTypeOf, error, undefined,
+  , (=<<)
+  , Foldable ( elem, foldMap, foldr, foldl, foldl', foldr1, foldl1, maximum
+      , minimum, sum, product
+      )
+  , null, length
+  , notElem, and, or, any, all, concat, concatMap
+  , Traversable ( traverse, sequenceA, mapM, sequence )
+  , mapM_, sequence_
+  , maybe, either
+  , (&&), (||), not, otherwise
+  , subtract, even, odd, gcd, lcm, (^), (^^)
+  , fromIntegral, realToFrac
+  , fst, snd, curry, uncurry, id, const, (.), flip, ($), until
+  , asTypeOf, error, undefined
   , seq, ($!)
   ) where
 
@@ -62,7 +72,7 @@ infixl 6  +, -
 -- a fixity declaration; but its fixity is given by:
 --   infixr 5  :
 
-infix  4  ==, /=, <, <=, >=, >
+infix  4  ==, /=, <, <=, >=, >, `notElem`
 infixr 3  &&
 infixr 2  ||
 infixl 1  >>, >>=
@@ -302,35 +312,97 @@ class  Functor f  where
     (<$)              :: a -> f b -> f a
     (<$)              =  fmap . const
 
-class  Monad m  where
-    (>>=)  :: m a -> (a -> m b) -> m b
-    (>>)   :: m a -> m b -> m b
-    return :: a -> m a
-    fail   :: String -> m a
+-- | A functor with application, providing operations to
+--
+-- * embed pure expressions ('pure'), and
+--
+-- * sequence computations and combine their results ('<*>' and 'liftA2').
+--
+-- Any definition must satisfy the following:
+--
+-- [Identity]
+--
+--      @'pure' 'id' '<*>' v = v@
+--
+-- [Composition]
+--
+--      @'pure' (.) '<*>' u '<*>' v '<*>' w = u '<*>' (v '<*>' w)@
+--
+-- [Homomorphism]
+--
+--      @'pure' f '<*>' 'pure' x = 'pure' (f x)@
+--
+-- [Interchange]
+--
+--      @u '<*>' 'pure' y = 'pure' ('$' y) '<*>' u@
+--
+--
+-- The other methods have the following default definitions, which may
+-- be overridden with equivalent specialized implementations:
+--
+--   * @u '*>' v = ('id' '<$' u) '<*>' v@
+--
+--   * @u '<*' v = 'liftA2' 'const' u v@
+--
+-- As a consequence of these laws, the 'Functor' instance for @f@ will satisfy
+--
+--   * @'fmap' f x = 'pure' f '<*>' x@
+--
+--
+-- It may be useful to note that supposing
+--
+--      @forall x y. p (q x y) = f x . g y@
+--
+-- it follows from the above that
+--
+--      @'liftA2' p ('liftA2' q u v) = 'liftA2' f u . 'liftA2' g v@
+--
+--
+-- If @f@ is also a 'Monad', it should satisfy
+--
+--   * @'pure' = 'return'@
+--
+--   * @m1 '<*>' m2 = m1 '>>=' (\\x1 -> m2 '>>=' (\\x2 -> 'return' (x1 x2)))@
+--
+--   * @('*>') = ('>>')@
+--
+-- (which implies that 'pure' and '<*>' satisfy the applicative functor laws).
 
-        -- Minimal complete definition:
-        --      (>>=), return
-    m >> k  =  m >>= \_ -> k
-    fail s  = error s
+class Functor f => Applicative f where
+  -- | Lift a value into the Structure.
+  pure :: a -> f a
 
-sequence       :: Monad m => [m a] -> m [a]
-sequence       =  foldr mcons (return [])
-                    where mcons p q = p >>= \x -> q >>= \y -> return (x:y)
+  -- | Sequential application.
+  (<*>) :: f (a -> b) -> f a -> f b
+  (<*>) = liftA2 id
 
-sequence_      :: Monad m => [m a] -> m ()
-sequence_      =  foldr (>>) (return ())
+  -- | Lift a binary function to actions.
+  liftA2 :: (a -> b -> c) -> f a -> f b -> f c
+  liftA2 f x = (<*>) (fmap f x)
 
--- The xxxM functions take list arguments, but lift the function or
--- list element to a monad type
-mapM             :: Monad m => (a -> m b) -> [a] -> m [b]
-mapM f as        =  sequence (map f as)
+  -- | Sequence actions, discarding the value of the first argument.
+  (*>) :: f a -> f b -> f b
+  a1 *> a2 = (id <$ a1) <*> a2
 
-mapM_            :: Monad m => (a -> m b) -> [a] -> m ()
-mapM_ f as       =  sequence_ (map f as)
+  -- | Sequence actions, discarding the value of the second argument.
+  (<*) :: f a -> f b -> f a
+  (<*) = liftA2 const
+
+class  Applicative m => Monad m where
+  (>>=)  :: m a -> (a -> m b) -> m b
+  (>>)   :: m a -> m b -> m b
+  return :: a -> m a
+
+  -- Minimal complete definition:
+  --      (>>=), return
+  m >> k  =  m >>= \_ -> k
+
+class  Monad m => MonadFail m where
+  fail   :: String -> m a
+  fail s  = error s
 
 (=<<)            :: Monad m => (a -> m b) -> m a -> m b
 f =<< x          =  x >>= f
-
 
 -- Trivial type
 
@@ -547,6 +619,290 @@ instance  Monad []  where
     m >>= k          = concat (map k m)
     return x         = [x]
     fail s           = []
+
+-- | Non-empty (and non-strict) list type.
+data NonEmpty a = a :| [a]
+
+-- | The class of semigroups (types with an associative binary operation).
+--
+-- Instances should satisfy the following:
+--
+-- [Associativity] @x '<>' (y '<>' z) = (x '<>' y) '<>' z@
+--
+-- You can alternatively define `sconcat` instead of (`<>`), in which case the
+-- laws are:
+--
+-- [Unit]: @'sconcat' ('pure' x) = x@
+-- [Multiplication]: @'sconcat' ('join' xss) = 'sconcat' ('fmap' 'sconcat' xss)@
+--
+-- @since base-4.9.0.0
+class Semigroup a where
+  -- | An associative operation.
+  (<>) :: a -> a -> a
+  a <> b = go a [ b ]
+   where
+    go c (d : ds) = c <> go d ds
+    go c []       = c
+
+-- | The class of monoids (types with an associative binary operation that
+-- has an identity).  Instances should satisfy the following:
+--
+-- [Right identity] @x '<>' 'mempty' = x@
+-- [Left identity]  @'mempty' '<>' x = x@
+-- [Associativity]  @x '<>' (y '<>' z) = (x '<>' y) '<>' z@ ('Semigroup' law)
+-- [Concatenation]  @'mconcat' = 'foldr' ('<>') 'mempty'@
+--
+-- You can alternatively define `mconcat` instead of `mempty`, in which case the
+-- laws are:
+--
+-- [Unit]: @'mconcat' ('pure' x) = x@
+-- [Multiplication]: @'mconcat' ('join' xss) = 'mconcat' ('fmap' 'mconcat' xss)@
+-- [Subclass]: @'mconcat' ('toList' xs) = 'sconcat' xs@
+--
+-- The method names refer to the monoid of lists under concatenation,
+-- but there are many other instances.
+--
+-- Some types can be viewed as a monoid in more than one way,
+-- e.g. both addition and multiplication on numbers.
+-- In such cases we often define @newtype@s and make those instances
+-- of 'Monoid', e.g. 'Data.Semigroup.Sum' and 'Data.Semigroup.Product'.
+class Semigroup a => Monoid a where
+  -- | Identity of 'mappend'
+  mempty :: a
+  mempty = mconcat []
+
+  -- | An associative operation
+  mappend :: a -> a -> a
+  mappend = (<>)
+
+  -- | Fold a list using the monoid.
+  mconcat :: [a] -> a
+  mconcat = foldr mappend mempty
+
+class Foldable t where
+
+  -- | Does the element occur in the structure?
+  elem :: Eq a => a -> t a -> Bool
+  elem = any . (==)
+
+  -- | Map each element of the structure into a monoid, and combine the
+  -- results with @('<>')@.  This fold is right-associative and lazy in the
+  -- accumulator.
+  foldMap :: Monoid m => (a -> m) -> t a -> m
+  foldMap f = foldr (mappend . f) mempty
+
+  -- | Right-associative fold of a structure, lazy in the accumulator.
+  --
+  -- In the case of lists, 'foldr', when applied to a binary operator, a
+  -- starting value (typically the right-identity of the operator), and a
+  -- list, reduces the list using the binary operator, from right to left:
+  --
+  -- > foldr f z [x1, x2, ..., xn] == x1 `f` (x2 `f` ... (xn `f` z)...)
+  --
+  -- Note that since the head of the resulting expression is produced by an
+  -- application of the operator to the first element of the list, given an
+  -- operator lazy in its right argument, 'foldr' can produce a terminating
+  -- expression from an unbounded list.
+  --
+  -- For a general 'Foldable' structure this should be semantically identical
+  -- to,
+  --
+  -- @foldr f z = 'List.foldr' f z . 'toList'@
+  foldr :: (a -> b -> b) -> b -> t a -> b
+  foldr f z t = appEndo (foldMap (Endo #. f) t) z
+
+  -- | Left-associative fold of a structure, lazy in the accumulator.  This
+  -- is rarely what you want, but can work well for structures with efficient
+  -- right-to-left sequencing and an operator that is lazy in its left
+  -- argument.
+  --
+  -- In the case of lists, 'foldl', when applied to a binary operator, a
+  -- starting value (typically the left-identity of the operator), and a
+  -- list, reduces the list using the binary operator, from left to right:
+  --
+  -- > foldl f z [x1, x2, ..., xn] == (...((z `f` x1) `f` x2) `f`...) `f` xn
+  --
+  -- Note that to produce the outermost application of the operator the
+  -- entire input list must be traversed.  Like all left-associative folds,
+  -- 'foldl' will diverge if given an infinite list.
+  --
+  -- For a general 'Foldable' structure this should be semantically identical
+  -- to:
+  --
+  -- @foldl f z = 'List.foldl' f z . 'toList'@
+  foldl :: (b -> a -> b) -> b -> t a -> b
+  foldl f z t = appEndo (getDual (foldMap (Dual . Endo . flip f) t)) z
+
+  -- | Left-associative fold of a structure but with strict application of
+  -- the operator.
+  --
+  -- This ensures that each step of the fold is forced to Weak Head Normal
+  -- Form before being applied, avoiding the collection of thunks that would
+  -- otherwise occur.  This is often what you want to strictly reduce a
+  -- finite structure to a single strict result (e.g. 'sum').
+  --
+  -- For a general 'Foldable' structure this should be semantically identical
+  -- to,
+  --
+  -- @foldl' f z = 'List.foldl'' f z . 'toList'@
+  foldl' :: (b -> a -> b) -> b -> t a -> b
+  foldl' f z0 = \ xs ->
+      foldr (\ (x::a) (k::b->b) -> oneShot (\ (z::b) -> z `seq` k (f z x)))
+            (id::b->b) xs z0
+
+  -- | A variant of 'foldr' that has no base case,
+  -- and thus may only be applied to non-empty structures.
+  --
+  -- This function is non-total and will raise a runtime exception if the
+  -- structure happens to be empty.
+  foldr1 :: (a -> a -> a) -> t a -> a
+  foldr1 f xs = fromMaybe (errorWithoutStackTrace "foldr1: empty structure")
+                  (foldr mf Nothing xs)
+   where
+    mf x m = Just (case m of
+                     Nothing -> x
+                     Just y  -> f x y)
+
+  -- | A variant of 'foldl' that has no base case,
+  -- and thus may only be applied to non-empty structures.
+  --
+  -- This function is non-total and will raise a runtime exception if the
+  -- structure happens to be empty.
+  --
+  -- @'foldl1' f = 'List.foldl1' f . 'toList'@
+  foldl1 :: (a -> a -> a) -> t a -> a
+  foldl1 f xs = fromMaybe (errorWithoutStackTrace "foldl1: empty structure")
+                  (foldl mf Nothing xs)
+   where
+    mf m y = Just (case m of
+                     Nothing -> y
+                     Just x  -> f x y)
+
+  -- | The largest element of a non-empty structure. This function is
+  -- equivalent to @'foldr1' 'max'@, and its behavior on structures with
+  -- multiple largest elements depends on the relevant implementation of
+  -- 'max'. For the default implementation of 'max' (@max x y = if x <= y
+  -- then y else x@), structure order is used as a tie-breaker: if there are
+  -- multiple largest elements, the rightmost of them is chosen (this is
+  -- equivalent to @'maximumBy' 'compare'@).
+  --
+  -- This function is non-total and will raise a runtime exception if the
+  -- structure happens to be empty.  A structure that supports random access
+  -- and maintains its elements in order should provide a specialised
+  -- implementation to return the maximum in faster than linear time.
+  maximum :: forall a . Ord a => t a -> a
+  maximum = fromMaybe (errorWithoutStackTrace "maximum: empty structure") .
+     getMax . foldMap' (Max #. (Just :: a -> Maybe a))
+
+  -- | The least element of a non-empty structure. This function is
+  -- equivalent to @'foldr1' 'min'@, and its behavior on structures with
+  -- multiple largest elements depends on the relevant implementation of
+  -- 'min'. For the default implementation of 'min' (@min x y = if x <= y
+  -- then x else y@), structure order is used as a tie-breaker: if there are
+  -- multiple least elements, the leftmost of them is chosen (this is
+  -- equivalent to @'minimumBy' 'compare'@).
+  --
+  -- This function is non-total and will raise a runtime exception if the
+  -- structure happens to be empty.  A structure that supports random access
+  -- and maintains its elements in order should provide a specialised
+  -- implementation to return the minimum in faster than linear time.
+  minimum :: forall a . Ord a => t a -> a
+  minimum = fromMaybe (errorWithoutStackTrace "minimum: empty structure") .
+    getMin . foldMap' (Min #. (Just :: a -> Maybe a))
+
+  -- | The 'sum' function computes the sum of the numbers of a structure.
+  sum :: Num a => t a -> a
+  sum = getSum #. foldMap' Sum
+
+  -- | The 'product' function computes the product of the numbers of a
+  -- structure.
+  product :: Num a => t a -> a
+  product = getProduct #. foldMap' Product
+
+-- | Test whether the structure is empty.  The default implementation is
+-- Left-associative and lazy in both the initial element and the
+-- accumulator.  Thus optimised for structures where the first element can
+-- be accessed in constant time.  Structures where this is not the case
+-- should have a non-default implementation.
+null :: t a -> Bool
+null = foldr (\_ _ -> False) True
+
+-- | Returns the size/length of a finite structure as an 'Int'.  The
+-- default implementation just counts elements starting with the leftmost.
+-- Instances for structures that can compute the element count faster
+-- than via element-by-element counting, should provide a specialised
+-- implementation.
+length :: t a -> Int
+length = foldl' (\c _ -> c + 1) 0
+
+-- notElem is the negation of elem.
+notElem    :: (Eq a, Foldable t) => a -> t a -> Bool
+notElem x        =  all (/= x)
+
+-- and returns the conjunction of a Boolean list.  For the result to be
+-- True, the list must be finite; False, however, results from a False
+-- value at a finite index of a finite or infinite list.  or is the
+-- disjunctive dual of and.
+and, or          :: Foldable t => t Bool -> Bool
+and              =  foldr (&&) True
+or               =  foldr (||) False
+
+-- Applied to a predicate and a list, any determines if any element
+-- of the list satisfies the predicate.  Similarly, for all.
+any, all         :: Foldable t => (a -> Bool) -> t a -> Bool
+any p            =  or . map p
+all p            =  and . map p
+
+-- The concatenation of all the elements of a container of lists.
+concat           :: Foldable t => t [a] -> [a]
+concat xss       = foldr (++) [] xss
+
+-- Map a function over all the elements of a container and concatenate the
+-- resulting lists.
+concatMap        :: Foldable t => (a -> [b]) -> t a -> [b]
+concatMap f      = concat . map f
+
+-- | Functors representing data structures that can be transformed to
+-- structures of the /same shape/ by performing an 'Applicative' (or,
+-- therefore, 'Monad') action on each element from left to right.
+--
+-- A more detailed description of what /same shape/ means, the various methods,
+-- how traversals are constructed, and example advanced use-cases can be found
+-- in the __Overview__ section of "Data.Traversable#overview".
+--
+-- For the class laws see the __Laws__ section of "Data.Traversable#laws".
+--
+class (Functor t, Foldable t) => Traversable t where
+
+  -- | Map each element of a structure to an action, evaluate these actions
+  -- from left to right, and collect the results. For a version that ignores
+  -- the results see 'Data.Foldable.traverse_'.
+  traverse :: Applicative f => (a -> f b) -> t a -> f (t b)
+  traverse f = sequenceA . fmap f
+
+  -- | Evaluate each action in the structure from left to right, and
+  -- collect the results. For a version that ignores the results
+  -- see 'Data.Foldable.sequenceA_'.
+  sequenceA :: Applicative f => t (f a) -> f (t a)
+  sequenceA = traverse id
+
+  -- | Map each element of a structure to a monadic action, evaluate
+  -- these actions from left to right, and collect the results. For
+  -- a version that ignores the results see 'Data.Foldable.mapM_'.
+  mapM :: Monad m => (a -> m b) -> t a -> m (t b)
+  mapM = traverse
+
+  -- | Evaluate each monadic action in the structure from left to
+  -- right, and collect the results. For a version that ignores the
+  -- results see 'Data.Foldable.sequence_'.
+  sequence :: Monad m => t (m a) -> m (t a)
+  sequence = sequenceA
+
+sequence_ :: (Foldable t, Monad m) => t (m a) -> m ()
+sequence_ =  foldr (>>) (pure ())
+
+mapM_            :: (Foldable t, Monad m) => (a -> m b) -> t a -> m ()
+mapM_ f as       =  sequence_ (traverse f as)
 
 -- Tuples
 
