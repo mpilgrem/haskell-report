@@ -305,7 +305,8 @@ would generate the following @Bounded@ instance:
 
 \begin{haskelltf}
 \subsection{@stock@ derived instances of \texorpdfstring{@Functor@}{Functor}}
-\indexdi{Bounded}
+\label{derived-functor}
+\indexdi{Functor}
 
 @Functor@ instances can be derived for data types of kind $\ast\rightarrow\ast$.
 
