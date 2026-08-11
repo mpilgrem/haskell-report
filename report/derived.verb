@@ -100,7 +100,8 @@ a derived instance declaration is possible for a class "C"
 if these conditions hold:
 \begin{enumerate}
 \item
-"C" is one of @Eq@, @Ord@, @Enum@, @Bounded@, htf{@Functor@,} @Show@, or @Read@.
+"C" is one of @Eq@, @Ord@, @Enum@, @Bounded@, htf{@Functor@, @Foldable@,}
+@Show@, or @Read@.
 
 \item
 There is a context "cx'" such that "cx' \Rightarrow C t_{ij}"
@@ -355,6 +356,49 @@ There are scenarios in which a derived @Functor@ instance will fail to compile:
 When the last type parameter has a phantom role, the derived @Functor@ instance
 will not be produced using the usual algorithm. Instead, the entire value will
 be coerced.
+
+\subsection{@stock@ derived instances of \texorpdfstring{@Foldable@}{Foldable}}
+\label{derived-foldable}
+\indexdi{Foldable}
+
+The algorithm for deriving @Foldable@ is adapted from the algorithm for deriving
+@Functor@, but it generates definitions for @foldMap@ and @foldr@ instead of
+@fmap@. In addition, it filters out all constructor arguments on the righthand
+side expression whose types do not mention the last type parameter, since those
+arguments do not need to be folded over.
+
+When the type parameter has a phantom role, a trivial instance is derived.
+
+When the type has no constructors, a trivial instance is derived.
+
+Differences between the generated code for @Functor@ and @Foldable@ are:
+
+\begin{enumerate}
+
+\item When a bare type variable @a@ is encountered, the algorithm would generate
+      @f a z@ for @foldr@ and @f a@ for @foldMap@.
+
+\item When a type that is not syntactically equivalent to @a@, but which does
+      contain @a@, is encountered, the algorithm would recursively call @foldr@
+      and @foldMap@.
+
+\item The algorithm builds up a value of some type. For @foldr@, this is
+      accomplished by chaining applications of @f@ and recursive @foldr@ calls
+      on the state value @z@. For @foldMap@, this happens by combining all
+      values with @mappend@.
+
+\end{enumerate}
+
+There are some other differences regarding what data types can have derived
+@Foldable@ instances:
+
+\begin{enumerate}
+
+\item Data types containing function types on the right-hand side cannot have
+      derived @Foldable@ instances.
+
+\end{enumerate}
+
 \end{haskelltf}
 
 \subsection{@stock@ derived instances of \texorpdfstring{@Read@}{Read} and \texorpdfstring{@Show@}{Show}}
