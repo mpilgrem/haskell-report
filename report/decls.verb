@@ -1118,7 +1118,8 @@ which derived instances are allowed are
 @Enum@\indexdi{Enum},
 @Bounded@\indexdi{Bounded},
 \htf{@Functor@\indexdi{Functor},
-@Functor@\indexdi{Foldable},}
+@Functor@\indexdi{Foldable},
+@Traversable@\indexdi{Traversable},}
 @Show@\indexdi{Show},
 and @Read@\indexdi{Read},
 all mentioned in Figure~\ref{standard-classes}.

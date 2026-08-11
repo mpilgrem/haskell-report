@@ -194,7 +194,14 @@ Records & Named wild cards & No \\
 Deriving & Derive @Data@ and @Typeable@ instances & No \\
 Deriving & Derive @Generic@ instances & No \\
 Deriving & Derive @Lift@ instances & No \\
-Deriving & Derive @Traversable@ instances (derive @Foldable@, derive @Functor@) & No \\
+Deriving & Derive @Functor@ instances & Sections~\ref{derived-decls},
+\ref{functor-class}, \ref{stdprelude}, \ref{derived-functor}\\
+Deriving & Derive @Foldable@ instances & Sections~\ref{derived-decls},
+\ref{semigroup-class}, \ref{monoid-class}, \ref{foldable-class},
+\ref{stdprelude}, \ref{preludelist}, \ref{derived-foldable}\\
+Deriving & Derive @Traversable@ instances & Sections~\ref{derived-decls},
+\ref{applicative-class}, \ref{monad-class}, \ref{traversable-class},
+\ref{stdprelude}, \ref{preludelist}, \ref{derived-traversable}\\
 Deriving & Deriving strategies & Sections~\ref{declarations},
 \ref{datatype-decls}, \ref{datatype-renaming}, \ref{derived-decls}, \ref{bnf},
 \ref{deriving-strategies}, \ref{stock-deriving} \\
