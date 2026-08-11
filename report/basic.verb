@@ -554,6 +554,7 @@ family of functions are strict in all their arguments.
 \begin{haskelltf}
 
 \subsubsection{The Semigroup Class}
+\label{semigroup-class}
 \indexclass{Semigroup}
 \indextt{<>}
 \index{semigroup}
@@ -576,6 +577,7 @@ Instances of @Semigroup@ should satisfy the following law:
 All instances of @Semigroup@ defined in the Prelude satisfy this law.
 
 \subsubsection{The Monoid Class}
+\label{monoid-class}
 \indexclass{Monoid}
 \indextt{mempty}
 \indextt{mappend}
@@ -607,6 +609,7 @@ All instances of @Monoid@ defined in the Prelude satisfy this law.
 \end{haskelltf}
 
 \subsubsection{The Functor Class}
+\label{functor-class}
 \indexclass{Functor}
 \indextt{fmap}
 \index{functor}
@@ -631,17 +634,56 @@ Instances of @Functor@ should satisfy the following laws:
 \ea\]\ifhtml{\\}{}
 All instances of @Functor@ defined in the Prelude satisfy these laws.
 
+\begin{haskelltf}
+
+\subsubsection{The Applicative Class}
+\label{applicative-class}
+\indexclass{Applicative}
+\indextt{}
+\index{applicative}
+
+\bprog
+@
+class  Functor f => Applicative f  where
+  pure       :: a -> f a
+  (<*>)      :: f (a -> b) -> f a -> f b
+  liftA2     :: (a -> b -> c) -> f a -> f b -> f c
+  (*>)       :: f a -> f b -> f b
+  (<*)       :: f a -> f b -> f a
+
+  (<*>)      =  liftA2 id
+  liftA2 f x =  (<*>) (fmap f x)
+  a1 *> a2   =  (id <$ a1) <*> a2
+  (<*)       = liftA2 const
+@
+\eprog
+
+The @Applicative@ class is used for types that can be mapped over and provide
+operations to embed pure expressions and sequence computations and combine their
+results.
+
+Instances of @Applicative@ should satisfy the following laws:
+\[\ba{lcl}
+@pure id <*> v@&=&@v@\\
+@pure (.) <*> u <*> v <*> w@&=&@u <*> (v <*> w)@\\
+@pure f <*> pure x@&=&@pure (f x)@\\
+@u <*> pure y@&=&@pure ($ y) <*> u@\\
+\ea\]\ifhtml{\\}{}
+
+All instances of @Applicative@ defined in the Prelude satisfy these laws.
+
+\end{haskelltf}
+
 \subsubsection{The Monad Class}
 \label{monad-class}
 \indexclass{Monad}
 \indextt{return}
-\indextt{fail}
 \indextt{>>}
 \indextt{>>=}
 \index{monad}
 \bprog
 @
-class  Monad m  where
+class  Applicative m => Monad m  where
     (>>=)   :: m a -> (a -> m b) -> m b
     (>>)    :: m a -> m b -> m b
     return  :: a -> m a
@@ -673,17 +715,10 @@ All instances of @Monad@ defined in the Prelude satisfy these laws.
 The Prelude provides the following auxiliary functions:
 \bprog
 @
-sequence  :: Monad m => [m a] -> m [a]
-sequence_ :: Monad m => [m a] -> m ()
 mapM      :: Monad m => (a -> m b) -> [a] -> m [b]
-mapM_     :: Monad m => (a -> m b) -> [a] -> m ()
 (=<<)     :: Monad m => (a -> m b) -> m a -> m b
 @
 \eprog
-\indextt{sequence}
-\index{sequence{\char '137}@@{\tt  sequence{\char '137}}}
-\index{mapM{\char '137}@@{\tt  mapM{\char '137}}}
-\indextt{mapM}
 \indextt{=<<}
 
 \begin{haskelltf}
@@ -709,6 +744,7 @@ exception in the IO monad (see Section~\ref{io-exceptions}).
 
 \begin{haskelltf}
 \subsubsection{The Foldable Class}
+\label{foldable-class}
 \indexclass{Foldable}
 \indextt{foldMap}
 \indextt{foldr}
@@ -762,7 +798,6 @@ all       :: Foldable t => (a -> Bool) -> t a -> Bool
 concat    :: Foldable t => t [a] -> [a]
 concatMap :: Foldable t => (a -> [b]) -> t a -> t [b]
 @
-\end{haskelltf}
 \indextt{null}
 \indextt{length}
 \indextt{notElem}
@@ -772,6 +807,44 @@ concatMap :: Foldable t => (a -> [b]) -> t a -> t [b]
 \indextt{all}
 \indextt{concat}
 \indextt{concatMap}
+
+\subsubsection{The Traversable Class}
+\label{traversable-class}
+\indexclass{Traversable}
+\index{traversable}
+\indextt{traverse}
+\indextt{sequenceA}
+\indextt{mapM}
+\indextt{sequence}
+
+\bprog
+@
+class  (Functor t, Foldable t) => Traversable t  where
+    traverse :: Applicative f => (a -> f b) -> t a -> f (t b)
+    sequenceA :: Applicative f => t (f a) -> f (t a)
+    mapM :: Monad m => (a -> m b) -> t a -> m (t b)
+    sequence :: Monad m => t (m a) -> m (t a)
+
+    traverse f = sequenceA . fmap f
+    sequenceA = traverse id
+    mapM = traverse
+    sequence = sequenceA
+@
+\eprog
+
+The @Traversable@ class represents data structures that can be transformed to
+structures of  the same shape by performing an @Applicative@ (or, therefore,
+@Monad@) action on each element from left to right.
+
+The Prelude provides the following auxiliary functions:
+@
+sequence_ :: (Foldable t, Monad m) => t (m a) -> m ()
+mapM_     :: (Foldable t, Monad m) => (a -> m b) -> t a -> m ()
+@
+\index{sequence{\char '137}@@{\tt  sequence{\char '137}}}
+\index{mapM{\char '137}@@{\tt  mapM{\char '137}}}
+
+\end{haskelltf}
 
 \subsubsection{The Bounded Class}
 \indexclass{Bounded}

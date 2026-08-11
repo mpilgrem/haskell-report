@@ -124,13 +124,14 @@ only to the extent strictly necessary to be consistent with the extensions in
 Hackage. In that regard:
 \begin{itemize}
 \item The Prelude exports classes @Semigroup@, @Monoid@, @Applicative@,
-      @Foldable@ and @Traversable@
+      @MonadFail@, @Foldable@ and @Traversable@.
+\item @Applicative@ is a superclass of @Monad@.
 \item Functions @null@, @length@, @notElem@, @and@, @or@, @any@, @all@,
-      @concat@, @concatMap@, @mapM_@ and @sequence\_@ (exported by the Prelude)
-      are more general than applying to lists
+      @concat@, @concatMap@, @mapM_@ and @sequence_@ (exported by the Prelude)
+      are more general than applying to lists.
 \item @(<$) :: a -> f b -> fa@ is a method of the class @Functor@.
 \item @fail :: String -> m a@ is not a method of the class @Monad@ and is a
-      method of the class @MonadFail@
+      method of the class @MonadFail@.
 \end{itemize}
 \end{haskelltf}
 
