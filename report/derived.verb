@@ -399,6 +399,50 @@ There are some other differences regarding what data types can have derived
 
 \end{enumerate}
 
+\subsection{@stock@ derived instances of \texorpdfstring{@Traversable@}{Traversable}}
+\label{derived-traversable}
+\indexdi{Traversable}
+
+@Traversable@ instances can be derived for data types of kind
+$\ast\rightarrow\ast$.
+
+The algorithm for deriving @Traversable@ is adapted from the algorithm for
+deriving @Functor@, but it generates a definition for @traverse@ instead of
+@fmap@. In addition, it filters out all constructor arguments on the
+righthand side expression whose types do not mention the last type parameter,
+since those arguments do not produce any effects in a traversal.
+
+When the type parameter has a phantom role, the algorithm coerces its argument.
+
+When the type has no constructors, the algorithm will derive the laziest
+instance it can.
+
+Differences between the generated code for @Functor@ and @Traverable@ are:
+
+\begin{enumerate}
+
+\item When a bare type variable @a@ is encountered, the algorithm would generate
+      @f a@ for a @traverse@ definition.
+
+\item When a type that is not syntactically equivalent to @a@, but which does
+      contain @a@, is encountered, the algorthim would recursively call
+      @traverse@.
+
+\item The algorithm puts everything back together again at the end by working
+      in an @Applicative@ context by chaining everything together with @(<*>)@.
+
+\end{enumerate}
+
+There are some other differences regarding what data types can have derived
+@Traversable@ instances:
+
+\begin{enumerate}
+
+\item Data types containing function types on the right-hand side cannot have
+      derived @Traversable@ instances.
+
+\end{enumerate}
+
 \end{haskelltf}
 
 \subsection{@stock@ derived instances of \texorpdfstring{@Read@}{Read} and \texorpdfstring{@Show@}{Show}}
