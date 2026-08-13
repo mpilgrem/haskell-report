@@ -1123,6 +1123,13 @@ which derived instances are allowed are
 @Show@\indexdi{Show},
 and @Read@\indexdi{Read},
 all mentioned in Figure~\ref{standard-classes}.
+
+\begin{haskelltf}
+Derived instances are allowed for these classes not in the Prelude:
+@Generic@\indexdi{Generic},
+and @Generic1@\indexdi{Generic1}.
+\end{haskelltf}
+
 The
 precise details of how the derived instances are generated for each of
 these classes are provided in Chapter~\ref{derived-appendix}, including
