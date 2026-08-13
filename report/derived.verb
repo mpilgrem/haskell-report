@@ -120,8 +120,8 @@ makes "T u_1 ... u_k" an instance of "C".
 % or of any of "C"'s superclasses.
 
 \item
-\hprime{If the data declaration has no constructors (i.e. when "n=0"),
-then no classes are derivable (i.e. "m=0")}
+\htf{Unless "C" is @Bounded@ or @Enum@, the data declaration has no constructors
+(i.e. when "n=0").}
 \end{enumerate}
 For the purposes of derived instances, a @newtype@ declaration is
 treated as a @data@ declaration with a single constructor.
@@ -198,6 +198,7 @@ Free variables and constructors used in these translations
 always refer to entities defined by the @Prelude@.
 
 \subsection{@stock@ derived instances of \texorpdfstring{@Eq@}{Eq} and \texorpdfstring{@Ord@}{Ord}}
+\label{derived-eq-ord}
 \indexdi{Eq}
 \indexdi{Ord}
 The class methods automatically introduced by derived instances
@@ -227,11 +228,28 @@ These examples illustrate this property:
 @(1,undefined) == (2,undefined) @"\Rightarrow"@    False@\\
 @(undefined,1) == (undefined,2) @"\Rightarrow"@    @"\bot"
 \end{quote}
+
+\begin{haskelltf}
+The derived instance declarations of a datatype "T u_1 ... u_k" that has no
+constructors are:
+
+\[\ba{l}
+"@instance  Eq (@ T u_1 ... u_k @)  where@"\\
+"@    _ == _ = True@"
+\ea\]
+
+\[\ba{l}
+"@instance  Ord (@ T u_1 ... u_k @)  where@"\\
+"@    _ == _ = EQ@"
+\ea\]
+\end{haskelltf}
+
 All derived operations of class @Eq@ and @Ord@ are strict in both arguments.
 For example, "@False <= @\bot" is "\bot", even though @False@ is the first constructor
 of the @Bool@ type.
 
 \subsection{@stock@ derived instances of \texorpdfstring{@Enum@}{Enum}}
+\label{derived-enum}
 \indexdi{Enum}
 Derived instance declarations for the class @Enum@ are only
 possible for enumerations (data types with only nullary constructors).
@@ -280,6 +298,7 @@ we would have:
 \eprog
 
 \subsection{@stock@ derived instances of \texorpdfstring{@Bounded@}{Bounded}}
+\label{derived-bounded}
 \indexdi{Bounded}
 The @Bounded@ class introduces the class
 methods
@@ -344,18 +363,24 @@ There are two exceptions to this rule:
       @a@ is in a covariant position and @b@ is in a contravariant position.
 \end{enumerate}
 
-There are scenarios in which a derived @Functor@ instance will fail to compile:
+% There are scenarios in which a derived @Functor@ instance will fail to compile:
 
-\begin{enumerate}
-\item A data type has no type parameters.
-
+% \begin{enumerate}
 % NOT YET DOCUMENTED: A data type’s last type variable is used in an ExistentialQuantification
 % constraint, or is refined in a GADT.
-\end{enumerate}
+% \end{enumerate}
 
 When the last type parameter has a phantom role, the derived @Functor@ instance
 will not be produced using the usual algorithm. Instead, the entire value will
 be coerced.
+
+The derived instance declaration of a datatype "T u_1 ... u_k" that has no
+constructors is:
+
+\[\ba{l}
+"@instance  Functor (@ T u_1 ... u_{k-1} @)  where@"\\
+"@    fmap _ x = case x of {}@"
+\ea\]
 
 \subsection{@stock@ derived instances of \texorpdfstring{@Foldable@}{Foldable}}
 \label{derived-foldable}
@@ -398,6 +423,14 @@ There are some other differences regarding what data types can have derived
       derived @Foldable@ instances.
 
 \end{enumerate}
+
+The derived instance declaration of a datatype "T u_1 ... u_k" that has no
+constructors is:
+
+\[\ba{l}
+"@instance  Foldable (@ T u_1 ... u_{k-1} @)  where@"\\
+"@    foldMap _ _ = mempty@"
+\ea\]
 
 \subsection{@stock@ derived instances of \texorpdfstring{@Traversable@}{Traversable}}
 \label{derived-traversable}
@@ -442,6 +475,14 @@ There are some other differences regarding what data types can have derived
       derived @Traversable@ instances.
 
 \end{enumerate}
+
+The derived instance declaration of a datatype "T u_1 ... u_k" that has no
+constructors is:
+
+\[\ba{l}
+"@instance  Traversable (@ T u_1 ... u_{k-1} @)  where@"\\
+"@    traverse _ x = pure ( case x of {} )@"
+\ea\]
 
 \end{haskelltf}
 
@@ -655,6 +696,20 @@ formatting of floating point numbers.
 %\label{derived-text}
 %\end{figure}
 
+\begin{haskelltf}
+The derived instance declarations of a datatype "T u_1 ... u_k" that has no
+constructors are:
+
+\[\ba{l}
+"@instance  Read (@ T u_1 ... u_k @)  where@"\\
+"@    readPrec = pfail@"
+\ea\]
+
+\[\ba{l}
+"@instance  Show (@ T u_1 ... u_k @)  where@"\\
+"@    showsPrec _ x = case x of {}@"
+\ea\]
+\end{haskelltf}
 
 \subsection{An Example}
 
