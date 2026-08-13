@@ -192,7 +192,8 @@ Records & Disambiguate record fields & No \\
 Records & Named field puns & No \\
 Records & Named wild cards & No \\
 Deriving & Derive @Data@ and @Typeable@ instances & No \\
-Deriving & Derive @Generic@ instances & No \\
+Deriving & Derive @Generic@ instances & Sections~\ref{derived-decls},
+\ref{derived-generic} \\
 Deriving & Derive @Lift@ instances & No \\
 Deriving & Derive @Functor@ instances & Sections~\ref{derived-decls},
 \ref{functor-class}, \ref{stdprelude}, \ref{derived-functor}\\

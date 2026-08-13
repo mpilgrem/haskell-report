@@ -101,7 +101,7 @@ if these conditions hold:
 \begin{enumerate}
 \item
 "C" is one of @Eq@, @Ord@, @Enum@, @Bounded@, \htf{@Functor@, @Foldable@,
-@Traversable@,} @Show@, or @Read@.
+@Traversable@,} @Show@, @Read@, \htf{@Generic@ or @Generic1@}.
 
 \item
 There is a context "cx'" such that "cx' \Rightarrow C t_{ij}"
@@ -113,6 +113,14 @@ constructors must be nullary) or have only one constructor.
 
 \item
 If "C" is @Enum@, the type must be an enumeration.
+
+\begin{haskelltf}
+\item
+If "C" is @Generic@, the type must be of kind "\ast".
+
+\item
+If "C" is @Generic1@, the type bust be of kind "\ast\rightarrow\ast".
+\end{haskelltf}
 
 \item
 There must be no explicit instance declaration elsewhere in the program that
@@ -709,6 +717,37 @@ constructors are:
 "@instance  Show (@ T u_1 ... u_k @)  where@"\\
 "@    showsPrec _ x = case x of {}@"
 \ea\]
+
+\subsection{@stock@ derived instances of \texorpdfstring{@Generic@}{Generic} and
+\texorpdfstring{@Generic1@}{Generic1}}
+\label{derived-generic}
+\indexdi{Generic}
+\indexdi{Generic1}
+
+The paper Jose Pedro Magalhaes, Atze Dijkstra, Johan Jeuring, and Andres Loeh.
+A generic deriving mechanism for Haskell. Proceedings of the third ACM Haskell
+symposium on Haskell (Haskell’2010), pp. 37-48, ACM, 2010. defines the classes
+"Representable_0" (with methods "from_0" and "to_0") and "Representable_1" (with
+methods "from_1" and "to_1"), and algorithms for deriving instances of them.
+
+@Generic@ (with methods @from@ and @to@) is a renaming of "Representable_0" and
+@Generic1@  (with methods @from1@ and @to1@) is a renaming of "Representable_1".
+
+The derived instance declarations of a datatype "T u_1 ... u_k" that has no
+constructors are:
+
+\[\ba{l}
+"@instance  Generic (@ T u_1 ... u_k @)  where@"\\
+"@    from x      = M1 ( case x of {} )@"\\
+"@    to   (M1 x) = case x of {}@"
+\ea\]
+
+\[\ba{l}
+"@instance  Generic1 (@ T u_1 ... u_{k-1} @)  where@"\\
+"@    from1 x      = M1 ( case x of {} )@"\\
+"@    to1   (M1 x) = case x of {}@"
+\ea\]
+
 \end{haskelltf}
 
 \subsection{An Example}
