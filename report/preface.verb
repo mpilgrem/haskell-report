@@ -205,7 +205,9 @@ Deriving & Derive @Traversable@ instances & Sections~\ref{derived-decls},
 Deriving & Deriving strategies & Sections~\ref{declarations},
 \ref{datatype-decls}, \ref{datatype-renaming}, \ref{derived-decls}, \ref{bnf},
 \ref{deriving-strategies}, \ref{stock-deriving} \\
-Deriving & Derive instances for empty data types & No \\
+Deriving & Derive instances for empty data types & Sections~\ref{stock-deriving},
+\ref{derived-eq-ord}, \ref{derived-functor}, \ref{derived-foldable},
+\ref{derived-traversable} \\
 Deriving & Generalised derived instances for newtypes & Sections~\ref{derived-appendix},
 \ref{newtype-deriving} \\
 Deriving & Stand-alone deriving declarations & Section~\ref{declarations},
