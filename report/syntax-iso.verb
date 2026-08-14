@@ -433,8 +433,8 @@ impdecls     -> impdecl_1 @;@ ... @;@ impdecl_n 	&  (n>=1)\indexsyn{impdecls}
     |  @data@ simpletype \hprime{[} @=@ constrs \hprime{]} \htf{\{} deriving \htf{\}}
     |  @newtype@ simpletype @=@ newconstr \htf{\{} deriving \htf{\}}
     |  @class@ [ scontext @=>@ ] tycls tyvar [ @where@ cdecls ]
-    |  @instance@ [ scontext @=>@ ] qtycls inst [ @where@ idecls ]
-    |  \htf{@deriving@ [ derivStrat ] @instance@ [ scontext @=>@ ] qtycls inst}
+    |  @instance@ \htf{[ forall ]} [ scontext @=>@ ] qtycls inst [ @where@ idecls ]
+    |  \htf{@deriving@ [ derivStrat ] @instance@ [ forall ] [ scontext @=>@ ] qtycls inst}
     |  @default@ @(@type_1 @,@ ... @,@ type_n@)@ & (n>=0)
     |  @foreign@ fdecl
     |  decl
@@ -451,13 +451,17 @@ impdecls     -> impdecl_1 @;@ ... @;@ impdecl_n 	&  (n>=1)\indexsyn{impdecls}
 \indexsyn{idecl}idecl   -> (funlhs | var) rhs
                         |                                       & (\tr{empty})
 
-\indexsyn{gendecl}gendecl -> vars @::@ [ context @=>@ ] type & (\tr{type signature})
-                          |  fixity [ integer ] ops          & (\tr{fixity declaration})
-                          |                                  & (\tr{empty declaration})
+\indexsyn{gendecl}gendecl -> vars @::@ \htf{[ forall ]} [ context @=>@ ] type & (\tr{type signature})
+                          |  fixity [ integer ] ops                           & (\tr{fixity declaration})
+                          |                                                   & (\tr{empty declaration})
 
 \indexsyn{ops}ops        -> op_1 @,@ ... @,@ op_n         & (n>=1)
 \indexsyn{vars}vars      -> var_1 @,@ ...@,@ var_n        & (n>=1)
 \indexsyn{fixity}fixity  -> @infixl@ | @infixr@ | @infix@
+
+\indexsyn{forall}\htf{forall}   -> \htf{@forall@ [ tvBndrs ] @.@}
+\indexsyn{tvBndrs}\htf{tvBndrs} -> \htf{tvBndr_1 ... tvBndr_n}    & \htf{(n>=1)}
+\indexsyn{tvBndr}\htf{tvBndr}   -> \htf{tyvar}
 
 \indexsyn{type}type      -> btype [ @->@ type ]           & (\tr{function type})
 
@@ -531,7 +535,7 @@ callconv -> @ccall@ | @stdcall@ | @cplusplus@  & (\tr{calling convention})
          | \hprime{@let@ decls}		& (\hprime{\tr{local declaration}})
          | infixexp		& (\tr{boolean guard})
 
-\indexsyn{exp}exp -> \hprime{infixexp @::@ [ context @=>@ ] type} & (\tr{expression type signature})
+\indexsyn{exp}exp -> \hprime{infixexp @::@ \htf{[ forall ]} [ context @=>@ ] type} & (\tr{expression type signature})
                   |  \hprime{infixexp}
 
 \indexsyn{infixexp}\hprime{infixexp} -> \hprime{lexp qop infixexp} & (\tr{infix operator application})
