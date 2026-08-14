@@ -148,7 +148,7 @@ comment in that code will interfere with the nested comments.
 varid	-> (small \{small | large | digit | @'@ \})_{\langle{}reservedid\rangle{}}
 conid		-> large \{small | large | digit | @'@ \}
 reservedid -> @case@ | @class@ | @data@ | @default@ | @deriving@ | @do@ | @else@
-	| \hprime{@foreign@} | @if@ | @import@ | @in@ | @infix@ | @infixl@
+        | \htf{@forall@} | \hprime{@foreign@} | @if@ | @import@ | @in@ | @infix@ | @infixl@
         | @infixr@ | @instance@ | @let@ | @module@ | @newtype@ | @of@
         | @then@ | @type@ | @where@ | @_@
 @@@
