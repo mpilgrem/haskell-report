@@ -113,9 +113,10 @@ GHC 9.2.1 in October 2021, it introduced the language feature @GHC2021@
 released in May 2024, introduced the further language edition @GHC2024@.
 
 The Haskell 2024 Language Report aims to modify the Haskell 2010 Language Report
-as if the extensions in @GHC2024@ were part of the language. In doing so, it
-draws upon each extension's approved proposal and the documentation in, or
-referred to, by the relevant part of the GHC User's Guide.
+as if the extensions in @GHC2024@ were part of the language and @forall@ was a
+reserved identifier. In doing so, it draws upon each extension's approved
+proposal and the documentation in, or referred to, by the relevant part of the
+GHC User's Guide.
 
 The Prelude and other Haskell modules have also changed since the Haskell 2010
 Language Report. The Haskell 2024 Language Report aims to reflect such changes
@@ -158,6 +159,9 @@ Removed language features:
 \section*{Extensions to \Haskell{} 2010}
 
 \begin{haskelltf}
+
+@forall@ is a reserved identifier (see Sections~\ref{ids},
+\ref{lexical-syntax}).
 
 @GHC2024@ removes contexts from the declarations of algebraic datatypes (see
 Section~\ref{user-defined-datatypes}) and datatype renamings (see
