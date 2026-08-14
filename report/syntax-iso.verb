@@ -428,40 +428,40 @@ impdecls     -> impdecl_1 @;@ ... @;@ impdecl_n 	&  (n>=1)\indexsyn{impdecls}
 	  |  tycls [@(..)@ | @(@ var_1 @,@ ... @,@ var_n @)@] & (n>=0)
 \indexsyn{cname}cname     -> var | con
 
-\indexsyn{topdecls}topdecls -> topdecl_1 @;@ ... @;@ topdecl_n 	&  (n>=0)
-\indexsyn{topdecl}topdecl	-> @type@ simpletype @=@ type
-	|  @data@ simpletype \hprime{[}@=@ constrs\hprime{]} \htf{\{} deriving \htf{\}}
-        |  @newtype@ simpletype @=@ newconstr \htf{\{} deriving \htf{\}}
-	|  @class@ [scontext @=>@] tycls tyvar [@where@ cdecls]
-	|  @instance@ [scontext @=>@] qtycls inst [@where@ idecls]
-        | \htf{@deriving@ [ derivStrat ] @instance@ [ scontext @=>@ ] qtycls inst}
-	|  @default@ @(@type_1 @,@ ... @,@ type_n@)@ & (n>=0)
-        |  @foreign@ fdecl
-	|  decl
+\indexsyn{topdecls}topdecls -> topdecl_1 @;@ ... @;@ topdecl_n & (n>=0)
+\indexsyn{topdecl}topdecl -> @type@ simpletype @=@ type
+    |  @data@ simpletype \hprime{[} @=@ constrs \hprime{]} \htf{\{} deriving \htf{\}}
+    |  @newtype@ simpletype @=@ newconstr \htf{\{} deriving \htf{\}}
+    |  @class@ [ scontext @=>@ ] tycls tyvar [ @where@ cdecls ]
+    |  @instance@ [ scontext @=>@ ] qtycls inst [ @where@ idecls ]
+    |  \htf{@deriving@ [ derivStrat ] @instance@ [ scontext @=>@ ] qtycls inst}
+    |  @default@ @(@type_1 @,@ ... @,@ type_n@)@ & (n>=0)
+    |  @foreign@ fdecl
+    |  decl
 
-\indexsyn{decls}decls	-> @{@ decl_1 @;@ ... @;@ decl_n  @}@		&  (n>=0)
-\indexsyn{decl}decl	-> gendecl
-	|  (funlhs | \hprime{pat}) rhs
+\indexsyn{decls}decls -> @{@ decl_1 @;@ ... @;@ decl_n  @}@    &  (n>=0)
+\indexsyn{decl}decl   -> gendecl
+                      |  (funlhs | \hprime{pat}) rhs
 
-\indexsyn{cdecls}cdecls	-> @{@ cdecl_1 @;@ ... @;@ cdecl_n  @}@		&  (n>=0)
-\indexsyn{cdecl}cdecl	-> gendecl
-	|  (funlhs | var) rhs
+\indexsyn{cdecls}cdecls	-> @{@ cdecl_1 @;@ ... @;@ cdecl_n  @}@ & (n>=0)
+\indexsyn{cdecl}cdecl   -> gendecl
+                        |  (funlhs | var) rhs
 
-\indexsyn{idecls}idecls	-> @{@ idecl_1 @;@ ... @;@ idecl_n  @}@		&  (n>=0)
-\indexsyn{idecl}idecl	-> (funlhs | var) rhs
-	|						& (\tr{empty})
+\indexsyn{idecls}idecls	-> @{@ idecl_1 @;@ ... @;@ idecl_n  @}@ & (n>=0)
+\indexsyn{idecl}idecl   -> (funlhs | var) rhs
+                        |                                       & (\tr{empty})
 
-\indexsyn{gendecl}gendecl	-> vars @::@ [context @=>@] type	& (\tr{type signature})
-	|  fixity [integer] ops			& (\tr{fixity declaration})
-	|					& (\tr{empty declaration})
+\indexsyn{gendecl}gendecl -> vars @::@ [ context @=>@ ] type & (\tr{type signature})
+                          |  fixity [ integer ] ops          & (\tr{fixity declaration})
+                          |                                  & (\tr{empty declaration})
 
-\indexsyn{ops}ops	-> op_1 @,@ ... @,@ op_n		& (n>=1)
-\indexsyn{vars}vars	-> var_1 @,@ ...@,@ var_n		& (n>=1)
-\indexsyn{fixity}fixity	-> @infixl@ | @infixr@ | @infix@
+\indexsyn{ops}ops        -> op_1 @,@ ... @,@ op_n         & (n>=1)
+\indexsyn{vars}vars      -> var_1 @,@ ...@,@ var_n        & (n>=1)
+\indexsyn{fixity}fixity  -> @infixl@ | @infixr@ | @infix@
 
-\indexsyn{type}type      -> btype [@->@ type]                    & (\tr{function type})
+\indexsyn{type}type      -> btype [ @->@ type ]           & (\tr{function type})
 
-\indexsyn{btype}btype    ->  [btype] atype                        & (\tr{type application})
+\indexsyn{btype}btype    -> [ btype ] atype               & (\tr{type application})
 
 \indexsyn{atype}atype    ->  gtycon
           |  tyvar
@@ -531,8 +531,8 @@ callconv -> @ccall@ | @stdcall@ | @cplusplus@  & (\tr{calling convention})
          | \hprime{@let@ decls}		& (\hprime{\tr{local declaration}})
          | infixexp		& (\tr{boolean guard})
 
-\indexsyn{exp}exp     ->  \hprime{infixexp @::@ [context @=>@] type}   & (\tr{expression type signature})
-        |   \hprime{infixexp}
+\indexsyn{exp}exp -> \hprime{infixexp @::@ [ context @=>@ ] type} & (\tr{expression type signature})
+                  |  \hprime{infixexp}
 
 \indexsyn{infixexp}\hprime{infixexp} -> \hprime{lexp qop infixexp} & (\tr{infix operator application})
             | \hprime{@-@ infixexp}             & (\tr{prefix negation})

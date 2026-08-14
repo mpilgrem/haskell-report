@@ -16,42 +16,42 @@ In this chapter, we describe the syntax and informal semantics of \Haskell{}
 % (see Appendix~\ref{formal-semantics} for a complete formal semantics).
 
 @@@
-module -> @module@ modid [exports] @where@ body
-       |  body
-body   -> @{@ impdecls @;@ topdecls @}@
-	| @{@ impdecls  @}@
-	| @{@ topdecls  @}@
+module   -> @module@ modid [exports] @where@ body
+         |  body
+body     -> @{@ impdecls @;@ topdecls @}@
+         |  @{@ impdecls  @}@
+         |  @{@ topdecls  @}@
 
-topdecls -> topdecl_1 @;@ ... @;@ topdecl_n 	& (n>=1)
-topdecl	-> @type@ simpletype @=@ type
-	|  @data@ simpletype \hprime{[}@=@ constrs\hprime{]} \htf{\{} deriving \htf{\}}
-        |  @newtype@ simpletype @=@ newconstr \htf{\{} deriving \htf{\}}
-	|  @class@ [scontext @=>@] tycls tyvar [@where@ cdecls]
-	|  @instance@ [scontext @=>@] qtycls inst [@where@ idecls]
-  |  \htf{@deriving@ [ derivStrat ] @instance@ [ scontext @=>@ ] qtycls inst}
-	|  @default@ @(@type_1 @,@ ... @,@ type_n@)@ & \qquad (n>=0)
-        |  @foreign@ fdecl
-	|  decl
+topdecls -> topdecl_1 @;@ ... @;@ topdecl_n & (n>=1)
+topdecl  -> @type@ simpletype @=@ type
+         |  @data@ simpletype \hprime{[} @=@ constrs \hprime{]} \htf{\{} deriving \htf{\}}
+         |  @newtype@ simpletype @=@ newconstr \htf{\{} deriving \htf{\}}
+         |  @class@ [ scontext @=>@ ] tycls tyvar [ @where@ cdecls ]
+         |  @instance@ [ scontext @=>@ ] qtycls inst [ @where@ idecls ]
+         |  \htf{@deriving@ [ derivStrat ] @instance@ [ scontext @=>@ ] qtycls inst}
+         |  @default@ @(@type_1 @,@ ... @,@ type_n@)@ & \qquad (n>=0)
+         |  @foreign@ fdecl
+         |  decl
 
-decls	-> @{@ decl_1 @;@ ... @;@ decl_n @}@		& (n>=0)
-decl	-> gendecl
-	|  (funlhs | \hprime{pat}) rhs
+decls    -> @{@ decl_1 @;@ ... @;@ decl_n @}@   & (n>=0)
+decl     -> gendecl
+         |  (funlhs | \hprime{pat}) rhs
 
-cdecls	-> @{@ cdecl_1 @;@ ... @;@ cdecl_n @}@		& (n>=0)
-cdecl	-> gendecl
-	|  (funlhs | var) rhs
+cdecls   -> @{@ cdecl_1 @;@ ... @;@ cdecl_n @}@ & (n>=0)
+cdecl	   -> gendecl
+         |  (funlhs | var) rhs
 
-idecls	-> @{@ idecl_1 @;@ ... @;@ idecl_n @}@		& (n>=0)
-idecl	-> (funlhs | var) rhs
-	|						& (\tr{empty})
+idecls   -> @{@ idecl_1 @;@ ... @;@ idecl_n @}@ & (n>=0)
+idecl    -> (funlhs | var) rhs
+         |                                      & (\tr{empty})
 
-gendecl	-> vars @::@ [context @=>@] type	& (\tr{type signature})
-	|  fixity [integer] ops			& (\tr{fixity declaration})
-	|					& (\tr{empty declaration})
+gendecl	 -> vars @::@ [ context @=>@ ] type     & (\tr{type signature})
+         |  fixity [ integer ] ops              & (\tr{fixity declaration})
+         |                                      & (\tr{empty declaration})
 
-ops	-> op_1 @,@ ... @,@ op_n		& (n>=1)
-vars	-> var_1 @,@ ... @,@ var_n		& (n>=1)
-fixity	-> @infixl@ | @infixr@ | @infix@
+ops      -> op_1 @,@ ... @,@ op_n               & (n>=1)
+vars     -> var_1 @,@ ... @,@ var_n             & (n>=1)
+fixity   -> @infixl@ | @infixr@ | @infix@
 @@@
 \indexsyn{vars}%
 \indexsyn{fixity}%
@@ -918,15 +918,15 @@ given explicitly with no @where@ part.
 \index{instance declaration}
 
 @@@
-topdecl	-> @instance@ [scontext @=>@] qtycls inst [@where@ idecls]
-inst	-> gtycon
-	|  @(@ gtycon tyvar_1 ... tyvar_k @)@	& (k>=0, tyvars {\rm distinct})
-	|  @(@ tyvar_1 @,@ ... @,@ tyvar_k @)@	& (k>=2, tyvars {\rm distinct})
-	|  @[@ tyvar @]@
-	|  @(@ tyvar_1 @->@ tyvar_2 @)@		& (tyvar_1 {\rm and} tyvar_2 {\rm distinct})
-idecls	-> @{@ idecl_1 @;@ ... @;@ idecl_n @}@		& (n>=0)
-idecl	-> (funlhs | var) rhs
-	|						& (empty)
+topdecl -> @instance@ [ scontext @=>@ ] qtycls inst [ @where@ idecls ]
+inst    -> gtycon
+        |  @(@ gtycon tyvar_1 ... tyvar_k @)@  & (k>=0, tyvars {\rm distinct})
+        |  @(@ tyvar_1 @,@ ... @,@ tyvar_k @)@ & (k>=2, tyvars {\rm distinct})
+        |  @[@ tyvar @]@
+        |  @(@ tyvar_1 @->@ tyvar_2 @)@        & (tyvar_1 {\rm and} tyvar_2 {\rm distinct})
+idecls  -> @{@ idecl_1 @;@ ... @;@ idecl_n @}@ & (n>=0)
+idecl   -> (funlhs | var) rhs
+        |                                      & (empty)
 @@@
 \index{topdecl@@{\em topdecl} (@instance@)}
 \indexsyn{inst}%
