@@ -185,10 +185,13 @@ Literals & Binary integer literals & Sections~\ref{lexemes}, \ref{lexemes-numeri
 Literals & Hexadecimal floating point literals & Sections~\ref{lexemes-numeric}, \ref{lexical-syntax} \\
 Literals & Numeric underscores & Sections~\ref{lexemes-numeric}, \ref{lexical-syntax} \\
 Types	& Datatype promotion & No \\
-Types	& Existentially quantified data constructors (explicit forall) & No \\
+Types & Explicit universal quantification (forall) & Sections~\ref{expression-type-sigs},
+\ref{declarations}, \ref{type-syntax}, \ref{instance-decls}, \ref{derived-decls},
+\ref{type-signatures}, \ref{lexical-syntax}, \ref{bnf} \\
+Types	& Existentially quantified data constructors & No \\
 Types	& GADTs (GADT Syntax, Mono local binds) & No \\
 Types & Allow kind polymorphic types (kind signatures) & No \\
-Types & Rank-n types (explicit forall) & No \\
+Types & Rank-n types & No \\
 Types	& Role annotations & No \\
 Types & Visible type application & No \\
 Types & Type operators (explicit namespaces) & No \\

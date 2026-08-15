@@ -1197,7 +1197,7 @@ defines the set of field labels used in an update, such as
 \label{expression-type-sigs}
 %
 @@@
-exp ->  exp @::@ [context @=>@] type
+exp ->  exp @::@ \htf{[ forall ]} [ context @=>@ ] type
 @@@
 \indexsyn{exp}
 \indextt{::}

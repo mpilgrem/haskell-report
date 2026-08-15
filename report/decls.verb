@@ -27,8 +27,8 @@ topdecl  -> @type@ simpletype @=@ type
          |  @data@ simpletype \hprime{[} @=@ constrs \hprime{]} \htf{\{} deriving \htf{\}}
          |  @newtype@ simpletype @=@ newconstr \htf{\{} deriving \htf{\}}
          |  @class@ [ scontext @=>@ ] tycls tyvar [ @where@ cdecls ]
-         |  @instance@ [ scontext @=>@ ] qtycls inst [ @where@ idecls ]
-         |  \htf{@deriving@ [ derivStrat ] @instance@ [ scontext @=>@ ] qtycls inst}
+         |  @instance@ \htf{[ forall ]} [ scontext @=>@ ] qtycls inst [ @where@ idecls ]
+         |  \htf{@deriving@ [ derivStrat ] @instance@ [ forall ] [ scontext @=>@ ] qtycls inst}
          |  @default@ @(@type_1 @,@ ... @,@ type_n@)@ & \qquad (n>=0)
          |  @foreign@ fdecl
          |  decl
@@ -314,16 +314,36 @@ expression or pattern "e_i", then the expressions "@(\@ e_1 @->@ e_2@)@",
 With one exception (that of the distinguished type variable
 in a class declaration (Section~\ref{class-decls})), the
 type variables in a \Haskell{} type expression
-are all assumed to be universally quantified; there is no explicit
-syntax for universal quantification~\cite{damas-milner82}.
+are all assumed to be universally quantified~\cite{damas-milner82}.
 % \cite{damas-milner82,reynolds90}.
 For example, the type expression
 @a -> a@ denotes the type "\forall a.~a \rightarrow a".
-For clarity, however, we often write quantification explicitly
+
+For clarity, we often write quantification explicitly
 when discussing the types of \Haskell{} programs.  When we write an
 explicitly quantified type, the scope of the "\forall" extends as far
 to the right as possible; for example, "\forall a.~a \rightarrow a" means
 "\forall a.~(a \rightarrow a)".
+
+\begin{haskelltf}
+
+We can use the reserved identifier @forall@ in places where universal
+quantification is implicit. For example, @forall a. a -> a@.
+
+If a type has an outermost explicit @forall@, then all of the type variables in
+the type must be explicitly quantified. In the following:
+\bprog
+@
+  f :: forall a. a -> b -> b   -- Invalid, `b` is not in scope
+  g :: (forall a. a -> b -> b) -- Valid, `b` is implicitly quantified
+@
+\eprog
+
+@g@'s signature is accepted because the outermost parentheses imply that the
+@forall@ is not an outermost @forall@. In this situation the presence or
+absence of parentheses is semantically significant.
+
+\end{haskelltf}
 
 %Every type variable appearing in a signature
 %is universally quantified over that signature.  This last
@@ -918,7 +938,7 @@ given explicitly with no @where@ part.
 \index{instance declaration}
 
 @@@
-topdecl -> @instance@ [ scontext @=>@ ] qtycls inst [ @where@ idecls ]
+topdecl -> @instance@ \htf{[ forall ]} [ scontext @=>@ ] qtycls inst [ @where@ idecls ]
 inst    -> gtycon
         |  @(@ gtycon tyvar_1 ... tyvar_k @)@  & (k>=0, tyvars {\rm distinct})
         |  @(@ tyvar_1 @,@ ... @,@ tyvar_k @)@ & (k>=2, tyvars {\rm distinct})
@@ -1089,7 +1109,8 @@ Further examples of
 \label{derived-decls}
 
 @@@
-\htf{topdecl}	-> \htf{@deriving@ [ derivStrat ] @instance@ [ scontext @=>@ ] qtycls inst} & \htf{(\tr{standalone deriving})}
+\htf{topdecl}	-> \htf{@deriving@ [ derivStrat ] @instance@ [ forall ] [ scontext @=>@ ] qtycls inst}
+& & \htf{(\tr{standalone deriving})}
 @@@
 \index{topdecl@@{\em topdecl} (@deriving@)}
 
@@ -1297,11 +1318,19 @@ including the top level of a module.
 \label{type-signatures}
 
 @@@
-gendecl -> vars @::@ [context @=>@] type
+gendecl -> vars @::@ \htf{[ forall ]} [ context @=>@ ] type
 vars	-> var_1 @,@ ...@,@ var_n		& (n>=1)
+
+\htf{forall}  -> \htf{@forall@ [ tvBndrs ] @.@}
+\htf{tvBndrs} -> \htf{tvBndr_1 ... tvBndr_n} & \htf{(n>=1)}
+\htf{tvBndr}  -> \htf{tyvar}
 @@@
 \indexsyn{signdecl}%
 \indexsyn{vars}%
+\indexsyn{forall}%
+\indexsyn{tvBndrs}%
+\indexsyn{tvBndr}%
+
 A type signature specifies types for variables, possibly with respect
 to a context.  A type signature has the form:
 \[
